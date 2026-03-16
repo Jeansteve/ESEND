@@ -2,6 +2,8 @@ import React from 'react'
 import Header from './components/Layout/Header'
 import Hero from './components/Sections/Hero'
 import PestSelector from './components/Sections/PestSelector'
+import About from './components/Sections/About'
+import Reviews from './components/Sections/Reviews'
 
 function App() {
   return (
@@ -10,7 +12,9 @@ function App() {
       <main>
         <Hero />
         <PestSelector />
-        {/* Les autres sections seront ajoutées ici */}
+        <About />
+        <Reviews />
+        {/* Prochaine étape : FormWizard et Conseils */}
       </main>
     </div>
   )
