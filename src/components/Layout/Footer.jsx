@@ -12,17 +12,17 @@ const Footer = () => {
             <div className="text-3xl font-black tracking-tighter italic">ESEND</div>
           </div>
           <p className="text-zinc-500 leading-relaxed max-w-xs font-medium">
-            Leader de l'hygiène 3D et de la décontamination dans les Hauts-de-France. Intervention d'urgence 24h/24 et 7j/7.
+            Votre duo expert en hygiène, nettoyage et débarrassage. Intervention rapide à Menton et sur toute la Riviera.
           </p>
         </div>
         
         <div>
-          <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Interventions</h4>
+          <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
           <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-zinc-400">
-            <li><a href="#" className="hover:text-white transition-colors">Lille & Métropole</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Arras & Environs</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Lens & Bassin Minier</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Douai & Hainaut</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Mentions & Roquebrune</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Dératisation Menton</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>
           </ul>
         </div>
 
@@ -31,7 +31,7 @@ const Footer = () => {
           <div className="space-y-6">
             <div>
               <div className="text-2xl font-black tracking-tight italic">06 00 00 00 00</div>
-              <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Ligne Urgence 24/7</div>
+              <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Secteur Menton (06)</div>
             </div>
             <div className="text-zinc-400 text-sm font-medium">contact@esendnuisibles.fr</div>
           </div>
@@ -39,7 +39,7 @@ const Footer = () => {
       </div>
 
       <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">
-        <div>© 2026 ESEND NUISIBLES — TOUS DROITS RÉSERVÉS</div>
+        <div>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</div>
         <div className="flex gap-10">
           <a href="#" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
           <a href="#" className="hover:text-zinc-400 transition-colors">RGPD</a>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Send, CheckCircle2, Home, Building2, MapPin, User, MessageSquare } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Send, CheckCircle2, Home, Building2, MapPin, User, MessageSquare, Sparkles, Trash2, Bug } from 'lucide-react';
 
 const steps = [
   { id: 1, title: 'Bienvenue', icon: <Home className="w-5 h-5" /> },
-  { id: 2, title: 'Problème', icon: <MessageSquare className="w-5 h-5" /> },
-  { id: 3, title: 'Type de client', icon: <Building2 className="w-5 h-5" /> },
-  { id: 4, title: 'Localisation', icon: <MapPin className="w-5 h-5" /> },
+  { id: 2, title: 'Service', icon: <MessageSquare className="w-5 h-5" /> },
+  { id: 3, title: 'Client', icon: <Building2 className="w-5 h-5" /> },
+  { id: 4, title: 'Zone', icon: <MapPin className="w-5 h-5" /> },
   { id: 5, title: 'Contact', icon: <User className="w-5 h-5" /> },
 ];
 
@@ -35,14 +35,21 @@ const FormWizard = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const services = [
+    { id: 'deratisation', label: 'Dératisation / Nuisibles', icon: <Bug className="w-5 h-5" /> },
+    { id: 'nettoyage', label: 'Nettoyage / Vitres', icon: <Sparkles className="w-5 h-5" /> },
+    { id: 'debarrassage', label: 'Débarrassage', icon: <Trash2 className="w-5 h-5" /> },
+    { id: 'urgence', label: 'Urgence Menton & Environs', icon: <MapPin className="w-5 h-5 text-esend-red" /> },
+  ];
+
   return (
     <section id="devis" className="py-32 px-6 bg-zinc-50">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4">
+          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-black">
             Demander une <span className="text-esend-red">Intervention</span>
           </h2>
-          <p className="text-zinc-500 font-medium italic">Obtenez un diagnostic et un devis en moins de 2 minutes.</p>
+          <p className="text-zinc-500 font-medium italic">Service de proximité à Menton : Diagnostic et devis gratuits.</p>
         </div>
 
         <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-zinc-100 overflow-hidden">
@@ -74,9 +81,9 @@ const FormWizard = () => {
                       className="space-y-8"
                     >
                       <div className="text-center">
-                        <h3 className="text-2xl font-black uppercase tracking-tight mb-4 text-black">Besoin d'un expert en urgence ?</h3>
+                        <h3 className="text-2xl font-black uppercase tracking-tight mb-4 text-black italic">Votre Duo Expert à Menton</h3>
                         <p className="text-zinc-500 max-w-md mx-auto leading-relaxed">
-                          ESEND intervient 24h/24 et 7j/7 pour sécuriser votre environnement. Commençons par identifier votre situation.
+                          Auto-entrepreneurs réactifs, nous intervenons en couple pour une efficacité et une confiance totale. Nuisibles, nettoyage ou débarrassage : nous sommes là pour vous.
                         </p>
                       </div>
                       <button 
@@ -97,24 +104,28 @@ const FormWizard = () => {
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-black uppercase tracking-tight mb-6">Quelle menace avez-vous identifiée ?</h3>
+                      <h3 className="text-xl font-black uppercase tracking-tight mb-6">De quel service avez-vous besoin ?</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {['Rongeurs (Rats, Souris)', 'Punaises de lit', 'Frelons / Guêpes', 'Autres Nuisibles'].map(option => (
+                        {services.map(option => (
                           <button
-                            key={option}
+                            key={option.id}
                             type="button"
-                            onClick={() => { updateData('problem', option); nextStep(); }}
-                            className={`p-6 rounded-2xl border-2 text-left font-bold transition-all ${
-                              formData.problem === option ? 'border-esend-red bg-red-50/50 text-esend-red' : 'border-zinc-100 hover:border-zinc-300 text-zinc-600'
+                            onClick={() => { updateData('problem', option.label); nextStep(); }}
+                            className={`p-6 rounded-2xl border-2 text-left font-bold transition-all flex items-center gap-4 ${
+                              formData.problem === option.label ? 'border-esend-red bg-red-50/50 text-esend-red' : 'border-zinc-100 hover:border-zinc-300 text-zinc-600'
                             }`}
                           >
-                            {option}
+                            <div className={`p-3 rounded-lg ${formData.problem === option.label ? 'bg-esend-red text-white' : 'bg-zinc-50'}`}>
+                                {option.icon}
+                            </div>
+                            {option.label}
                           </button>
                         ))}
                       </div>
                     </motion.div>
                   )}
 
+                  {/* Steps 3, 4, 5 (Simplified for Menton context) */}
                   {currentStep === 3 && (
                     <motion.div 
                       key="step3"
@@ -123,7 +134,7 @@ const FormWizard = () => {
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-black uppercase tracking-tight mb-6">Vous êtes :</h3>
+                      <h3 className="text-xl font-black uppercase tracking-tight mb-6 text-black">Vous êtes :</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {[
                           { id: 'particulier', label: 'Un Particulier', icon: <Home className="w-6 h-6" /> },
@@ -137,7 +148,7 @@ const FormWizard = () => {
                               formData.clientType === type.id ? 'border-esend-red bg-red-50/50 text-esend-red' : 'border-zinc-100 hover:border-zinc-300 text-zinc-400'
                             }`}
                           >
-                            <div className="p-4 bg-zinc-50 rounded-2xl group-hover:bg-white">{type.icon}</div>
+                            <div className="p-4 bg-zinc-50 rounded-2xl">{type.icon}</div>
                             {type.label}
                           </button>
                         ))}
@@ -153,10 +164,11 @@ const FormWizard = () => {
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-black uppercase tracking-tight mb-6">Où devons-nous intervenir ?</h3>
+                      <h3 className="text-xl font-black uppercase tracking-tight mb-6 text-black italic">Secteur Menton & Riviera</h3>
+                      <p className="text-zinc-500 text-sm mb-4">Nous intervenons rapidement à Menton, Roquebrune, et alentours.</p>
                       <input 
                         type="text"
-                        placeholder="Code Postal (ex: 59000)"
+                        placeholder="Ville ou Code Postal"
                         value={formData.zipCode}
                         onChange={(e) => updateData('zipCode', e.target.value)}
                         className="w-full p-6 bg-zinc-50 rounded-2xl border border-zinc-100 focus:border-esend-red outline-none font-bold text-lg"
@@ -168,7 +180,7 @@ const FormWizard = () => {
                         onClick={nextStep}
                         className="w-full bg-black text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] text-xs hover:bg-esend-red transition-all disabled:opacity-50"
                       >
-                        Valider la zone
+                        Suivant
                       </button>
                     </motion.div>
                   )}
@@ -181,11 +193,11 @@ const FormWizard = () => {
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      <h3 className="text-xl font-black uppercase tracking-tight mb-6">Dernière étape : Vos coordonnées</h3>
+                      <h3 className="text-xl font-black uppercase tracking-tight mb-6 text-black">Finalisons votre demande</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <input 
                           type="text"
-                          placeholder="NOM Prénom"
+                          placeholder="Nom"
                           value={formData.name}
                           onChange={(e) => updateData('name', e.target.value)}
                           className="p-5 bg-zinc-50 rounded-xl border border-zinc-100 focus:border-esend-red outline-none font-bold"
@@ -198,15 +210,8 @@ const FormWizard = () => {
                           className="p-5 bg-zinc-50 rounded-xl border border-zinc-100 focus:border-esend-red outline-none font-bold"
                         />
                       </div>
-                      <input 
-                        type="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={(e) => updateData('email', e.target.value)}
-                        className="w-full p-5 bg-zinc-50 rounded-xl border border-zinc-100 focus:border-esend-red outline-none font-bold"
-                      />
                       <textarea 
-                        placeholder="Détails de votre urgence (optionnel)"
+                        placeholder="Détails du service demandé..."
                         value={formData.message}
                         onChange={(e) => updateData('message', e.target.value)}
                         className="w-full p-5 bg-zinc-50 rounded-xl border border-zinc-100 focus:border-esend-red outline-none font-bold min-h-[120px]"
@@ -215,7 +220,7 @@ const FormWizard = () => {
                         type="submit"
                         className="w-full bg-esend-red text-white py-6 rounded-2xl font-black uppercase tracking-[0.2em] text-xs shadow-xl shadow-red-200 hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
                       >
-                        Envoyer la mission <Send className="w-4 h-4" />
+                        Envoyer ma demande <Send className="w-4 h-4" />
                       </button>
                     </motion.div>
                   )}
@@ -240,14 +245,10 @@ const FormWizard = () => {
                 <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-green-200">
                   <CheckCircle2 className="w-12 h-12" />
                 </div>
-                <h3 className="text-3xl font-black uppercase tracking-tight mb-4 text-black">Mission Transmise</h3>
-                <p className="text-zinc-500 max-w-sm mx-auto leading-relaxed mb-8">
-                  Merci {formData.name}. Un technicien analyse votre demande concernant les {formData.problem}. <br/><strong>Vous serez rappelé sous 2 heures.</strong>
+                <h3 className="text-3xl font-black uppercase tracking-tight mb-4 text-black italic">Message Reçu !</h3>
+                <p className="text-zinc-500 max-w-sm mx-auto leading-relaxed mb-8 font-medium">
+                  Merci {formData.name}. Nous analysons votre demande de {formData.problem}. <br/><strong>Nous vous rappellerons très rapidement.</strong>
                 </p>
-                <div className="bg-zinc-50 p-6 rounded-2xl border border-zinc-100">
-                  <div className="text-[10px] font-black uppercase text-zinc-400 mb-2">Référence Mission</div>
-                  <div className="text-xl font-mono font-bold text-black tracking-widest">#{Math.random().toString(36).substr(2, 9).toUpperCase()}</div>
-                </div>
               </motion.div>
             )}
           </div>

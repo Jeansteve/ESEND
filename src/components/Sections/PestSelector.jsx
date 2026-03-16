@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Zap, AlertTriangle, Ghost } from 'lucide-react';
+import { Shield, Zap, AlertTriangle, Ghost, Sparkles, Trash2 } from 'lucide-react';
 
 const pests = [
   {
     id: 'rongeur',
-    name: 'Rongeurs',
+    name: 'Dératisation',
     code: 'Le Saboteur',
-    species: 'Rattus Norvegicus',
+    species: 'Rats & Souris',
     tier: 'S',
     image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop',
     icon: <AlertTriangle className="w-5 h-5" />,
@@ -20,48 +20,48 @@ const pests = [
   },
   {
     id: 'punaise',
-    name: 'Punaises de lit',
+    name: 'Désinsectisation',
     code: "L'Invisible",
-    species: 'Cimex Lectularius',
+    species: 'Punaises & Cafards',
     tier: 'SS',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop',
     icon: <Ghost className="w-5 h-5" />,
     stats: [
-      { label: 'Dégâts Psychologiques', value: 100 },
       { label: 'Résistance', value: 95 },
+      { label: 'Nuisance Totale', value: 100 },
       { label: 'Difficulté', value: 98 },
     ],
-    desc: "Expert en camouflage. Résistant aux insecticides classiques. Nécessite un choc thermique."
+    desc: "Experts en camouflage. Résistants aux traitements classiques. Nécessitent une action rigoureuse."
   },
   {
-    id: 'frelon',
-    name: 'Frelons / Guêpes',
-    code: 'Le Prédateur',
-    species: 'Vespa Velutina',
-    tier: 'A',
-    image: 'https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=1000&auto=format&fit=crop',
-    icon: <Zap className="w-5 h-5" />,
+    id: 'nettoyage',
+    name: 'Nettoyage & Vitres',
+    code: 'L\'Éclat',
+    species: 'Appartements & Vitrages',
+    tier: 'PRO',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop',
+    icon: <Sparkles className="w-5 h-5" />,
     stats: [
-      { label: 'Dangerosité Directe', value: 90 },
-      { label: 'Agressivité', value: 85 },
-      { label: 'Impact Écosystème', value: 95 },
+      { label: 'Transparence', value: 100 },
+      { label: 'Hygiène', value: 98 },
+      { label: 'Finition', value: 95 },
     ],
-    desc: "Menace aérienne. Attaque en essaim. Danger vital pour les personnes allergiques."
+    desc: "Spécialistes du nettoyage de vitres et d'appartements à Menton. Un résultat étincelant pour votre confort."
   },
   {
-    id: 'hygiene',
-    name: 'Désinfection',
-    code: 'Le Fantôme',
-    species: 'Micro-Pathogènes',
-    tier: 'SSS',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1000&auto=format&fit=crop',
-    icon: <Shield className="w-5 h-5" />,
+    id: 'debarrassage',
+    name: 'Débarrassage',
+    code: 'Le Vide',
+    species: 'Encombrants & Gravats',
+    tier: 'EXT',
+    image: 'https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=2070&auto=format&fit=crop',
+    icon: <Trash2 className="w-5 h-5" />,
     stats: [
-      { label: 'Contagiosité', value: 98 },
-      { label: 'Étendue Discrète', value: 100 },
-      { label: 'Persistance', value: 80 },
+      { label: 'Volume Traité', value: 100 },
+      { label: 'Rapidité', value: 95 },
+      { label: 'Tri Sélectif', value: 90 },
     ],
-    desc: "Menace microscopique. Colonise les surfaces et l'air. Nécessite une stérilisation moléculaire."
+    desc: "Libérez votre espace. Nous gérons l'évacuation de vos encombrants avec soin et efficacité."
   }
 ];
 
@@ -78,13 +78,13 @@ const PestSelector = () => {
               whileInView={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-2 text-esend-red font-black uppercase tracking-[0.2em] text-[10px] mb-4"
             >
-              <span className="w-8 h-px bg-esend-red"></span> Dossiers Tactiques 2026
+              <span className="w-8 h-px bg-esend-red"></span> Nos Dossiers Tactiques
             </motion.div>
             <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
-              Archives des <span className="text-esend-red text-stroke-white">Menaces</span>
+              Services <span className="text-esend-red">Esend</span>
             </h2>
             <p className="text-zinc-400 font-medium text-lg">
-              Identifiez votre adversaire pour activer le protocole d'éradication adapté.
+              De l'éradication à la propreté, découvrez nos profils d'intervention.
             </p>
           </div>
         </div>
@@ -118,7 +118,7 @@ const PestSelector = () => {
                   {pest.species}
                 </span>
                 <span className="bg-zinc-800 text-zinc-500 px-2 py-1 rounded text-[10px] font-black uppercase">
-                  Tier {pest.tier}
+                  {pest.tier}
                 </span>
               </div>
               <h3 className="text-2xl font-black uppercase tracking-tighter mb-6">{pest.name}</h3>
