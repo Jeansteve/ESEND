@@ -4,6 +4,9 @@ import Hero from './components/Sections/Hero'
 import PestSelector from './components/Sections/PestSelector'
 import About from './components/Sections/About'
 import Reviews from './components/Sections/Reviews'
+import FormWizard from './components/FormWizard/FormWizard'
+import KnowledgeHub from './components/Sections/KnowledgeHub'
+import Footer from './components/Layout/Footer'
 
 function App() {
   return (
@@ -14,8 +17,10 @@ function App() {
         <PestSelector />
         <About />
         <Reviews />
-        {/* Prochaine étape : FormWizard et Conseils */}
+        <KnowledgeHub />
+        <FormWizard />
       </main>
+      <Footer />
     </div>
   )
 }
