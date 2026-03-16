@@ -35,11 +35,14 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-lg shadow-sm py-4' : 'bg-transparent py-6'}`}>
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-sm py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="text-2xl font-black tracking-tighter text-black cursor-pointer">
-            ESEND
+        <div className="flex items-center gap-3">
+          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center gap-2 group">
+            <div className="w-12 h-12 rounded-xl overflow-hidden border border-zinc-100 shadow-sm group-hover:scale-105 transition-transform">
+              <img src="/logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-2xl font-black tracking-tighter text-black">ESEND</span>
           </a>
         </div>
         

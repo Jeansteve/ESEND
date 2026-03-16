@@ -5,7 +5,12 @@ const Footer = () => {
     <footer className="bg-esend-zinc-950 text-white pt-24 pb-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
         <div>
-          <div className="text-3xl font-black tracking-tighter mb-8 italic">ESEND</div>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/10">
+              <img src="/logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-cover grayscale" />
+            </div>
+            <div className="text-3xl font-black tracking-tighter italic">ESEND</div>
+          </div>
           <p className="text-zinc-500 leading-relaxed max-w-xs font-medium">
             Leader de l'hygiène 3D et de la décontamination dans les Hauts-de-France. Intervention d'urgence 24h/24 et 7j/7.
           </p>
