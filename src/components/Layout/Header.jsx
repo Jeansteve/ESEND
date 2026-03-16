@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Phone } from 'lucide-react';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -11,24 +12,56 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const menuItems = [
+    { name: 'Expertise', href: '#expertise' },
+    { name: 'Nuisibles', href: '#nuisibles' },
+    { name: 'Encyclopédie', href: '#encyclopedie' },
+    { name: 'Devis', href: '#devis' },
+  ];
+
+  const scrollToSection = (e, href) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-lg shadow-sm py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <span className="text-2xl font-black tracking-tighter text-black">ESEND</span>
+          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="text-2xl font-black tracking-tighter text-black cursor-pointer">
+            ESEND
+          </a>
         </div>
         
         <nav className="hidden md:flex gap-8">
-          {['Expertise', 'Nuisibles', 'Encyclopédie', 'Contact'].map((item) => (
-            <a key={item} href="#" className="text-[11px] font-black uppercase tracking-widest text-zinc-500 hover:text-esend-red transition-colors">
-              {item}
+          {menuItems.map((item) => (
+            <a 
+              key={item.name} 
+              href={item.href} 
+              onClick={(e) => scrollToSection(e, item.href)}
+              className="text-[11px] font-black uppercase tracking-widest text-zinc-500 hover:text-esend-red transition-colors"
+            >
+              {item.name}
             </a>
           ))}
         </nav>
 
-        <button className="bg-black text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-esend-red transition-all shadow-lg hover:shadow-red-900/20">
-          Espace Client
-        </button>
+        <a 
+          href="tel:0600000000" 
+          className="bg-black text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-esend-red transition-all shadow-lg hover:shadow-red-900/20 flex items-center gap-2"
+        >
+          <Phone className="w-3 h-3" /> 06 00 00 00 00
+        </a>
       </div>
     </header>
   );

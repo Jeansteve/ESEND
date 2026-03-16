@@ -69,7 +69,7 @@ const PestSelector = () => {
   const [activeId, setActiveId] = useState(pests[0].id);
 
   return (
-    <section className="py-32 px-6 bg-esend-zinc-950 text-white rounded-[3rem] lg:rounded-[5rem] mx-4 my-20 overflow-hidden border border-white/5">
+    <section id="nuisibles" className="py-32 px-6 bg-esend-zinc-950 text-white rounded-[3rem] lg:rounded-[5rem] mx-4 my-20 overflow-hidden border border-white/5">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl">

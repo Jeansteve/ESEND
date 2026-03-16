@@ -4,7 +4,7 @@ import { ShieldCheck, Target, Zap } from 'lucide-react';
 
 const About = () => {
   return (
-    <section className="py-32 px-6 bg-white overflow-hidden">
+    <section id="expertise" className="py-32 px-6 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
         
         {/* Left Visual */}
