@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from './components/Layout/Header'
 import Hero from './components/Sections/Hero'
+import PestSelector from './components/Sections/PestSelector'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <PestSelector />
         {/* Les autres sections seront ajoutées ici */}
       </main>
     </div>
