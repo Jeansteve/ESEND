@@ -19,7 +19,7 @@ const About = () => {
               <img 
                 src="https://images.unsplash.com/photo-1581578731548-c64695ce6958?q=80&w=2070&auto=format&fit=crop" 
                 className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
-                alt="Duo Expert Nettoyage et Nuisibles"
+                alt="Votre duo d'experts à Menton"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-esend-zinc-950/60 to-transparent" />
             </div>
@@ -36,7 +36,7 @@ const About = () => {
             <div className="text-esend-red font-black text-5xl tracking-tighter mb-1 flex items-center gap-2">
                 2 <Users className="w-8 h-8" />
             </div>
-            <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Entreprise Familiale</div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Expertise Familiale</div>
           </motion.div>
         </div>
 
@@ -48,15 +48,15 @@ const About = () => {
             viewport={{ once: true }}
           >
             <div className="inline-flex items-center gap-2 text-esend-red font-black uppercase tracking-[0.2em] text-[10px] mb-6">
-              <span className="w-8 h-px bg-esend-red"></span> L'Engagement de Proximité
+              <span className="w-8 h-px bg-esend-red"></span> Expertise & Proximité
             </div>
             
             <h2 className="text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-8 leading-[0.95] text-black">
-              Un Duo de Choc à <span className="text-esend-red italic">Menton</span>
+              Un Duo de Professionnels à <span className="text-esend-red italic">votre Service</span>
             </h2>
             
             <p className="text-xl text-zinc-500 font-medium leading-relaxed mb-12 max-w-xl">
-              Auto-entrepreneur passionné, je travaille main dans la main avec ma femme pour vous offrir un service complet : de la dératisation au nettoyage de vitres, en passant par le débarrassage. Notre force ? La réactivité d'un couple d'experts dévoués à votre confort.
+              Entreprise locale et familiale, nous mettons notre savoir-faire au service de votre sérénité. De l'éradication des nuisibles au nettoyage de vitres haute finition, nous intervenons avec réactivité et discrétion à Menton et sur toute la Riviera.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
@@ -64,9 +64,9 @@ const About = () => {
                 <div className="w-12 h-12 bg-zinc-50 rounded-2xl flex items-center justify-center text-black border border-zinc-100">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h4 className="font-black text-sm uppercase tracking-tighter text-black">Polyvalence & Rigueur</h4>
+                <h4 className="font-black text-sm uppercase tracking-tighter text-black">Qualité & Discrétion</h4>
                 <p className="text-xs text-zinc-400 font-medium leading-relaxed">
-                  Qu'il s'agisse de stopper une invasion de nuisibles ou de rendre vos vitres étincelantes, nous appliquons la même exigence de résultat.
+                  Chaque intervention est traitée avec la plus grande rigueur, garantissant un résultat irréprochable en toute confidentialité.
                 </p>
               </div>
 
@@ -74,9 +74,9 @@ const About = () => {
                 <div className="w-12 h-12 bg-zinc-50 rounded-2xl flex items-center justify-center text-black border border-zinc-100">
                   <Heart className="w-6 h-6" />
                 </div>
-                <h4 className="font-black text-sm uppercase tracking-tighter text-black">Relation Directe</h4>
+                <h4 className="font-black text-sm uppercase tracking-tighter text-black">Confiance & Réactivité</h4>
                 <p className="text-xs text-zinc-400 font-medium leading-relaxed">
-                  Pas de plateforme, pas d'intermédiaire. Vous parlez directement aux personnes qui interviennent chez vous à Menton.
+                  Interlocuteurs uniques, nous vous assurons une écoute directe et une réponse rapide adaptée à vos besoins réels.
                 </p>
               </div>
             </div>

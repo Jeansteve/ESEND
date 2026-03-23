@@ -31,12 +31,13 @@ const Hero = () => {
           </h1>
           
           <p className="text-lg lg:text-xl text-zinc-400 font-medium mb-12 max-w-lg leading-relaxed">
-            Dératisation et désinsectisation de haute précision. <br/>Interventions rapides et discrètes pour protéger votre environnement.
+            Votre duo de confiance pour l'éradication des nuisibles, le nettoyage professionnel et le débarrassage. 
+            Une expertise locale pour un environnement sain et serein au quotidien.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-8 items-center">
             <button className="w-full sm:w-auto bg-esend-red text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-red-900/40 hover:scale-105 active:scale-95 transition-all">
-              Lancer le diagnostic
+              Demander un devis gratuit
             </button>
             
             <div className="flex items-center gap-4">
