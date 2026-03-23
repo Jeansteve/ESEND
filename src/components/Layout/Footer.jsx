@@ -6,12 +6,15 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
         <div>
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/10">
-              <img src="/logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-cover grayscale" />
+            <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/10 bg-white flex items-center justify-center p-1">
+              <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all" />
             </div>
-            <div className="text-3xl font-black tracking-tighter italic">ESEND</div>
+            <div className="flex flex-col">
+              <div className="text-3xl font-black tracking-tighter italic leading-none">ESEND</div>
+              <div className="text-[9px] font-bold uppercase tracking-wider text-esend-red mt-1">Passer de nuisibles à paisible</div>
+            </div>
           </div>
-          <p className="text-zinc-500 leading-relaxed max-w-xs font-medium">
+          <p className="text-zinc-500 leading-relaxed max-w-xs font-medium text-sm">
             Votre duo expert en hygiène, nettoyage et débarrassage. Intervention rapide à Menton et sur toute la Riviera.
           </p>
         </div>
@@ -19,7 +22,7 @@ const Footer = () => {
         <div>
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
           <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-zinc-400">
-            <li><a href="#" className="hover:text-white transition-colors">Mentions & Roquebrune</a></li>
+            <li><a href="#" className="hover:text-white transition-colors">Menton & Roquebrune</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Dératisation Menton</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>

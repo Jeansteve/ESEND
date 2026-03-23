@@ -38,11 +38,14 @@ const Header = () => {
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-sm py-3' : 'bg-transparent py-5'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center gap-2 group">
+          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center gap-3 group">
             <div className="w-12 h-12 rounded-xl overflow-hidden border border-zinc-100 shadow-sm group-hover:scale-105 transition-transform bg-white flex items-center justify-center p-1">
               <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain" />
             </div>
-            <span className={`text-2xl font-black tracking-tighter transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}>ESEND</span>
+            <div className="flex flex-col -gap-1">
+              <span className={`text-2xl font-black tracking-tighter transition-colors leading-none ${isScrolled ? 'text-black' : 'text-white'}`}>ESEND</span>
+              <span className={`text-[8px] font-bold uppercase tracking-[0.1em] transition-colors leading-none mt-1 ${isScrolled ? 'text-esend-red' : 'text-esend-red'}`}>Passer de nuisibles à paisible</span>
+            </div>
           </a>
         </div>
         
@@ -61,9 +64,9 @@ const Header = () => {
 
         <a 
           href="tel:0600000000" 
-          className="bg-esend-red text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all shadow-lg hover:shadow-red-900/20 flex items-center gap-2"
+          className="bg-black text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-esend-red transition-all shadow-lg hover:shadow-red-900/20 flex items-center gap-2"
         >
-          <Phone className="w-3 h-3" /> 06 00 00 00 00
+          <Phone className="w-3 h-3 text-esend-red" /> 06 00 00 00 00
         </a>
       </div>
     </header>
