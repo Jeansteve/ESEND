@@ -13,14 +13,6 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="lg:w-1/2"
         >
-          <div className="inline-flex items-center gap-2 bg-black text-white px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-esend-red opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-esend-red"></span>
-            </span>
-            Live : Technicien disponible
-          </div>
-          
           <h1 className="text-7xl lg:text-9xl font-black tracking-tighter leading-[0.85] uppercase mb-8 text-black">
             Sécurité <br/><span className="text-esend-red">Absolue</span>
           </h1>
@@ -65,7 +57,7 @@ const Hero = () => {
               className="absolute -top-6 -right-6 bg-white p-5 rounded-2xl shadow-2xl z-20 border border-zinc-50 flex items-center gap-4"
             >
               <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-200">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </div>
               <div>
                 <div className="font-black text-sm uppercase tracking-tighter text-black">Certifié Biocide</div>
