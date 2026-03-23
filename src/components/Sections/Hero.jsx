@@ -24,16 +24,18 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="lg:w-1/2"
         >
-          <h1 className="text-7xl lg:text-9xl font-black tracking-tighter leading-[0.85] uppercase mb-8">
-            Sécurité <br/><span className="text-esend-red">Absolue</span>
+          <h1 className="text-5xl lg:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-8">
+            Votre Expert <br/>
+            <span className="text-esend-red">Hygiène & Nuisibles</span> <br/>
+            À Menton
           </h1>
           
-          <p className="text-xl text-zinc-400 font-medium mb-12 max-w-lg leading-relaxed">
-            Dératisation et désinsectisation de haute précision. <br/>Nous protégeons votre environnement avec une rigueur militaire.
+          <p className="text-lg lg:text-xl text-zinc-400 font-medium mb-12 max-w-lg leading-relaxed">
+            Dératisation et désinsectisation de haute précision. <br/>Interventions rapides et discrètes pour protéger votre environnement.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-8 items-center">
-            <button className="bg-esend-red text-white px-12 py-6 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-red-900/40 hover:scale-105 active:scale-95 transition-all">
+            <button className="w-full sm:w-auto bg-esend-red text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-red-900/40 hover:scale-105 active:scale-95 transition-all">
               Lancer le diagnostic
             </button>
             
