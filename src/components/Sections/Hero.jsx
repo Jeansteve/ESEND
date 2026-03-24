@@ -17,50 +17,69 @@ const Hero = () => {
     }
   };
 
+  const ctaPulseVariants = {
+    initial: { scale: 1, boxShadow: "0 0 0px rgba(220, 38, 38, 0)" },
+    animate: {
+      scale: [1, 1.03, 1],
+      boxShadow: [
+        "0 0 0px rgba(220, 38, 38, 0.4)",
+        "0 0 25px rgba(220, 38, 38, 0.7)",
+        "0 0 0px rgba(220, 38, 38, 0.4)"
+      ],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
   return (
-    <section id="accueil" className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#020617] text-white pt-24 lg:pt-0">
-      {/* Background Layer */}
+    <section id="accueil" className="relative min-h-[100dvh] lg:h-screen flex flex-col justify-center overflow-hidden bg-[#020617] text-white pt-16 lg:pt-0">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#020617]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#1e1b4b,transparent)] opacity-40" />
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 w-full flex flex-col lg:flex-row items-center justify-between relative z-10">
+      <div className="max-w-[1440px] mx-auto px-6 w-full flex flex-grow flex-col lg:flex-row items-center justify-between relative z-10">
         
-        {/* Left Content - Text Only on Mobile */}
+        {/* Left Content */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left mb-6 lg:mb-0"
+          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left mb-0 lg:mb-0 pt-6 lg:pt-0"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/20 bg-red-500/5 mb-6 w-fit mx-auto lg:mx-0">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/20 bg-red-500/5 mb-4 lg:mb-6 w-fit mx-auto lg:mx-0">
             <span className="flex h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-red-500">
+            <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-red-500">
               Experts certifiés Menton
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1] uppercase mb-6">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1] uppercase mb-3 lg:mb-6">
             VOTRE EXPERT <br/>
-            <span className="text-red-600 drop-shadow-[0_0_30px_rgba(220,38,38,0.6)]">HYGIÈNE & NUISIBLES</span>
+            <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]">HYGIÈNE & NUISIBLES</span>
           </h1>
           
-          <p className="text-sm md:text-lg text-slate-400 font-medium mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-xs md:text-lg text-slate-400 font-medium mb-4 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
             Dératisation, nettoyage pro et débarrassage. Le duo de choc pour un intérieur sain et sécurisé.
           </p>
           
-          {/* Desktop Only CTA Block */}
+          {/* Desktop CTA Block */}
           <div className="hidden lg:flex flex-row gap-8 items-center justify-start mb-10">
             <motion.a 
               href="#devis"
               onClick={scrollToDevis}
+              variants={ctaPulseVariants}
+              initial="initial"
+              animate="animate"
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-red-600 text-white px-10 py-4.5 rounded-2xl font-black uppercase tracking-widest transition-all text-xs shadow-[0_15px_40px_rgba(220,38,38,0.4)] flex items-center gap-3 group"
+              whileTap={{ scale: 0.98 }}
+              className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20"
             >
               <span>Obtenir mon devis</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
             </motion.a>
             
             <div className="flex items-center gap-4">
@@ -73,65 +92,69 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Right Visual - Image with specialized Mobile CTA underneath */}
+        {/* Right Visual - Massive Impact Image */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, x: 20 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-          className="lg:w-[55%] relative flex flex-col items-center lg:items-end w-full mt-auto lg:mt-0"
+          className="lg:w-[50%] relative flex flex-col items-center lg:items-end w-full mt-[-10px] lg:mt-0 lg:h-full justify-center lg:justify-end"
         >
-          <div className="relative w-full max-w-[550px] lg:max-w-[750px] flex items-end justify-center">
-            <img 
-              src="./duo-experts-esend.png" 
-              className="w-full h-auto object-contain z-10" 
-              alt="Duo Experts ESEND"
-            />
-            
-            {/* Floating Intelligence Card - Desktop ONLY or Mobile Adjusted */}
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute bottom-[20%] -right-4 lg:-left-12 bg-slate-900/90 backdrop-blur-xl p-4 lg:p-6 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-20 border border-white/5 flex items-center gap-4 lg:gap-5 scale-75 lg:scale-100 hidden lg:flex"
-            >
-              <div className="w-10 h-10 lg:w-14 lg:h-14 bg-red-600 rounded-full flex items-center justify-center text-white shadow-[0_0_20px_rgba(220,38,38,0.4)]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="font-black text-xs lg:text-base uppercase tracking-tighter text-white leading-none">PROTECTION TOTALE</span>
-                <span className="text-[8px] lg:text-[10px] font-bold text-red-500 uppercase tracking-widest mt-1">GARANTIE RÉSULTAT</span>
-              </div>
-            </motion.div>
+          <div className="relative w-full max-w-[450px] lg:max-w-[600px] xl:max-w-[650px] flex items-end justify-center">
+            {/* The Image - Integrated with background */}
+            <div className="relative w-full overflow-visible">
+              <img 
+                src="./duo-experts-esend.png?v=1774355595" 
+                className="w-full h-auto object-contain z-10" 
+                alt="Duo Experts ESEND"
+              />
+              <div className="absolute bottom-0 left-0 w-full h-[25%] bg-gradient-to-t from-[#020617] via-[#020617]/70 to-transparent z-20 pointer-events-none" />
+            </div>
           </div>
 
-          {/* MOBILE ONLY CTA BLOCK - Underneath the image as requested */}
-          <div className="lg:hidden w-full flex flex-col items-center gap-8 mt-12 mb-16">
+          {/* MOBILE ONLY CTA BLOCK - POSITIONED TIGHTER */}
+          <div className="lg:hidden w-full flex flex-col items-center gap-6 mt-[-35px] mb-8 relative z-30">
             <motion.a 
               href="#devis"
               onClick={scrollToDevis}
+              variants={ctaPulseVariants}
+              initial="initial"
+              animate="animate"
               whileTap={{ scale: 0.95 }}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-5 rounded-2xl font-black uppercase tracking-[0.1em] text-sm shadow-[0_10px_30px_rgba(220,38,38,0.4)] border border-red-500/20 flex justify-between items-center"
+              className="w-full bg-red-600 text-white px-8 py-4 rounded-full font-black uppercase tracking-[0.12em] text-xs shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
             >
               <span>Obtenir mon devis</span>
               <ArrowRight className="w-5 h-5" />
             </motion.a>
 
-            <div className="flex items-center gap-6 bg-white/5 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10">
+            <div className="flex items-center gap-6 bg-white/5 backdrop-blur-md px-6 py-2.5 rounded-2xl border border-white/10">
               <div className="flex flex-col items-center">
-                <span className="text-2xl font-black tracking-tighter text-white leading-none">4.9/5</span>
-                <div className="flex gap-1 mt-1">
+                <span className="text-xl font-black tracking-tighter text-white leading-none">4.9/5</span>
+                <div className="flex gap-1 mt-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-2.5 h-2.5 fill-red-600 text-red-600" />
+                    <Star key={i} className="w-2 h-2 fill-red-600 text-red-600" />
                   ))}
                 </div>
               </div>
-              <div className="w-px h-8 bg-white/10"></div>
-              <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 text-center leading-tight">
+              <div className="w-px h-6 bg-white/10"></div>
+              <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400 text-center leading-tight">
                 Note <br/>Satisfaction
               </span>
             </div>
           </div>
         </motion.div>
       </div>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        animate={{ y: [0, 6, 0], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1 z-30"
+      >
+        <span className="text-[6px] font-bold uppercase tracking-[0.3em] text-white/30">Scroll</span>
+        <div className="w-px h-8 bg-gradient-to-b from-red-600/50 to-transparent"></div>
+      </motion.div>
+
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#020617] to-transparent z-20" />
     </section>
   );
 };

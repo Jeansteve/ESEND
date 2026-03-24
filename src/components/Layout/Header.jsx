@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showCTA, setShowCTA] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const scrollPos = window.scrollY;
+      setIsScrolled(scrollPos > 20);
+      
+      // On affiche le bouton du header uniquement quand on a dépassé la section Hero
+      // ou plus précisément quand le bouton principal n'est plus visible.
+      // On fixe un seuil de 400px de scroll pour le déclenchement.
+      setShowCTA(scrollPos > 400);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -61,21 +69,23 @@ const Header = () => {
             </a>
           ))}
           
-          <motion.a
-            href="#devis"
-            onClick={(e) => scrollToSection(e, '#devis')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative group overflow-hidden bg-red-600 text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all"
-          >
-            <span className="relative z-10">Devis</span>
-            <ArrowRight className="w-3 h-3 relative z-10 group-hover:translate-x-1 transition-transform" />
-            <motion.div 
-              className="absolute inset-0 bg-white/20"
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "linear", repeatDelay: 4 }}
-            />
-          </motion.a>
+          <AnimatePresence>
+            {showCTA && (
+              <motion.a
+                href="#devis"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                onClick={(e) => scrollToSection(e, '#devis')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative group overflow-hidden bg-red-600 text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all cursor-pointer"
+              >
+                <span className="relative z-10">Devis</span>
+                <ArrowRight className="w-3 h-3 relative z-10 group-hover:translate-x-1 transition-transform" />
+              </motion.a>
+            )}
+          </AnimatePresence>
         </nav>
 
         <div className="flex items-center gap-3">
