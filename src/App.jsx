@@ -1,27 +1,24 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Layout/Header'
-import Hero from './components/Sections/Hero'
-import PestSelector from './components/Sections/PestSelector'
-import About from './components/Sections/About'
-import Reviews from './components/Sections/Reviews'
-import FormWizard from './components/FormWizard/FormWizard'
-import KnowledgeHub from './components/Sections/KnowledgeHub'
+import Home from './pages/Home'
+import ServicePage from './pages/ServicePage'
 import Footer from './components/Layout/Footer'
 
 function App() {
   return (
-    <div className="min-h-screen bg-white selection:bg-esend-red selection:text-white">
-      <Header />
-      <main>
-        <Hero />
-        <PestSelector />
-        <About />
-        <Reviews />
-        <KnowledgeHub />
-        <FormWizard />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen bg-white selection:bg-red-600 selection:text-white">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services/:serviceId" element={<ServicePage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   )
 }
 
