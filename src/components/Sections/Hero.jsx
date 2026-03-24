@@ -17,7 +17,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative min-h-screen lg:h-screen flex items-center justify-center overflow-hidden bg-slate-950 text-white">
+    <section id="accueil" className="relative min-h-screen lg:h-screen flex items-center justify-center overflow-hidden bg-slate-950 text-white pt-16 lg:pt-0">
       {/* Background Layer */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-slate-950" />
@@ -25,18 +25,18 @@ const Hero = () => {
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 w-full flex flex-col lg:flex-row items-center justify-between relative z-10 pt-20 lg:pt-10">
+      <div className="max-w-[1440px] mx-auto px-6 w-full flex flex-col lg:flex-row items-center justify-between relative z-10">
         
         {/* Left Content - Precise Control over layout space */}
         <motion.div 
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="lg:w-[40%] flex flex-col justify-center text-center lg:text-left mb-6 lg:mb-0"
+          className="lg:w-[40%] flex flex-col justify-center text-center lg:text-left pt-12 lg:pt-0"
         >
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/20 bg-red-500/5 mb-6 w-fit mx-auto lg:mx-0"
           >
@@ -78,39 +78,37 @@ const Hero = () => {
 
         {/* Right Visual - Massive Impact Image with no wasted space */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95, x: 50 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
-          className="lg:w-[60%] relative flex justify-center lg:justify-end w-full"
+          className="lg:w-[60%] relative flex justify-center lg:justify-end w-full mt-12 lg:mt-0"
         >
           {/* Main Visual Container - Removing extra borders to maximize image size */}
-          <div className="relative w-full max-w-[850px] 2xl:max-w-[950px] transform lg:translate-x-12 translate-y-4">
-            <div className="relative w-full aspect-[16/10] lg:aspect-auto">
-              <img 
+          <div className="relative w-full max-w-[850px] 2xl:max-w-[950px]">
+            <div className="relative w-full flex justify-center items-end">
+              <motion.img 
                 src="./duo-experts-esend.png" 
-                className="w-full h-auto object-contain drop-shadow-[0_35px_60px_rgba(0,0,0,0.8)]" 
+                className="w-[110%] lg:w-full max-w-none lg:max-w-full h-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] lg:drop-shadow-[0_35px_60px_rgba(0,0,0,0.8)]" 
                 alt="Duo Experts ESEND : Homme Dératisation et Femme Nettoyage"
+                initial={{ scale: 1.1, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
               />
               
-              {/* Floating Intelligence Card */}
+              {/* Floating Intelligence Card - Mobile Optimized (smaller and bottom-right) */}
               <motion.div 
-                animate={{ y: [0, -15, 0] }}
+                animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-[20%] -left-4 lg:-left-16 bg-slate-900/98 backdrop-blur-3xl p-5 md:p-6 rounded-3xl shadow-[0_30px_70px_rgba(0,0,0,0.9)] z-20 border border-white/10 flex items-center gap-5"
+                className="absolute bottom-4 right-0 lg:bottom-12 lg:-left-16 lg:right-auto bg-slate-900/95 backdrop-blur-3xl p-4 lg:p-6 rounded-2xl lg:rounded-3xl shadow-[0_30px_70px_rgba(0,0,0,0.9)] z-20 border border-white/10 flex items-center gap-4 lg:gap-5"
               >
-                <div className="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-white shadow-[0_0_30px_rgba(220,38,38,0.5)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div className="w-10 h-10 lg:w-14 lg:h-14 bg-red-600 rounded-full flex items-center justify-center text-white shadow-[0_0_30px_rgba(220,38,38,0.5)]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
                 <div>
-                  <div className="font-black text-sm md:text-base uppercase tracking-tighter text-white">PROTECTION TOTALE</div>
-                  <div className="text-[10px] md:text-xs font-bold text-red-500 uppercase tracking-widest">GARANTIE RÉSULTAT</div>
+                  <div className="font-black text-[10px] lg:text-base uppercase tracking-tighter text-white leading-tight">PROTECTION TOTALE</div>
+                  <div className="text-[8px] lg:text-xs font-bold text-red-500 uppercase tracking-widest leading-tight">GARANTIE RÉSULTAT</div>
                 </div>
               </motion.div>
-
-              {/* Tactical Badge */}
-              <div className="absolute bottom-[10%] right-[10%] bg-white/5 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 hidden lg:block">
-                <span className="text-[9px] font-black uppercase tracking-tighter text-white opacity-60">DUO_PRO_ALPHA_V3</span>
-              </div>
             </div>
           </div>
           
