@@ -50,13 +50,6 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left mb-0 lg:mb-0 pt-4 lg:pt-0"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/20 bg-red-500/5 mb-2 lg:mb-6 w-fit mx-auto lg:mx-0">
-            <span className="flex h-1.5 w-1.5 rounded-full bg-red-600 animate-pulse" />
-            <span className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-red-500">
-              Experts certifiés Menton
-            </span>
-          </div>
-
           <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1] uppercase mb-2 lg:mb-6">
             VOTRE EXPERT <br/>
             <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]">HYGIÈNE & NUISIBLES</span>

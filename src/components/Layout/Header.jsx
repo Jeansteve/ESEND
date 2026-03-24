@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, ArrowRight } from 'lucide-react';
+import { Phone, ArrowRight, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY;
       setIsScrolled(scrollPos > 20);
-      
-      // On affiche le bouton du header uniquement quand on a dépassé la section Hero
-      // ou plus précisément quand le bouton principal n'est plus visible.
-      // On fixe un seuil de 400px de scroll pour le déclenchement.
       setShowCTA(scrollPos > 400);
     };
     
@@ -29,6 +26,7 @@ const Header = () => {
 
   const scrollToSection = (e, href) => {
     e.preventDefault();
+    setIsMobileMenuOpen(false);
     const target = document.querySelector(href);
     if (target) {
       const headerOffset = 80;
@@ -43,7 +41,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-slate-950/95 backdrop-blur-xl border-b border-white/5 py-2' : 'bg-transparent py-4'}`}>
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-slate-950/95 backdrop-blur-xl border-b border-white/5 py-2' : 'bg-transparent py-4'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center gap-2.5 group">
@@ -57,6 +55,7 @@ const Header = () => {
           </a>
         </div>
         
+        {/* Desktop Nav */}
         <nav className="hidden lg:flex gap-8 items-center">
           {menuItems.map((item) => (
             <a 
@@ -91,13 +90,66 @@ const Header = () => {
         <div className="flex items-center gap-3">
           <a 
             href="tel:0651239841" 
-            className="bg-white/5 border border-white/10 text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2"
+            className="hidden sm:flex bg-white/5 border border-white/10 text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all items-center gap-2"
           >
             <Phone className="w-3 h-3 text-red-600" />
-            <span className="hidden sm:inline">06 51 23 98 41</span>
+            <span>06 51 23 98 41</span>
           </a>
+
+          {/* Mobile Menu Trigger */}
+          <button 
+            className="lg:hidden text-white p-2 hover:bg-white/5 rounded-lg transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="lg:hidden bg-slate-950 border-b border-white/5 overflow-hidden"
+          >
+            <div className="px-6 py-8 flex flex-col gap-6">
+              {menuItems.map((item) => (
+                <a 
+                  key={item.name} 
+                  href={item.href} 
+                  onClick={(e) => scrollToSection(e, item.href)}
+                  className="text-sm font-black uppercase tracking-[0.2em] text-white/60 hover:text-red-600 transition-colors"
+                >
+                  {item.name}
+                </a>
+              ))}
+              <hr className="border-white/5" />
+              <div className="flex flex-col gap-4">
+                <a 
+                  href="tel:0651239841" 
+                  className="flex items-center gap-4 text-white text-sm font-black uppercase tracking-widest"
+                >
+                  <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20">
+                    <Phone className="w-4 h-4 text-red-600" />
+                  </div>
+                  06 51 23 98 41
+                </a>
+                <a 
+                  href="#devis"
+                  onClick={(e) => scrollToSection(e, '#devis')}
+                  className="w-full bg-red-600 text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] flex justify-between items-center"
+                >
+                  <span>Demander un devis</span>
+                  <ArrowRight className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
