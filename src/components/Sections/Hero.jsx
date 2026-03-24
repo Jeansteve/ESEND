@@ -3,15 +3,12 @@ import { motion } from 'framer-motion';
 
 const Hero = () => {
   return (
-    <section id="accueil" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-black text-white">
+    <section id="accueil" className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-slate-950 text-white">
       {/* Background with darker overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop" 
-          className="w-full h-full object-cover opacity-40 grayscale" 
-          alt="Background Tactical"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-slate-950" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,1),rgba(2,6,23,1))]" />
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center gap-16 relative z-10">
@@ -19,73 +16,94 @@ const Hero = () => {
         {/* Left Content */}
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="lg:w-1/2"
         >
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/20 bg-red-500/5 mb-6"
+          >
+            <span className="flex h-2 w-2 rounded-full bg-red-600 animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-red-500">
+              Disponible 24/7 à Menton & Environs
+            </span>
+          </motion.div>
+
           <h1 className="text-5xl lg:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-8">
-            Votre Expert <br/>
-            <span className="text-esend-red">Hygiène & Nuisibles</span> <br/>
-            À Menton
+            VOTRE EXPERT <br/>
+            <span className="text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.3)]">HYGIÈNE & NUISIBLES</span> <br/>
+            À MENTON
           </h1>
           
-          <p className="text-lg lg:text-xl text-zinc-400 font-medium mb-12 max-w-lg leading-relaxed">
-            Votre duo de confiance pour l'éradication des nuisibles, le nettoyage professionnel et le débarrassage. 
-            Une expertise locale pour un environnement sain et serein au quotidien.
+          <p className="text-lg lg:text-xl text-slate-400 font-medium mb-12 max-w-lg leading-relaxed">
+            Éradication, nettoyage et débarrassage. Un duo d'experts locaux pour un environnement sain, certifié et sécurisé.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-8 items-center">
-            <button className="w-full sm:w-auto bg-esend-red text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest shadow-2xl shadow-red-900/40 hover:scale-105 active:scale-95 transition-all">
+            <motion.button 
+              whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(220,38,38,0.4)" }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full sm:w-auto bg-red-600 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest transition-all"
+            >
               Demander un devis gratuit
-            </button>
+            </motion.button>
             
             <div className="flex items-center gap-4">
               <div className="text-4xl font-black tracking-tighter">4.9/5</div>
-              <div className="h-10 w-px bg-white/10"></div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                Expertise <br/>Reconnue
+              <div className="h-10 w-px bg-slate-800"></div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                Expertise <br/>Certifiée
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Right Visual */}
+        {/* Right Visual - Duo Réaliste */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="lg:w-1/2 relative"
+          initial={{ opacity: 0, scale: 0.9, rotateY: 15 }}
+          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+          transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+          className="lg:w-1/2 relative perspective-1000"
         >
-          <div className="bg-zinc-900 p-4 rounded-[4rem] shadow-2xl relative z-10 border border-white/5 overflow-hidden">
-            <div className="rounded-[3.5rem] w-full aspect-[4/5] overflow-hidden relative border border-white/10">
+          <div className="relative z-10 p-2 rounded-[3rem] bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/10 backdrop-blur-xl shadow-2xl">
+            <div className="rounded-[2.5rem] w-full aspect-[4/5] overflow-hidden relative border border-white/5">
               <img 
-                src="https://images.unsplash.com/photo-1558444479-c86e1055639d?q=80&w=2070&auto=format&fit=crop" 
-                className="w-full h-full object-cover" 
-                alt="Expert ESEND Taskforce"
+                src="https://images.unsplash.com/photo-1581578731548-c64695ce6958?q=80&w=2070&auto=format&fit=crop" 
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
+                alt="Duo Experts ESEND"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+              
+              {/* Tactical HUD Overlays */}
+              <div className="absolute top-8 left-8 p-3 border-l-2 border-t-2 border-red-600/50">
+                <span className="text-[10px] font-black uppercase tracking-tighter text-white opacity-60">ID: ES-DUO-01</span>
+              </div>
+              <div className="absolute bottom-8 right-8 p-3 border-r-2 border-b-2 border-red-600/50 text-right">
+                <span className="text-[10px] font-black uppercase tracking-tighter text-white opacity-60">LOC: MENTON_S01</span>
+              </div>
             </div>
             
             {/* Floating Intelligence Card */}
             <motion.div 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-6 -right-6 bg-zinc-900 p-5 rounded-2xl shadow-2xl z-20 border border-white/10 flex items-center gap-4"
+              className="absolute -top-6 -right-6 bg-slate-900/90 backdrop-blur-md p-5 rounded-2xl shadow-2xl z-20 border border-red-600/30 flex items-center gap-4"
             >
-              <div className="w-12 h-12 bg-esend-red rounded-full flex items-center justify-center text-white shadow-lg shadow-red-900/20">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-red-900/40">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
               <div>
-                <div className="font-black text-sm uppercase tracking-tighter text-white">Certifié Biocide</div>
-                <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Agrément d'État</div>
+                <div className="font-black text-sm uppercase tracking-tighter text-white">PROTECTION TOTALE</div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">GARANTIE RÉSULTAT</div>
               </div>
             </motion.div>
           </div>
           
           {/* Decorative Back Shape */}
-          <div className="absolute -inset-6 bg-esend-red/10 rounded-[5rem] -z-10 rotate-3 border border-esend-red/20 blur-xl"></div>
+          <div className="absolute -inset-10 bg-red-600/5 rounded-[5rem] -z-10 rotate-3 blur-3xl" />
         </motion.div>
 
       </div>
