@@ -104,7 +104,7 @@ const Hero = () => {
           </div>
 
           {/* MOBILE ONLY CTA BLOCK - Underneath the image as requested */}
-          <div className="lg:hidden w-full flex flex-col items-center gap-8 mt-8 mb-12">
+          <div className="lg:hidden w-full flex flex-col items-center gap-8 mt-12 mb-16">
             <motion.a 
               href="#devis"
               onClick={scrollToDevis}
