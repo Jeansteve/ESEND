@@ -63,7 +63,7 @@ function ServicePage() {
             className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent mb-6"
           >
             {service.title}
-          </h1>
+          </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

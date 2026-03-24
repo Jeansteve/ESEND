@@ -6,9 +6,9 @@ const encyclopedia = [
   {
     id: 'rats',
     name: 'Rat Noir & Surmulot',
-    cycle: 'Maturation en 2-3 mois. Jusqu'à 5 portées/an.',
+    cycle: "Maturation en 2-3 mois. Jusqu'à 5 portées/an.",
     risks: 'Leptospirose, Salmonellose, Dommages électriques.',
-    prevention: 'Bouchage des accès, gestion des déchets, étanchéité des gaines.',
+    prevention: "Bouchage des accès, gestion des déchets, étanchéité des gaines.",
     icon: <ShieldAlert className="w-5 h-5 text-red-600" />,
     image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop'
   },
@@ -26,7 +26,7 @@ const encyclopedia = [
     name: 'Blatte Germanique',
     cycle: 'Cycle rapide (100 jours). Forte résistance thermique.',
     risks: 'Allergies, Asthme, Contamination des denrées.',
-    prevention: 'Nettoyage des graisses, suppression de l'humidité.',
+    prevention: "Nettoyage des graisses, suppression de l'humidité.",
     icon: <Info className="w-5 h-5 text-red-600" />,
     image: 'https://images.unsplash.com/photo-1628191139360-4083564d03fd?q=80&w=1000&auto=format&fit=crop'
   }
@@ -112,7 +112,7 @@ const KnowledgeHub = () => {
                           <CheckCircle className="w-4 h-4 text-green-500" /> Guide de Prévention
                         </h3>
                         <p className="text-slate-400 text-sm leading-relaxed italic">
-                          "{item.prevention}"
+                          {item.prevention}
                         </p>
                       </div>
                     </div>
