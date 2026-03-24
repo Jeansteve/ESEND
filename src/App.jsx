@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Layout/Header'
 import Home from './pages/Home'
 import ServicePage from './pages/ServicePage'
@@ -7,7 +7,7 @@ import Footer from './components/Layout/Footer'
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="min-h-screen bg-white selection:bg-red-600 selection:text-white">
         <Header />
         <main>
@@ -18,7 +18,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
