@@ -35,7 +35,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative min-h-[100dvh] lg:h-screen flex flex-col justify-center overflow-hidden bg-[#020617] text-white pt-12 lg:pt-0">
+    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-center overflow-hidden bg-[#020617] text-white pt-14 lg:pt-0">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#020617]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#1e1b4b,transparent)] opacity-40" />
@@ -48,7 +48,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left mb-0 lg:mb-0 pt-4 lg:pt-0"
+          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left mb-0 lg:mb-0 pt-2 lg:pt-0"
         >
           <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1] uppercase mb-2 lg:mb-6">
             VOTRE EXPERT <br/>
@@ -83,9 +83,30 @@ const Hero = () => {
               </div>
             </div>
           </div>
+        </motion.div>
 
-          {/* MOBILE ONLY CTA BLOCK - POSITIONED VERY TIGHT UNDER TEXT */}
-          <div className="lg:hidden w-full flex flex-col items-center gap-4 mt-0 mb-6 relative z-30">
+        {/* Right Visual - Massive Impact Image & Mobile CTA */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95, x: 20 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          className="lg:w-[50%] relative flex flex-col items-center lg:items-end w-full mt-[-25px] lg:mt-0 lg:h-full justify-center lg:justify-end"
+        >
+          {/* The Image Wrapper - Positioned higher to clear bottom space */}
+          <div className="relative w-full max-w-[380px] lg:max-w-[600px] xl:max-w-[650px] flex items-end justify-center mt-[-30px] lg:mt-0">
+            <div className="relative w-full overflow-visible">
+              <img 
+                src="./duo-experts-esend.png?v=1774355595" 
+                className="w-full h-auto object-contain z-10" 
+                alt="Duo Experts ESEND"
+              />
+              {/* Fade Overlay Integrated with Background */}
+              <div className="absolute bottom-0 left-0 w-full h-[35%] bg-gradient-to-t from-[#020617] via-[#020617]/90 to-transparent z-20 pointer-events-none" />
+            </div>
+          </div>
+
+          {/* MOBILE ONLY CTA BLOCK - POSITIONED FOR FULLSCREEN VISIBILITY */}
+          <div className="lg:hidden w-full flex flex-col items-center gap-3 mt-[-45px] mb-6 relative z-30">
             <motion.a 
               href="#devis"
               onClick={scrollToDevis}
@@ -99,52 +120,26 @@ const Hero = () => {
               <ArrowRight className="w-4 h-4" />
             </motion.a>
 
-            <div className="flex items-center gap-5 bg-white/5 backdrop-blur-md px-5 py-2 rounded-xl border border-white/10">
+            <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-1.5 rounded-xl border border-white/10">
               <div className="flex flex-col items-center">
                 <span className="text-lg font-black tracking-tighter text-white leading-none">4.9/5</span>
-                <div className="flex gap-1 mt-0.5">
+                <div className="flex gap-0.5 mt-0.5">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-2 h-2 fill-red-600 text-red-600" />
                   ))}
                 </div>
               </div>
-              <div className="w-px h-5 bg-white/10"></div>
+              <div className="w-px h-4 bg-white/10"></div>
               <span className="text-[7px] font-bold uppercase tracking-widest text-slate-400 text-center leading-tight">
                 Note <br/>Satisfaction
               </span>
             </div>
           </div>
         </motion.div>
-
-        {/* Right Visual - Duo Image */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95, x: 20 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-          className="lg:w-[50%] relative flex flex-col items-center lg:items-end w-full mt-[-20px] lg:mt-0 lg:h-full justify-center lg:justify-end"
-        >
-          <div className="relative w-full max-w-[400px] lg:max-w-[600px] xl:max-w-[650px] flex items-end justify-center">
-            <div className="relative w-full overflow-visible">
-              <img 
-                src="./duo-experts-esend.png?v=1774355595" 
-                className="w-full h-auto object-contain z-10" 
-                alt="Duo Experts ESEND"
-              />
-              <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent z-20 pointer-events-none" />
-            </div>
-          </div>
-        </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div 
-        animate={{ y: [0, 6, 0], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1 z-30"
-      >
-        <span className="text-[6px] font-bold uppercase tracking-[0.3em] text-white/30">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-red-600/50 to-transparent"></div>
-      </motion.div>
+      {/* Fade to Next Section - Perfect Integration */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#020617] to-transparent z-25 pointer-events-none" />
     </section>
   );
 };
