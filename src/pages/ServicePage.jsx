@@ -131,7 +131,6 @@ const serviceDataExtra = {
     ]
   },
   'debarrassage': {
-    title: 'Débarrassage Expert',
     subtitle: 'Évacuation & Valorisation des Déchets',
     tier: 'RANK_EXT',
     code: 'LE VIDE',

@@ -25,7 +25,6 @@ const interventions = [
     img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop'
   },
   {
-    title: 'Débarrassage Cave après Sinistre',
     location: 'Centre-Ville, Menton',
     tag: 'Logistique',
     size: 'col-span-1 row-span-1',

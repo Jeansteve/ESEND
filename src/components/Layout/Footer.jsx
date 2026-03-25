@@ -25,7 +25,6 @@ const Footer = () => {
             <li><a href="#" className="hover:text-white transition-colors">Menton & Roquebrune</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Dératisation Menton</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>
           </ul>
         </div>
 
