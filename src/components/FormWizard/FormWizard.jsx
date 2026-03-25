@@ -38,7 +38,6 @@ const FormWizard = () => {
   const services = [
     { id: 'deratisation', label: 'Dératisation / Nuisibles', icon: <Bug className="w-5 h-5" /> },
     { id: 'nettoyage', label: 'Nettoyage / Vitres', icon: <Sparkles className="w-5 h-5" /> },
-    { id: 'debarrassage', label: 'Débarrassage', icon: <Trash2 className="w-5 h-5" /> },
     { id: 'urgence', label: 'Urgence Menton & Environs', icon: <MapPin className="w-5 h-5 text-esend-red" /> },
   ];
 
