@@ -1,122 +1,151 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import FormWizard from '../components/FormWizard/FormWizard'
+import React, { useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Shield, Zap, AlertTriangle, ArrowLeft, Phone, ArrowRight, Crosshair, Target, CheckCircle2 } from 'lucide-react';
 
-const services = {
-  deratisation: {
-    title: 'Dératisation à Menton',
-    description: 'Expertise locale en lutte contre les rongeurs (rats, souris) pour particuliers et professionnels.',
-    content: 'Nos techniciens certifiés interviennent rapidement à Menton pour sécuriser votre environnement.'
+const serviceData = {
+  'deratisation': {
+    title: 'Dératisation Tactique',
+    subtitle: 'Éradication & Protection Longue Durée',
+    tier: 'RANK_S',
+    code: 'LE SABOTEUR',
+    image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop',
+    description: "Infiltration extrême. Les rongeurs ne sont pas seulement une nuisance, ils sont une menace directe pour votre infrastructure et votre santé. Notre protocole SCAN-ESEND identifie les points d'entrée invisibles pour une élimination totale.",
+    features: [
+      { title: 'Diagnostic SCAN', desc: "Détection thermique des nids et passages." },
+      { title: 'Barriérage Actif', desc: "Scellement des points d'accès avec matériaux anti-intrusion." },
+      { title: 'Monitoring digital', desc: "Suivi en temps réel de l'activité sur site." }
+    ],
+    stats: [
+      { label: 'Efficacité', value: '100%' },
+      { label: 'Rapidité', value: '< 24h' },
+      { label: 'Garantie', value: '6 MOIS' }
+    ]
   },
-  desinsectisation: {
-    title: 'Désinsectisation à Menton',
-    description: 'Élimination durable des insectes nuisibles : cafards, punaises de lit, frelons, fourmis.',
-    content: 'Solutions ciblées et respectueuses de votre santé pour éradiquer toute infestation.'
-  },
-  desinfection: {
-    title: 'Désinfection à Menton',
-    description: 'Protocoles de désinfection professionnels pour une hygiène irréprochable.',
-    content: 'Traitements virucides et bactéricides adaptés aux locaux sensibles.'
-  },
-  nettoyage: {
-    title: 'Nettoyage à Menton',
-    description: 'Services de nettoyage spécialisés et entretien courant de haute qualité.',
-    content: 'Équipes dédiées pour un résultat impeccable sur tous types de surfaces.'
-  },
-  debarrassage: {
-    title: 'Débarrassage à Menton',
-    description: 'Évacuation rapide et responsable de vos encombrants.',
-    content: 'Tri, enlèvement et nettoyage après débarras pour redonner vie à vos espaces.'
+  'desinsectisation': {
+    title: 'Désinsectisation Pro',
+    subtitle: 'Punaises de lit & Insectes Rampants',
+    tier: 'RANK_SS',
+    code: "L'INVISIBLE",
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop',
+    description: "Experts en camouflage, les punaises de lit et cafards nécessitent une approche scientifique. Nous utilisons des traitements à impact foudroyant respectueux de votre environnement immédiat.",
+    features: [
+      { title: 'Traitement Choc', desc: "Éradication immédiate des adultes et larves." },
+      { title: 'Action Rémanente', desc: "Protection continue pendant 8 semaines." },
+      { title: 'Audit Post-Op', desc: "Vérification complète après 15 jours." }
+    ],
+    stats: [
+      { label: 'Taux Succès', value: '99.8%' },
+      { label: 'Impact', value: 'BIO-PRO' },
+      { label: 'Discrétion', value: 'TOTALE' }
+    ]
   }
-}
+};
 
-function ServicePage() {
-  const { serviceId } = useParams()
-  const service = services[serviceId]
+const ServicePage = () => {
+  const { id } = useParams();
+  const service = serviceData[id] || serviceData['deratisation'];
 
-  if (!service) {
-    return (
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="py-20 text-center text-white bg-slate-900"
-      >
-        Service non trouvé
-      </motion.div>
-    )
-  }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <div className="bg-slate-950 text-white selection:bg-red-600 overflow-x-hidden">
-      <motion.section 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative py-24 px-6 lg:px-8 border-b border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950"
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent mb-6"
-          >
-            {service.title}
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-lg md:text-xl text-slate-400 leading-relaxed mb-8"
-          >
-            {service.description}
-          </motion.p>
-        </div>
-      </motion.section>
-      
-      <section className="py-16 px-6 lg:px-8 max-w-5xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6"
-          >
-            <h2 className="text-2xl font-bold text-white">Pourquoi nous choisir à Menton ?</h2>
-            <p className="text-slate-400 leading-relaxed">
-              {service.content}
-            </p>
-            <ul className="space-y-4">
-              {['Intervention rapide 24/7', 'Devis gratuit & transparent', 'Techniciens certifiés Certibiocide'].map((item, index) => (
-                <motion.li 
-                  key={item}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 * index }}
-                  className="flex items-center gap-3 text-slate-300"
-                >
-                  <span className="h-2 w-2 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.6)]" />
-                  {item}
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="bg-slate-900/50 p-8 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-sm"
-          >
-             <FormWizard />
-          </motion.div>
-        </div>
-      </section>
-    </div>
-  )
-}
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-red-600/30">
+      <div className="fixed inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+      <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(30,27,75,0.4),transparent)] pointer-events-none" />
 
-export default ServicePage
+      <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-4">
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-2 group">
+            <ArrowLeft className="w-4 h-4 text-red-600 group-hover:-translate-x-1 transition-transform" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">Retour</span>
+          </Link>
+          <div className="flex flex-col items-end">
+            <span className="text-xs font-black tracking-tighter text-white">ESEND</span>
+            <span className="text-[7px] font-bold text-red-600 uppercase tracking-widest">Protocol Service</span>
+          </div>
+        </div>
+      </nav>
+
+      <main className="pt-24 pb-20 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-wrap items-center gap-4 mb-8">
+            <div className="bg-red-600/10 border border-red-600/20 px-3 py-1 rounded-full flex items-center gap-2">
+              <Crosshair className="w-3 h-3 text-red-600" />
+              <span className="text-[9px] font-black text-red-600 uppercase tracking-widest">{service.tier}</span>
+            </div>
+            <div className="bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+              <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">ID: {id ? id.toUpperCase() : "UNKNOWN"}</span>
+            </div>
+            <div className="h-px flex-grow bg-white/5" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="text-red-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">{service.code}</span>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase mb-4 leading-none">{service.title}</h1>
+              <p className="text-xl text-slate-400 font-bold uppercase tracking-widest mb-8">{service.subtitle}</p>
+              <p className="text-slate-300 text-lg leading-relaxed mb-10 border-l-2 border-red-600 pl-6 py-2 bg-red-600/5">
+                {service.description}
+              </p>
+              <div className="grid grid-cols-3 gap-4 mb-12">
+                {service.stats.map((stat) => (
+                  <div key={stat.label} className="bg-white/[0.02] border border-white/5 p-4 rounded-2xl flex flex-col">
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2">{stat.label}</span>
+                    <span className="text-2xl font-black text-white">{stat.value}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default ServicePage;
+
+const serviceDataExtra = {
+  'nettoyage': {
+    title: 'Nettoyage & Vitres',
+    subtitle: 'Finition Premium pour Professionnels',
+    tier: 'RANK_PRO',
+    code: "L'ÉCLAT",
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop',
+    description: "L'image de votre établissement passe par la netteté de vos vitrages et la propreté de vos sols. Notre équipe intervient avec une précision chirurgicale pour un résultat sans trace.",
+    features: [
+      { title: 'Vitrages complexes', desc: "Accès difficile et hauteurs sécurisées." },
+      { title: 'Désinfection Sols', desc: "Normes hospitalières pour vos locaux." },
+      { title: 'Planning Flexible', desc: "Intervention hors horaires d'ouverture." }
+    ],
+    stats: [
+      { label: 'Finition', value: 'PREMIUM' },
+      { label: 'Équipe', value: 'CERTIFIÉE' },
+      { label: 'Éco-Label', value: 'A+' }
+    ]
+  },
+  'debarrassage': {
+    title: 'Débarrassage Expert',
+    subtitle: 'Évacuation & Valorisation des Déchets',
+    tier: 'RANK_EXT',
+    code: 'LE VIDE',
+    image: 'https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=2070&auto=format&fit=crop',
+    description: "Gagnez de l'espace immédiatement. Nous gérons l'intégralité du processus de débarrassage, du tri sélectif à la mise en déchetterie professionnelle.",
+    features: [
+      { title: 'Volume Illimité', desc: "De la cave au hangar industriel." },
+      { title: 'Tri Éco-Sélectif', desc: "Valorisation maximale des matériaux." },
+      { title: 'Nettoyage Fin', desc: "Coup de balai systématique après passage." }
+    ],
+    stats: [
+      { label: 'Réactivité', value: '48H MAX' },
+      { label: 'Recyclage', value: '85%' },
+      { label: 'Assurance', value: 'RC PRO' }
+    ]
+  }
+};
