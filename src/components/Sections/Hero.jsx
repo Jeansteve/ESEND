@@ -35,32 +35,32 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-center overflow-hidden bg-[#020617] text-white pt-10 lg:pt-0">
+    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-[#020617] text-white pt-20 lg:pt-0">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#020617]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#1e1b4b,transparent)] opacity-40" />
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 w-full h-full flex flex-col lg:flex-row items-center justify-between lg:justify-between relative z-10 pt-4 lg:pt-0">
+      <div className="max-w-[1440px] mx-auto px-6 w-full flex-grow flex flex-col lg:flex-row items-center justify-between relative z-10 py-6 lg:py-0">
         
         {/* Left Content - Adaptive Scaling */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left h-auto lg:h-full"
+          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left"
         >
-          <h1 className="text-[clamp(1.75rem,5vh,4rem)] lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-[clamp(0.5rem,2vh,1.5rem)]">
+          <h1 className="text-[clamp(1.75rem,4.5vh,4rem)] lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-[clamp(0.5rem,1.5vh,1rem)]">
             VOTRE EXPERT <br/>
             <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]">HYGIÈNE & NUISIBLES</span>
           </h1>
           
-          <p className="text-[clamp(0.7rem,1.8vh,1.125rem)] lg:text-lg text-slate-400 font-medium mb-[clamp(1rem,3vh,2.5rem)] max-w-md mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-slate-400 font-medium mb-0 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
             Dératisation, nettoyage pro et débarrassage. Le duo de choc pour un intérieur sain et sécurisé.
           </p>
           
           {/* Desktop CTA Block */}
-          <div className="hidden lg:flex flex-row gap-8 items-center justify-start mb-10">
+          <div className="hidden lg:flex flex-row gap-8 items-center justify-start mb-10 mt-10">
             <motion.a 
               href="#devis"
               onClick={scrollToDevis}
@@ -90,10 +90,10 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.95, x: 20 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-          className="lg:w-[50%] relative flex flex-col items-center lg:items-end w-full h-full justify-between lg:justify-end pb-[clamp(1rem,4vh,3rem)] lg:pb-0"
+          className="lg:w-[50%] relative flex flex-col items-center lg:items-end w-full flex-grow lg:flex-none justify-center lg:justify-end"
         >
           {/* Image scales based on available height */}
-          <div className="relative w-full max-w-[min(380px,80vw)] lg:max-w-[650px] flex items-end justify-center h-full max-h-[45vh] lg:max-h-none">
+          <div className="relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] flex items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0">
             <div className="relative w-full h-full flex items-end overflow-visible">
               <img 
                 src="./duo-experts-esend.png?v=1774355595" 
@@ -104,8 +104,8 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* MOBILE ONLY CTA BLOCK - POSITIONED MATHEMATICALLY AT BOTTOM */}
-          <div className="lg:hidden w-full flex flex-col items-center gap-[clamp(0.5rem,1.5vh,1rem)] relative z-30">
+          {/* MOBILE ONLY CTA BLOCK */}
+          <div className="lg:hidden w-full flex flex-col items-center gap-[clamp(0.5rem,1.5vh,1rem)] mt-auto mb-4 relative z-30">
             <motion.a 
               href="#devis"
               onClick={scrollToDevis}
@@ -113,13 +113,13 @@ const Hero = () => {
               initial="initial"
               animate="animate"
               whileTap={{ scale: 0.95 }}
-              className="w-full bg-red-600 text-white px-6 py-[clamp(0.75rem,1.5vh,1rem)] rounded-full font-black uppercase tracking-[0.12em] text-[10px] shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
+              className="w-full bg-red-600 text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
             >
               <span>Obtenir mon devis</span>
               <ArrowRight className="w-4 h-4" />
             </motion.a>
 
-            <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-1.5 rounded-xl border border-white/10">
+            <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
               <div className="flex flex-col items-center">
                 <span className="text-[clamp(1rem,2.5vh,1.25rem)] font-black tracking-tighter text-white leading-none">4.9/5</span>
                 <div className="flex gap-0.5 mt-0.5">

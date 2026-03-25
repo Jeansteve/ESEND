@@ -68,11 +68,26 @@ const pests = [
 const PestSelector = () => {
   const [activeId, setActiveId] = useState(null);
 
+  const cardVariants = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    hover: { 
+      y: -10,
+      borderColor: 'rgba(220, 38, 38, 0.5)',
+      boxShadow: '0 10px 40px -10px rgba(220, 38, 38, 0.3)',
+      transition: { 
+        type: 'spring', 
+        stiffness: 300, 
+        damping: 20 
+      }
+    }
+  };
+
   return (
     <section id="services" className="relative min-h-screen lg:h-screen flex items-center justify-center bg-[#020617] text-white py-12 lg:py-0 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 w-full relative z-10 flex flex-col">
         
-        {/* Section Header - Better integration with Header */}
+        {/* Section Header */}
         <div className="max-w-2xl mb-8 lg:mb-12 text-left pt-20 lg:pt-0">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -90,27 +105,33 @@ const PestSelector = () => {
           </p>
         </div>
 
-        {/* Tactical Cards Grid - Fully Responsive Scaling */}
+        {/* Tactical Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 xl:gap-6">
           {pests.map((pest, index) => (
             <motion.div
               key={pest.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              variants={cardVariants}
+              initial="initial"
+              whileInView="whileInView"
+              whileHover="hover"
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               onMouseEnter={() => setActiveId(pest.id)}
               onMouseLeave={() => setActiveId(null)}
               onClick={() => setActiveId(pest.id === activeId ? null : pest.id)}
-              whileHover={{ y: -8 }}
               className={`group relative cursor-pointer rounded-[1.5rem] lg:rounded-[2rem] p-4 lg:p-5 transition-all duration-500 border h-full flex flex-col ${
                 activeId === pest.id 
                 ? 'bg-slate-900/90 border-red-600/50 shadow-[0_20px_50px_-20px_rgba(220,38,38,0.4)] z-10' 
-                : 'bg-white/[0.02] border-white/5 hover:border-white/10'
+                : 'bg-white/[0.02] border-white/5'
               }`}
             >
+              {/* Subtle Red Glow behind card on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[1.5rem] lg:rounded-[2rem]">
+                <div className="absolute inset-[-1px] bg-red-600/10 blur-xl rounded-full" />
+              </div>
+
               {/* Tactical HUD Header */}
-              <div className="flex justify-between items-center mb-4 lg:mb-5 opacity-40 group-hover:opacity-100 transition-opacity">
+              <div className="flex justify-between items-center mb-4 lg:mb-5 opacity-40 group-hover:opacity-100 transition-opacity relative z-10">
                 <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-widest text-white flex items-center gap-2">
                    <Crosshair className="w-3 h-3 text-red-600" /> FILE: {pest.id.slice(0,3).toUpperCase()}
                 </span>
@@ -118,7 +139,7 @@ const PestSelector = () => {
               </div>
 
               {/* Portrait */}
-              <div className="relative aspect-[16/10] lg:aspect-[4/5] rounded-xl lg:rounded-2xl overflow-hidden mb-4 border border-white/5">
+              <div className="relative aspect-[16/10] lg:aspect-[4/5] rounded-xl lg:rounded-2xl overflow-hidden mb-4 border border-white/5 relative z-10">
                 <img 
                   src={pest.image} 
                   alt={pest.name} 
@@ -130,12 +151,12 @@ const PestSelector = () => {
                 </div>
               </div>
 
-              {/* Content Container - Fixed info to avoid jumpiness */}
-              <div className="flex flex-col flex-grow">
+              {/* Content Container */}
+              <div className="flex flex-col flex-grow relative z-10">
                 <h3 className="text-lg lg:text-xl font-black uppercase tracking-tighter mb-1 group-hover:text-red-600 transition-colors">{pest.name}</h3>
                 <p className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4">{pest.species}</p>
 
-                {/* Expandable Details with slide down */}
+                {/* Expandable Details */}
                 <AnimatePresence>
                   {activeId === pest.id && (
                     <motion.div

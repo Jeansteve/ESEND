@@ -50,7 +50,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-black tracking-tighter text-white leading-none">ESEND</span>
-              <span className="text-[7px] font-bold uppercase tracking-[0.1em] text-red-600 leading-none mt-1">Passer de nuisibles à paisible</span>
+              <span className="text-[7px] font-bold uppercase tracking-[0.1em] text-[#ff0000] leading-none mt-1">Passer de nuisibles à paisible</span>
             </div>
           </a>
         </div>
@@ -90,9 +90,9 @@ const Header = () => {
         <div className="flex items-center gap-3">
           <a 
             href="tel:0651239841" 
-            className="hidden sm:flex bg-white/5 border border-white/10 text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all items-center gap-2"
+            className="hidden sm:flex bg-white/5 border border-white/10 text-white px-3 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all items-center gap-2"
           >
-            <Phone className="w-3 h-3 text-red-600" />
+            <Phone className="w-3 h-3 text-[#ff0000]" />
             <span>06 51 23 98 41</span>
           </a>
 
@@ -121,7 +121,7 @@ const Header = () => {
                   key={item.name} 
                   href={item.href} 
                   onClick={(e) => scrollToSection(e, item.href)}
-                  className="text-sm font-black uppercase tracking-[0.2em] text-white/60 hover:text-red-600 transition-colors"
+                  className="text-sm font-black uppercase tracking-[0.2em] text-white/60 hover:text-[#ff0000] transition-colors"
                 >
                   {item.name}
                 </a>
@@ -133,7 +133,7 @@ const Header = () => {
                   className="flex items-center gap-4 text-white text-sm font-black uppercase tracking-widest"
                 >
                   <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20">
-                    <Phone className="w-4 h-4 text-red-600" />
+                    <Phone className="w-4 h-4 text-[#ff0000]" />
                   </div>
                   06 51 23 98 41
                 </a>
