@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Zap, AlertTriangle, Ghost, Sparkles, Trash2, Crosshair, ArrowRight } from 'lucide-react';
+import { Crosshair, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const pests = [
   {
-    id: 'rongeur',
+    id: 'deratisation',
     name: 'Dératisation',
     code: 'Le Saboteur',
     species: 'Rats & Souris',
     tier: 'S',
     image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop',
-    icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
     stats: [
       { label: 'Dégâts Matériels', value: 95 },
       { label: 'Risque Sanitaire', value: 85 },
@@ -19,13 +19,12 @@ const pests = [
     desc: "Infiltration extrême. Détruit câbles et isolations. Porteur de maladies vectorielles."
   },
   {
-    id: 'punaise',
+    id: 'desinsectisation',
     name: 'Désinsectisation',
     code: "L'Invisible",
     species: 'Punaises & Cafards',
     tier: 'SS',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop',
-    icon: <Ghost className="w-5 h-5 text-red-600" />,
     stats: [
       { label: 'Résistance', value: 95 },
       { label: 'Nuisance Totale', value: 100 },
@@ -40,7 +39,6 @@ const pests = [
     species: 'Locaux & Vitrages',
     tier: 'PRO',
     image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop',
-    icon: <Sparkles className="w-5 h-5 text-red-600" />,
     stats: [
       { label: 'Transparence', value: 100 },
       { label: 'Hygiène', value: 98 },
@@ -55,7 +53,6 @@ const pests = [
     species: 'Encombrants & Gravats',
     tier: 'EXT',
     image: 'https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=2070&auto=format&fit=crop',
-    icon: <Trash2 className="w-5 h-5 text-red-600" />,
     stats: [
       { label: 'Volume Traité', value: 100 },
       { label: 'Rapidité', value: 95 },
@@ -69,44 +66,42 @@ const PestSelector = () => {
   const [activeId, setActiveId] = useState(null);
 
   const cardVariants = {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
     hover: { 
-      y: -10,
-      borderColor: 'rgba(220, 38, 38, 0.5)',
-      boxShadow: '0 10px 40px -10px rgba(220, 38, 38, 0.3)',
+      y: -12,
+      scale: 1.08,
+      borderColor: 'rgba(220, 38, 38, 0.6)',
+      boxShadow: '0 15px 50px -10px rgba(220, 38, 38, 0.4)',
       transition: { 
         type: 'spring', 
-        stiffness: 300, 
-        damping: 20 
+        stiffness: 400, 
+        damping: 25 
       }
     }
   };
 
   return (
-    <section id="services" className="relative min-h-screen lg:h-screen flex items-center justify-center bg-[#020617] text-white py-12 lg:py-0 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-6 w-full relative z-10 flex flex-col">
+    <section id="nuisibles" className="relative h-[100dvh] lg:h-screen flex items-center justify-center bg-[#020617] text-white overflow-hidden py-4">
+      <div className="max-w-[1440px] mx-auto px-6 w-full h-full flex flex-col justify-center">
         
-        {/* Section Header */}
-        <div className="max-w-2xl mb-8 lg:mb-12 text-left pt-20 lg:pt-0">
+        {/* Section Header - Compressed for 100vh */}
+        <div className="mb-4 lg:mb-8 text-left">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 text-red-600 font-black uppercase tracking-[0.3em] text-[10px] mb-3"
+            className="inline-flex items-center gap-2 text-red-600 font-black uppercase tracking-[0.2em] text-[8px] mb-1"
           >
-            <span className="w-8 h-px bg-red-600"></span> Nos Dossiers Tactiques
+            <span className="w-6 h-px bg-red-600"></span> Nos Dossiers Tactiques
           </motion.div>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-2 leading-none">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter uppercase mb-0 leading-none">
             Services <span className="text-red-600 drop-shadow-[0_0_20px_rgba(220,38,38,0.4)]">ESEND</span>
           </h2>
-          <p className="text-slate-400 font-medium text-sm lg:text-base italic max-w-xl">
-            "L'expertise terrain au service de votre sérénité."
-          </p>
         </div>
 
-        {/* Tactical Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 xl:gap-6">
+        {/* Tactical Cards Grid - Reduced Gap for Fullscreen */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 xl:gap-5">
           {pests.map((pest, index) => (
             <motion.div
               key={pest.id}
@@ -115,46 +110,46 @@ const PestSelector = () => {
               whileInView="whileInView"
               whileHover="hover"
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.05 }}
               onMouseEnter={() => setActiveId(pest.id)}
               onMouseLeave={() => setActiveId(null)}
               onClick={() => setActiveId(pest.id === activeId ? null : pest.id)}
-              className={`group relative cursor-pointer rounded-[1.5rem] lg:rounded-[2rem] p-4 lg:p-5 transition-all duration-500 border h-full flex flex-col ${
+              className={`group relative cursor-pointer rounded-[1.25rem] lg:rounded-[1.5rem] p-3 lg:p-4 transition-all duration-300 border h-auto flex flex-col ${
                 activeId === pest.id 
-                ? 'bg-slate-900/90 border-red-600/50 shadow-[0_20px_50px_-20px_rgba(220,38,38,0.4)] z-10' 
+                ? 'bg-slate-900/95 border-red-600/50 z-20 shadow-2xl' 
                 : 'bg-white/[0.02] border-white/5'
               }`}
             >
               {/* Subtle Red Glow behind card on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[1.5rem] lg:rounded-[2rem]">
-                <div className="absolute inset-[-1px] bg-red-600/10 blur-xl rounded-full" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[1.25rem]">
+                <div className="absolute inset-[-1px] bg-red-600/5 blur-lg rounded-full" />
               </div>
 
               {/* Tactical HUD Header */}
-              <div className="flex justify-between items-center mb-4 lg:mb-5 opacity-40 group-hover:opacity-100 transition-opacity relative z-10">
-                <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-widest text-white flex items-center gap-2">
-                   <Crosshair className="w-3 h-3 text-red-600" /> FILE: {pest.id.slice(0,3).toUpperCase()}
+              <div className="flex justify-between items-center mb-2 lg:mb-3 opacity-30 group-hover:opacity-100 transition-opacity relative z-10">
+                <span className="text-[7px] lg:text-[8px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
+                   <Crosshair className="w-2.5 h-2.5 text-red-600" /> FILE: {pest.id.slice(0,3).toUpperCase()}
                 </span>
-                <span className="text-[8px] lg:text-[9px] font-black text-red-600">RANK_{pest.tier}</span>
+                <span className="text-[7px] lg:text-[8px] font-black text-red-600">RANK_{pest.tier}</span>
               </div>
 
               {/* Portrait */}
-              <div className="relative aspect-[16/10] lg:aspect-[4/5] rounded-xl lg:rounded-2xl overflow-hidden mb-4 border border-white/5 relative z-10">
+              <div className="relative aspect-[16/10] lg:aspect-[4/5] rounded-lg lg:rounded-xl overflow-hidden mb-3 border border-white/5 relative z-10">
                 <img 
                   src={pest.image} 
                   alt={pest.name} 
-                  className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${activeId !== pest.id ? 'grayscale brightness-50' : 'brightness-90'}`} 
+                  className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${activeId !== pest.id ? 'grayscale brightness-50' : 'brightness-90'}`} 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-4 font-black text-lg lg:text-xl uppercase italic tracking-tighter text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+                <div className="absolute bottom-2 left-3 font-black text-sm lg:text-base uppercase italic tracking-tighter text-white">
                   {pest.code}
                 </div>
               </div>
 
               {/* Content Container */}
               <div className="flex flex-col flex-grow relative z-10">
-                <h3 className="text-lg lg:text-xl font-black uppercase tracking-tighter mb-1 group-hover:text-red-600 transition-colors">{pest.name}</h3>
-                <p className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4">{pest.species}</p>
+                <h3 className="text-base lg:text-lg font-black uppercase tracking-tighter mb-0.5 group-hover:text-red-600 transition-colors">{pest.name}</h3>
+                <p className="text-[8px] lg:text-[9px] font-bold uppercase tracking-widest text-slate-500 mb-2">{pest.species}</p>
 
                 {/* Expandable Details */}
                 <AnimatePresence>
@@ -163,17 +158,17 @@ const PestSelector = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden border-t border-white/5 pt-4"
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="overflow-hidden border-t border-white/5 pt-3"
                     >
-                      <div className="space-y-2.5 mb-5">
+                      <div className="space-y-2 mb-3">
                         {pest.stats.map((stat) => (
                           <div key={stat.label}>
-                            <div className="flex justify-between text-[8px] font-bold uppercase mb-1 text-slate-400">
+                            <div className="flex justify-between text-[7px] font-bold uppercase mb-0.5 text-slate-400">
                               <span>{stat.label}</span>
                               <span className="text-white font-black">{stat.value}%</span>
                             </div>
-                            <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div className="h-0.5 bg-white/5 rounded-full overflow-hidden">
                               <motion.div 
                                 initial={{ width: 0 }}
                                 animate={{ width: `${stat.value}%` }}
@@ -185,13 +180,12 @@ const PestSelector = () => {
                         ))}
                       </div>
                       
-                      <motion.button 
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full bg-red-600 text-white py-3 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                      <Link 
+                        to={`/services/${pest.id}`}
+                        className="w-full bg-red-600 text-white py-2 rounded-lg font-black text-[8px] uppercase tracking-widest transition-all flex items-center justify-center gap-1.5 hover:bg-red-700 active:scale-95"
                       >
-                        Action <ArrowRight className="w-3 h-3" />
-                      </motion.button>
+                        Découvrir l'expertise <ArrowRight className="w-2.5 h-2.5" />
+                      </Link>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -200,10 +194,6 @@ const PestSelector = () => {
           ))}
         </div>
       </div>
-
-      {/* Decorative Light Elements */}
-      <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-red-600/5 to-transparent z-0 opacity-20" />
-      <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/5 to-transparent z-0 opacity-20" />
     </section>
   );
 };

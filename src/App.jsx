@@ -1,25 +1,17 @@
-import React from 'react'
-import { HashRouter, Routes, Route } from 'react-router-dom'
-import Header from './components/Layout/Header'
-import Home from './pages/Home'
-import ServicePage from './pages/ServicePage'
-import Footer from './components/Layout/Footer'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import ServicePage from './pages/ServicePage';
 
 function App() {
   return (
-    <HashRouter>
-      <div className="min-h-screen bg-white selection:bg-red-600 selection:text-white">
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services/:serviceId" element={<ServicePage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </HashRouter>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services/:id" element={<ServicePage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
