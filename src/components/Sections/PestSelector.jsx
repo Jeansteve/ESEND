@@ -1,78 +1,54 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Zap, AlertTriangle, Ghost, Sparkles, Trash2, Crosshair, ArrowRight } from 'lucide-react';
+import { Shield, Zap, AlertTriangle, Ghost, Sparkles, Trash2, Crosshair, ArrowRight, Activity } from 'lucide-react';
 
 const pests = [
   {
     id: 'rongeur',
-    name: 'Dératisation',
-    code: 'Le Saboteur',
-    species: 'Rats & Souris',
-    tier: 'S',
+    name: 'Traitement des Nuisibles',
+    species: 'Rats, Souris & Insectes',
     image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop',
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
-    stats: [
-      { label: 'Dégâts Matériels', value: 95 },
-      { label: 'Risque Sanitaire', value: 85 },
-      { label: 'Prolifération', value: 90 },
-    ],
-    desc: "Infiltration extrême. Détruit câbles et isolations. Porteur de maladies vectorielles."
+    desc: `**Expertise :** Spécialiste de la dératisation et désinsectisation à Menton, ESEND déploie des solutions radicales contre les rongeurs et insectes. Nous identifions la source pour une protection définitive.
+
+**Infos Utiles :** Les bruits dans les cloisons ou traces de déjections sont des alertes critiques. Les nuisibles dégradent vos câbles et isolations, et présentent des risques sanitaires pour vos locaux.
+
+**Bénéfice :** Retrouvez un environnement sain et sécurisé. Nos protocoles d'éradication sont certifiés, discrets et garantissent la protection durable de votre patrimoine sur la Riviera.`
   },
   {
-    id: 'punaise',
-    name: 'Désinsectisation',
-    code: "L'Invisible",
-    species: 'Punaises & Cafards',
-    tier: 'SS',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop',
-    icon: <Ghost className="w-5 h-5 text-red-600" />,
-    stats: [
-      { label: 'Résistance', value: 95 },
-      { label: 'Nuisance Totale', value: 100 },
-      { label: 'Difficulté', value: 98 },
-    ],
-    desc: "Experts en camouflage. Résistants aux traitements. Nécessitent une action rigoureuse."
+    id: 'desinfection',
+    name: 'Désinfection',
+    species: 'Hygiène & Protocoles Virucides',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop',
+    icon: <Activity className="w-5 h-5 text-red-600" />,
+    desc: `**Expertise :** Nous maîtrisons les protocoles de désinfection microbiologique les plus stricts à Menton. Nos interventions ciblent l'assainissement total de vos bureaux, commerces ou habitations.
+
+**Infos Utiles :** La désinfection est cruciale après une infestation ou pour prévenir les risques viraux. Nos produits respectent les normes de santé publique (EN 14476) pour une sécurité optimale.
+
+**Bénéfice :** Garantissez la sécurité sanitaire de vos collaborateurs et clients. Profitez d'un espace purifié et d'une sérénité totale grâce à notre expertise technique certifiée.`
   },
   {
     id: 'nettoyage',
     name: 'Nettoyage & Vitres',
-    code: 'L\'Éclat',
-    species: 'Locaux & Vitrages',
-    tier: 'PRO',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop',
+    species: 'Entretien de Prestige',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop',
     icon: <Sparkles className="w-5 h-5 text-red-600" />,
-    stats: [
-      { label: 'Transparence', value: 100 },
-      { label: 'Hygiène', value: 98 },
-      { label: 'Finition', value: 95 },
-    ],
-    desc: "Nettoyage spécialisé à Menton. Un résultat étincelant pour votre confort quotidien."
-  },
-  {
-    id: 'debarrassage',
-    name: 'Débarrassage',
-    code: 'Le Vide',
-    species: 'Encombrants & Gravats',
-    tier: 'EXT',
-    image: 'https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=2070&auto=format&fit=crop',
-    icon: <Trash2 className="w-5 h-5 text-red-600" />,
-    stats: [
-      { label: 'Volume Traité', value: 100 },
-      { label: 'Rapidité', value: 95 },
-      { label: 'Tri Sélectif', value: 90 },
-    ],
-    desc: "Libérez votre espace. Nous gérons l'évacuation de vos encombrants avec soin."
+    desc: `**Expertise :** ESEND assure un nettoyage professionnel méticuleux pour appartements, villas et vitrages à Menton. Nous utilisons du matériel de pointe pour un résultat irréprochable.
+
+**Infos Utiles :** Un entretien régulier valorise vos surfaces et prolonge leur éclat. Nous sommes experts dans le nettoyage de vitres difficiles d'accès et le soin des matériaux nobles avec précision.
+
+**Bénéfice :** Valorisez votre patrimoine avec un intérieur lumineux et une transparence parfaite. Gagnez du temps et profitez d'un confort visuel supérieur grâce à notre souci du détail.`
   }
 ];
 
 const PestSelector = () => {
-  const [activeId, setActiveId] = useState(null);
+  const [activeId, setActiveId] = useState(pests[0].id);
 
   return (
     <section id="services" className="relative min-h-screen lg:h-screen flex items-center justify-center bg-[#020617] text-white py-12 lg:py-0 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 w-full relative z-10 flex flex-col">
         
-        {/* Section Header - Better integration with Header */}
+        {/* Section Header */}
         <div className="max-w-2xl mb-8 lg:mb-12 text-left pt-20 lg:pt-0">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
@@ -90,8 +66,8 @@ const PestSelector = () => {
           </p>
         </div>
 
-        {/* Tactical Cards Grid - Fully Responsive Scaling */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 xl:gap-6">
+        {/* Tactical Cards Grid - 3 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {pests.map((pest, index) => (
             <motion.div
               key={pest.id}
@@ -99,77 +75,53 @@ const PestSelector = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              onMouseEnter={() => setActiveId(pest.id)}
-              onMouseLeave={() => setActiveId(null)}
-              onClick={() => setActiveId(pest.id === activeId ? null : pest.id)}
+              onClick={() => setActiveId(pest.id)}
               whileHover={{ y: -8 }}
-              className={`group relative cursor-pointer rounded-[1.5rem] lg:rounded-[2rem] p-4 lg:p-5 transition-all duration-500 border h-full flex flex-col ${
+              className={`group relative cursor-pointer rounded-[2rem] p-6 lg:p-8 transition-all duration-500 border flex flex-col ${
                 activeId === pest.id 
-                ? 'bg-slate-900/90 border-red-600/50 shadow-[0_20px_50px_-20px_rgba(220,38,38,0.4)] z-10' 
-                : 'bg-white/[0.02] border-white/5 hover:border-white/10'
+                ? 'bg-slate-900 border-red-600 shadow-[0_20px_50px_-20px_rgba(220,38,38,0.4)] z-10' 
+                : 'bg-white/[0.02] border-white/5 grayscale hover:grayscale-0 hover:border-white/10'
               }`}
             >
-              {/* Tactical HUD Header */}
-              <div className="flex justify-between items-center mb-4 lg:mb-5 opacity-40 group-hover:opacity-100 transition-opacity">
-                <span className="text-[8px] lg:text-[9px] font-black uppercase tracking-widest text-white flex items-center gap-2">
-                   <Crosshair className="w-3 h-3 text-red-600" /> FILE: {pest.id.slice(0,3).toUpperCase()}
-                </span>
-                <span className="text-[8px] lg:text-[9px] font-black text-red-600">RANK_{pest.tier}</span>
-              </div>
-
-              {/* Portrait */}
-              <div className="relative aspect-[16/10] lg:aspect-[4/5] rounded-xl lg:rounded-2xl overflow-hidden mb-4 border border-white/5">
+              {/* Image HUD style */}
+              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-white/5">
                 <img 
                   src={pest.image} 
                   alt={pest.name} 
-                  className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${activeId !== pest.id ? 'grayscale brightness-50' : 'brightness-90'}`} 
+                  className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${activeId !== pest.id ? 'brightness-50' : 'brightness-90'}`} 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-4 font-black text-lg lg:text-xl uppercase italic tracking-tighter text-white">
-                  {pest.code}
+                <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md p-3 rounded-full border border-white/10">
+                  {pest.icon}
                 </div>
               </div>
 
-              {/* Content Container - Fixed info to avoid jumpiness */}
+              {/* Content */}
               <div className="flex flex-col flex-grow">
-                <h3 className="text-lg lg:text-xl font-black uppercase tracking-tighter mb-1 group-hover:text-red-600 transition-colors">{pest.name}</h3>
-                <p className="text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-4">{pest.species}</p>
+                <span className="text-[10px] font-black uppercase tracking-widest text-red-600 block mb-2">
+                  {pest.species}
+                </span>
+                <h3 className="text-xl lg:text-2xl font-black uppercase tracking-tighter mb-6 group-hover:text-red-600 transition-colors">{pest.name}</h3>
 
-                {/* Expandable Details with slide down */}
                 <AnimatePresence>
                   {activeId === pest.id && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden border-t border-white/5 pt-4"
+                      className="overflow-hidden"
                     >
-                      <div className="space-y-2.5 mb-5">
-                        {pest.stats.map((stat) => (
-                          <div key={stat.label}>
-                            <div className="flex justify-between text-[8px] font-bold uppercase mb-1 text-slate-400">
-                              <span>{stat.label}</span>
-                              <span className="text-white font-black">{stat.value}%</span>
-                            </div>
-                            <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                              <motion.div 
-                                initial={{ width: 0 }}
-                                animate={{ width: `${stat.value}%` }}
-                                transition={{ duration: 0.8 }}
-                                className="h-full bg-red-600"
-                              />
-                            </div>
-                          </div>
+                      <div className="text-[11px] lg:text-xs text-slate-400 leading-relaxed mb-8 font-medium whitespace-pre-wrap space-y-4 border-t border-white/5 pt-6">
+                        {pest.desc.split('\n\n').map((para, i) => (
+                          <p key={i}>{para}</p>
                         ))}
                       </div>
-                      
                       <motion.button 
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full bg-red-600 text-white py-3 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                        className="w-full bg-white text-black py-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 hover:bg-red-600 hover:text-white"
                       >
-                        Action <ArrowRight className="w-3 h-3" />
+                        Demander une intervention <ArrowRight className="w-3 h-3" />
                       </motion.button>
                     </motion.div>
                   )}
@@ -180,9 +132,8 @@ const PestSelector = () => {
         </div>
       </div>
 
-      {/* Decorative Light Elements */}
+      {/* Decorative Elements */}
       <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-red-600/5 to-transparent z-0 opacity-20" />
-      <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/5 to-transparent z-0 opacity-20" />
     </section>
   );
 };
