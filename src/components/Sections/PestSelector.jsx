@@ -45,7 +45,7 @@ const cardVariants = {
   },
   hover: {
     y: -10,
-    scale: 1.08,
+    scale: 1.05,
     borderColor: "rgba(220, 38, 38, 0.5)",
     backgroundColor: "rgba(15, 23, 42, 0.8)",
     boxShadow: "0px 20px 50px rgba(0, 0, 0, 0.5)",
@@ -59,7 +59,7 @@ const cardVariants = {
 
 const PestSelector = () => {
   return (
-    <section id="services" className="relative min-h-screen flex items-center justify-center bg-[#020617] text-white py-16 lg:py-0 overflow-hidden">
+    <section id="services" className="relative min-h-screen flex items-center justify-center bg-[#020617] text-white py-16 lg:py-0 overflow-hidden text-left">
       <div className="max-w-[1440px] mx-auto w-full px-6 relative z-10 flex flex-col">
         <div className="max-w-3xl mb-10 lg:mb-16 pt-20 lg:pt-0">
           <motion.div 
@@ -70,10 +70,10 @@ const PestSelector = () => {
           >
             <span className="w-6 h-px bg-red-600"></span> Nos Dossiers Tactiques
           </motion.div>
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none">
-            Services <span className="text-red-600">ESEND</span>
+          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-left">
+            Services <span className="text-red-600 italic">ESEND</span>
           </h2>
-          <p className="text-slate-400 font-medium text-base lg:text-lg italic border-l border-red-600 pl-4">
+          <p className="text-slate-400 font-medium text-base lg:text-lg italic border-l border-red-600 pl-4 text-left">
             "L'expertise terrain au service de votre sérénité."
           </p>
         </div>
@@ -84,7 +84,7 @@ const PestSelector = () => {
               variants={cardVariants}
               initial="initial"
               whileHover="hover"
-              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden bg-slate-900/40"
+              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden bg-slate-900/40 text-left"
             >
               <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-white/5">
                 <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
