@@ -35,6 +35,26 @@ const pests = [
   }
 ];
 
+const cardVariants = {
+  initial: {
+    y: 0,
+    scale: 1,
+    borderColor: "rgba(255, 255, 255, 0.05)",
+    backgroundColor: "rgba(15, 23, 42, 0.4)",
+  },
+  hover: {
+    y: -12,
+    scale: 1.02,
+    borderColor: "rgba(220, 38, 38, 0.4)",
+    backgroundColor: "rgba(15, 23, 42, 0.6)",
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 25
+    }
+  }
+};
+
 const PestSelector = () => {
   return (
     <section id="services" className="relative bg-[#020617] text-white py-32 px-6 overflow-hidden">
@@ -63,14 +83,16 @@ const PestSelector = () => {
           {pests.map((pest, index) => (
             <motion.div
               key={pest.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group relative flex flex-col bg-slate-900/40 border border-white/5 rounded-[2.5rem] p-8 lg:p-10 hover:border-red-600/30 transition-all duration-500 shadow-2xl"
+              variants={cardVariants}
+              initial="initial"
+              whileHover="hover"
+              className="group relative flex flex-col border rounded-[2.5rem] p-8 lg:p-10 transition-all duration-500 shadow-2xl overflow-hidden"
             >
+              {/* Animated Glow behind card */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-red-600/0 via-red-600/5 to-red-600/0 opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-500" />
+
               {/* Image HUD */}
-              <div className="relative aspect-[16/10] rounded-3xl overflow-hidden mb-10 border border-white/5">
+              <div className="relative aspect-[16/10] rounded-3xl overflow-hidden mb-10 border border-white/5 z-10">
                 <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md p-3 rounded-full border border-white/10">
@@ -79,15 +101,15 @@ const PestSelector = () => {
               </div>
 
               {/* Title Section */}
-              <div className="mb-10">
+              <div className="mb-10 z-10">
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-red-600 block mb-3">{pest.species}</span>
                 <h3 className="text-2xl lg:text-3xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">{pest.name}</h3>
               </div>
 
-              {/* Detailed Content - Always Visible */}
-              <div className="flex-grow space-y-8">
+              {/* Detailed Content */}
+              <div className="flex-grow space-y-8 z-10">
                 <div className="flex gap-4">
-                  <Target className="w-5 h-5 text-red-600 shrink-0 mt-1" />
+                  <Target className="w-5 h-5 text-red-600 shrink-0 mt-1 opacity-60 group-hover:opacity-100 transition-opacity" />
                   <div>
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">Expertise</h4>
                     <p className="text-xs text-slate-400 leading-relaxed">{pest.expertise}</p>
@@ -95,7 +117,7 @@ const PestSelector = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <Lightbulb className="w-5 h-5 text-red-600 shrink-0 mt-1" />
+                  <Lightbulb className="w-5 h-5 text-red-600 shrink-0 mt-1 opacity-60 group-hover:opacity-100 transition-opacity" />
                   <div>
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">Infos Utiles</h4>
                     <p className="text-xs text-slate-400 leading-relaxed">{pest.info}</p>
@@ -103,7 +125,7 @@ const PestSelector = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <ShieldCheck className="w-5 h-5 text-red-600 shrink-0 mt-1" />
+                  <ShieldCheck className="w-5 h-5 text-red-600 shrink-0 mt-1 opacity-60 group-hover:opacity-100 transition-opacity" />
                   <div>
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">Bénéfice</h4>
                     <p className="text-xs text-slate-400 leading-relaxed font-semibold italic">{pest.benefice}</p>
@@ -113,9 +135,9 @@ const PestSelector = () => {
 
               {/* Action Button */}
               <motion.button 
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-12 w-full bg-white text-black py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 group-hover:bg-red-600 group-hover:text-white"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-12 w-full bg-white text-black py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 group-hover:bg-red-600 group-hover:text-white z-10"
               >
                 Demander une intervention <ArrowRight className="w-4 h-4" />
               </motion.button>
