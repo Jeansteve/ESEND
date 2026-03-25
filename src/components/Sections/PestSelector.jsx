@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { AlertTriangle, Sparkles, Activity, ArrowRight, ShieldCheck, Target, Lightbulb } from 'lucide-react';
 
 const pests = [
@@ -9,19 +10,19 @@ const pests = [
     species: 'Rats, Souris & Insectes',
     image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop',
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
-    expertise: "Spécialiste de la dératisation et désinsectisation à Menton, ESEND déploie des solutions radicales contre les rongeurs et insectes. Nous identifions la source pour une protection définitive.",
-    info: "Les bruits dans les cloisons ou traces de déjections sont des alertes critiques. Les nuisibles dégradent vos câbles et isolations, et présentent des risques sanitaires pour vos locaux.",
-    benefice: "Retrouvez un environnement sain et sécurisé. Nos protocoles d'éradication sont certifiés, discrets et garantissent la protection durable de votre patrimoine sur la Riviera."
+    expertise: "Expertise radicale en dératisation et désinsectisation à Menton.",
+    info: "Diagnostic des points d'entrée et protocoles d'éradication certifiés.",
+    benefice: "Protection durable de votre habitat et de votre santé."
   },
   {
     id: 'desinfection',
     name: 'Désinfection',
-    species: 'Hygiène & Protocoles Virucides',
+    species: 'Protocoles Sanitaires',
     image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070&auto=format&fit=crop',
     icon: <Activity className="w-5 h-5 text-red-600" />,
-    expertise: "Nous maîtrisons les protocoles de désinfection microbiologique les plus stricts à Menton. Nos interventions ciblent l'assainissement total de vos bureaux, commerces ou habitations.",
-    info: "La désinfection est cruciale après une infestation ou pour prévenir les risques viraux. Nos produits respectent les normes de santé publique (EN 14476) pour une sécurité optimale.",
-    benefice: "Garantissez la sécurité sanitaire de vos collaborateurs et clients. Profitez d'un espace purifié et d'une sérénité totale grâce à notre expertise technique certifiée."
+    expertise: "Assainissement virucide et bactéricide de haut niveau.",
+    info: "Intervention après infestation ou pour sécurisation de locaux.",
+    benefice: "Un environnement purifié conforme aux normes de santé."
   },
   {
     id: 'nettoyage',
@@ -29,9 +30,9 @@ const pests = [
     species: 'Entretien de Prestige',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop',
     icon: <Sparkles className="w-5 h-5 text-red-600" />,
-    expertise: "ESEND assure un nettoyage professionnel méticuleux pour appartements, villas et vitrages à Menton. Nous utilisons du matériel de pointe pour un résultat irréprochable.",
-    info: "Un entretien régulier valorise vos surfaces et prolonge leur éclat. Nous sommes experts dans le nettoyage de vitres difficiles d'accès et le soin des matériaux nobles avec précision.",
-    benefice: "Valorisez votre patrimoine avec un intérieur lumineux et une transparence parfaite. Gagnez du temps et profitez d'un confort visuel supérieur grâce à notre souci du détail."
+    expertise: "Propreté méticuleuse pour appartements et vitrages complexes.",
+    info: "Matériel de pointe et finitions haute précision sans trace.",
+    benefice: "Mise en valeur de votre patrimoine et confort visuel total."
   }
 ];
 
@@ -43,10 +44,11 @@ const cardVariants = {
     backgroundColor: "rgba(15, 23, 42, 0.4)",
   },
   hover: {
-    y: -12,
-    scale: 1.02,
-    borderColor: "rgba(220, 38, 38, 0.4)",
-    backgroundColor: "rgba(15, 23, 42, 0.6)",
+    y: -10,
+    scale: 1.08,
+    borderColor: "rgba(220, 38, 38, 0.5)",
+    backgroundColor: "rgba(15, 23, 42, 0.8)",
+    boxShadow: "0px 20px 50px rgba(0, 0, 0, 0.5)",
     transition: {
       type: "spring",
       stiffness: 400,
@@ -57,97 +59,70 @@ const cardVariants = {
 
 const PestSelector = () => {
   return (
-    <section id="services" className="relative bg-[#020617] text-white py-32 px-6 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto w-full relative z-10">
-        
-        {/* Header Section */}
-        <div className="max-w-3xl mb-16 lg:mb-24">
+    <section id="services" className="relative min-h-screen flex items-center justify-center bg-[#020617] text-white py-16 lg:py-0 overflow-hidden">
+      <div className="max-w-[1440px] mx-auto w-full px-6 relative z-10 flex flex-col">
+        <div className="max-w-3xl mb-10 lg:mb-16 pt-20 lg:pt-0">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-3 text-red-600 font-black uppercase tracking-[0.3em] text-[10px] mb-4"
+            className="inline-flex items-center gap-3 text-red-600 font-black uppercase tracking-[0.3em] text-[9px] mb-3"
           >
-            <span className="w-8 h-px bg-red-600"></span> Nos Dossiers Tactiques
+            <span className="w-6 h-px bg-red-600"></span> Nos Dossiers Tactiques
           </motion.div>
-          <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
+          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none">
             Services <span className="text-red-600">ESEND</span>
           </h2>
-          <p className="text-slate-400 font-medium text-lg lg:text-xl italic border-l-2 border-red-600 pl-6">
+          <p className="text-slate-400 font-medium text-base lg:text-lg italic border-l border-red-600 pl-4">
             "L'expertise terrain au service de votre sérénité."
           </p>
         </div>
-
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {pests.map((pest, index) => (
             <motion.div
               key={pest.id}
               variants={cardVariants}
               initial="initial"
               whileHover="hover"
-              className="group relative flex flex-col border rounded-[2.5rem] p-8 lg:p-10 transition-all duration-500 shadow-2xl overflow-hidden"
+              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden bg-slate-900/40"
             >
-              {/* Animated Glow behind card */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-red-600/0 via-red-600/5 to-red-600/0 opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-500" />
-
-              {/* Image HUD */}
-              <div className="relative aspect-[16/10] rounded-3xl overflow-hidden mb-10 border border-white/5 z-10">
+              <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-white/5">
                 <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md p-3 rounded-full border border-white/10">
+                <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-md p-2 rounded-full border border-white/10">
                   {pest.icon}
                 </div>
               </div>
-
-              {/* Title Section */}
-              <div className="mb-10 z-10">
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-red-600 block mb-3">{pest.species}</span>
-                <h3 className="text-2xl lg:text-3xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">{pest.name}</h3>
+              <div className="mb-6">
+                <span className="text-[9px] font-black uppercase tracking-widest text-red-600 block mb-1">{pest.species}</span>
+                <h3 className="text-xl lg:text-2xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">{pest.name}</h3>
               </div>
-
-              {/* Detailed Content */}
-              <div className="flex-grow space-y-8 z-10">
-                <div className="flex gap-4">
-                  <Target className="w-5 h-5 text-red-600 shrink-0 mt-1 opacity-60 group-hover:opacity-100 transition-opacity" />
-                  <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">Expertise</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">{pest.expertise}</p>
-                  </div>
+              <div className="flex-grow space-y-4 mb-8">
+                <div className="flex gap-3">
+                  <Target className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
+                  <p className="text-[11px] text-slate-400 leading-snug">{pest.expertise}</p>
                 </div>
-
-                <div className="flex gap-4">
-                  <Lightbulb className="w-5 h-5 text-red-600 shrink-0 mt-1 opacity-60 group-hover:opacity-100 transition-opacity" />
-                  <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">Infos Utiles</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">{pest.info}</p>
-                  </div>
+                <div className="flex gap-3">
+                  <Lightbulb className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
+                  <p className="text-[11px] text-slate-400 leading-snug">{pest.info}</p>
                 </div>
-
-                <div className="flex gap-4">
-                  <ShieldCheck className="w-5 h-5 text-red-600 shrink-0 mt-1 opacity-60 group-hover:opacity-100 transition-opacity" />
-                  <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">Bénéfice</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed font-semibold italic">{pest.benefice}</p>
-                  </div>
+                <div className="flex gap-3">
+                  <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
+                  <p className="text-[11px] text-slate-300 leading-snug font-bold italic">{pest.benefice}</p>
                 </div>
               </div>
-
-              {/* Action Button */}
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="mt-12 w-full bg-white text-black py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 group-hover:bg-red-600 group-hover:text-white z-10"
-              >
-                Demander une intervention <ArrowRight className="w-4 h-4" />
-              </motion.button>
+              <Link to={`/services/${pest.id}`} className="block">
+                <motion.div 
+                  whileHover={{ x: 5 }}
+                  className="w-full bg-white text-black py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white"
+                >
+                  Découvrir l'expertise <ArrowRight className="w-3 h-3" />
+                </motion.div>
+              </Link>
             </motion.div>
           ))}
         </div>
       </div>
-
-      {/* Background Decorative Line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-red-600/10 to-transparent z-0" />
     </section>
   );
 };
