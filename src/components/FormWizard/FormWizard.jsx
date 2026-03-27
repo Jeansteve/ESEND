@@ -41,11 +41,9 @@ const FormWizard = () => {
 
   const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
 
-  const handlePestSelect = (pest) => {
-    updateData('pestType', pest);
-    if (pest !== 'Autre') {
-      nextStep();
-    }
+  const handleProblemSelect = (problem) => {
+    setFormData(prev => ({ ...prev, problem }));
+    setCurrentStepIndex(2); // Always jump to index 2 (Client or Pest)
   };
 
   const BackButton = () => (
