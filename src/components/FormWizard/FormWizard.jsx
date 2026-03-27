@@ -27,6 +27,12 @@ const FormWizard = () => {
   const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
   const currentStepData = currentSteps[stepIndex];
 
+  useEffect(() => {
+    if (formData.problem === "Nuisibles" && currentStepData.id === "service") {
+      setCurrentStepIndex(currentStepIndex + 1);
+    }
+  }, [formData.problem]);
+
   const nextStep = () => {
     if (stepIndex < currentSteps.length - 1) {
       setCurrentStepIndex(stepIndex + 1);
