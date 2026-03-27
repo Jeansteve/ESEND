@@ -33,21 +33,9 @@ const FormWizard = () => {
       setCurrentStepIndex(stepIndex + 1);
     }
   };
-
-  const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
-
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
     setCurrentStepIndex(2);
-  };
-    if (problem === "Nuisibles") {
-      setCurrentStepIndex(2);
-    } else {
-      setCurrentStepIndex(2);
-    }
-    return;
-    setFormData(prev => ({ ...prev, problem }));
-    setCurrentStepIndex(2); // Always jump to index 2 (Client or Pest)
   };
 
   const BackButton = () => (
