@@ -12,11 +12,12 @@ const steps = [
 
 const FormWizard = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({ problem: '', clientType: '', zipCode: '', name: '', email: '', phone: '', message: '' });
+  const [formData, setFormData] = useState({ problem: '', subProblem: '', surface: '', clientType: '', zipCode: '', name: '', email: '', phone: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+  const handleSubmit = (e) => { e.preventDefault(); setIsSubmitted(true); };
   const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
 
   return (
@@ -25,10 +26,7 @@ const FormWizard = () => {
         <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-zinc-100 overflow-hidden">
           <div className="flex items-center border-b border-zinc-100 p-6">
             {currentStep > 1 && (
-              <motion.button 
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                onClick={prevStep} className="p-3 hover:bg-zinc-100 rounded-full transition-colors mr-2"
-              >
+              <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={prevStep} className="p-3 hover:bg-zinc-100 rounded-full transition-colors mr-2">
                 <ChevronLeft className="w-5 h-5 text-zinc-600" />
               </motion.button>
             )}
@@ -40,18 +38,20 @@ const FormWizard = () => {
               ))}
             </div>
           </div>
-
           <div className="p-10 lg:p-16 min-h-[400px]">
-            <AnimatePresence mode="wait">
-              {!isSubmitted ? (
-                <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    {/* ... (logique des steps ici) ... */}
-                    <div className="text-center py-20 font-black text-xl">Étape {currentStep}</div>
-                </motion.form>
-              ) : (
-                <motion.div key="success" initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="text-center">Succès !</motion.div>
-              )}
-            </AnimatePresence>
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit}>
+                <AnimatePresence mode="wait">
+                  {currentStep === 1 && (
+                    <motion.div key="s1" className="text-center space-y-6">
+                      <h3 className="text-2xl font-black italic">Bienvenue chez ESEND</h3>
+                      <button type="button" onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl">Démarrer</button>
+                    </motion.div>
+                  )}
+                  {/* ... (intégration de la logique steps 2-5 ici avec les mêmes classes) */}
+                </AnimatePresence>
+              </form>
+            ) : <div className="text-center">Succès !</div>}
           </div>
         </div>
       </div>
