@@ -5,7 +5,17 @@ import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Ch
 const FormWizard = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState({ problem: '', pestType: '', otherPest: '', clientType: '', zipCode: '', city: '', name: '', email: '', phone: '' });
+  const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name) newErrors.name = 'Le nom est requis';
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Email invalide';
+    if (!formData.phone) newErrors.phone = 'Le numéro est requis';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const getSteps = () => {
     const s = [
@@ -27,21 +37,22 @@ const FormWizard = () => {
   const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
   const currentStepData = currentSteps[stepIndex];
 
-
   const nextStep = () => {
+    setErrors({});
     if (stepIndex < currentSteps.length - 1) {
       setCurrentStepIndex(stepIndex + 1);
     }
   };
-  const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
+  const updateData = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) setErrors(prev => ({ ...prev, [field]: null }));
+  };
 
   const prevStep = () => setCurrentStepIndex(Math.max(stepIndex - 1, 0));
 
   const handlePestSelect = (pest) => {
     updateData('pestType', pest);
-    if (pest !== 'Autre') {
-      nextStep();
-    }
+    if (pest !== 'Autre') nextStep();
   };
 
   const handleZipChange = (val) => {
@@ -50,14 +61,13 @@ const FormWizard = () => {
   };
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
-    setCurrentStepIndex(2); console.log("State updated, forcing index to 2");;
+    setCurrentStepIndex(2);
   };
 
-  const BackButton = () => (
-    <button onClick={prevStep} className="text-zinc-400 hover:text-[#A72422] text-sm font-medium transition-colors mt-6 block w-full text-center underline underline-offset-4">
-      Retour à l'étape précédente
-    </button>
-  );
+  const ErrorMsg = ({ error }) => error ? (
+    <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-[#A72422] text-xs font-bold pt-1">{error}</motion.p>
+  ) : null;
+
   return (
     <section id="devis" className="py-32 px-6 bg-zinc-50">
       <div className="max-w-4xl mx-auto">
@@ -79,75 +89,46 @@ const FormWizard = () => {
             {!isSubmitted ? (
               <AnimatePresence mode="wait">
                 {currentStepData.id === 'welcome' && (
-                  <motion.div key="s_welcome" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6 text-center">
+                  <motion.div key="s_welcome" className="space-y-6 text-center">
                     <Star className="w-16 h-16 text-[#A72422] mx-auto" />
                     <h3 className="text-2xl font-black italic">Bienvenue chez ESEND</h3>
                     <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all">Démarrer</button>
                   </motion.div>
                 )}
                 {currentStepData.id === 'service' && (
-                  <motion.div key="s_service" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <motion.div key="s_service" className="space-y-6">
                     <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><SprayCan /> Quel service ?</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {[{n:'Nuisibles', i:<Bug/>}, {n:'Désinfection', i:<ShieldCheck/>}, {n:'Nettoyage', i:<Zap/>}].map(s => (
                         <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{s.i}{s.n}</motion.button>
                       ))}
                     </div>
-                    {currentStepIndex > 0 && <BackButton />}
                   </motion.div>
                 )}
                 {currentStepData.id === 'pest' && (
-                  <motion.div key="s_pest" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <motion.div key="s_pest" className="space-y-6">
                     <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Bug /> Quel nuisible ?</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                      {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Star/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Snail/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
-                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold transition-all ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200 hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
+                      {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Zap/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Trash2/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
+                        <motion.button key={s.n} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200')}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
                       ))}
                     </div>
-                    <AnimatePresence>
-                      {formData.pestType === 'Autre' && (
-                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="pt-4 space-y-4">
-                          <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none" />
-                          <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50">Continuer</button>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    <BackButton />
-                  </motion.div>
-                )}
-                {currentStepData.id === 'client' && (
-                  <motion.div key="s_client" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                    <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Building2 /> Type de client</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      {['Particulier', 'Entreprise'].map(option => (
-                        <motion.button key={option} whileHover={{ scale: 1.05 }} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{option}</motion.button>
-                      ))}
-                    </div>
-                    <BackButton />
-                  </motion.div>
-                )}
-                {currentStepData.id === 'zone' && (
-                  <motion.div key="s_zone" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                    <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><MapPin /> Secteur</h3>
-                    <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-zinc-50 rounded-2xl border-2" />
-                    <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-zinc-100 rounded-2xl font-bold" />
-                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase">Continuer</button>
-                    <BackButton />
                   </motion.div>
                 )}
                 {currentStepData.id === 'contact' && (
-                  <motion.div key="s_contact" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                    <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><User /> Contact</h3>
+                  <motion.div key="s_contact" className="space-y-4">
+                    <ErrorMsg error={errors.name} />
                     <input type="text" placeholder="Nom" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('name', e.target.value)} />
+                    <ErrorMsg error={errors.email} />
                     <input type="email" placeholder="Email" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('email', e.target.value)} />
+                    <ErrorMsg error={errors.phone} />
                     <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('phone', e.target.value)} />
-                    <button onClick={() => setIsSubmitted(true)} className="w-full bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase">Envoyer</button>
-                    <BackButton />
+                    <button onClick={() => validate() && setIsSubmitted(true)} className="w-full bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase">Envoyer</button>
                   </motion.div>
                 )}
               </AnimatePresence>
             ) : (
-              <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center py-10 space-y-4">
+              <motion.div className="text-center py-10 space-y-4">
                 <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl">✓</div>
                 <h3 className="text-2xl font-black">Demande envoyée !</h3>
               </motion.div>
@@ -157,5 +138,5 @@ const FormWizard = () => {
       </div>
     </section>
   );
-}; 
+};
 export default FormWizard;
