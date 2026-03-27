@@ -37,9 +37,9 @@ const FormWizard = () => {
   const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
   const currentStepData = currentSteps[stepIndex];
 
-  const nextStep = () => {
+  const nextStep = () => { console.log('DEBUG: nextStep called, formData:', formData, 'stepIndex:', stepIndex);
     setErrors({});
-    if (stepIndex < currentSteps.length - 1) {
+    console.log('Next step called, current index:', stepIndex, 'steps:', currentSteps.length); if (stepIndex < currentSteps.length - 1) {
       setCurrentStepIndex(prev => prev + 1);
     }
   };
