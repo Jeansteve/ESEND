@@ -27,11 +27,6 @@ const FormWizard = () => {
   const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
   const currentStepData = currentSteps[stepIndex];
 
-  useEffect(() => {
-    if (formData.problem === "Nuisibles" && currentStepData.id === "service") {
-      setCurrentStepIndex(currentStepIndex + 1);
-    }
-  }, [formData.problem]);
 
   const nextStep = () => {
     if (stepIndex < currentSteps.length - 1) {
@@ -42,6 +37,15 @@ const FormWizard = () => {
   const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
 
   const handleProblemSelect = (problem) => {
+    setFormData(prev => ({ ...prev, problem }));
+    setCurrentStepIndex(2);
+  };
+    if (problem === "Nuisibles") {
+      setCurrentStepIndex(2);
+    } else {
+      setCurrentStepIndex(2);
+    }
+    return;
     setFormData(prev => ({ ...prev, problem }));
     setCurrentStepIndex(2); // Always jump to index 2 (Client or Pest)
   };
