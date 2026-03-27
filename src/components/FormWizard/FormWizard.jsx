@@ -23,21 +23,26 @@ const FormWizard = () => {
   return (
     <section id="devis" className="py-32 px-6 bg-zinc-50">
       <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-black">
+            Demander une <span className="text-esend-red">Intervention</span>
+          </h2>
+          <p className="text-zinc-500 font-medium italic">Service de proximité à Menton : Diagnostic et devis gratuits.</p>
+        </div>
+
         <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-zinc-100 overflow-hidden">
-          <div className="flex items-center border-b border-zinc-100 p-6">
-            {currentStep > 1 && (
-              <motion.button initial={{ opacity: 0 }} animate={{ opacity: 1 }} onClick={prevStep} className="p-3 hover:bg-zinc-100 rounded-full transition-colors mr-2">
-                <ChevronLeft className="w-5 h-5 text-zinc-600" />
-              </motion.button>
-            )}
-            <div className="flex-1 flex justify-center gap-4">
-              {steps.map(step => (
-                <div key={step.id} className={`transition-colors ${currentStep >= step.id ? 'text-esend-red' : 'text-zinc-300'}`}>
-                   {step.icon}
-                </div>
-              ))}
-            </div>
+          <div className="flex border-b border-zinc-50">
+            {steps.map((step) => (
+              <div 
+                key={step.id}
+                className={'flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (currentStep >= step.id ? 'border-red-600 text-red-600' : 'border-transparent text-zinc-300')}
+              >
+                <div className={'hidden sm:block'}>{step.icon}</div>
+                <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">{step.title}</span>
+              </div>
+            ))}
           </div>
+          
           <div className="p-10 lg:p-16 min-h-[400px]">
             {!isSubmitted ? (
               <form onSubmit={handleSubmit}>
@@ -48,7 +53,7 @@ const FormWizard = () => {
                       <button type="button" onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl">Démarrer</button>
                     </motion.div>
                   )}
-                  {/* ... (intégration de la logique steps 2-5 ici avec les mêmes classes) */}
+                  {/* Additional steps would be restored here */}
                 </AnimatePresence>
               </form>
             ) : <div className="text-center">Succès !</div>}

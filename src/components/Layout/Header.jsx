@@ -52,7 +52,7 @@ const Header = () => {
         <div className="flex items-center gap-3">
           <Link to="/" onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-white/10 shadow-2xl group-hover:scale-105 transition-transform bg-white flex items-center justify-center p-1 shrink-0">
-              <img src="/logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain" />
+              <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="text-lg sm:text-xl font-black tracking-tighter text-white leading-none text-left">ESEND</span>
