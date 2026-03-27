@@ -34,13 +34,13 @@ const FormWizard = () => {
   };
 
   const currentSteps = getSteps();
-  const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
+  const stepIndex = currentStepIndex;
   const currentStepData = currentSteps[stepIndex];
 
   const nextStep = () => { console.log('DEBUG: nextStep called, formData:', formData, 'stepIndex:', stepIndex, 'currentSteps length:', currentSteps.length);
     setErrors({});
     console.log('Next step called, current index:', stepIndex, 'steps:', currentSteps.length); if (stepIndex < currentSteps.length - 1) {
-      setCurrentStepIndex(prev => prev + 1);
+      setCurrentStepIndex(prev => Math.min(prev + 1, currentSteps.length - 1));
     }
   };
   const updateData = (field, value) => {
