@@ -113,6 +113,14 @@ const FormWizard = () => {
                         <motion.button key={s.n} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200')}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
                       ))}
                     </div>
+                    <AnimatePresence>
+                      {formData.pestType === 'Autre' && (
+                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="pt-4 space-y-4">
+                          <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none" />
+                          <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50">Continuer</button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 )}
                 {currentStepData.id === 'contact' && (
