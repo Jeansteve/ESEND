@@ -87,7 +87,7 @@ const FormWizard = () => {
           </div>
           <div className="p-10 lg:p-16 min-h-[400px]">
             {!isSubmitted ? (
-              <AnimatePresence mode="wait">
+              <AnimatePresence >
                 {currentStepData.id === 'welcome' && (
                   <motion.div key="s_welcome" className="space-y-6 text-center">
                     <Star className="w-16 h-16 text-[#A72422] mx-auto" />
