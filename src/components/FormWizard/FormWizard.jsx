@@ -24,14 +24,13 @@ const FormWizard = () => {
   };
 
   const currentSteps = getSteps();
-  const currentStepData = currentSteps[currentStepIndex];
+  const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
+  const currentStepData = currentSteps[stepIndex];
 
-  const nextStep = () => { if (currentStepIndex < currentSteps.length - 1) setCurrentStepIndex(currentStepIndex + 1); };
-  const prevStep = () => setCurrentStepIndex(prev => Math.max(prev - 1, 0));
-  
-  const handleZipChange = (val) => {
-    const cityMap = { '06500': 'Menton', '59430': 'Saint-Pol-sur-Mer' };
-    setFormData(prev => ({ ...prev, zipCode: val, city: cityMap[val] || '' }));
+  const nextStep = () => {
+    if (stepIndex < currentSteps.length - 1) {
+      setCurrentStepIndex(stepIndex + 1);
+    }
   };
 
   const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
@@ -59,7 +58,7 @@ const FormWizard = () => {
         <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-zinc-100 overflow-hidden">
           <div className="flex border-b border-zinc-50 overflow-x-auto">
             {currentSteps.map((step, idx) => (
-              <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (currentStepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-zinc-300')}>
+              <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-zinc-300')}>
                 <div className={'hidden sm:block'}>{step.icon}</div>
                 <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">{step.title}</span>
               </div>
