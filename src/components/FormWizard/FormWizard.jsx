@@ -50,7 +50,7 @@ const FormWizard = () => {
   };
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
-    setCurrentStepIndex(2);
+    nextStep();
   };
 
   const BackButton = () => (
