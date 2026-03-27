@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan } from 'lucide-react';
+import { Bug, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan } from 'lucide-react';
 
 const steps = [
   { id: 1, title: 'Bienvenue', icon: <Home className="w-5 h-5" /> },
