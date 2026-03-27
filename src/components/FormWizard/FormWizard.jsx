@@ -52,7 +52,7 @@ const FormWizard = () => {
                 {currentStep === 2 && (
                   <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                     <h3 className="text-xl font-black uppercase tracking-tight text-center">Quel service ?</h3>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {['Nuisibles', 'Nettoyage'].map(option => (
                         <button key={option} onClick={() => { updateData('problem', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-red-600 transition-all">{option}</button>
                       ))}
@@ -62,7 +62,7 @@ const FormWizard = () => {
                 {currentStep === 3 && (
                   <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                     <h3 className="text-xl font-black uppercase tracking-tight text-center">Type de client</h3>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {['Particulier', 'Entreprise'].map(option => (
                         <button key={option} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-red-600 transition-all">{option}</button>
                       ))}
