@@ -33,6 +33,21 @@ const FormWizard = () => {
       setCurrentStepIndex(stepIndex + 1);
     }
   };
+  const updateData = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
+
+  const prevStep = () => setCurrentStepIndex(Math.max(stepIndex - 1, 0));
+
+  const handlePestSelect = (pest) => {
+    updateData('pestType', pest);
+    if (pest !== 'Autre') {
+      nextStep();
+    }
+  };
+
+  const handleZipChange = (val) => {
+    const cityMap = { '06500': 'Menton', '59430': 'Saint-Pol-sur-Mer' };
+    setFormData(prev => ({ ...prev, zipCode: val, city: cityMap[val] || '' }));
+  };
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
     setCurrentStepIndex(2);
@@ -75,7 +90,7 @@ const FormWizard = () => {
                     <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><SprayCan /> Quel service ?</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {[{n:'Nuisibles', i:<Bug/>}, {n:'Désinfection', i:<ShieldCheck/>}, {n:'Nettoyage', i:<Zap/>}].map(s => (
-                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => { updateData('problem', s.n) }} className="flex flex-col items-center gap-4 p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{s.i}{s.n}</motion.button>
+                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{s.i}{s.n}</motion.button>
                       ))}
                     </div>
                     {currentStepIndex > 0 && <BackButton />}
