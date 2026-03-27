@@ -40,7 +40,7 @@ const FormWizard = () => {
   const nextStep = () => {
     setErrors({});
     if (stepIndex < currentSteps.length - 1) {
-      setCurrentStepIndex(stepIndex + 1);
+      setCurrentStepIndex(prev => prev + 1);
     }
   };
   const updateData = (field, value) => {
