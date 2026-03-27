@@ -34,12 +34,12 @@ const FormWizard = () => {
   };
 
   const currentSteps = getSteps();
-  const stepIndex = currentStepIndex;
+  const stepIndex = Math.min(currentStepIndex, currentSteps.length - 1);
   const currentStepData = currentSteps[stepIndex];
 
-  const nextStep = () => { console.log('DEBUG: nextStep called, formData:', formData, 'stepIndex:', stepIndex, 'currentSteps length:', currentSteps.length);
+  const nextStep = () => {
     setErrors({});
-    console.log('Next step called, current index:', stepIndex, 'steps:', currentSteps.length); if (stepIndex < currentSteps.length - 1) {
+    if (stepIndex < currentSteps.length - 1) {
       setCurrentStepIndex(prev => Math.min(prev + 1, currentSteps.length - 1));
     }
   };
@@ -47,8 +47,6 @@ const FormWizard = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors(prev => ({ ...prev, [field]: null }));
   };
-
-  const prevStep = () => setCurrentStepIndex(Math.max(stepIndex - 1, 0));
 
   const handlePestSelect = (pest) => {
     updateData('pestType', pest);
@@ -79,68 +77,74 @@ const FormWizard = () => {
         <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-zinc-100 overflow-hidden">
           <div className="flex border-b border-zinc-50 overflow-x-auto">
             {currentSteps.map((step, idx) => (
-              <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-zinc-300')</motion.div>}>
+              <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-zinc-300')}>
                 <div className={'hidden sm:block'}>{step.icon}</div>
                 <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">{step.title}</span>
               </div>
-            ))</motion.div>}
+            ))}
           </div>
           <div className="p-10 lg:p-16 min-h-[400px]">
             {!isSubmitted ? (
-              <AnimatePresence >
-                {currentStepData.id === 'welcome' && ( <motion.div key='welcome' initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <motion.div key="welcome" className="space-y-6 text-center">
-                    <Star className="w-16 h-16 text-[#A72422] mx-auto" />
+              <AnimatePresence mode="popLayout">
+                <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  {currentStepData.id === 'welcome' && (
+                    <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto" />
                     <h3 className="text-2xl font-black italic">Bienvenue chez ESEND</h3>
-                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all">Démarrer</button>
-                  </motion.div>
-                )</motion.div>}
-                {currentStepData.id === 'service' && (
-                  <motion.div key="service" className="space-y-6">
-                    <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><SprayCan /> Quel service ?</h3>
+                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all">Démarrer</button></div>
+                  )}
+                  {currentStepData.id === 'service' && (
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><SprayCan /> Quel service ?</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {[{n:'Nuisibles', i:<Bug/>}, {n:'Désinfection', i:<ShieldCheck/>}, {n:'Nettoyage', i:<Zap/>}].map(s => (
-                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => handleProblemSelect(s.n)</motion.div>} className="flex flex-col items-center gap-4 p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{s.i}{s.n}</motion.button>
-                      ))</motion.div>}
-                    </div>
-                  </motion.div>
-                )</motion.div>}
-                {currentStepData.id === 'pest' && (
-                  <motion.div key="pest" className="space-y-6">
-                    <h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Bug /> Quel nuisible ?</h3>
+                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{s.i}{s.n}</motion.button>
+                      ))}
+                    </div></div>
+                  )}
+                  {currentStepData.id === 'pest' && (
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Bug /> Quel nuisible ?</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                      {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Zap/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Trash2/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
-                        <motion.button key={s.n} onClick={() => handlePestSelect(s.n)</motion.div>} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200')</motion.div>}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
-                      ))</motion.div>}
+                      {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Star/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Snail/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
+                        <motion.button key={s.n} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200')}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
+                      ))}
                     </div>
-                    <AnimatePresence>
-                      {formData.pestType === 'Autre' && (
-                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="pt-4 space-y-4">
-                          <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)</motion.div>} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none" />
-                          <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50">Continuer</button>
-                        </motion.div>
-                      )</motion.div>}
-                    </AnimatePresence>
-                  </motion.div>
-                )</motion.div>}
-                {currentStepData.id === 'contact' && (
-                  <motion.div key="contact" className="space-y-4">
-                    <ErrorMsg error={errors.name} />
-                    <input type="text" placeholder="Nom" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('name', e.target.value)</motion.div>} />
+                    {formData.pestType === 'Autre' && (
+                      <div className="pt-4 space-y-4">
+                        <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none" />
+                        <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50">Continuer</button>
+                      </div>
+                    )}</div>
+                  )}
+                  {currentStepData.id === 'client' && (
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Building2 /> Type de client</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {['Particulier', 'Entreprise'].map(option => (
+                        <motion.button key={option} whileHover={{ scale: 1.05 }} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{option}</motion.button>
+                      ))}
+                    </div></div>
+                  )}
+                  {currentStepData.id === 'zone' && (
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><MapPin /> Secteur</h3>
+                    <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-zinc-50 rounded-2xl border-2" />
+                    <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-zinc-100 rounded-2xl font-bold" />
+                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase">Continuer</button></div>
+                  )}
+                  {currentStepData.id === 'contact' && (
+                    <div className="space-y-4"><ErrorMsg error={errors.name} />
+                    <input type="text" placeholder="Nom" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('name', e.target.value)} />
                     <ErrorMsg error={errors.email} />
-                    <input type="email" placeholder="Email" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('email', e.target.value)</motion.div>} />
+                    <input type="email" placeholder="Email" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('email', e.target.value)} />
                     <ErrorMsg error={errors.phone} />
-                    <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('phone', e.target.value)</motion.div>} />
-                    <button onClick={() => validate() && setIsSubmitted(true)</motion.div>} className="w-full bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase">Envoyer</button>
-                  </motion.div>
-                )</motion.div>}
+                    <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('phone', e.target.value)} />
+                    <button onClick={() => validate() && setIsSubmitted(true)} className="w-full bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase">Envoyer</button></div>
+                  )}
+                </motion.div>
               </AnimatePresence>
             ) : (
               <motion.div className="text-center py-10 space-y-4">
                 <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl">✓</div>
                 <h3 className="text-2xl font-black">Demande envoyée !</h3>
               </motion.div>
-            )</motion.div>}
+            )}
           </div>
         </div>
       </div>
