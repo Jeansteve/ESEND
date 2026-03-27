@@ -50,7 +50,7 @@ const FormWizard = () => {
   };
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
-    setCurrentStepIndex(2);
+    setCurrentStepIndex(2); console.log("State updated, forcing index to 2");;
   };
 
   const BackButton = () => (
