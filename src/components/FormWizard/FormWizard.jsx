@@ -157,6 +157,5 @@ const FormWizard = () => {
       </div>
     </section>
   );
-};
 }; 
 export default FormWizard;
