@@ -12,7 +12,7 @@ const steps = [
 
 const FormWizard = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({ problem: '', clientType: '', zipCode: '', name: '', email: '', phone: '' });
+  const [formData, setFormData] = useState({ problem: '', clientType: '', zipCode: '', name: '', email: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
@@ -40,64 +40,58 @@ const FormWizard = () => {
           </div>
 
           <div className="p-10 lg:p-16 min-h-[400px]">
-            <AnimatePresence mode="wait">
-              {currentStep === 1 && (
-                <motion.div key="s1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center space-y-6">
-                  <h3 className="text-2xl font-black italic">Bienvenue chez ESEND</h3>
-                  <p className="text-zinc-500">Auto-entrepreneurs réactifs à Menton.</p>
-                  <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase">Démarrer</button>
-                </motion.div>
-              )}
-              {currentStep === 2 && (
-                <motion.div key="s2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                  <h3 className="text-xl font-black mb-4">Quel service ?</h3>
-                  <select onChange={(e) => updateData('problem', e.target.value)} className="w-full p-4 border border-zinc-200 rounded-lg">
-                    <option value="">Choisir</option>
-                    <option value="Nuisibles">Nuisibles</option>
-                    <option value="Nettoyage">Nettoyage</option>
-                  </select>
-                  <div className="flex gap-4">
-                    <button onClick={prevStep} className="flex-1 p-4 border rounded-lg">Retour</button>
-                    <button onClick={nextStep} className="flex-1 bg-black text-white p-4 rounded-lg">Suivant</button>
-                  </div>
-                </motion.div>
-              )}
-              {currentStep === 3 && (
-                <motion.div key="s3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                  <h3 className="text-xl font-black mb-4">Type de client</h3>
-                  <select onChange={(e) => updateData('clientType', e.target.value)} className="w-full p-4 border border-zinc-200 rounded-lg">
-                    <option value="">Choisir</option>
-                    <option value="particulier">Particulier</option>
-                    <option value="entreprise">Entreprise</option>
-                  </select>
-                  <div className="flex gap-4">
-                    <button onClick={prevStep} className="flex-1 p-4 border rounded-lg">Retour</button>
-                    <button onClick={nextStep} className="flex-1 bg-black text-white p-4 rounded-lg">Suivant</button>
-                  </div>
-                </motion.div>
-              )}
-              {currentStep === 4 && (
-                <motion.div key="s4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                  <h3 className="text-xl font-black mb-4">Ville</h3>
-                  <input type="text" placeholder="Menton" onChange={(e) => updateData('zipCode', e.target.value)} className="w-full p-4 border border-zinc-200 rounded-lg" />
-                  <div className="flex gap-4">
-                    <button onClick={prevStep} className="flex-1 p-4 border rounded-lg">Retour</button>
-                    <button onClick={nextStep} className="flex-1 bg-black text-white p-4 rounded-lg">Suivant</button>
-                  </div>
-                </motion.div>
-              )}
-              {currentStep === 5 && (
-                <motion.div key="s5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
-                  <h3 className="text-xl font-black mb-4">Contact</h3>
-                  <input type="text" placeholder="Nom" onChange={(e) => updateData('name', e.target.value)} className="w-full p-4 border border-zinc-200 rounded-lg" />
-                  <input type="email" placeholder="Email" onChange={(e) => updateData('email', e.target.value)} className="w-full p-4 border border-zinc-200 rounded-lg" />
-                  <div className="flex gap-4">
-                    <button onClick={prevStep} className="flex-1 p-4 border rounded-lg">Retour</button>
-                    <button onClick={() => setIsSubmitted(true)} className="flex-1 bg-red-600 text-white p-4 rounded-lg font-black">Envoyer</button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {!isSubmitted ? (
+              <AnimatePresence mode="wait">
+                {currentStep === 1 && (
+                  <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                    <h3 className="text-2xl font-black italic text-center">Bienvenue chez ESEND</h3>
+                    <p className="text-zinc-500 text-center">Découvrez notre accompagnement expert à Menton.</p>
+                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase tracking-widest hover:bg-red-600 transition-all">Lancer le diagnostic</button>
+                  </motion.div>
+                )}
+                {currentStep === 2 && (
+                  <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                    <h3 className="text-xl font-black uppercase tracking-tight text-center">Quel service ?</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {['Nuisibles', 'Nettoyage'].map(option => (
+                        <button key={option} onClick={() => { updateData('problem', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-red-600 transition-all">{option}</button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+                {currentStep === 3 && (
+                  <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                    <h3 className="text-xl font-black uppercase tracking-tight text-center">Type de client</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {['Particulier', 'Entreprise'].map(option => (
+                        <button key={option} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-red-600 transition-all">{option}</button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+                {currentStep === 4 && (
+                  <motion.div key="s4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                    <h3 className="text-xl font-black uppercase tracking-tight text-center">Secteur</h3>
+                    <input type="text" placeholder="Menton" onChange={(e) => updateData('zipCode', e.target.value)} className="w-full p-6 bg-zinc-50 rounded-2xl border-2 border-zinc-200" />
+                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase">Continuer</button>
+                  </motion.div>
+                )}
+                {currentStep === 5 && (
+                  <motion.div key="s5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                    <h3 className="text-xl font-black uppercase tracking-tight text-center">Contact</h3>
+                    <input type="text" placeholder="Nom" className="w-full p-4 border-2 rounded-lg" />
+                    <input type="email" placeholder="Email" className="w-full p-4 border-2 rounded-lg" />
+                    <button onClick={() => setIsSubmitted(true)} className="w-full bg-red-600 text-white p-6 rounded-2xl font-black uppercase">Envoyer la demande</button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            ) : (
+              <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center py-10 space-y-4">
+                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl">✓</div>
+                <h3 className="text-2xl font-black">Demande envoyée !</h3>
+                <p className="text-zinc-500">Nous vous recontactons très vite.</p>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
