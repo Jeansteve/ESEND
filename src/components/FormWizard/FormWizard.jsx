@@ -61,7 +61,7 @@ const FormWizard = () => {
   };
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
-    setCurrentStepIndex(2);
+    setCurrentStepIndex(1); nextStep();
   };
 
   const ErrorMsg = ({ error }) => error ? (
