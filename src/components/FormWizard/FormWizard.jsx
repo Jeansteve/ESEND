@@ -26,7 +26,7 @@ const FormWizard = () => {
   const currentSteps = getSteps();
   const currentStepData = currentSteps[currentStepIndex];
 
-  const nextStep = () => setCurrentStepIndex(prev => Math.min(prev + 1, currentSteps.length - 1));
+  const nextStep = () => { if (currentStepIndex < currentSteps.length - 1) setCurrentStepIndex(currentStepIndex + 1); };
   const prevStep = () => setCurrentStepIndex(prev => Math.max(prev - 1, 0));
   
   const handleZipChange = (val) => {
