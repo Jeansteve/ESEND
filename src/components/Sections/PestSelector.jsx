@@ -98,7 +98,7 @@ const PestSelector = () => {
                       animate={{ y: [0, -12, 0] }}
                       transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
                       src={pest.image} 
-                      className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] z-10"
+                      className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] z-10 lg:grayscale lg:brightness-75 lg:opacity-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 transition-all duration-700"
                       alt={pest.name}
                    />
                 </div>
