@@ -8,7 +8,7 @@ const pests = [
     id: 'rongeur',
     name: 'Traitement des Nuisibles',
     species: 'Rats, Souris & Insectes',
-    image: './frelon-t3.png',
+    image: './frelon-t4.png',
     isFloating: true,
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
     expertise: "Expertise radicale en dératisation et désinsectisation à Menton.",
