@@ -97,10 +97,9 @@ const Hero = () => {
             <div className="relative w-full h-full flex items-end overflow-visible">
               <img 
                 src="./duo-experts-esend.png?v=1774355595" 
-                className="w-full h-full object-contain object-bottom z-10" 
+                className="w-full h-full object-contain object-bottom z-10 [mask-image:linear-gradient(to_top,transparent_0%,black_25%)] [-webkit-mask-image:linear-gradient(to_top,transparent_0%,black_25%)]" 
                 alt="Duo Experts ESEND"
               />
-              <div className="absolute bottom-0 left-0 w-full h-[30%] bg-gradient-to-t from-[#020617] via-[#020617]/90 to-transparent z-20 pointer-events-none" />
             </div>
           </div>
 
