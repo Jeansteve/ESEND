@@ -8,7 +8,7 @@ const pests = [
     id: 'rongeur',
     name: 'Traitement des Nuisibles',
     species: 'Rats, Souris & Insectes',
-    image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop',
+    image: './abeille.png',
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
     expertise: "Expertise radicale en dératisation et désinsectisation à Menton.",
     info: "Diagnostic des points d'entrée et protocoles d'éradication certifiés.",
