@@ -8,7 +8,8 @@ const pests = [
     id: 'rongeur',
     name: 'Traitement des Nuisibles',
     species: 'Rats, Souris & Insectes',
-    image: './frelon.jpg',
+    image: './frelon-t.png',
+    isFloating: true,
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
     expertise: "Expertise radicale en dératisation et désinsectisation à Menton.",
     info: "Diagnostic des points d'entrée et protocoles d'éradication certifiés.",
@@ -77,34 +78,42 @@ const PestSelector = () => {
             "L'expertise terrain au service de votre sérénité."
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {pests.map((pest, index) => (
             <motion.div
               key={pest.id}
               variants={cardVariants}
               initial="initial"
               whileHover="hover"
-              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden bg-slate-950 text-left min-h-[480px]"
+              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden bg-slate-900/40 text-left"
             >
-              {/* Image en Vrai Fond */}
-              <div className="absolute inset-0 z-0">
-                <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-90 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/90 to-[#020617]/10" />
-                <div className="absolute inset-0 bg-red-900/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-color-burn" />
-              </div>
-
-              {/* Contenu de la Carte (Superposé au fond) */}
-              <div className="relative z-10 flex flex-col h-full">
-                {/* Icône en haut à droite */}
-                <div className="self-end bg-black/60 backdrop-blur-md p-3 rounded-full border border-white/10 mb-auto shadow-2xl">
-                  {pest.icon}
+              {pest.isFloating ? (
+                <div className="relative h-56 w-full mb-6 flex items-center justify-center">
+                   <div className="absolute top-0 right-0 bg-black/50 backdrop-blur-md p-2 rounded-full border border-white/10 z-0">
+                     {pest.icon}
+                   </div>
+                   <motion.img 
+                      animate={{ y: [0, -12, 0] }}
+                      transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+                      src={pest.image} 
+                      className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] z-10"
+                      alt={pest.name}
+                   />
                 </div>
-
-                <div className="mt-auto pt-16">
-                  <div className="mb-6">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-[#A72422] block mb-2">{pest.species}</span>
-                    <h3 className="text-2xl lg:text-3xl font-black uppercase tracking-tighter text-white group-hover:text-red-500 transition-colors drop-shadow-md">{pest.name}</h3>
+              ) : (
+                <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-white/5">
+                  <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-md p-2 rounded-full border border-white/10">
+                    {pest.icon}
                   </div>
+                </div>
+              )}
+              <div className="mb-6">
+                <span className="text-[9px] font-black uppercase tracking-widest text-red-600 block mb-1">{pest.species}</span>
+                <h3 className="text-xl lg:text-2xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">{pest.name}</h3>
+              </div>
+              <div className="flex-grow space-y-4 mb-8">
                 <div className="flex gap-3">
                   <Target className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
                   <p className="text-[11px] text-slate-400 leading-snug">{pest.expertise}</p>
@@ -114,19 +123,18 @@ const PestSelector = () => {
                   <p className="text-[11px] text-slate-400 leading-snug">{pest.info}</p>
                 </div>
                 <div className="flex gap-3">
-                  <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity" />
-                  <p className="text-[11px] text-slate-200 leading-snug font-bold italic drop-shadow-sm">{pest.benefice}</p>
+                  <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
+                  <p className="text-[11px] text-slate-300 leading-snug font-bold italic">{pest.benefice}</p>
                 </div>
               </div>
-              <Link to={`/services/${pest.id}`} className="block relative z-10">
+              <Link to={`/services/${pest.id}`} className="block">
                 <motion.div 
                   whileHover={{ x: 5 }}
-                  className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:border-red-500 shadow-xl"
+                  className="w-full bg-white text-black py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white"
                 >
                   Découvrir l'expertise <ArrowRight className="w-3 h-3" />
                 </motion.div>
               </Link>
-              </div>
             </motion.div>
           ))}
         </div>
