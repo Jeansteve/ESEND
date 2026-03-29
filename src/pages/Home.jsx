@@ -1,7 +1,6 @@
 import React from 'react'
 import Hero from '../components/Sections/Hero'
 import PestSelector from '../components/Sections/PestSelector'
-import DuoExpertise from '../components/Sections/DuoExpertise'
 import PortfolioBento from '../components/Sections/PortfolioBento'
 import About from '../components/Sections/About'
 import Reviews from '../components/Sections/Reviews'
@@ -13,7 +12,6 @@ function Home() {
     <div className="bg-slate-950 overflow-x-hidden">
       <Hero />
       <PestSelector />
-      <DuoExpertise />
       <PortfolioBento />
       <About />
       <Reviews />

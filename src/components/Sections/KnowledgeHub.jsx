@@ -1,42 +1,40 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Activity, ShieldAlert, CheckCircle, ChevronRight, Info } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Clock, Calendar } from 'lucide-react';
 
-const encyclopedia = [
-  {
-    id: 'rats',
-    name: 'Rat Noir & Surmulot',
-    cycle: "Maturation en 2-3 mois. Jusqu'à 5 portées/an.",
-    risks: 'Leptospirose, Salmonellose, Dommages électriques.',
-    prevention: "Bouchage des accès, gestion des déchets, étanchéité des gaines.",
-    icon: <ShieldAlert className="w-5 h-5 text-red-600" />,
-    image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop'
-  },
+const mockArticles = [
   {
     id: 'punaises',
-    name: 'Punaise de Lit',
-    cycle: 'Œuf -> Adulte en 5 semaines. Survit 1 an sans repas.',
-    risks: 'Dermatites, Anémie, Détresse psychologique importante.',
-    prevention: 'Inspection des bagages, lavage à 60°C, housses anti-punaises.',
-    icon: <Activity className="w-5 h-5 text-red-600" />,
+    category: 'Conseil',
+    title: 'Les bons gestes face aux punaises de lit',
+    excerpt: 'Découvrez comment identifier une infestation et les premiers réflexes à adopter avant notre intervention.',
+    date: '12 Mars',
+    readTime: '3 min',
     image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop'
   },
   {
     id: 'cafards',
-    name: 'Blatte Germanique',
-    cycle: 'Cycle rapide (100 jours). Forte résistance thermique.',
-    risks: 'Allergies, Asthme, Contamination des denrées.',
-    prevention: "Nettoyage des graisses, suppression de l'humidité.",
-    icon: <Info className="w-5 h-5 text-red-600" />,
+    category: 'Actualité',
+    title: 'Invasion de cafards : comprendre le cycle',
+    excerpt: 'Pourquoi une blatte germanique peut infester votre cuisine si rapidement ? On vous explique leur biologie.',
+    date: '28 Fév',
+    readTime: '4 min',
     image: 'https://images.unsplash.com/photo-1628191139360-4083564d03fd?q=80&w=1000&auto=format&fit=crop'
+  },
+  {
+    id: 'pro',
+    category: 'Pro',
+    title: 'Hôtellerie : sécurisez vos chambres',
+    excerpt: 'Un plan de prévention sur-mesure pour les professionnels du tourisme face à la recrudescence globale des nuisibles.',
+    date: '15 Fév',
+    readTime: '5 min',
+    image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop'
   }
 ];
 
 const KnowledgeHub = () => {
-  const [activeTab, setActiveTab] = useState(encyclopedia[0].id);
-
   return (
-    <section id="encyclopedie" className="py-32 px-6 bg-slate-950 text-white">
+    <section id="encyclopedie" className="py-32 px-6 bg-slate-950 text-white relative">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl">
@@ -49,83 +47,66 @@ const KnowledgeHub = () => {
               <span className="w-8 h-px bg-red-600"></span> CENTRE DE CONNAISSANCES
             </motion.div>
             <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
-              Encyclopédie <br />
-              <span className="text-red-600 italic">Des Nuisibles</span>
+              Nos Derniers <br />
+              <span className="text-red-600 italic">Articles</span>
             </h2>
           </div>
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex-shrink-0"
+          >
+            <button className="px-8 py-4 bg-white text-black font-black uppercase tracking-wider text-sm rounded-full hover:bg-zinc-200 transition-colors flex items-center gap-2 group">
+              Voir tout
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </motion.div>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12">
-          {/* Navigation Sidebar */}
-          <div className="lg:col-span-4 space-y-4">
-            {encyclopedia.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`w-full text-left p-6 rounded-2xl border transition-all duration-300 flex items-center justify-between group ${
-                  activeTab === item.id 
-                  ? 'bg-slate-900 border-red-600 shadow-xl' 
-                  : 'bg-slate-900/40 border-white/5 hover:border-white/20'
-                }`}
-              >
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-xl ${activeTab === item.id ? 'bg-red-600 text-white' : 'bg-slate-800 text-slate-400'}`}>
-                    {item.icon}
-                  </div>
-                  <span className="font-black uppercase tracking-tight text-sm">{item.name}</span>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {mockArticles.map((article, index) => (
+            <motion.article 
+              key={article.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="group cursor-pointer flex flex-col h-full bg-slate-900/60 border border-white/5 rounded-3xl overflow-hidden hover:border-red-600/50 transition-all duration-500"
+            >
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src={article.image} 
+                  alt={article.title} 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
+                <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1.5 rounded-full tracking-widest">
+                  {article.category}
+                </span>
+              </div>
+              
+              <div className="p-8 flex flex-col flex-grow">
+                <div className="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+                  <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
+                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {article.readTime}</span>
                 </div>
-                <ChevronRight className={`w-4 h-4 transition-transform ${activeTab === item.id ? 'translate-x-1 text-red-600' : 'text-slate-600'}`} />
-              </button>
-            ))}
-          </div>
-
-          {/* Content Area */}
-          <div className="lg:col-span-8">
-            <AnimatePresence mode="wait">
-              {encyclopedia.map((item) => item.id === activeTab && (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.4 }}
-                  className="bg-slate-900/60 rounded-[3rem] p-8 lg:p-12 border border-white/5 backdrop-blur-xl"
-                >
-                  <div className="grid md:grid-cols-2 gap-12 items-start">
-                    <div className="space-y-8">
-                      <div>
-                        <h3 className="text-red-600 font-black uppercase tracking-widest text-[10px] mb-3 flex items-center gap-2">
-                          <BookOpen className="w-4 h-4" /> Cycle de Vie
-                        </h3>
-                        <p className="text-slate-300 font-medium leading-relaxed">{item.cycle}</p>
-                      </div>
-                      
-                      <div>
-                        <h3 className="text-red-600 font-black uppercase tracking-widest text-[10px] mb-3 flex items-center gap-2">
-                          <ShieldAlert className="w-4 h-4" /> Risques Sanitaires
-                        </h3>
-                        <p className="text-slate-300 font-medium leading-relaxed">{item.risks}</p>
-                      </div>
-
-                      <div className="p-6 bg-slate-950/80 rounded-2xl border border-red-600/20">
-                        <h3 className="text-white font-black uppercase tracking-widest text-[10px] mb-4 flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-500" /> Guide de Prévention
-                        </h3>
-                        <p className="text-slate-400 text-sm leading-relaxed italic">
-                          {item.prevention}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 group">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+                
+                <h3 className="text-2xl font-black leading-tight mb-4 group-hover:text-red-500 transition-colors">
+                  {article.title}
+                </h3>
+                
+                <p className="text-slate-400 leading-relaxed mb-6 font-medium flex-grow text-sm">
+                  {article.excerpt}
+                </p>
+                
+                <div className="mt-auto flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-xs">
+                  Lire l'article
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            </motion.article>
+          ))}
         </div>
       </div>
     </section>
@@ -133,3 +114,4 @@ const KnowledgeHub = () => {
 };
 
 export default KnowledgeHub;
+
