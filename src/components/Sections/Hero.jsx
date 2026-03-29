@@ -41,7 +41,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#1e1b4b,transparent)] opacity-40" />
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 w-full flex-grow flex flex-col lg:flex-row items-center justify-between relative z-10 py-6 lg:py-0">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-between relative z-10 py-6 lg:py-0">
         
         {/* Left Content - Adaptive Scaling */}
         <motion.div 
@@ -90,7 +90,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.95, x: 20 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
-          className="lg:w-[50%] relative flex flex-col items-center lg:items-end w-full flex-grow lg:flex-none justify-center lg:justify-end"
+          className="lg:w-[50%] relative flex flex-col items-center lg:items-start w-full flex-grow lg:flex-none justify-center"
         >
           {/* Image scales based on available height */}
           <div className="relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] flex items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0">
