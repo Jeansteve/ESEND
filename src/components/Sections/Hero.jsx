@@ -35,7 +35,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-[#020617] text-white pt-20 lg:pt-0">
+    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-[#020617] text-white pt-32 lg:pt-0">
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#020617]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#1e1b4b,transparent)] opacity-40" />

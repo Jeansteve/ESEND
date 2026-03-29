@@ -3,9 +3,9 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer className="bg-esend-zinc-950 text-white pt-24 pb-12 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20 text-center md:text-left">
         <div>
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center justify-center md:justify-start gap-3 mb-8">
             <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/10 bg-white flex items-center justify-center p-1">
               <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all" />
             </div>
@@ -14,7 +14,7 @@ const Footer = () => {
               <div className="text-[9px] font-bold uppercase tracking-wider text-esend-red mt-1">Passer de nuisibles à paisible</div>
             </div>
           </div>
-          <p className="text-zinc-500 leading-relaxed max-w-xs font-medium text-sm">
+          <p className="text-zinc-500 leading-relaxed max-w-xs mx-auto md:mx-0 font-medium text-sm">
             Votre duo expert en hygiène, nettoyage et débarrassage. Intervention rapide à Menton et sur toute la Riviera.
           </p>
         </div>
@@ -43,7 +43,7 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">
         <div>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</div>
-        <div className="flex gap-10">
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mt-6 md:mt-0">
           <a href="/#devis" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
           <a href="/#devis" className="hover:text-zinc-400 transition-colors">RGPD</a>
           <a href="https://portfolio-wandaboy.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-esend-red transition-colors">Design par Wandaboy 🕵️‍♂️</a>

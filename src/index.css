@@ -9,3 +9,8 @@
 h1, h2, h3, h4 {
   font-family: 'Outfit', sans-serif;
 }
+
+html, body, #root {
+  overflow-x: hidden;
+  width: 100%;
+}

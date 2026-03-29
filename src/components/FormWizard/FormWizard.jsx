@@ -113,9 +113,9 @@ const FormWizard = () => {
                   )}
                   {currentStepData.id === 'pest' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><Bug /> Quel nuisible ?</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
                       {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Star/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Snail/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
-                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold transition-all hover:shadow-md ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200 hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
+                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center justify-center gap-2 p-3 sm:p-4 border-2 rounded-2xl font-bold transition-all hover:shadow-md h-full ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200 hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center px-1">{s.n}</span></motion.button>
                       ))}
                     </div>
                     {formData.pestType === 'Autre' && (
