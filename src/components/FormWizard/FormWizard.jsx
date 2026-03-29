@@ -99,8 +99,8 @@ const FormWizard = () => {
               <AnimatePresence mode="popLayout">
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   {currentStepData.id === 'welcome' && (
-                    <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto" />
-                    <h3 className="text-2xl font-black italic">Bienvenue chez ESEND</h3>
+                    <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
+                    <h3 className="text-2xl font-black italic mb-8">Bienvenue chez ESEND</h3>
                     <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all">Démarrer</button></div>
                   )}
                   {currentStepData.id === 'service' && (
@@ -134,19 +134,20 @@ const FormWizard = () => {
                     </div></div>
                   )}
                   {currentStepData.id === 'zone' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><MapPin /> Secteur</h3>
+                    <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><MapPin /> Secteur</h3>
                     <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-zinc-50 rounded-2xl border-2" />
                     <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-zinc-100 rounded-2xl font-bold" />
-                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase">Continuer</button></div>
+                    <button onClick={nextStep} className="w-full mt-2 bg-black text-white p-6 rounded-2xl font-black uppercase">Continuer</button></div>
                   )}
                   {currentStepData.id === 'contact' && (
-                    <div className="space-y-4"><ErrorMsg error={errors.name} />
+                    <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><User /> Vos coordonnées</h3>
+                    <ErrorMsg error={errors.name} />
                     <input type="text" placeholder="Nom" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('name', e.target.value)} />
                     <ErrorMsg error={errors.email} />
                     <input type="email" placeholder="Email" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('email', e.target.value)} />
                     <ErrorMsg error={errors.phone} />
                     <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 rounded-lg" onChange={(e) => updateData('phone', e.target.value)} />
-                    <button onClick={() => validate() && setIsSubmitted(true)} className="w-full bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase">Envoyer</button></div>
+                    <button onClick={() => validate() && setIsSubmitted(true)} className="w-full mt-4 bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase">Envoyer</button></div>
                   )}
                 </motion.div>
               </AnimatePresence>
