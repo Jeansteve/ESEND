@@ -43,6 +43,9 @@ const FormWizard = () => {
       setCurrentStepIndex(prev => Math.min(prev + 1, currentSteps.length - 1));
     }
   };
+  const prevStep = () => {
+    setCurrentStepIndex(prev => Math.max(prev - 1, 0));
+  };
   const updateData = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors(prev => ({ ...prev, [field]: null }));
@@ -83,7 +86,15 @@ const FormWizard = () => {
               </div>
             ))}
           </div>
-          <div className="p-10 lg:p-16 min-h-[400px]">
+          <div className="p-10 lg:p-16 min-h-[400px] relative">
+            {currentStepIndex > 0 && !isSubmitted && (
+              <button 
+                onClick={prevStep}
+                className="absolute top-6 left-6 text-zinc-400 hover:text-black flex items-center gap-2 font-bold text-xs uppercase tracking-widest transition-colors z-10"
+              >
+                ← Retour
+              </button>
+            )}
             {!isSubmitted ? (
               <AnimatePresence mode="popLayout">
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
@@ -93,7 +104,7 @@ const FormWizard = () => {
                     <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all">Démarrer</button></div>
                   )}
                   {currentStepData.id === 'service' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><SprayCan /> Quel service ?</h3>
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><SprayCan /> Quel service ?</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       {[{n:'Nuisibles', i:<Bug/>}, {n:'Désinfection', i:<ShieldCheck/>}, {n:'Nettoyage', i:<Zap/>}].map(s => (
                         <motion.button key={s.n} whileHover={{ scale: 1.05 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{s.i}{s.n}</motion.button>
@@ -101,7 +112,7 @@ const FormWizard = () => {
                     </div></div>
                   )}
                   {currentStepData.id === 'pest' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Bug /> Quel nuisible ?</h3>
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><Bug /> Quel nuisible ?</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                       {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Star/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Snail/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
                         <motion.button key={s.n} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center gap-3 p-4 border-2 rounded-2xl font-bold ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-zinc-200')}>{s.i}<span className="text-xs text-center">{s.n}</span></motion.button>
@@ -115,7 +126,7 @@ const FormWizard = () => {
                     )}</div>
                   )}
                   {currentStepData.id === 'client' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><Building2 /> Type de client</h3>
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><Building2 /> Type de client</h3>
                     <div className="grid grid-cols-2 gap-4">
                       {['Particulier', 'Entreprise'].map(option => (
                         <motion.button key={option} whileHover={{ scale: 1.05 }} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-zinc-200 rounded-2xl font-bold hover:border-[#A72422] transition-all">{option}</motion.button>
@@ -123,7 +134,7 @@ const FormWizard = () => {
                     </div></div>
                   )}
                   {currentStepData.id === 'zone' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2"><MapPin /> Secteur</h3>
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><MapPin /> Secteur</h3>
                     <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-zinc-50 rounded-2xl border-2" />
                     <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-zinc-100 rounded-2xl font-bold" />
                     <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase">Continuer</button></div>
