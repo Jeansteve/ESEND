@@ -22,7 +22,7 @@ const Header = () => {
 
   const menuItems = [
     { name: 'Expertise', href: '/#expertise', type: 'anchor' },
-    { name: 'Services', href: '/#nuisibles', type: 'anchor' },
+    { name: 'Services', href: '/#services', type: 'anchor' },
     { name: 'Nos réalisations', href: '/realisations', type: 'link' },
     { name: 'Encyclopédie', href: '/#encyclopedie', type: 'anchor' },
   ];

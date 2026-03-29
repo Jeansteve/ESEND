@@ -22,10 +22,10 @@ const Footer = () => {
         <div>
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
           <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-zinc-400">
-            <li><a href="#" className="hover:text-white transition-colors">Menton & Roquebrune</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Dératisation Menton</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>
+            <li><a href="/#services" className="hover:text-white transition-colors">Menton & Roquebrune</a></li>
+            <li><a href="/#services" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
+            <li><a href="/#services" className="hover:text-white transition-colors">Dératisation Menton</a></li>
+            <li><a href="/#services" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>
           </ul>
         </div>
 
@@ -33,7 +33,7 @@ const Footer = () => {
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Contact Direct</h4>
           <div className="space-y-6">
             <div>
-              <div className="text-2xl font-black tracking-tight italic">06 00 00 00 00</div>
+              <div className="text-2xl font-black tracking-tight italic">06 51 23 98 41</div>
               <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Secteur Menton (06)</div>
             </div>
             <div className="text-zinc-400 text-sm font-medium">contact@esendnuisibles.fr</div>
@@ -44,9 +44,9 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">
         <div>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</div>
         <div className="flex gap-10">
-          <a href="#" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
-          <a href="#" className="hover:text-zinc-400 transition-colors">RGPD</a>
-          <a href="#" className="hover:text-esend-red transition-colors">Design par Wandaboy 🕵️‍♂️</a>
+          <a href="/#devis" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
+          <a href="/#devis" className="hover:text-zinc-400 transition-colors">RGPD</a>
+          <a href="https://portfolio-wandaboy.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-esend-red transition-colors">Design par Wandaboy 🕵️‍♂️</a>
         </div>
       </div>
     </footer>
