@@ -140,7 +140,7 @@ const PestSelector = () => {
                   whileHover={{ x: 5 }}
                   className="w-full bg-white text-black py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white"
                 >
-                  Découvrir l'expertise <ArrowRight className="w-3 h-3" />
+                  En savoir plus <ArrowRight className="w-3 h-3" />
                 </motion.div>
               </Link>
             </motion.div>
