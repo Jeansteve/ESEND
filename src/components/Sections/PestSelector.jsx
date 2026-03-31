@@ -135,7 +135,7 @@ const PestSelector = () => {
                   <p className="text-[11px] text-slate-300 leading-snug font-bold italic">{pest.benefice}</p>
                 </div>
               </div>
-              <Link to={`/services/${pest.id}`} className="block">
+              <Link to={pest.id === "rongeur" ? "/services/nuisibles" : `/services/${pest.id}`} className="block">
                 <motion.div 
                   whileHover={{ x: 5 }}
                   className="w-full bg-white text-black py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white"
