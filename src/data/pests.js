@@ -1,12 +1,12 @@
 export const pests = {
   'punaises-de-lit': {
     title: 'Punaises de lit',
-    image: '/images/punaise-sticker.png',
+    image: 'images/punaise-sticker.png',
     description: 'Expertise Éradication : Protocole Punaise',
     presentation: "La punaise de lit (Cimex lectularius) est un parasite nocturne qui se nourrit exclusivement de sang humain. Invisible le jour, elle se cache dans les coutures de matelas, les lattes de sommier et les fentes de murs. Sa capacité de reproduction est phénoménale : une seule femelle peut pondre jusqu'à 500 œufs dans sa vie, déclenchant une infestation totale en quelques semaines seulement.",
     faq: [
       { q: "Qu'est-ce qu'une punaise de lit ?", a: "C'est un insecte nocturne qui se nourrit exclusivement de sang humain..." },
-      { q: "Pourquoi apparaissent-elles ?", a: "Elles ne sont pas liées à un manque de propreté. Elles sont ramenées via des bagages, des meubles d'occasion..." },
+      { q: "Pourquoi apparaissent-elles ?", a: "elles ne sont pas liées à un manque de propreté. Elles sont ramenées via des bagages, des meubles d'occasion..." },
       { q: "Est-ce dangereux ?", a: "Non, elles ne transmettent pas de maladies, mais les piqûres provoquent de fortes démangeaisons et des troubles psychologiques..." },
       { q: "Puis-je les traiter moi-même ?", a: "Fortement déconseillé. Les produits grand public provoquent souvent une résistance et dispersent la colonie..." },
       { q: "Pourquoi passer par un pro ?", a: "Parce que nous utilisons des méthodes combinées (vapeur, froid, produits rémanents) qui ciblent les œufs et les nymphes..." }
@@ -20,7 +20,7 @@ export const pests = {
   },
   'rats': {
     title: 'Rats & Souris',
-    image: '/images/rat-sticker.png',
+    image: 'images/rat-sticker.png',
     description: 'Sécurisation & Éradication',
     presentation: "Les rongeurs commensaux, comme le rat brun ou la souris domestique, sont des opportunistes redoutables. Dotés d'une intelligence sociale élevée, ils s'infiltrent dans les structures via des ouvertures de moins de 2cm. Au-delà des nuisances sonores, ils représentent un risque majeur pour l'hygiène et la sécurité (courts-circuits dus aux câbles rongés).",
     faq: [
@@ -39,7 +39,7 @@ export const pests = {
   },
   'cafards': {
     title: 'Cafards & Blattes',
-    image: '/images/cafard-sticker.png',
+    image: 'images/cafard-sticker.png',
     description: 'Désinsectisation Rapide & Préventive',
     presentation: "La blatte (cockroach) est l'un des insectes les plus résistants de la planète. Capable de survivre sans nourriture pendant un mois, elle privilégie les zones sombres, chaudes et humides. Elles sont vectrices de nombreuses bactéries et peuvent déclencher des allergies respiratoires chez l'homme via leurs déjections.",
     faq: [
@@ -59,7 +59,7 @@ export const pests = {
   },
   'frelons': {
     title: 'Guêpes & Frelons',
-    image: '/frelon-t5.png', // Chemin direct vers l'original fourni par l'utilisateur
+    image: 'frelon-t5.png', 
     description: 'Destruction de nids sécurisée',
     presentation: "Le frelon (asiatique ou européen) et la guêpe sont des insectes sociaux vivant en colonies organisées autour d'une reine. Leurs nids, architecturés à base de cellulose mâchée, peuvent abriter des milliers d'individus. Le danger principal réside dans leur agressivité défensive et la toxicité de leur venin en cas de piqûres multiples.",
     faq: [
@@ -79,7 +79,7 @@ export const pests = {
   },
   'fourmis': {
     title: 'Fourmis (Invasion)',
-    image: '/images/fourmi-sticker.png',
+    image: 'images/fourmi-sticker.png',
     description: 'Identification des pistes & Éradication',
     presentation: "Les fourmis sont des maîtres de la logistique. Elles utilisent des pistes chimiques (phéromones) pour guider la colonie vers les sources de nourriture. Une simple miette suffit à attirer des centaines d'ouvrières en quelques minutes. L'enjeu est de neutraliser la reine, car tant qu'elle survit au cœur du nid, l'infestation renaîtra systématiquement.",
     faq: [

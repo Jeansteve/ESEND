@@ -107,83 +107,91 @@ const PestPage = () => {
         {/* Contenu de droite */}
         <div className="flex-1 min-w-0">
 
-        {/* Header Immersif : Refonte Sticker + Présentation */}
-        <div className="mb-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            
-            {/* Colonne Texte */}
-            <motion.div 
-               initial={{ opacity: 0, x: -30 }} 
-               animate={{ opacity: 1, x: 0 }}
-               className="order-2 lg:order-1"
-            >
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-red-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 flex items-center gap-2"
-              >
-                <div className="w-8 h-px bg-red-600" /> FICHE TECHNIQUE EXPERT
-              </motion.div>
-              
-              <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
-                {pest.title}
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-slate-300 font-bold uppercase tracking-widest mb-8 border-l-4 border-red-600 pl-6 py-1">
-                {pest.description}
-              </p>
+        {/* Header Immersif : Titre & Description en Pleine Largeur */}
+        <div className="mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-red-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 flex items-center gap-2"
+          >
+            <div className="w-8 h-px bg-red-600" /> FICHE TECHNIQUE EXPERT
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none"
+          >
+            {pest.title}
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-xl md:text-3xl text-slate-300 font-bold uppercase tracking-widest border-l-4 border-red-600 pl-6 py-2"
+          >
+            {pest.description}
+          </motion.p>
+        </div>
 
-              <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl group-hover:bg-red-600/10 transition-colors" />
-                <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-2">
-                   <Info className="w-4 h-4 text-red-600" /> Présentation Générale
-                </h3>
-                <p className="text-slate-300 leading-relaxed font-medium text-lg">
-                  {pest.presentation}
-                </p>
+        {/* Grille de présentation équilibrée */}
+        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-16 items-center mb-20">
+          
+          {/* Bloc Encyclopédie */}
+          <motion.div 
+             initial={{ opacity: 0, scale: 0.95 }} 
+             animate={{ opacity: 1, scale: 1 }}
+             transition={{ delay: 0.2 }}
+             className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group min-h-[300px] flex flex-col justify-center"
+          >
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[100px] group-hover:bg-red-600/10 transition-colors -z-10" />
+            <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 mb-6 flex items-center gap-3">
+               <Info className="w-5 h-5 text-red-600" /> Présentation Générale
+            </h3>
+            <p className="text-slate-300 leading-relaxed font-medium text-lg md:text-xl italic">
+              {pest.presentation}
+            </p>
+          </motion.div>
+
+          {/* Illustration Sticker & Badge */}
+          <motion.div 
+             initial={{ opacity: 0, rotate: 5 }} 
+             animate={{ opacity: 1, rotate: 0 }}
+             transition={{ delay: 0.3 }}
+             className="relative flex items-center justify-center"
+          >
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+              className="relative z-10 w-full"
+            >
+              <img 
+                src={pest.image} 
+                alt={pest.title} 
+                className="w-full max-w-[450px] mx-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]" 
+              />
+            </motion.div>
+
+            {/* Badge de Garantie rattaché à l'image */}
+            <motion.div 
+               initial={{ scale: 0, x: 20 }}
+               animate={{ scale: 1, x: 0 }}
+               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.7 }}
+               className="absolute -bottom-6 right-0 md:-right-4 bg-[#0a1020]/95 backdrop-blur-2xl border-2 border-green-500/50 text-white p-5 md:p-6 rounded-3xl shadow-[0_20px_50px_rgba(34,197,94,0.2)] flex items-center gap-4 z-20"
+            >
+              <div className="bg-green-500/20 p-2.5 rounded-2xl">
+                 <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-green-500" />
+              </div>
+              <div className="pr-4">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-tight mb-1">Expertise ESEND</p>
+                <p className="text-sm md:text-xl font-black uppercase tracking-tighter leading-none text-green-400">Garantie Totale</p>
               </div>
             </motion.div>
 
-            {/* Colonne Illustration Sticker */}
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.8, rotate: 5 }} 
-               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-               className="order-1 lg:order-2 relative"
-            >
-              <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                className="relative z-10"
-              >
-                <img 
-                  src={pest.image} 
-                  alt={pest.title} 
-                  className="w-full max-w-[500px] mx-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] active:scale-95 transition-transform cursor-pointer" 
-                  title="Illustration Expert ESEND"
-                />
-              </motion.div>
-
-              {/* Badge Expert Flottant (Positionné par rapport au sticker) */}
-              <motion.div 
-                 initial={{ scale: 0, x: 20 }}
-                 animate={{ scale: 1, x: 0 }}
-                 transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.6 }}
-                 className="absolute -bottom-4 lg:-bottom-10 -right-2 lg:-right-6 bg-slate-900/90 backdrop-blur-xl border-2 border-green-500 text-white p-4 md:p-6 rounded-3xl shadow-[0_20px_40px_rgba(34,197,94,0.3)] flex items-center gap-4 z-20"
-              >
-                <div className="bg-green-500/20 p-2 rounded-full">
-                   <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-green-500" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Garantie</p>
-                  <p className="text-sm md:text-xl font-black uppercase tracking-tighter leading-none text-green-400">Intervention Pro</p>
-                </div>
-              </motion.div>
-
-              {/* Effet de lueur derrière le sticker */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-red-600/10 blur-[100px] -z-10 rounded-full" />
-            </motion.div>
-
-          </div>
+            {/* Glow Aura */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
+          </motion.div>
         </div>
 
         {/* Widget Calculateur de Gravité */}
