@@ -31,47 +31,54 @@ const PestPage = () => {
   };
 
   const iconMap = {
-    'punaises-de-lit': <Snail className="w-5 h-5 mb-1" />,
-    'rats': <Rat className="w-5 h-5 mb-1" />,
-    'cafards': <Bug className="w-5 h-5 mb-1" />,
-    'frelons': <ShieldCheck className="w-5 h-5 mb-1" />,
-    'fourmis': <Asterisk className="w-5 h-5 mb-1" />
+    'punaises-de-lit': <Snail className="w-5 h-5 md:w-6 md:h-6" />,
+    'rats': <Rat className="w-5 h-5 md:w-6 md:h-6" />,
+    'cafards': <Bug className="w-5 h-5 md:w-6 md:h-6" />,
+    'frelons': <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" />,
+    'fourmis': <Asterisk className="w-5 h-5 md:w-6 md:h-6" />
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-24 pb-20 overflow-x-hidden">
-      <div className="max-w-4xl mx-auto px-6">
+    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-12 relative items-start">
         
-        {/* Sélecteur Premium Interactif */}
-        <div className="relative flex w-full mb-16 bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
-          <div className="flex w-full min-w-max">
-            {pestKeys.map(key => {
-              const isActive = type === key;
-              return (
-                <Link 
-                  key={key} 
-                  to={`/services/nuisibles?type=${key}`} 
-                  className={`relative flex-1 flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl transition-all duration-300 ${isActive ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
-                >
-                  {isActive && (
-                    <motion.div 
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-red-600 rounded-2xl shadow-[0_0_20px_rgba(220,38,38,0.4)]"
-                      initial={false}
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  <div className="relative z-10 flex flex-col items-center">
-                    {iconMap[key]}
-                    <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-center mt-1">
-                      {pests[key].title.split(' ')[0]} {/* Affiche le premier mot pour que ça tienne bien */}
-                    </span>
-                  </div>
-                </Link>
-              );
-            })}
+        {/* Sélecteur Premium Sidebar Sticky (PC/Tablette) */}
+        <div className="w-full md:w-56 lg:w-72 shrink-0 md:sticky md:top-32 z-20">
+          <div className="relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+            <div className="flex md:flex-col w-full min-w-max md:min-w-0 gap-1 md:gap-2">
+              {pestKeys.map(key => {
+                const isActive = type === key;
+                return (
+                  <Link 
+                    key={key} 
+                    to={`/services/nuisibles?type=${key}`} 
+                    className={`relative md:h-16 flex-1 md:flex-none flex flex-col md:flex-row items-center justify-center md:justify-start px-4 md:px-5 py-3 md:py-0 transition-all duration-300 rounded-2xl ${isActive ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                  >
+                    {isActive && (
+                      <motion.div 
+                        layoutId="activeTab"
+                        className="absolute inset-0 bg-red-600 rounded-2xl shadow-[0_0_20px_rgba(220,38,38,0.4)] md:shadow-none"
+                        initial={false}
+                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                    <div className="relative z-10 flex flex-col md:flex-row items-center w-full gap-1 md:gap-4">
+                      <div className="flex shrink-0 items-center justify-center">
+                        {iconMap[key]}
+                      </div>
+                      <span className="text-[9px] sm:text-[10px] md:text-sm font-black uppercase tracking-widest text-center md:text-left mt-1 md:mt-0 pt-0.5">
+                        {pests[key].title.split(' ')[0]}
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </div>
+
+        {/* Contenu de droite */}
+        <div className="flex-1 min-w-0">
 
         {/* Header Immersif */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
@@ -189,6 +196,7 @@ const PestPage = () => {
             <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
               Demander un devis gratuit
             </Link>
+        </div>
         </div>
       </div>
     </div>
