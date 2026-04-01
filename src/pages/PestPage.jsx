@@ -135,7 +135,7 @@ const PestPage = () => {
                   <p className="text-green-400 font-bold text-xl mb-10">Risque Faible. Restez vigilant.</p>
                 )}
                 <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-500 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] hover:scale-105 active:scale-95 border border-red-500/50">
-                  Demander un devis gratuit
+                  {score > 0 ? "Demander un devis gratuit" : "Devis pour une inspection"}
                 </Link>
               </motion.div>
             )}
