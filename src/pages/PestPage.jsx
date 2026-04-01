@@ -149,11 +149,11 @@ const PestPage = () => {
           </h3>
           
           <div className="relative text-slate-300 leading-snug font-medium text-lg md:text-2xl opacity-90 text-left">
-            {/* Image Sticker Flottante (Espace de Sécurité Restauré) */}
+            {/* Image Sticker Flottante (Centrée dans sa zone) */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="float-left mr-20 mb-10 w-full md:w-[280px] lg:w-[320px] relative z-10"
+              className="float-left ml-6 lg:ml-10 mr-12 lg:mr-20 mb-10 w-full md:w-[280px] lg:w-[320px] relative z-10"
             >
               <img 
                 src={pest.image} 
