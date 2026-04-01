@@ -167,31 +167,30 @@ const PestPage = () => {
               {pest.presentation}
             </div>
 
+            {/* Note de l'Expert : Info Cruciale fusionnée (Ambre pour rassurer) */}
+            <motion.div 
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.4 }}
+               className="mt-12 bg-amber-500/5 border border-amber-500/20 p-6 rounded-3xl flex items-center gap-6 shadow-xl"
+            >
+              <div className="bg-amber-500/20 p-3 rounded-xl shrink-0">
+                 <Lightbulb className="w-8 h-8 text-amber-500" />
+              </div>
+              <div>
+                <p className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em] mb-1">Note de l'Expert</p>
+                <p className="text-lg md:text-xl text-white font-black leading-tight italic uppercase tracking-tighter">
+                   "{pest.expertFact}"
+                </p>
+              </div>
+            </motion.div>
+
             {/* Clearfix for float */}
             <div className="clear-both" />
           </div>
 
-          <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center">
+          <div className="mt-10 pt-6 border-t border-white/5 text-[9px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center">
              <span className="flex items-center gap-2">RECONNAISSANCE & COMPORTEMENT ANIMAL</span>
-          </div>
-        </motion.div>
-
-        {/* L'Info Cruciale : Toujours seule sur sa ligne */}
-        <motion.div 
-           initial={{ opacity: 0, y: 20 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ delay: 0.5 }}
-           className="w-full mb-20 bg-red-600/5 backdrop-blur-3xl border border-red-500/20 p-8 md:p-12 rounded-[2rem] flex flex-col md:flex-row items-center gap-10 shadow-2xl relative overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 w-full h-1.5 bg-red-600" />
-          <div className="bg-red-600/20 p-5 rounded-2xl shrink-0">
-             <AlertTriangle className="w-12 h-12 text-red-500" />
-          </div>
-          <div className="max-w-5xl">
-            <p className="text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-4 text-center md:text-left">L'Info Cruciale à retenir</p>
-            <p className="text-xl md:text-3xl text-white font-black leading-tight italic uppercase tracking-tighter text-center md:text-left">
-               "{pest.expertFact}"
-            </p>
           </div>
         </motion.div>
 
