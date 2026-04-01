@@ -22,10 +22,10 @@ const Footer = () => {
         <div>
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
           <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-zinc-400">
-            <li><a href="/#services" className="hover:text-white transition-colors">Menton & Roquebrune</a></li>
-            <li><a href="/#services" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
-            <li><a href="/#services" className="hover:text-white transition-colors">Dératisation Menton</a></li>
-            <li><a href="/#services" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>
+            <li><a href="#services" className="hover:text-white transition-colors">Menton & Roquebrune</a></li>
+            <li><a href="#services" className="hover:text-white transition-colors">Nettoyage de Vitres</a></li>
+            <li><a href="#services" className="hover:text-white transition-colors">Dératisation Menton</a></li>
+            <li><a href="#services" className="hover:text-white transition-colors">Débarrassage Riviera</a></li>
           </ul>
         </div>
 
@@ -44,8 +44,8 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">
         <div>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</div>
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mt-6 md:mt-0">
-          <a href="/#devis" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
-          <a href="/#devis" className="hover:text-zinc-400 transition-colors">RGPD</a>
+          <a href="#devis" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
+          <a href="#devis" className="hover:text-zinc-400 transition-colors">RGPD</a>
           <a href="https://portfolio-wandaboy.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-esend-red transition-colors">Design par Wandaboy 🕵️‍♂️</a>
         </div>
       </div>

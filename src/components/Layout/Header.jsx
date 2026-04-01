@@ -21,10 +21,10 @@ const Header = () => {
   }, []);
 
   const menuItems = [
-    { name: 'Expertise', href: '/#expertise', type: 'anchor' },
-    { name: 'Services', href: '/#services', type: 'anchor' },
+    { name: 'Expertise', href: '#expertise', type: 'anchor' },
+    { name: 'Services', href: '#services', type: 'anchor' },
     { name: 'Nos réalisations', href: '/realisations', type: 'link' },
-    { name: 'Encyclopédie', href: '/#encyclopedie', type: 'anchor' },
+    { name: 'Encyclopédie', href: '#encyclopedie', type: 'anchor' },
   ];
 
   const handleNavClick = (e, item) => {
@@ -41,6 +41,9 @@ const Header = () => {
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
         }
+      } else {
+        // En cas de navigation inter-page, on laisse l'url se charger normalement
+        // Link to="/" s'occupera d'amener à l'accueil si besoin
       }
     }
   };
@@ -73,19 +76,23 @@ const Header = () => {
           
           <AnimatePresence>
             {showCTA && (
-              <motion.a
-                href="/#devis"
+              <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                onClick={(e) => handleNavClick(e, { type: 'anchor', href: '/#devis' })}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative group overflow-hidden bg-red-600 text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all cursor-pointer"
+                className="relative cursor-pointer"
               >
-                <span className="relative z-10">Devis</span>
-                <ArrowRight className="w-3 h-3 relative z-10 group-hover:translate-x-1 transition-transform" />
-              </motion.a>
+                <Link
+                  to="/#devis"
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })}
+                  className="relative group overflow-hidden bg-red-600 text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all"
+                >
+                  <span className="relative z-10">Devis</span>
+                  <ArrowRight className="w-3 h-3 relative z-10 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
             )}
           </AnimatePresence>
         </nav>
@@ -129,14 +136,14 @@ const Header = () => {
                     06 51 23 98 41
                   </div>
                 </a>
-                <a 
-                  href="/#devis" 
-                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '/#devis' })} 
+                <Link 
+                  to="/#devis" 
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })} 
                   className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[10px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all cursor-pointer"
                 >
                   <span>Demander un devis</span>
                   <ArrowRight className="w-5 h-5" />
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>
