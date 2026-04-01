@@ -135,70 +135,66 @@ const PestPage = () => {
           </motion.p>
         </div>
 
-        {/* Grille de présentation (2 colonnes pures) */}
-        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-10 items-start mb-10">
+        {/* Bloc Encyclopédie Unique : Style Magazine */}
+        <motion.div 
+           initial={{ opacity: 0, y: 20 }} 
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 0.2 }}
+           className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 md:p-16 rounded-[4rem] shadow-2xl relative overflow-hidden group mb-10"
+        >
+          <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 blur-[150px] -z-10" />
           
-          {/* Bloc Encyclopédie : Résumé NEUTRE */}
-          <motion.div 
-             initial={{ opacity: 0, scale: 0.95 }} 
-             animate={{ opacity: 1, scale: 1 }}
-             transition={{ delay: 0.2 }}
-             className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden group self-stretch flex flex-col"
-          >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[120px] -z-10" />
-            
-            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-red-500/80 mb-8 flex items-center gap-3">
-               <div className="w-1.5 h-1.5 bg-red-600 rounded-full" /> FICHE BIOLOGIQUE
-            </h3>
-            
-            <div className="text-slate-300 leading-relaxed font-medium text-lg md:text-2xl space-y-4 flex-grow whitespace-pre-line italic opacity-90">
+          <h3 className="text-sm font-black uppercase tracking-[0.4em] text-red-500/80 mb-10 flex items-center gap-3">
+             <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" /> FICHE BIOLOGIQUE DÉTAILLÉE
+          </h3>
+          
+          <div className="relative text-slate-300 leading-relaxed font-medium text-lg md:text-2xl opacity-90">
+            {/* Image Sticker Flottante (Style Magazine) */}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className="float-left mr-12 mb-10 w-full md:w-[380px] lg:w-[420px] shape-outside-circle"
+              style={{ shapeOutside: 'circle(50%)' }}
+            >
+              <div className="relative p-8 bg-white/[0.01] border border-white/5 rounded-[3.5rem] overflow-hidden">
+                <img 
+                  src={pest.image} 
+                  alt={pest.title} 
+                  className="w-full h-auto object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.8)]" 
+                />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
+              </div>
+            </motion.div>
+
+            {/* Texte qui habille l'image */}
+            <div className="whitespace-pre-line italic">
               {pest.presentation}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/5 text-[9px] font-bold text-slate-500 uppercase tracking-widest flex items-center justify-between">
-               <span className="flex items-center gap-2">RECONNAISSANCE & COMPORTEMENT</span>
-               <span className="opacity-40">Documentation Scientifique</span>
-            </div>
-          </motion.div>
+            {/* Clearfix for float */}
+            <div className="clear-both" />
+          </div>
 
-          {/* Illustration Sticker (Seule) */}
-          <motion.div 
-             initial={{ opacity: 0, rotate: 5 }} 
-             animate={{ opacity: 1, rotate: 0 }}
-             transition={{ delay: 0.3 }}
-             className="relative flex items-center justify-center p-12 bg-white/[0.01] border border-white/5 rounded-[3.5rem] overflow-hidden self-stretch"
-          >
-            <motion.div
-              animate={{ y: [0, -20, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="relative z-10 w-full"
-            >
-              <img 
-                src={pest.image} 
-                alt={pest.title} 
-                className="w-full max-h-[400px] object-contain mx-auto drop-shadow-[0_50px_100px_rgba(0,0,0,0.8)]" 
-              />
-            </motion.div>
+          <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center justify-between">
+             <span className="flex items-center gap-2">RECONNAISSANCE & COMPORTEMENT ANIMAL</span>
+             <span className="opacity-40 italic">ESEND ACADEMY • 2024</span>
+          </div>
+        </motion.div>
 
-            {/* Glow Aura */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[150px] -z-10 rounded-full" />
-          </motion.div>
-        </div>
-
-        {/* L'Info Cruciale : Pleine Largeur */}
+        {/* L'Info Cruciale : Toujours seule sur sa ligne */}
         <motion.div 
            initial={{ opacity: 0, y: 20 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ delay: 0.5 }}
-           className="w-full mb-20 bg-red-600/5 backdrop-blur-3xl border border-red-500/20 p-8 md:p-10 rounded-[3rem] flex flex-col md:flex-row items-center gap-8 shadow-2xl relative overflow-hidden"
+           className="w-full mb-20 bg-red-600/5 backdrop-blur-3xl border border-red-500/20 p-8 md:p-12 rounded-[3.5rem] flex flex-col md:flex-row items-center gap-10 shadow-2xl relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1.5 bg-red-600" />
           <div className="bg-red-600/20 p-5 rounded-2xl shrink-0">
-             <AlertTriangle className="w-10 h-10 text-red-500" />
+             <AlertTriangle className="w-12 h-12 text-red-500" />
           </div>
-          <div className="max-w-4xl">
-            <p className="text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-3 text-center md:text-left">L'Info Cruciale à retenir</p>
-            <p className="text-xl md:text-2xl text-white font-black leading-tight italic uppercase tracking-tighter text-center md:text-left">
+          <div className="max-w-5xl">
+            <p className="text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-4 text-center md:text-left">L'Info Cruciale à retenir</p>
+            <p className="text-xl md:text-3xl text-white font-black leading-tight italic uppercase tracking-tighter text-center md:text-left">
                "{pest.expertFact}"
             </p>
           </div>
