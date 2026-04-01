@@ -153,16 +153,16 @@ const PestPage = () => {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="float-left mr-14 mb-8 w-full md:w-[280px] lg:w-[320px]"
+              className="float-left mr-20 mb-10 w-full md:w-[280px] lg:w-[320px]"
               style={{ 
-                shapeOutside: 'inset(0 15% 15% 0 round 20%)',
-                WebkitShapeOutside: 'inset(0 15% 15% 0 round 20%)'
+                shapeOutside: 'inset(0 25% 10% 0 round 15%)',
+                WebkitShapeOutside: 'inset(0 25% 10% 0 round 15%)'
               }}
             >
               <img 
                 src={pest.image} 
                 alt={pest.title} 
-                className="w-full h-auto object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)]" 
+                className="w-full h-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)]" 
               />
             </motion.div>
 
