@@ -67,8 +67,9 @@ const Header = () => {
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-slate-950/95 backdrop-blur-xl border-b border-white/5 py-2' : 'bg-transparent py-4'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'py-2' : 'py-4'}`}>
+      <div className={`absolute inset-0 transition-opacity duration-300 ${isScrolled || isMobileMenuOpen ? 'opacity-100 bg-slate-950/90 backdrop-blur-lg border-b border-white/5' : 'opacity-0'}`} style={{ zIndex: 0 }} />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
           <Link to="/" onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-2.5 group font-sans">
@@ -107,12 +108,12 @@ const Header = () => {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute top-full left-1/2 -translate-x-1/2 w-72 pt-3"
+                            className="absolute top-full left-0 w-72 pt-3"
                         >
                             {/* Pointeur Visuel */}
-                            <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 border-l border-t border-white/20 rotate-45 z-0" />
+                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-slate-900 border-l border-t border-white/20 rotate-45 z-0" />
                             
-                            <div className="relative z-10 bg-slate-900/98 backdrop-blur-2xl border border-white/20 rounded-2xl p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+                            <div className="relative z-10 bg-slate-900/60 backdrop-blur-2xl border border-white/20 rounded-2xl p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
                                 {item.subItems.map((sub) => (
                                     <Link 
                                         key={sub.name} 
