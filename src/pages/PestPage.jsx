@@ -321,39 +321,6 @@ const PestPage = () => {
             </div>
         )}
 
-        {/* FAQ Expertise (Restaurée) */}
-        <div className="mb-20">
-          <motion.h2 
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             viewport={{ once: true }}
-             className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
-          >
-             <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise
-          </motion.h2>
-          <div className="space-y-4">
-            {pest.faq.map((item, index) => (
-              <motion.details 
-                key={index} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-white/[0.02] border border-white/5 p-6 rounded-[1.5rem] hover:border-red-500/30 transition-all cursor-pointer"
-              >
-                <summary className="font-bold text-xl flex justify-between items-center list-none outline-none">
-                  {item.q}
-                  <div className="bg-white/5 p-2 rounded-full group-open:bg-red-600/20 group-open:text-red-500 transition-colors shrink-0 ml-4">
-                     <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform duration-300" />
-                  </div>
-                </summary>
-                <p className="mt-6 text-slate-400 leading-relaxed text-lg border-t border-white/5 pt-4">
-                  {item.a}
-                </p>
-              </motion.details>
-            ))}
-          </div>
-        </div>
 
         {/* Expertise Terrain (Nouveau) */}
         {relatedInterventions.length > 0 && (
@@ -403,44 +370,41 @@ const PestPage = () => {
         )}
 
         {/* Le Journal de l'Expert (Nouveau) */}
-        {relatedArticles.length > 0 && (
-          <div className="mb-20">
-            <motion.h2 
-               initial={{ opacity: 0, x: -20 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
-            >
-               <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
-            </motion.h2>
-            <div className="grid lg:grid-cols-3 gap-6">
-              {relatedArticles.map((article, index) => (
-                <motion.article 
-                  key={article.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-red-600/30 transition-all flex flex-col"
-                >
-                  <div className="h-48 relative overflow-hidden">
-                    <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+
+        {/* FAQ Expertise (Déplacée en fin de page) */}
+        <div className="mb-20">
+          <motion.h2 
+             initial={{ opacity: 0, x: -20 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
+          >
+             <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise
+          </motion.h2>
+          <div className="space-y-4">
+            {pest.faq.map((item, index) => (
+              <motion.details 
+                key={index} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group bg-white/[0.02] border border-white/5 p-6 rounded-[1.5rem] hover:border-red-500/30 transition-all cursor-pointer"
+              >
+                <summary className="font-bold text-xl flex justify-between items-center list-none outline-none">
+                  {item.q}
+                  <div className="bg-white/5 p-2 rounded-full group-open:bg-red-600/20 group-open:text-red-500 transition-colors shrink-0 ml-4">
+                     <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform duration-300" />
                   </div>
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="flex items-center gap-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-3">
-                      <Calendar className="w-3 h-3" /> {article.date}
-                    </div>
-                    <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-red-500 transition-colors uppercase italic">{article.title}</h3>
-                    <p className="text-slate-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">{article.excerpt}</p>
-                    <button className="text-red-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/btn">
-                      Lire la suite <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
+                </summary>
+                <p className="mt-6 text-slate-400 leading-relaxed text-lg border-t border-white/5 pt-4">
+                  {item.a}
+                </p>
+              </motion.details>
+            ))}
           </div>
-        )}
+        </div>
+
 
         <div className="text-center bg-slate-900/60 border border-red-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[80px] -z-10" />

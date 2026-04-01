@@ -11,8 +11,11 @@ export const pests = {
       { q: "Est-ce dangereux pour mes enfants ?", a: "Oui, les piqûres causent des démangeaisons intenses et l'anxiété liée à l'invasion peut gravement perturber le sommeil des plus petits." },
       { q: "Comment les détecter précocement ?", a: "Cherchez des points noirs (excréments) sur les coutures de matelas ou des traces de sang sur les draps au réveil." },
       { q: "Puis-je les traiter moi-même ?", a: "Le taux d'échec est de 95% avec des produits du commerce car les punaises ont développé des résistances chimiques puissantes." },
-      { q: "Quels sont les risques si je ne fais rien ?", a: "L'infestation devient totale en quelques semaines, rendant le logement insalubre et l'éradication complexe." },
-      { q: "Pourquoi le traitement est technique ?", a: "Il faut combiner choc thermique (vapeur) et produits rémanents pour neutraliser les œufs et les adultes cachés." }
+      { q: "Le froid peut-il les tuer ?", a: "Oui, mais il faut une température constante de -20°C pendant plusieurs jours, ce qu'un congélateur domestique permet rarement." },
+      { q: "Est-ce que les punaises de lit sautent ?", a: "Non, elles ne sautent pas et ne volent pas. Elles ne font que ramper, mais très rapidement (environ 1 mètre par minute)." },
+      { q: "La détection canine est-elle un gadget ?", a: "Au contraire, c'est la méthode la plus fiable (95% de réussite) pour localiser les nids précis sans tout démonter." },
+      { q: "Quelle est l'odeur d'une infestation ?", a: "Une infestation massive dégage une odeur douçâtre, souvent comparée à de la coriandre pourrie ou à des amandes amères." },
+      { q: "Transmettent-elles des maladies ?", a: "Non, aucune transmission virale n'a été prouvée, mais elles causent des dermatites sévères et une détresse psychologique réelle." }
     ],
     actionImmediate: "Isolez vos vêtements dans des sacs étanches et ne changez pas de pièce pour dormir. Un diagnostic pro est recommandé sans attendre.",
     mythesVsRealite: [
@@ -37,7 +40,12 @@ export const pests = {
         { q: "Sont-ils dangereux pour la santé ?", a: "Oui, car ils souillent les sols et surfaces avec leurs déjections et urines (risques de leptospirose ou salmonellose)." },
         { q: "Puis-je utiliser du poison du commerce ?", a: "C'est risqué et inefficace à cause de la méfiance naturelle des rats envers les nouveaux objets (néophobie)." },
         { q: "Comment les détecte-t-on à coup sûr ?", a: "Bruits de grattements nocturnes, odeur d'urine forte et présence d'excréments noirs caractéristiques." },
-        { q: "Quels sont les dégâts matériels possibles ?", a: "Fils électriques rongés (danger d'incendie), destruction de la laine de verre et contamination des stocks alimentaires." }
+        { q: "Quels sont les dégâts matériels possibles ?", a: "Fils électriques rongés (danger d'incendie), destruction de la laine de verre et contamination des stocks alimentaires." },
+        { q: "Les ultrasons fonctionnent-ils ?", a: "C'est un effet temporaire. Les rongeurs s'y habituent en 48h ou se déplacent simplement dans une pièce non équipée." },
+        { q: "Quelle est la différence rat vs souris ?", a: "Le rat est plus gros (20cm), a des oreilles plus petites proportionnellement et des déjections en forme de noyaux d'olives." },
+        { q: "Transmettent-ils la rage ?", a: "C'est extrêmement rare en Europe. Le vrai danger vient des bactéries transportées par leurs puces ou leurs urines (leptospirose)." },
+        { q: "Sont-ils dangereux pour mes animaux ?", a: "Oui, vos chiens et chats peuvent contracter de graves maladies au contact direct ou via leurs gamelles souillées." },
+        { q: "Combien de temps pour créer un nid ?", a: "Ils s'installent durablement en 48h. Une fois que l'odeur du nid est marquée, d'autres individus les rejoignent." }
     ],
     actionImmediate: "Mettez vos aliments sous scellés et identifiez les zones de passage, mais ne touchez à rien pour ne pas les effrayer.",
     mythesVsRealite: [
@@ -62,7 +70,12 @@ export const pests = {
       { q: "Le frelon asiatique est-il agressif ?", a: "Il est surtout persistant. Il peut poursuivre une menace sur plusieurs dizaines de mètres s'il défend son nid." },
       { q: "Puis-je utiliser un jet d'eau ?", a: "Surtout pas ! Vous exciterez la colonie sans la tuer, provoquant une attaque groupée immédiate." },
       { q: "Pourquoi les nids sont-ils énormes en été ?", a: "La ponte est continue et les ouvrières agrandissent sans cesse la structure pour loger les larves." },
-      { q: "Que faire du nid après traitement ?", a: "Rien. Le produit continue d'agir pendant quelques jours sur les derniers individus revenant de l'extérieur." }
+      { q: "Que faire du nid après traitement ?", a: "Rien. Le produit continue d'agir pendant quelques jours sur les derniers individus revenant de l'extérieur." },
+      { q: "Réutilisent-ils leur nid l'année suivante ?", a: "Non, jamais. Le nid est abandonné en fin de saison. Une nouvelle reine reconstruira une structure au printemps suivant." },
+      { q: "Que faire si un frelon entre chez moi ?", a: "Ouvrez grand la fenêtre, éteignez la lumière intérieure et allumez l'extérieur. Il cherchera naturellement à sortir vers la lumière." },
+      { q: "Les faux nids en papier sont-ils efficaces ?", a: "Cela peut dissuader une reine de s'installer en mars/avril, mais c'est totalement inutile une fois la colonie bien implantée." },
+      { q: "Jusqu'à quelle distance attaquent-ils ?", a: "Ils protègent un périmètre de 5 à 10 mètres autour du nid. Si vous courez, ils peuvent vous poursuivre sur 40 mètres." },
+      { q: "Comment différencier frelon européen et asiatique ?", a: "L'asiatique a le thorax noir et les pattes jaunes à l'extrémité. L'européen est plus roux et a les pattes foncées." }
     ],
     actionImmediate: "Établissez un périmètre de sécurité et fermez les fenêtres proches du nid. Éloignez les enfants et animaux.",
     mythesVsRealite: [
@@ -87,7 +100,12 @@ export const pests = {
       { q: "Les cafards piquent-ils ?", a: "Non, le danger est bactériologique. Ils transportent des germes (salmonelle, etc.) sur vos plans de travail." },
       { q: "Comment les détecter ?", a: "Fuite rapide à l'allumage de la lumière ou présence d'oothèques (poches d'œufs) marron." },
       { q: "Puis-je utiliser des bombes du commerce ?", a: "L'effet est très limité et a tendance à les disperser. Un traitement par gel appât est souvent nécessaire." },
-      { q: "Combien de temps survivent-ils ?", a: "Plus d'un mois sans nourriture, ce qui rend leur éradication naturelle impossible." }
+      { q: "Combien de temps survivent-ils ?", a: "Plus d'un mois sans nourriture, ce qui rend leur éradication naturelle impossible." },
+      { q: "Remontent-ils par les canalisations ?", a: "Oui, c'est l'un de leurs modes de circulation favoris. Ils peuvent même nager sur de courtes distances ou rester en apnée." },
+      { q: "Les huiles essentielles fonctionnent-elles ?", a: "Elles ont un effet répulsif minime pour quelques heures, mais n'élimineront jamais une infestation installée au cœur du nid." },
+      { q: "Pourquoi sont-ils si durs à tuer ?", a: "Ils possèdent un exosquelette souple capable de résister à une pression 900 fois supérieure à leur propre poids." },
+      { q: "Quel est leur aliment préféré ?", a: "Tout aliment riche en amidon, sucre ou fermenté (bière renversée, miettes de pain, restes de pâtes)." },
+      { q: "Quel est le signe d'une infestation ancienne ?", a: "Des taches brunes (déjections sèches) sur les gonds des portes de meubles haut ou les charnières de frigos." }
     ],
     actionImmediate: "Nettoyez vos sols, videz les poubelles et identifiez les zones de chaleur. Ne pas utiliser de Javel.",
     mythesVsRealite: [
@@ -111,7 +129,13 @@ export const pests = {
       { q: "Sont-elles dangereuses pour ma maison ?", a: "Les espèces charpentières peuvent dégrader le bois. Les autres posent surtout un problème d'hygiène alimentaire." },
       { q: "Le marc de café fonctionne-t-il ?", a: "C'est un répulsif temporaire de quelques heures. Cela ne détruira jamais la fourmilière principale." },
       { q: "Pourquoi reviennent-elles ?", a: "Elles suivent des traces phéromonales. Seul un produit ciblé peut rompre ce cycle de recrutement." },
-      { q: "Comment les éradiquer ?", a: "Il faut utiliser des micro-appâts que les fourmis transportent elles-mêmes jusqu'à la reine pour stopper le nid à la source." }
+      { q: "Comment les éradiquer ?", a: "Il faut utiliser des micro-appâts que les fourmis transportent elles-mêmes jusqu'à la reine pour stopper le nid à la source." },
+      { q: "Pourquoi rentrent-elles dans les prises électriques ?", a: "Elles cherchent une source de chaleur stable et un isolant sec pour y loger une extension du nid principal." },
+      { q: "Les pièges collants sont-ils utiles ?", a: "Ils servent uniquement au monitorage (savoir où elles passent) mais ne détruiront jamais le nid en profondeur." },
+      { q: "Quelle différence fourmi volante vs termite ?", a: "La fourmi volante a une 'taille de guêpe' et quatre ailes de tailles inégales. Le termite a les ailes égales." },
+      { q: "Combien de temps vit une reine ?", a: "Selon l'espèce, une reine peut vivre de 15 à 20 ans, produisant des milliers d'ouvrières en continu." },
+      { q: "Le bicarbonate est-il efficace ?", a: "C'est une solution d'appoint de grand-mère qui peut en tuer quelques-unes, mais reste sans effet sur l'éradication totale." },
+      { q: "Comment les éradiquer durablement ?", a: "Il faut utiliser des micro-appâts que les fourmis transportent elles-mêmes jusqu'à la reine pour stopper le nid à la source." }
     ],
     actionImmediate: "Identifiez leur point d'entrée et ne pulvérisez pas de bombe classique qui ne ferait que les disperser.",
     mythesVsRealite: [
