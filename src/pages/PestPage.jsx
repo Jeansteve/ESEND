@@ -149,20 +149,16 @@ const PestPage = () => {
           </h3>
           
           <div className="relative text-slate-300 leading-snug font-medium text-lg md:text-2xl opacity-90 text-left">
-            {/* Image Sticker Flottante (Transparence Totale) */}
+            {/* Image Sticker Flottante (Espace de Sécurité Restauré) */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="float-left mr-20 mb-10 w-full md:w-[280px] lg:w-[320px]"
-              style={{ 
-                shapeOutside: 'inset(0 25% 10% 0 round 15%)',
-                WebkitShapeOutside: 'inset(0 25% 10% 0 round 15%)'
-              }}
+              className="float-left mr-20 mb-10 w-full md:w-[280px] lg:w-[320px] relative z-10"
             >
               <img 
                 src={pest.image} 
                 alt={pest.title} 
-                className="w-full h-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.5)]" 
+                className="w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]" 
               />
             </motion.div>
 
