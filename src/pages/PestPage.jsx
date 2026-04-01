@@ -369,7 +369,45 @@ const PestPage = () => {
           </div>
         )}
 
-        {/* Le Journal de l'Expert (Nouveau) */}
+        {/* Le Journal de l'Expert (Restauré) */}
+        {relatedArticles.length > 0 && (
+          <div className="mb-20">
+            <motion.h2 
+               initial={{ opacity: 0, x: -20 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true }}
+               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+            >
+               <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
+            </motion.h2>
+            <div className="grid lg:grid-cols-3 gap-6">
+              {relatedArticles.map((article, index) => (
+                <motion.article 
+                  key={article.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-red-600/30 transition-all flex flex-col"
+                >
+                  <div className="h-48 relative overflow-hidden">
+                    <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center gap-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-3">
+                      <Calendar className="w-3 h-3" /> {article.date}
+                    </div>
+                    <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-red-500 transition-colors uppercase italic">{article.title}</h3>
+                    <p className="text-slate-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">{article.excerpt}</p>
+                    <button className="text-red-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/btn">
+                      Lire la suite <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* FAQ Expertise (Déplacée en fin de page) */}
         <div className="mb-20">
