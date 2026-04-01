@@ -15,6 +15,11 @@ export const pests = {
       { q: "Pourquoi le traitement est technique ?", a: "Il faut combiner choc thermique (vapeur) et produits rémanents pour neutraliser les œufs et les adultes cachés." }
     ],
     actionImmediate: "Isolez vos vêtements dans des sacs étanches et ne changez pas de pièce pour dormir. Un diagnostic pro est recommandé sans attendre.",
+    mythesVsRealite: [
+      { mythe: "Elles ne vivent que dans les maisons sales.", realite: "Elles sont attirées par le sang, pas la saleté. Les hôtels 5 étoiles sont autant touchés que les autres." },
+      { mythe: "Jeter son matelas règle le problème.", realite: "Elles se cachent aussi dans les plinthes et les prises. Vous risquez d'infester le reste de l'immeuble durant le transport du matelas." },
+      { mythe: "Elles sont invisibles à l'œil nu.", realite: "Une punaise adulte a la taille d'un pépin de pomme et est parfaitement visible si l'on sait où chercher." }
+    ],
     diagnostic: [
       { q: "Avez-vous repéré de petites taches noires sur votre matelas ou sommier ?", options: ["Oui, c'est net", "Non, pas vu"] },
       { q: "Avez-vous des piqûres regroupées en ligne ou en grappe au réveil ?", options: ["Oui, ça gratte fort", "Non"] },
@@ -30,13 +35,15 @@ export const pests = {
     faq: [
         { q: "Pourquoi ai-je des rongeurs chez moi ?", a: "Ils cherchent chaleur et nourriture. Ils s'infiltrrent via des fissures, passages de tuyauterie ou bas de portes." },
         { q: "Sont-ils dangereux pour la santé ?", a: "Oui, car ils souillent les sols et surfaces avec leurs déjections et urines (risques de leptospirose ou salmonellose)." },
-        { q: "Puis-je utiliser du poison du commerce ?", a: "C'est risqué et souvent inefficace à cause de la méfiance naturelle des rats envers les nouveaux objets (néophobie)." },
+        { q: "Puis-je utiliser du poison du commerce ?", a: "C'est risqué et inefficace à cause de la méfiance naturelle des rats envers les nouveaux objets (néophobie)." },
         { q: "Comment les détecte-t-on à coup sûr ?", a: "Bruits de grattements nocturnes, odeur d'urine forte et présence d'excréments noirs caractéristiques." },
         { q: "Quels sont les dégâts matériels possibles ?", a: "Fils électriques rongés (danger d'incendie), destruction de la laine de verre et contamination des stocks alimentaires." }
     ],
     actionImmediate: "Mettez vos aliments sous scellés et identifiez les zones de passage, mais ne touchez à rien pour ne pas les effrayer.",
     mythesVsRealite: [
-      { mythe: "Les chats font fuir les rongeurs.", realite: "Un chat ne chassera pas une colonie entière, et les rats peuvent même s'attaquer aux croquettes du chat." }
+      { mythe: "Le fromage est le meilleur appât.", realite: "Ils préfèrent le beurre de cacahuète, les céréales ou les aliments riches en protéines." },
+      { mythe: "Les rats sont aveugles.", realite: "Leur vue est faible, mais ils compensent par un odorat et une audition exceptionnels permettant de naviguer dans le noir total." },
+      { mythe: "Voir un rat signifie qu'il est seul.", realite: "Ce sont des animaux sociaux. En voir un de jour indique souvent une colonie déjà trop nombreuse pour les cachettes habituelles." }
     ],
     diagnostic: [
       { q: "Entendez-vous des bruits de grattement dans les murs ou plafonds la nuit ?", options: ["Oui, nettement", "Non"] },
@@ -59,7 +66,9 @@ export const pests = {
     ],
     actionImmediate: "Établissez un périmètre de sécurité et fermez les fenêtres proches du nid. Éloignez les enfants et animaux.",
     mythesVsRealite: [
-      { mythe: "Boucher l'entrée du nid résoudra le problème.", realite: "Non, ils peuvent ronger des matériaux comme le placo pour sortir à l'intérieur de chez vous." }
+      { mythe: "Boucher l'entrée du nid suffit.", realite: "Ils peuvent ronger le placo pour sortir à l'intérieur de chez vous par une autre issue." },
+      { mythe: "La piqûre de frelon est 7x plus mortelle que l'abeille.", realite: "Sa toxicité est comparable, c'est la quantité de venin injectée et la possibilité de piqûres multiples qui créent le danger." },
+      { mythe: "Ils attaquent sans raison.", realite: "L'agressivité est une réaction de défense du nid. Isolé, un individu cherchera presque toujours à fuir." }
     ],
     diagnostic: [
       { q: "Avez-vous repéré un gros nid grisâtre ressemblant à du papier mâché ?", options: ["Oui, je le vois", "Non, juste des va-et-vient"] },
@@ -82,7 +91,9 @@ export const pests = {
     ],
     actionImmediate: "Nettoyez vos sols, videz les poubelles et identifiez les zones de chaleur. Ne pas utiliser de Javel.",
     mythesVsRealite: [
-      { mythe: "La Javel fait fuir les cafards.", realite: "Au contraire, certaines espèces peuvent être attirées par les résidus chimiques de certains nettoyants." }
+      { mythe: "Ils survivraient à une explosion nucléaire.", realite: "Ils résistent mieux aux radiations que nous, mais la chaleur intense et le souffle les tuent instantanément comme tout être vivant." },
+      { mythe: "Écraser un cafard propage ses œufs.", realite: "C'est rare car les œufs sont dans une capsule solide (oothèque), mais un nettoyage désinfectant reste indispensable." },
+      { mythe: "Ils ne sortent que la nuit.", realite: "S'ils sont visibles en plein jour, c'est le signe d'une infestation majeure et d'un manque de place dans le nid." }
     ],
     diagnostic: [
       { q: "Avez-vous vu des insectes bruns et plats fuir quand vous allumez la lumière ?", options: ["Oui, de nuit surtout", "Non"] },
@@ -104,7 +115,9 @@ export const pests = {
     ],
     actionImmediate: "Identifiez leur point d'entrée et ne pulvérisez pas de bombe classique qui ne ferait que les disperser.",
     mythesVsRealite: [
-      { mythe: "Une seule reine par nid.", realite: "Certaines espèces ont plusieurs reines (polygynie), rendant leur élimination quasi impossible sans aide technique." }
+      { mythe: "Le vinaigre détruit le nid.", realite: "Il brouille les pistes odorantes temporairement, mais la reine continue de pondre en profondeur sans être affectée." },
+      { mythe: "L'eau bouillante suffit.", realite: "Elle atteint rarement les galeries profondes où se cache la reine, provoquant juste un déplacement de la fourmilière." },
+      { mythe: "Toutes les fourmis sont inoffensives pour le bâti.", realite: "Les fourmis charpentières peuvent affaiblir les structures en bois en y creusant des galeries complexes." }
     ],
     diagnostic: [
       { q: "Observez-vous des files régulières et organisées de fourmis ?", options: ["Oui, une vraie route", "Non, isolées"] },
