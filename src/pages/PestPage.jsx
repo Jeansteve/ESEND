@@ -16,14 +16,16 @@ const PestPage = () => {
   const [step, setStep] = useState(0);
   const [score, setScore] = useState(0);
 
-  const diagnosticQuestions = [
+  const defaultDiagnosticQuestions = [
     { q: "Avez-vous observé des traces physiques ?", options: ["Oui, traces visibles", "Non, aucun signe"] },
     { q: "Entendez-vous des bruits anormaux ?", options: ["Oui, régulièrement", "Non, calme"] },
     { q: "Y a-t-il des personnes vulnérables (enfants/personnes âgées) ?", options: ["Oui", "Non"] }
   ];
 
+  const diagnosticQuestions = pest.diagnostic || defaultDiagnosticQuestions;
+
   const handleDiagnostic = (option) => {
-    if (option === "Oui" || option === "Oui, traces visibles" || option === "Oui, régulièrement") setScore(s => s + 1);
+    if (option.startsWith("Oui")) setScore(s => s + 1);
     if (step < diagnosticQuestions.length - 1) setStep(s => s + 1);
     else setStep(3); // Result step
   };
@@ -133,7 +135,7 @@ const PestPage = () => {
                   <p className="text-green-400 font-bold text-xl mb-10">Risque Faible. Restez vigilant.</p>
                 )}
                 <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-500 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] hover:scale-105 active:scale-95 border border-red-500/50">
-                  Générer mon Protocole
+                  Demander un devis gratuit
                 </Link>
               </motion.div>
             )}
@@ -185,7 +187,7 @@ const PestPage = () => {
 
         <div className="text-center">
             <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
-              Demander un Diagnostic Expert
+              Demander un devis gratuit
             </Link>
         </div>
       </div>

@@ -10,7 +10,12 @@ export const pests = {
       { q: "Puis-je les traiter moi-même ?", a: "Fortement déconseillé. Les produits grand public provoquent souvent une résistance et dispersent la colonie..." },
       { q: "Pourquoi passer par un pro ?", a: "Parce que nous utilisons des méthodes combinées (vapeur, froid, produits rémanents) qui ciblent les œufs et les nymphes..." }
     ],
-    actionImmediate: "Ne déplacez pas votre mobilier dans d'autres chambres, cela propage l'infestation. Isolez votre literie et appelez-nous pour un diagnostic sous 2h."
+    actionImmediate: "Ne déplacez pas votre mobilier dans d'autres chambres, cela propage l'infestation. Isolez votre literie et appelez-nous pour un diagnostic sous 2h.",
+    diagnostic: [
+      { q: "Avez-vous repéré de petites taches noires sur votre matelas ou sommier ?", options: ["Oui, c'est net", "Non, pas vu"] },
+      { q: "Avez-vous des piqûres regroupées en ligne ou en grappe au réveil ?", options: ["Oui, ça gratte fort", "Non"] },
+      { q: "Avez-vous vu des insectes vivants bruns/aplatis ou leurs mues ?", options: ["Oui, j'en ai vu", "Non"] }
+    ]
   },
   'rats': {
     title: 'Rats & Souris',
@@ -23,6 +28,11 @@ export const pests = {
     actionImmediate: "Si vous entendez des bruits de grattements dans les plafonds, ne bouchez pas les trous d'accès immédiatement, vous pourriez enfermer l'animal à l'intérieur, ce qui causerait une odeur de putréfaction.",
     mythesVsRealite: [
       { mythe: "Les chats feront fuir les rongeurs.", realite: "Un chat ne chassera pas une colonie entière, et les rats peuvent même s'attaquer aux croquettes du chat." }
+    ],
+    diagnostic: [
+      { q: "Entendez-vous des bruits de grattement dans les murs ou plafonds la nuit ?", options: ["Oui, nettement", "Non"] },
+      { q: "Avez-vous trouvé des excréments noirs ressemblant à des grains de riz ?", options: ["Oui", "Non"] },
+      { q: "Des câbles, plastiques ou emballages alimentaires sont-ils rongés ?", options: ["Oui, j'ai des dégâts", "Non"] }
     ]
   },
   'cafards': {
@@ -37,6 +47,11 @@ export const pests = {
     actionImmediate: "Rangez tout aliment ouvert dans des boîtes hermétiques. Essuyez toute trace d'humidité (éviers, douches), car le cafard recherche d'abord l'eau pour survivre.",
     mythesVsRealite: [
       { mythe: "La Javel fera fuir les cafards.", realite: "Certaines espèces peuvent s'habituer, et les solutions artisanales ne tuent pas le nid complet." }
+    ],
+    diagnostic: [
+      { q: "Avez-vous vu des insectes bruns et plats fuir quand vous allumez la lumière ?", options: ["Oui, de nuit surtout", "Non"] },
+      { q: "Avez-vous trouvé de minuscules capsules marron (oothèques/œufs) ?", options: ["Oui", "Non"] },
+      { q: "L'infestation se situe-t-elle dans une zone humide (cuisine, salle de bain) ?", options: ["Oui, près de points d'eau", "Non"] }
     ]
   },
   'frelons': {
@@ -51,6 +66,11 @@ export const pests = {
     actionImmediate: "Ne vous approchez pas à moins de 5 mètres du nid. Ne provoquez aucune vibration (fermeture brutale de porte, tondeuse) et contactez notre équipe sans délai.",
     mythesVsRealite: [
       { mythe: "Boucher l'entrée du nid résoudra le problème.", realite: "Ils trouveront une autre sortie, souvent en rongeant l'isolation ou le placo pour entrer à l'intérieur de la maison !" }
+    ],
+    diagnostic: [
+      { q: "Avez-vous repéré un gros nid grisâtre ressemblant à du papier mâché ?", options: ["Oui, je le vois", "Non, juste des va-et-vient"] },
+      { q: "Les insectes sont-ils nombreux et de grande taille (plus de 2 cm) ?", options: ["Oui, c'est effrayant", "Non, classiques"] },
+      { q: "Le nid est-il situé près de votre maison ou d'un lieu de passage ?", options: ["Oui, très proche", "Non, éloigné"] }
     ]
   },
   'fourmis': {
@@ -64,6 +84,11 @@ export const pests = {
     actionImmediate: "Ne tuez pas les fourmis éclaireuses avec une simple bombe. Observez leur trajet précis : identifier leur point d'entrée exact sera crucual pour notre technicien !",
     mythesVsRealite: [
       { mythe: "Une seule reine par nid.", realite: "Certaines espèces (comme la fourmi d'Argentine) ont plusieurs dizaines de reines (polygynie), rendant l'éradication classique inefficace." }
+    ],
+    diagnostic: [
+      { q: "Observez-vous des files régulières et organisées de fourmis ?", options: ["Oui, une vraie route", "Non, isolées"] },
+      { q: "Ont-elles atteint vos provisions alimentaires ou points d'eau ?", options: ["Oui, dans les placards/éviers", "Non, au sol"] },
+      { q: "Voyez-vous des montagnes de terre fine le long des plinthes ou carrelages ?", options: ["Oui", "Non"] }
     ]
   }
 };
