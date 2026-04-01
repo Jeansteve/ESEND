@@ -140,7 +140,7 @@ const PestPage = () => {
            initial={{ opacity: 0, y: 20 }} 
            animate={{ opacity: 1, y: 0 }}
            transition={{ delay: 0.2 }}
-           className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 md:p-16 rounded-[4rem] shadow-2xl relative overflow-hidden group mb-10"
+           className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 md:p-14 rounded-[2.5rem] shadow-2xl relative overflow-hidden group mb-10"
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 blur-[150px] -z-10" />
           
@@ -171,9 +171,8 @@ const PestPage = () => {
             <div className="clear-both" />
           </div>
 
-          <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center justify-between">
+          <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center">
              <span className="flex items-center gap-2">RECONNAISSANCE & COMPORTEMENT ANIMAL</span>
-             <span className="opacity-40 italic">ESEND ACADEMY • 2024</span>
           </div>
         </motion.div>
 
@@ -182,7 +181,7 @@ const PestPage = () => {
            initial={{ opacity: 0, y: 20 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ delay: 0.5 }}
-           className="w-full mb-20 bg-red-600/5 backdrop-blur-3xl border border-red-500/20 p-8 md:p-12 rounded-[3.5rem] flex flex-col md:flex-row items-center gap-10 shadow-2xl relative overflow-hidden"
+           className="w-full mb-20 bg-red-600/5 backdrop-blur-3xl border border-red-500/20 p-8 md:p-12 rounded-[2rem] flex flex-col md:flex-row items-center gap-10 shadow-2xl relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-1.5 bg-red-600" />
           <div className="bg-red-600/20 p-5 rounded-2xl shrink-0">
