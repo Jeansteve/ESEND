@@ -1,8 +1,9 @@
 export const pests = {
   'punaises-de-lit': {
     title: 'Punaises de lit',
-    image: '/images/punaises-de-lit.jpg',
+    image: '/images/punaise-sticker.png',
     description: 'Expertise Éradication : Protocole Punaise',
+    presentation: "La punaise de lit (Cimex lectularius) est un parasite nocturne qui se nourrit exclusivement de sang humain. Invisible le jour, elle se cache dans les coutures de matelas, les lattes de sommier et les fentes de murs. Sa capacité de reproduction est phénoménale : une seule femelle peut pondre jusqu'à 500 œufs dans sa vie, déclenchant une infestation totale en quelques semaines seulement.",
     faq: [
       { q: "Qu'est-ce qu'une punaise de lit ?", a: "C'est un insecte nocturne qui se nourrit exclusivement de sang humain..." },
       { q: "Pourquoi apparaissent-elles ?", a: "Elles ne sont pas liées à un manque de propreté. Elles sont ramenées via des bagages, des meubles d'occasion..." },
@@ -19,8 +20,9 @@ export const pests = {
   },
   'rats': {
     title: 'Rats & Souris',
-    image: '/images/rats-souris.jpg',
+    image: '/images/rat-sticker.png',
     description: 'Sécurisation & Éradication',
+    presentation: "Les rongeurs commensaux, comme le rat brun ou la souris domestique, sont des opportunistes redoutables. Dotés d'une intelligence sociale élevée, ils s'infiltrent dans les structures via des ouvertures de moins de 2cm. Au-delà des nuisances sonores, ils représentent un risque majeur pour l'hygiène et la sécurité (courts-circuits dus aux câbles rongés).",
     faq: [
         { q: "Quels sont les risques si je ne fais rien ?", a: "Dégâts électriques (incendies), maladies (leptospirose), dégradation des structures isolantes." },
         { q: "Comment les détecter ?", a: "Bruits de grattements, excréments, traces de gras le long des plinthes." }
@@ -37,8 +39,9 @@ export const pests = {
   },
   'cafards': {
     title: 'Cafards & Blattes',
-    image: '/images/cafards.jpg',
+    image: '/images/cafard-sticker.png',
     description: 'Désinsectisation Rapide & Préventive',
+    presentation: "La blatte (cockroach) est l'un des insectes les plus résistants de la planète. Capable de survivre sans nourriture pendant un mois, elle privilégie les zones sombres, chaudes et humides. Elles sont vectrices de nombreuses bactéries et peuvent déclencher des allergies respiratoires chez l'homme via leurs déjections.",
     faq: [
       { q: "Pourquoi ai-je des cafards alors que c'est propre ?", a: "Ils peuvent être rapportés par des emballages de supermarché ou voyager via les conduits d'aération des voisins." },
       { q: "Un cafard écrasé libère-t-il ses œufs ?", a: "S'il porte une oothèque (poche d'œufs), oui. Mieux vaut utiliser un aspireur ou un produit spécifique." },
@@ -56,8 +59,9 @@ export const pests = {
   },
   'frelons': {
     title: 'Guêpes & Frelons',
-    image: '/images/frelons.jpg',
+    image: '/frelon-t5.png', // Chemin direct vers l'original fourni par l'utilisateur
     description: 'Destruction de nids sécurisée',
+    presentation: "Le frelon (asiatique ou européen) et la guêpe sont des insectes sociaux vivant en colonies organisées autour d'une reine. Leurs nids, architecturés à base de cellulose mâchée, peuvent abriter des milliers d'individus. Le danger principal réside dans leur agressivité défensive et la toxicité de leur venin en cas de piqûres multiples.",
     faq: [
       { q: "Quelle est la différence entre une guêpe et un frelon ?", a: "Le frelon est beaucoup plus gros et son vol est bruyant. Le frelon asiatique attaque en groupe s'il se sent menacé près du nid." },
       { q: "Puis-je détruire un petit nid avec de la bombe insecticide ?", a: "Non ! Si le nid n'est pas complètement aspergé d'un coup, les centaines d'individus à l'intérieur vont sortir et vous attaquer massivement." },
@@ -75,8 +79,9 @@ export const pests = {
   },
   'fourmis': {
     title: 'Fourmis (Invasion)',
-    image: '/images/fourmis.jpg',
+    image: '/images/fourmi-sticker.png',
     description: 'Identification des pistes & Éradication',
+    presentation: "Les fourmis sont des maîtres de la logistique. Elles utilisent des pistes chimiques (phéromones) pour guider la colonie vers les sources de nourriture. Une simple miette suffit à attirer des centaines d'ouvrières en quelques minutes. L'enjeu est de neutraliser la reine, car tant qu'elle survit au cœur du nid, l'infestation renaîtra systématiquement.",
     faq: [
       { q: "Pourquoi reviennent-elles toujours au même endroit ?", a: "Elles laissent une 'piste phéromonale' invisible. Tant que cette piste n'est pas traitée avec des bloqueurs, elles reviendront." },
       { q: "Le marc de café est-il efficace ?", a: "C'est un léger répulsif temporel, mais cela ne détruira jamais la reine ou la fourmilière sous-jacente." }

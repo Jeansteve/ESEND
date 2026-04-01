@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pests } from '../data/pests';
-import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail } from 'lucide-react';
+import { articles } from '../data/articles';
+import { interventions } from '../data/interventions';
+import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info } from 'lucide-react';
 
 const PestPage = () => {
   const [searchParams] = useSearchParams();
@@ -30,6 +32,28 @@ const PestPage = () => {
     else setStep(3); // Result step
   };
 
+  const relatedArticles = articles.filter(a => a.pestType === type).slice(0, 3);
+  const relatedInterventions = interventions.filter(i => i.category === type).slice(0, 2);
+
+  // Données structurées SEO (JSON-LD)
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": pest.title,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "ESEND Menton",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Menton",
+        "postalCode": "06500",
+        "addressCountry": "FR"
+      }
+    },
+    "description": pest.description,
+    "areaServed": "Menton, Roquebrune-Cap-Martin, Beausoleil, Sospel"
+  };
+
   const iconMap = {
     'punaises-de-lit': <Snail className="w-5 h-5 md:w-6 md:h-6" />,
     'rats': <Rat className="w-5 h-5 md:w-6 md:h-6" />,
@@ -40,6 +64,9 @@ const PestPage = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20">
+      <script type="application/ld+json">
+        {JSON.stringify(jsonLd)}
+      </script>
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-12 relative items-start">
         
         {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) */}
@@ -80,30 +107,84 @@ const PestPage = () => {
         {/* Contenu de droite */}
         <div className="flex-1 min-w-0">
 
-        {/* Header Immersif */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-6">{pest.title}</h1>
-          <div className="relative mb-8">
-            <img src={pest.image} alt={pest.title} className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-3xl shadow-[0_30px_60px_rgba(220,38,38,0.15)]" />
+        {/* Header Immersif : Refonte Sticker + Présentation */}
+        <div className="mb-20">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             
-            {/* Badge Expert Flottant */}
+            {/* Colonne Texte */}
             <motion.div 
-               initial={{ scale: 0, rotate: -20 }}
-               animate={{ scale: 1, rotate: 0 }}
-               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.4 }}
-               className="absolute -bottom-4 md:-bottom-6 right-2 md:right-8 bg-slate-900/80 backdrop-blur-xl border-2 border-green-500 text-white p-3 md:p-5 rounded-2xl shadow-[0_10px_30px_rgba(34,197,94,0.3)] flex items-center gap-3 z-10"
+               initial={{ opacity: 0, x: -30 }} 
+               animate={{ opacity: 1, x: 0 }}
+               className="order-2 lg:order-1"
             >
-              <div className="bg-green-500/20 p-2 rounded-full hidden sm:block">
-                 <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-green-500" />
-              </div>
-              <div>
-                <p className="text-[10px] md:text-xs font-bold text-slate-300 uppercase tracking-widest leading-tight">Garantie</p>
-                <p className="text-sm md:text-lg font-black uppercase tracking-tighter leading-none text-green-400">Intervention Pro</p>
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 flex items-center gap-2"
+              >
+                <div className="w-8 h-px bg-red-600" /> FICHE TECHNIQUE EXPERT
+              </motion.div>
+              
+              <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
+                {pest.title}
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-slate-300 font-bold uppercase tracking-widest mb-8 border-l-4 border-red-600 pl-6 py-1">
+                {pest.description}
+              </p>
+
+              <div className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-red-600/5 blur-3xl group-hover:bg-red-600/10 transition-colors" />
+                <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 mb-4 flex items-center gap-2">
+                   <Info className="w-4 h-4 text-red-600" /> Présentation Générale
+                </h3>
+                <p className="text-slate-300 leading-relaxed font-medium text-lg">
+                  {pest.presentation}
+                </p>
               </div>
             </motion.div>
+
+            {/* Colonne Illustration Sticker */}
+            <motion.div 
+               initial={{ opacity: 0, scale: 0.8, rotate: 5 }} 
+               animate={{ opacity: 1, scale: 1, rotate: 0 }}
+               className="order-1 lg:order-2 relative"
+            >
+              <motion.div
+                animate={{ y: [0, -20, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                className="relative z-10"
+              >
+                <img 
+                  src={pest.image} 
+                  alt={pest.title} 
+                  className="w-full max-w-[500px] mx-auto drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] active:scale-95 transition-transform cursor-pointer" 
+                  title="Illustration Expert ESEND"
+                />
+              </motion.div>
+
+              {/* Badge Expert Flottant (Positionné par rapport au sticker) */}
+              <motion.div 
+                 initial={{ scale: 0, x: 20 }}
+                 animate={{ scale: 1, x: 0 }}
+                 transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.6 }}
+                 className="absolute -bottom-4 lg:-bottom-10 -right-2 lg:-right-6 bg-slate-900/90 backdrop-blur-xl border-2 border-green-500 text-white p-4 md:p-6 rounded-3xl shadow-[0_20px_40px_rgba(34,197,94,0.3)] flex items-center gap-4 z-20"
+              >
+                <div className="bg-green-500/20 p-2 rounded-full">
+                   <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-tight">Garantie</p>
+                  <p className="text-sm md:text-xl font-black uppercase tracking-tighter leading-none text-green-400">Intervention Pro</p>
+                </div>
+              </motion.div>
+
+              {/* Effet de lueur derrière le sticker */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-red-600/10 blur-[100px] -z-10 rounded-full" />
+            </motion.div>
+
           </div>
-          <p className="text-xl md:text-2xl text-slate-400 font-bold uppercase tracking-widest pl-2 border-l-4 border-red-600">{pest.description}</p>
-        </motion.div>
+        </div>
 
         {/* Widget Calculateur de Gravité */}
         <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 p-8 sm:p-12 rounded-[2.5rem] mb-16 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
@@ -223,8 +304,8 @@ const PestPage = () => {
             </div>
         )}
 
-        {/* FAQ Expertise */}
-        <div className="mb-16">
+        {/* FAQ Expertise (Restaurée) */}
+        <div className="mb-20">
           <motion.h2 
              initial={{ opacity: 0, x: -20 }}
              whileInView={{ opacity: 1, x: 0 }}
@@ -257,10 +338,102 @@ const PestPage = () => {
           </div>
         </div>
 
-        <div className="text-center">
+        {/* Expertise Terrain (Nouveau) */}
+        {relatedInterventions.length > 0 && (
+          <div className="mb-20">
+            <motion.h2 
+               initial={{ opacity: 0, x: -20 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true }}
+               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+            >
+               <Target className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Nos Interventions Récentes
+            </motion.h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {relatedInterventions.map((item) => (
+                <motion.div 
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  className="group relative overflow-hidden rounded-[2.5rem] bg-slate-900/40 border border-white/5 flex flex-col shadow-xl"
+                >
+                  <div className="h-64 relative overflow-hidden">
+                    <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-80" />
+                    <div className="absolute bottom-6 left-6 flex items-center gap-2 bg-red-600 px-3 py-1.5 rounded-full">
+                       <MapPin className="w-3 h-3 text-white" />
+                       <span className="text-[10px] font-black uppercase tracking-widest text-white">{item.location}</span>
+                    </div>
+                  </div>
+                  <div className="p-8">
+                    <h3 className="text-2xl font-black uppercase mb-4 group-hover:text-red-500 transition-colors">{item.title}</h3>
+                    <p className="text-slate-400 text-sm mb-6 leading-relaxed italic">"{item.description}"</p>
+                    <div className="flex items-center gap-4 pt-6 border-t border-white/5">
+                      <div className="flex items-center gap-2 text-green-400">
+                        <CheckCircle className="w-4 h-4" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Résultat validé</span>
+                      </div>
+                      <Link to="/realisations" className="ml-auto text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-2">
+                        Détails <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Le Journal de l'Expert (Nouveau) */}
+        {relatedArticles.length > 0 && (
+          <div className="mb-20">
+            <motion.h2 
+               initial={{ opacity: 0, x: -20 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true }}
+               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+            >
+               <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
+            </motion.h2>
+            <div className="grid lg:grid-cols-3 gap-6">
+              {relatedArticles.map((article, index) => (
+                <motion.article 
+                  key={article.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-red-600/30 transition-all flex flex-col"
+                >
+                  <div className="h-48 relative overflow-hidden">
+                    <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center gap-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-3">
+                      <Calendar className="w-3 h-3" /> {article.date}
+                    </div>
+                    <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-red-500 transition-colors uppercase italic">{article.title}</h3>
+                    <p className="text-slate-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">{article.excerpt}</p>
+                    <button className="text-red-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/btn">
+                      Lire la suite <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="text-center bg-slate-900/60 border border-red-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[80px] -z-10" />
+            <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter">Prêt à sécuriser votre foyer ?</h4>
             <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
               Demander un devis gratuit
             </Link>
+            <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+              <ShieldCheck className="w-4 h-4" /> Devis sans engagement sous 15 minutes
+            </p>
         </div>
         </div>
       </div>

@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, X, ShieldCheck, MapPin, Calendar, Target, Activity, ArrowLeft, Filter } from 'lucide-react';
+import { Camera, X, ShieldCheck, MapPin, Calendar, Target, Activity, ArrowLeft, Filter, Info } from 'lucide-react';
+import { interventions } from '../data/interventions';
 import { Link } from 'react-router-dom';
-
-const interventions = [
-  { id: 1, title: 'Éradication Rongeurs - Restauration', location: 'Vieille Ville, Menton', tag: 'Nuisibles', category: 'Nuisibles', img: 'https://images.unsplash.com/photo-1590650516195-0f306ae04313?q=80&w=2070&auto=format&fit=crop', description: "Intervention critique dans un établissement de restauration. Le Duo ESEND a identifié les points d'entrée structurels et mis en place un protocole d'éradication complet sous 48h.", method: "Postes sécurisés haute technologie (Expert ESEND)", result: "Éradication complète validée", date: "Mars 2026" },
-  { id: 2, title: 'Nettoyage Intégral - Fin de Bail', location: 'Promenade du Soleil, Menton', tag: 'Nettoyage', category: 'Nettoyage', img: 'https://images.unsplash.com/photo-1581578731548-c64695ce6958?q=80&w=2070&auto=format&fit=crop', description: "Remise à neuf complète d'un appartement de standing. Travail de précision sur les vitrages et surfaces nobles par le duo.", method: "Nettoyage haute finition (Sans traces)", result: "État des lieux validé sans réserve", date: "Février 2026" }
-];
 
 const categories = ['Tous', 'Nuisibles', 'Désinfection', 'Nettoyage'];
 

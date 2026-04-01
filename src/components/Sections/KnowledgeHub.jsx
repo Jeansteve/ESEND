@@ -2,35 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Calendar } from 'lucide-react';
 
-const mockArticles = [
-  {
-    id: 'punaises',
-    category: 'Conseil',
-    title: 'Les bons gestes face aux punaises de lit',
-    excerpt: 'Découvrez comment identifier une infestation et les premiers réflexes à adopter avant notre intervention.',
-    date: '12 Mars',
-    readTime: '3 min',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    id: 'cafards',
-    category: 'Actualité',
-    title: 'Invasion de cafards : comprendre le cycle',
-    excerpt: 'Pourquoi une blatte germanique peut infester votre cuisine si rapidement ? On vous explique leur biologie.',
-    date: '28 Fév',
-    readTime: '4 min',
-    image: 'https://images.unsplash.com/photo-1628191139360-4083564d03fd?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    id: 'pro',
-    category: 'Pro',
-    title: 'Hôtellerie : sécurisez vos chambres',
-    excerpt: 'Un plan de prévention sur-mesure pour les professionnels du tourisme face à la recrudescence globale des nuisibles.',
-    date: '15 Fév',
-    readTime: '5 min',
-    image: 'https://images.unsplash.com/photo-1452723312111-3a7d0db0e024?q=80&w=1000&auto=format&fit=crop'
-  }
-];
+import { articles } from '../../data/articles';
 
 const KnowledgeHub = () => {
   return (
@@ -65,7 +37,7 @@ const KnowledgeHub = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockArticles.map((article, index) => (
+          {articles.slice(0, 3).map((article, index) => (
             <motion.article 
               key={article.id}
               initial={{ opacity: 0, y: 20 }}
