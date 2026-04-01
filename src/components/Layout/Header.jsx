@@ -32,7 +32,6 @@ const Header = () => {
         { name: 'Dératisation & Nuisibles', href: '/services/nuisibles', desc: 'Éradication radicale & durable' },
         { name: 'Désinfection Bio-Sécurité', href: '/services/desinfection', desc: 'Protocoles virucides certifiés' },
         { name: 'Nettoyage & Vitrerie', href: '/services/nettoyage', desc: 'Finition crystal de prestige' },
-        { name: 'Débarrassage & Archives', href: '/realisations', desc: 'Logistique & mise en valeur' },
       ]
     },
     { name: 'Nos réalisations', href: '/realisations', type: 'link' },
@@ -108,7 +107,7 @@ const Header = () => {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute top-full left-1/2 -translate-x-1/2 w-64 pt-2"
+                            className="absolute top-full left-0 w-64 pt-2"
                         >
                             <div className="bg-slate-950/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl overflow-hidden shadow-red-900/10">
                                 {item.subItems.map((sub) => (
