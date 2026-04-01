@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import ServicePage from './pages/ServicePage'
 import PestPage from './pages/PestPage'
 import DisinfectionPage from './pages/DisinfectionPage'
+import CleaningPage from './pages/CleaningPage'
 import PortfolioPage from './pages/PortfolioPage'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/services/:serviceId" element={<ServicePage />} />
             <Route path="/services/nuisibles" element={<PestPage />} />
             <Route path="/services/desinfection" element={<DisinfectionPage />} />
+            <Route path="/services/nettoyage" element={<CleaningPage />} />
             <Route path="/realisations" element={<PortfolioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

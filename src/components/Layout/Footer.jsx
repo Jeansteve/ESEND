@@ -23,10 +23,10 @@ const Footer = () => {
         <div>
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
           <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-zinc-400">
-            <li><Link to="/#services" className="hover:text-white transition-colors">Menton & Roquebrune</Link></li>
+            <li><Link to="/services/nuisibles" className="hover:text-white transition-colors">Dératisation & Nuisibles</Link></li>
             <li><Link to="/services/desinfection" className="hover:text-cyan-400 transition-colors text-cyan-500/80">Désinfection Bio-Sécurité</Link></li>
-            <li><Link to="/services/nuisibles?type=rats" className="hover:text-white transition-colors">Dératisation Menton</Link></li>
-            <li><Link to="/realisations" className="hover:text-white transition-colors">Débarrassage Riviera</Link></li>
+            <li><Link to="/services/nettoyage" className="hover:text-indigo-400 transition-colors text-indigo-500/80">Nettoyage & Vitrerie</Link></li>
+            <li><Link to="/realisations" className="hover:text-white transition-colors">Débarrassage & Archives</Link></li>
           </ul>
         </div>
 

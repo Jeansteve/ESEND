@@ -189,5 +189,37 @@ export const articles = [
     date: '10 Mars 2026',
     readTime: '4 min',
     image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2070'
+  },
+
+  // --- NETTOYAGE & VITRERIE ---
+  {
+    id: 'nettoyage-eau-pure-1',
+    category: 'Innovation',
+    category_id: 'nettoyage',
+    title: 'L\'innovation de l\'eau pure : Au-delà de la raclette',
+    excerpt: 'Pourquoi la technologie de l\'eau déminéralisée est révolutionnaire pour vos vitrages et panneaux solaires.',
+    date: '28 Mars 2026',
+    readTime: '4 min',
+    image: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=2070'
+  },
+  {
+    id: 'nettoyage-chantier-2',
+    category: 'Expertise',
+    category_id: 'nettoyage',
+    title: 'Nettoyage de fin de chantier : 5 points critiques',
+    excerpt: 'Laitance de ciment, poussières fines, rails de fenêtres : ce qu\'il ne faut surtout pas rater avant d\'emménager.',
+    date: '22 Mars 2026',
+    readTime: '5 min',
+    image: 'https://images.unsplash.com/photo-1581578731548-c64695ce6958?q=80&w=2070'
+  },
+  {
+    id: 'nettoyage-eco-3',
+    category: 'Engagement',
+    category_id: 'nettoyage',
+    title: 'Eco-Entretien : Protéger la Riviera',
+    excerpt: 'Pourquoi nous bannissons les produits agressifs au profit de solutions certifiées et de méthodes mécaniques.',
+    date: '15 Mars 2026',
+    readTime: '3 min',
+    image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2070'
   }
 ];
