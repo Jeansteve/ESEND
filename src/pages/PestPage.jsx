@@ -148,26 +148,26 @@ const PestPage = () => {
              <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" /> FICHE BIOLOGIQUE DÉTAILLÉE
           </h3>
           
-          <div className="relative text-slate-300 leading-relaxed font-medium text-lg md:text-2xl opacity-90">
-            {/* Image Sticker Flottante (Style Magazine) */}
+          <div className="relative text-slate-300 leading-snug font-medium text-lg md:text-2xl opacity-90 text-left">
+            {/* Image Sticker Flottante (Transparence Totale) */}
             <motion.div
-              animate={{ y: [0, -15, 0] }}
+              animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="float-left mr-12 mb-10 w-full md:w-[380px] lg:w-[420px] shape-outside-circle"
-              style={{ shapeOutside: 'circle(50%)' }}
+              className="float-left mr-10 mb-6 w-full md:w-[350px] lg:w-[400px]"
+              style={{ 
+                shapeOutside: 'inset(0 10% 20% 0 round 20%)',
+                WebkitShapeOutside: 'inset(0 10% 20% 0 round 20%)'
+              }}
             >
-              <div className="relative p-8 bg-white/[0.01] border border-white/5 rounded-[3.5rem] overflow-hidden">
-                <img 
-                  src={pest.image} 
-                  alt={pest.title} 
-                  className="w-full h-auto object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.8)]" 
-                />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
-              </div>
+              <img 
+                src={pest.image} 
+                alt={pest.title} 
+                className="w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]" 
+              />
             </motion.div>
 
-            {/* Texte qui habille l'image */}
-            <div className="whitespace-pre-line italic">
+            {/* Texte parfaitement aligné à gauche */}
+            <div className="whitespace-pre-line text-left">
               {pest.presentation}
             </div>
 
