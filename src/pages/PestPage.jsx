@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pests } from '../data/pests';
-import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator } from 'lucide-react';
+import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail } from 'lucide-react';
 
 const PestPage = () => {
   const [searchParams] = useSearchParams();
@@ -28,17 +28,47 @@ const PestPage = () => {
     else setStep(3); // Result step
   };
 
+  const iconMap = {
+    'punaises-de-lit': <Snail className="w-5 h-5 mb-1" />,
+    'rats': <Rat className="w-5 h-5 mb-1" />,
+    'cafards': <Bug className="w-5 h-5 mb-1" />,
+    'frelons': <ShieldCheck className="w-5 h-5 mb-1" />,
+    'fourmis': <Asterisk className="w-5 h-5 mb-1" />
+  };
+
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-24 pb-20">
+    <div className="min-h-screen bg-[#020617] text-white pt-24 pb-20 overflow-x-hidden">
       <div className="max-w-4xl mx-auto px-6">
         
-        {/* Hub Dynamique */}
-        <div className="flex flex-wrap gap-2 mb-12 bg-white/5 p-2 rounded-full overflow-x-auto">
-          {pestKeys.map(key => (
-            <Link key={key} to={`/services/nuisibles?type=${key}`} className={`px-4 py-2 rounded-full text-xs font-bold uppercase transition ${type === key ? 'bg-red-600' : 'hover:bg-white/10'}`}>
-              {pests[key].title}
-            </Link>
-          ))}
+        {/* Sélecteur Premium Interactif */}
+        <div className="relative flex w-full mb-16 bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+          <div className="flex w-full min-w-max">
+            {pestKeys.map(key => {
+              const isActive = type === key;
+              return (
+                <Link 
+                  key={key} 
+                  to={`/services/nuisibles?type=${key}`} 
+                  className={`relative flex-1 flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl transition-all duration-300 ${isActive ? 'text-white' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                >
+                  {isActive && (
+                    <motion.div 
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-red-600 rounded-2xl shadow-[0_0_20px_rgba(220,38,38,0.4)]"
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <div className="relative z-10 flex flex-col items-center">
+                    {iconMap[key]}
+                    <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-center mt-1">
+                      {pests[key].title.split(' ')[0]} {/* Affiche le premier mot pour que ça tienne bien */}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
         {/* Header Immersif */}
