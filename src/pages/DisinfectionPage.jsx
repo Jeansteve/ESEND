@@ -25,7 +25,7 @@ const DisinfectionPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const relatedArticles = articles.filter(a => a.category === 'hygiene' || a.title.toLowerCase().includes('désinfection')).slice(0, 3);
+  const relatedArticles = articles.filter(a => a.category_id === 'hygiene' || a.title.toLowerCase().includes('désinfection')).slice(0, 3);
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 selection:bg-cyan-500/30">

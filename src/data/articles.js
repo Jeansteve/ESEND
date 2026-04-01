@@ -157,5 +157,37 @@ export const articles = [
     date: '11 Mars 2026',
     readTime: '3 min',
     image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=2070'
+  },
+
+  // --- DÉSINFECTION & HYGIÈNE ---
+  {
+    id: 'desinfection-ulv-1',
+    category: 'Technique',
+    category_id: 'hygiene',
+    title: 'Nébulisation ULV : La science du brouillard sec',
+    excerpt: 'Pourquoi cette technologie est la seule capable de saturer un volume complet pour une désinfection totale.',
+    date: '25 Mars 2026',
+    readTime: '5 min',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070'
+  },
+  {
+    id: 'desinfection-virus-2',
+    category: 'Santé',
+    category_id: 'hygiene',
+    title: 'Virus & Bio-films : Comprendre l\'invisible',
+    excerpt: 'Comment les micro-organismes s\'organisent pour résister aux nettoyages classiques.',
+    date: '18 Mars 2026',
+    readTime: '6 min',
+    image: 'https://images.unsplash.com/photo-1583946029363-3d142ce14f17?q=80&w=2070'
+  },
+  {
+    id: 'desinfection-normes-3',
+    category: 'Normes',
+    category_id: 'hygiene',
+    title: 'Norme EN 14476 : Le gage de sécurité virucide',
+    excerpt: 'Décryptage des certifications nécessaires pour une désinfection réellement efficace contre le COVID et la grippe.',
+    date: '10 Mars 2026',
+    readTime: '4 min',
+    image: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2070'
   }
 ];
