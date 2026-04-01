@@ -7,3 +7,16 @@
   2. Fixer un padding de sécurité (`pt-20`) égal à la hauteur du Header.
   3. Utiliser `flex-grow` sur l'élément central (Image) pour absorber les variations de hauteur d'écran.
 - **Règle d'Or (UI Mobile) :** Pour les vues "Above-the-fold" denses avec Header fixe, NE JAMAIS utiliser le centrage automatique (`justify-center`). Privilégier un ancrage par le haut avec compensation de padding.
+
+### [PSA-2026-04-01-A] : Découplage Backdrop-Filter (Nested Blurs)
+- **Le Problème :** Le menu déroulant devenait opaque ou perdait son flou lors du défilement.
+- **Cause Racine :** Les navigateurs WebKit/Blink peinent à gérer un `backdrop-filter` imbriqué dans un autre parent possédant déjà un flou (le Header fixe après scroll).
+- **La Solution :** Découpler le Header :
+  1. Utiliser un conteneur `header` sans couleur ni flou.
+  2. Ajouter une `div` absolue `inset-0` pour le fond flou du Header (géré par l'opacité au scroll).
+  3. Le dropdown, dès lors, n'est plus "héritier" d'un filtre imbriqué, ce qui résout le bug visuel.
+
+### [PSA-2026-04-01-B] : Architecture Hubs Expertise (Standardisation)
+- **Concept :** Transformation des pages services en "Encyclopédies Tactiques" autonomes.
+- **Structure Standard :** Hero > Protocoles (Bento) > Mythes vs Réalité > Journal de l'Expert > FAQ > CTA Devis.
+- **Lien avec FormWizard :** Le bouton devis doit pointer vers `/#devis` avec un hash listener pour garantir l'ouverture immédiate du wizard, même en navigation inter-page.
