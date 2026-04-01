@@ -93,11 +93,11 @@ const Header = () => {
             >
                 <div className="flex items-center gap-1.5 cursor-pointer group">
                     {item.type === 'link' ? (
-                        <Link to={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{item.name}</Link>
+                        <Link to={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{item.name}</Link>
                     ) : (
-                        <a href={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{item.name}</a>
+                        <a href={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{item.name}</a>
                     )}
-                    {item.subItems && <ChevronDown className={`w-3 h-3 text-white/40 group-hover:text-red-500 transition-all ${hoveredItem === item.name ? 'rotate-180' : ''}`} />}
+                    {item.subItems && <ChevronDown className={`w-3.5 h-3.5 text-white/40 group-hover:text-red-500 transition-all ${hoveredItem === item.name ? 'rotate-180' : ''}`} />}
                 </div>
 
                 {/* Submenu Desktop */}
@@ -107,18 +107,24 @@ const Header = () => {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute top-full left-0 w-64 pt-2"
+                            className="absolute top-full left-1/2 -translate-x-1/2 w-72 pt-3"
                         >
-                            <div className="bg-slate-950/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-2 shadow-2xl overflow-hidden shadow-red-900/10">
+                            {/* Pointeur Visuel */}
+                            <div className="absolute top-[8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-slate-900 border-l border-t border-white/20 rotate-45 z-0" />
+                            
+                            <div className="relative z-10 bg-slate-900/98 backdrop-blur-2xl border border-white/20 rounded-2xl p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
                                 {item.subItems.map((sub) => (
                                     <Link 
                                         key={sub.name} 
                                         to={sub.href} 
                                         onClick={(e) => handleNavClick(e, { ...sub, type: 'link' })}
-                                        className="sub-link flex flex-col p-3 rounded-xl hover:bg-white/5 transition-all group/sub"
+                                        className="sub-link flex flex-col p-3.5 rounded-xl hover:bg-white/5 transition-all group/sub"
                                     >
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-white group-hover/sub:text-red-500 transition-colors">{sub.name}</span>
-                                        <span className="text-[8px] font-bold text-slate-500 mt-0.5 line-clamp-1">{sub.desc}</span>
+                                        <div className="flex items-center justify-between mb-0.5">
+                                            <span className="text-xs font-black uppercase tracking-widest text-white group-hover/sub:text-red-500 transition-colors">{sub.name}</span>
+                                            <ArrowRight className="w-3 h-3 text-red-600 opacity-0 -translate-x-2 group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all" />
+                                        </div>
+                                        <span className="text-[10px] font-bold text-slate-400 group-hover/sub:text-slate-300 transition-colors line-clamp-1">{sub.desc}</span>
                                     </Link>
                                 ))}
                             </div>
@@ -141,10 +147,10 @@ const Header = () => {
                 <Link
                   to="/#devis"
                   onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })}
-                  className="relative group overflow-hidden bg-red-600 text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
+                  className="relative group overflow-hidden bg-red-600 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
                 >
                   <span className="relative z-10">Devis</span>
-                  <ArrowRight className="w-3 h-3 relative z-10 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 relative z-10 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
             )}
@@ -203,8 +209,8 @@ const Header = () => {
                                         onClick={(e) => handleNavClick(e, { ...sub, type: 'link' })}
                                         className="sub-link flex flex-col pt-1"
                                     >
-                                        <span className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-red-600 transition-colors">{sub.name}</span>
-                                        <span className="text-[8px] font-medium text-slate-500 mt-0.5">{sub.desc}</span>
+                                        <span className="text-[11px] font-bold uppercase tracking-wider text-white hover:text-red-600 transition-colors">{sub.name}</span>
+                                        <span className="text-[9px] font-medium text-slate-500 mt-0.5">{sub.desc}</span>
                                     </Link>
                                 ))}
                             </motion.div>
