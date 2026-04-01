@@ -62,7 +62,7 @@ const Hero = () => {
           {/* Desktop CTA Block */}
           <div className="hidden lg:flex flex-row gap-8 items-center justify-start mb-10 mt-10">
             <motion.a 
-              href="#devis"
+              href="/#devis"
               onClick={scrollToDevis}
               variants={ctaPulseVariants}
               initial="initial"
@@ -106,7 +106,7 @@ const Hero = () => {
           {/* MOBILE ONLY CTA BLOCK */}
           <div className="lg:hidden w-full flex flex-col items-center gap-[clamp(0.5rem,1.5vh,1rem)] mt-auto mb-4 relative z-30">
             <motion.a 
-              href="#devis"
+              href="/#devis"
               onClick={scrollToDevis}
               variants={ctaPulseVariants}
               initial="initial"

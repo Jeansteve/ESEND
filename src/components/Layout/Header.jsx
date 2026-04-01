@@ -36,7 +36,7 @@ const Header = () => {
         e.preventDefault();
         const target = document.getElementById(targetId);
         if (target) {
-          const headerOffset = 80;
+          const headerOffset = 100;
           const elementPosition = target.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
@@ -129,7 +129,11 @@ const Header = () => {
                     06 51 23 98 41
                   </div>
                 </a>
-                <a href="/#devis" onClick={(e) => handleNavClick(e, { type: 'anchor', href: '/#devis' })} className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[10px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all">
+                <a 
+                  href="/#devis" 
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '/#devis' })} 
+                  className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[10px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all cursor-pointer"
+                >
                   <span>Demander un devis</span>
                   <ArrowRight className="w-5 h-5" />
                 </a>
