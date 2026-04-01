@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { pests } from '../data/pests';
 import { articles } from '../data/articles';
 import { interventions } from '../data/interventions';
-import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info } from 'lucide-react';
+import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info, Lightbulb } from 'lucide-react';
 
 const PestPage = () => {
   const [searchParams] = useSearchParams();
