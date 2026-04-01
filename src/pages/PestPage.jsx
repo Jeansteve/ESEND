@@ -67,11 +67,11 @@ const PestPage = () => {
       <script type="application/ld+json">
         {JSON.stringify(jsonLd)}
       </script>
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-12 relative items-start">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-6 relative items-start">
         
-        {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) */}
-        <div className="w-full md:w-56 lg:w-72 shrink-0 z-20 relative">
-          <div className="md:fixed md:top-32 md:w-56 lg:w-72 relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+        {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) : Plus compact */}
+        <div className="w-full md:w-56 lg:w-64 shrink-0 z-20 relative">
+          <div className="md:fixed md:top-32 md:w-56 lg:w-64 relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
             <div className="flex md:flex-col w-full min-w-max md:min-w-0 gap-1 md:gap-2">
               {pestKeys.map(key => {
                 const isActive = type === key;
@@ -107,7 +107,7 @@ const PestPage = () => {
         {/* Contenu de droite */}
         <div className="flex-1 min-w-0">
 
-        {/* Header Immersif : Titre & Description en Pleine Largeur */}
+        {/* Header Immersif */}
         <div className="mb-12">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
@@ -120,23 +120,23 @@ const PestPage = () => {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none"
+            className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6 leading-none"
           >
             {pest.title}
           </motion.h1>
           
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-xl md:text-3xl text-slate-300 font-bold uppercase tracking-widest border-l-4 border-red-600 pl-6 py-2"
+            className="text-lg md:text-xl text-slate-300 font-bold uppercase tracking-widest border-l-4 border-red-600 pl-6 py-2"
           >
             {pest.description}
           </motion.p>
         </div>
 
-        {/* Grille de présentation équilibrée */}
-        <div className="grid lg:grid-cols-[1fr_450px] gap-8 lg:gap-16 items-start mb-20">
+        {/* Grille de présentation optimisée : Ratio 2/1 pour le texte */}
+        <div className="grid lg:grid-cols-[2fr_1fr] gap-6 lg:gap-8 items-start mb-20">
           
           {/* Bloc Encyclopédie : Résumé percutant */}
           <motion.div 
