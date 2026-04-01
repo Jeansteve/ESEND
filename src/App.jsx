@@ -5,6 +5,7 @@ import Footer from './components/Layout/Footer'
 import Home from './pages/Home'
 import ServicePage from './pages/ServicePage'
 import PestPage from './pages/PestPage'
+import DisinfectionPage from './pages/DisinfectionPage'
 import PortfolioPage from './pages/PortfolioPage'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/services/:serviceId" element={<ServicePage />} />
             <Route path="/services/nuisibles" element={<PestPage />} />
+            <Route path="/services/desinfection" element={<DisinfectionPage />} />
             <Route path="/realisations" element={<PortfolioPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
