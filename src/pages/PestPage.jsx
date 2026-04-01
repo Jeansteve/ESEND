@@ -39,12 +39,12 @@ const PestPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 overflow-x-hidden">
+    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-12 relative items-start">
         
-        {/* Sélecteur Premium Sidebar Sticky (PC/Tablette) */}
-        <div className="w-full md:w-56 lg:w-72 shrink-0 md:sticky md:top-32 z-20">
-          <div className="relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+        {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) */}
+        <div className="w-full md:w-56 lg:w-72 shrink-0 z-20 relative">
+          <div className="md:fixed md:top-32 md:w-56 lg:w-72 relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
             <div className="flex md:flex-col w-full min-w-max md:min-w-0 gap-1 md:gap-2">
               {pestKeys.map(key => {
                 const isActive = type === key;
