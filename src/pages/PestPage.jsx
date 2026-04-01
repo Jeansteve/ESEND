@@ -135,38 +135,39 @@ const PestPage = () => {
           </motion.p>
         </div>
 
-        {/* Grille de présentation équilibrée avec hauteurs égales */}
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-stretch mb-20">
+        {/* Grille de présentation équilibrée */}
+        <div className="grid lg:grid-cols-[1fr_450px] gap-8 lg:gap-16 items-start mb-20">
           
-          {/* Bloc Encyclopédie : S'étire sur toute la hauteur */}
+          {/* Bloc Encyclopédie : Résumé percutant */}
           <motion.div 
              initial={{ opacity: 0, scale: 0.95 }} 
              animate={{ opacity: 1, scale: 1 }}
              transition={{ delay: 0.2 }}
-             className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden group flex flex-col h-full"
+             className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 md:p-10 rounded-[3rem] shadow-2xl relative overflow-hidden group self-stretch flex flex-col"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[120px] group-hover:bg-red-600/10 transition-colors -z-10" />
             
-            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-red-500 mb-8 flex items-center gap-3">
+            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-red-500 mb-6 flex items-center gap-3">
                <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" /> Présentation Générale
             </h3>
             
-            <div className="text-slate-300 leading-relaxed font-medium text-lg md:text-xl space-y-6 flex-grow whitespace-pre-line">
+            <div className="text-slate-300 leading-relaxed font-medium text-lg md:text-2xl space-y-4 flex-grow whitespace-pre-line italic">
               {pest.presentation}
             </div>
 
-            <div className="mt-10 pt-8 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
-               <ShieldCheck className="w-4 h-4 text-green-500" /> Information validée par nos experts de terrain
+            <div className="mt-8 pt-6 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center justify-between">
+               <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-green-500" /> Expert Terrain</span>
+               <span className="opacity-50 italic">Détails complets en FAQ ↓</span>
             </div>
           </motion.div>
 
-          {/* Illustration Sticker & Info Cruciale : S'étire aussi */}
-          <div className="flex flex-col justify-between h-full gap-8">
+          {/* Illustration Sticker & Info Cruciale */}
+          <div className="flex flex-col gap-8">
             <motion.div 
                initial={{ opacity: 0, rotate: 5 }} 
                animate={{ opacity: 1, rotate: 0 }}
                transition={{ delay: 0.3 }}
-               className="relative flex flex-grow items-center justify-center p-8 bg-white/[0.01] border border-white/5 rounded-[3rem] overflow-hidden"
+               className="relative flex items-center justify-center p-8 bg-white/[0.01] border border-white/5 rounded-[3rem] overflow-hidden"
             >
               <motion.div
                 animate={{ y: [0, -15, 0] }}
@@ -176,7 +177,7 @@ const PestPage = () => {
                 <img 
                   src={pest.image} 
                   alt={pest.title} 
-                  className="w-full max-w-[420px] mx-auto drop-shadow-[0_40px_80px_rgba(0,0,0,0.7)]" 
+                  className="w-full max-h-[350px] object-contain mx-auto drop-shadow-[0_40px_80px_rgba(0,0,0,0.7)]" 
                 />
               </motion.div>
 
@@ -184,7 +185,7 @@ const PestPage = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
             </motion.div>
 
-            {/* Nouveau Badge : L'Info Cruciale (S'aligne en bas du bloc d'à côté) */}
+            {/* Nouveau Badge : L'Info Cruciale */}
             <motion.div 
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
@@ -196,8 +197,8 @@ const PestPage = () => {
                  <AlertTriangle className="w-8 h-8 text-red-500" />
               </div>
               <div>
-                <p className="text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-2">L'Info Cruciale</p>
-                <p className="text-base md:text-xl text-white font-black leading-tight italic uppercase tracking-tighter">
+                <p className="text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-2 text-center md:text-left">L'Info Cruciale</p>
+                <p className="text-base md:text-lg text-white font-black leading-tight italic uppercase tracking-tighter text-center md:text-left">
                    "{pest.expertFact}"
                 </p>
               </div>
