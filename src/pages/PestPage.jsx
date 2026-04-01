@@ -81,10 +81,28 @@ const PestPage = () => {
         <div className="flex-1 min-w-0">
 
         {/* Header Immersif */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6">{pest.title}</h1>
-          <img src={pest.image} alt={pest.title} className="w-full h-80 object-cover rounded-2xl shadow-2xl shadow-red-900/20 mb-8" />
-          <p className="text-2xl text-slate-400 font-bold uppercase tracking-widest">{pest.description}</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter uppercase mb-6">{pest.title}</h1>
+          <div className="relative mb-8">
+            <img src={pest.image} alt={pest.title} className="w-full h-64 md:h-80 lg:h-96 object-cover rounded-3xl shadow-[0_30px_60px_rgba(220,38,38,0.15)]" />
+            
+            {/* Badge Expert Flottant */}
+            <motion.div 
+               initial={{ scale: 0, rotate: -20 }}
+               animate={{ scale: 1, rotate: 0 }}
+               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.4 }}
+               className="absolute -bottom-4 md:-bottom-6 right-2 md:right-8 bg-slate-900/80 backdrop-blur-xl border-2 border-green-500 text-white p-3 md:p-5 rounded-2xl shadow-[0_10px_30px_rgba(34,197,94,0.3)] flex items-center gap-3 z-10"
+            >
+              <div className="bg-green-500/20 p-2 rounded-full hidden sm:block">
+                 <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-green-500" />
+              </div>
+              <div>
+                <p className="text-[10px] md:text-xs font-bold text-slate-300 uppercase tracking-widest leading-tight">Garantie</p>
+                <p className="text-sm md:text-lg font-black uppercase tracking-tighter leading-none text-green-400">Intervention Pro</p>
+              </div>
+            </motion.div>
+          </div>
+          <p className="text-xl md:text-2xl text-slate-400 font-bold uppercase tracking-widest pl-2 border-l-4 border-red-600">{pest.description}</p>
         </motion.div>
 
         {/* Widget Calculateur de Gravité */}
@@ -150,44 +168,91 @@ const PestPage = () => {
         </div>
 
         {/* Action Immédiate */}
-        <div className="bg-red-600/10 border border-red-600/50 p-8 rounded-3xl mb-12 flex gap-6 items-start">
-          <AlertTriangle className="w-12 h-12 text-red-500 shrink-0" />
-          <div>
-            <h3 className="text-xl font-black uppercase text-red-500 mb-2">Protocole d'Urgence Immédiate</h3>
-            <p className="text-lg text-slate-200">{pest.actionImmediate}</p>
+        <motion.div 
+           initial={{ opacity: 0, y: 20 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, margin: "-100px" }}
+           className="bg-red-600/10 border border-red-600/50 p-8 rounded-[2rem] mb-16 flex gap-6 items-start shadow-[0_0_40px_rgba(220,38,38,0.15)] relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-48 h-48 bg-red-600/20 blur-[50px] mix-blend-screen rounded-full pointer-events-none" />
+          <motion.div
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            className="shrink-0 relative z-10"
+          >
+             <AlertTriangle className="w-12 h-12 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" />
+          </motion.div>
+          
+          <div className="relative z-10">
+            <h3 className="text-xl md:text-2xl font-black uppercase text-red-500 mb-3 tracking-wider">Protocole d'Urgence Immédiate</h3>
+            <p className="text-lg md:text-xl text-slate-200 leading-relaxed font-medium">{pest.actionImmediate}</p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Mythes vs Réalité */}
         {pest.mythesVsRealite && (
-            <div className="mb-12">
-                <h2 className="text-3xl font-black uppercase tracking-tighter mb-8 flex items-center gap-3">
-                    <Shield className="text-red-600" /> Mythes vs Réalité
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6">
+            <div className="mb-16">
+                <motion.h2 
+                   initial={{ opacity: 0, x: -20 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   viewport={{ once: true }}
+                   className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
+                >
+                    <Shield className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Mythes vs Réalité
+                </motion.h2>
+                <div className="grid md:grid-cols-2 gap-8">
                     {pest.mythesVsRealite.map((item, idx) => (
-                        <div key={idx} className="bg-white/[0.03] p-6 rounded-2xl border border-white/5">
-                            <div className="flex items-center gap-2 mb-2 text-red-500 font-bold uppercase text-xs"><XCircle className="w-4 h-4" /> Mythe</div>
-                            <p className="text-slate-400 mb-4">{item.mythe}</p>
-                            <div className="flex items-center gap-2 mb-2 text-green-500 font-bold uppercase text-xs"><CheckCircle className="w-4 h-4" /> Réalité</div>
-                            <p className="text-white font-bold">{item.realite}</p>
-                        </div>
+                        <motion.div 
+                           key={idx} 
+                           initial={{ opacity: 0, y: 30 }}
+                           whileInView={{ opacity: 1, y: 0 }}
+                           viewport={{ once: true }}
+                           transition={{ delay: idx * 0.15, duration: 0.5, type: "spring" }}
+                           className="bg-white/[0.02] hover:bg-white/[0.04] p-8 rounded-3xl border border-white/5 transition-colors shadow-xl"
+                        >
+                            <div className="flex items-center gap-3 mb-4 text-red-500 font-black uppercase text-sm tracking-widest"><XCircle className="w-5 h-5" /> Mythe</div>
+                            <p className="text-slate-400 mb-6 text-lg">{item.mythe}</p>
+                            
+                            <div className="w-12 h-1 bg-white/10 mb-6 rounded-full" />
+                            
+                            <div className="flex items-center gap-3 mb-4 text-green-500 font-black uppercase text-sm tracking-widest"><CheckCircle className="w-5 h-5" /> Réalité</div>
+                            <p className="text-white font-bold text-lg leading-relaxed">{item.realite}</p>
+                        </motion.div>
                     ))}
                 </div>
             </div>
         )}
 
         {/* FAQ Expertise */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-black uppercase tracking-tighter mb-8 flex items-center gap-3"><BookOpen className="text-red-600" /> FAQ Expertise</h2>
+        <div className="mb-16">
+          <motion.h2 
+             initial={{ opacity: 0, x: -20 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
+          >
+             <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise
+          </motion.h2>
           <div className="space-y-4">
             {pest.faq.map((item, index) => (
-              <details key={index} className="group bg-white/[0.03] border border-white/5 p-6 rounded-2xl">
-                <summary className="font-black text-lg flex justify-between items-center cursor-pointer list-none">
-                  {item.q}<ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform" />
+              <motion.details 
+                key={index} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group bg-white/[0.02] border border-white/5 p-6 rounded-[1.5rem] hover:border-red-500/30 transition-all cursor-pointer"
+              >
+                <summary className="font-bold text-xl flex justify-between items-center list-none outline-none">
+                  {item.q}
+                  <div className="bg-white/5 p-2 rounded-full group-open:bg-red-600/20 group-open:text-red-500 transition-colors shrink-0 ml-4">
+                     <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform duration-300" />
+                  </div>
                 </summary>
-                <p className="mt-4 text-slate-400 leading-relaxed">{item.a}</p>
-              </details>
+                <p className="mt-6 text-slate-400 leading-relaxed text-lg border-t border-white/5 pt-4">
+                  {item.a}
+                </p>
+              </motion.details>
             ))}
           </div>
         </div>
