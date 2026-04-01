@@ -1,12 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan, Asterisk, Bird, Snail } from 'lucide-react';
 
 const FormWizard = () => {
+  const [searchParams] = useSearchParams();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState({ problem: '', pestType: '', otherPest: '', clientType: '', zipCode: '', city: '', name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    const devisPest = searchParams.get('devis');
+    if (devisPest) {
+      let mappedPest = devisPest;
+      if (devisPest === 'Punaises') mappedPest = 'Punaise de lit';
+      if (devisPest === 'Guêpes') mappedPest = 'Frelons';
+      if (devisPest === 'Rats') mappedPest = 'Souris';
+      if (devisPest === 'Cafards') mappedPest = 'Cafard';
+
+      setFormData(prev => ({ ...prev, problem: 'Nuisibles', pestType: mappedPest }));
+      setCurrentStepIndex(3); // Passe directement à l'étape "Client"
+    }
+  }, [searchParams]);
 
   const validate = () => {
     const newErrors = {};

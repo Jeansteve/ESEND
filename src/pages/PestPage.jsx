@@ -79,23 +79,65 @@ const PestPage = () => {
         </motion.div>
 
         {/* Widget Calculateur de Gravité */}
-        <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl mb-12">
-          <h3 className="text-2xl font-black uppercase mb-6 flex items-center gap-3"><Calculator className="text-red-600" /> Évaluez la gravité</h3>
-          {step < 3 ? (
-            <div>
-              <p className="mb-4">{diagnosticQuestions[step].q}</p>
-              <div className="flex gap-4">
-                {diagnosticQuestions[step].options.map(opt => (
-                  <button key={opt} onClick={() => handleDiagnostic(opt)} className="bg-red-600 px-6 py-2 rounded-full font-bold">{opt}</button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div>
-              <p className="text-xl">Score de risque : {score}/3</p>
-              {score >= 2 && <p className="text-red-500 font-bold mt-2">Risque Élevé ! Contactez-nous immédiatement.</p>}
-            </div>
-          )}
+        <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 p-8 sm:p-12 rounded-[2.5rem] mb-16 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+          <h3 className="text-2xl font-black uppercase mb-8 flex items-center gap-3"><Calculator className="text-red-600" /> Évaluez la gravité</h3>
+          
+          <div className="relative h-1.5 bg-slate-800 rounded-full mb-10 overflow-hidden">
+            <motion.div 
+               className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-500 via-orange-500 to-red-600"
+               initial={{ width: "0%" }}
+               animate={{ width: `${(step / 3) * 100}%` }}
+               transition={{ duration: 0.5, ease: "easeOut" }}
+            />
+          </div>
+
+          <AnimatePresence mode="wait">
+            {step < 3 ? (
+              <motion.div 
+                key={step} 
+                initial={{ opacity: 0, x: 20 }} 
+                animate={{ opacity: 1, x: 0 }} 
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="text-xl sm:text-2xl font-bold mb-8 text-slate-200">{diagnosticQuestions[step].q}</p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {diagnosticQuestions[step].options.map(opt => (
+                    <button 
+                       key={opt} 
+                       onClick={() => handleDiagnostic(opt)} 
+                       className="flex-1 bg-white/5 hover:bg-red-600 border border-white/10 hover:border-red-500 px-6 py-5 rounded-2xl font-bold transition-all text-left sm:text-center group shadow-lg"
+                    >
+                      <span className="group-hover:translate-x-1 inline-block transition-transform">{opt}</span>
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div 
+                key="result"
+                initial={{ opacity: 0, scale: 0.95 }} 
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-6"
+              >
+                <div className="text-7xl font-black mb-4 tracking-tighter italic">
+                   <span className={score >= 2 ? "text-red-500" : score === 1 ? "text-orange-500" : "text-green-500"}>
+                     {score}
+                   </span><span className="text-slate-700 text-5xl">/3</span>
+                </div>
+                {score >= 2 ? (
+                  <p className="text-red-400 font-bold text-xl mb-10">Risque Élevé ! Une intervention rapide est recommandée.</p>
+                ) : score === 1 ? (
+                  <p className="text-orange-400 font-bold text-xl mb-10">Risque Modéré. À surveiller de près.</p>
+                ) : (
+                  <p className="text-green-400 font-bold text-xl mb-10">Risque Faible. Restez vigilant.</p>
+                )}
+                <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-500 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] hover:scale-105 active:scale-95 border border-red-500/50">
+                  Générer mon Protocole
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Action Immédiate */}
@@ -142,7 +184,9 @@ const PestPage = () => {
         </div>
 
         <div className="text-center">
-            <button className="bg-red-600 hover:bg-red-700 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all">Demander un Diagnostic Expert</button>
+            <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
+              Demander un Diagnostic Expert
+            </Link>
         </div>
       </div>
     </div>
