@@ -3,10 +3,11 @@ export const pests = {
     title: 'Punaises de lit',
     image: 'images/punaise-sticker.png',
     description: 'Expertise Éradication : Protocole Punaise',
+    expertFact: "Propagation ultra-rapide : un seul vêtement contaminé suffit à infester tout votre foyer en quelques semaines.",
     presentation: "La punaise de lit (Cimex lectularius) est un parasite nocturne qui se nourrit exclusivement de sang humain. Invisible le jour, elle se cache dans les coutures de matelas, les lattes de sommier et les fentes de murs. Sa capacité de reproduction est phénoménale : une seule femelle peut pondre jusqu'à 500 œufs dans sa vie, déclenchant une infestation totale en quelques semaines seulement.",
     faq: [
       { q: "Qu'est-ce qu'une punaise de lit ?", a: "C'est un insecte nocturne qui se nourrit exclusivement de sang humain..." },
-      { q: "Pourquoi apparaissent-elles ?", a: "elles ne sont pas liées à un manque de propreté. Elles sont ramenées via des bagages, des meubles d'occasion..." },
+      { q: "Pourquoi apparaissent-elles ?", a: "Elles ne sont pas liées à un manque de propreté. Elles sont ramenées via des bagages, des meubles d'occasion..." },
       { q: "Est-ce dangereux ?", a: "Non, elles ne transmettent pas de maladies, mais les piqûres provoquent de fortes démangeaisons et des troubles psychologiques..." },
       { q: "Puis-je les traiter moi-même ?", a: "Fortement déconseillé. Les produits grand public provoquent souvent une résistance et dispersent la colonie..." },
       { q: "Pourquoi passer par un pro ?", a: "Parce que nous utilisons des méthodes combinées (vapeur, froid, produits rémanents) qui ciblent les œufs et les nymphes..." }
@@ -22,6 +23,7 @@ export const pests = {
     title: 'Rats & Souris',
     image: 'images/rat-sticker.png',
     description: 'Sécurisation & Éradication',
+    expertFact: "Infiltration agile : un rat peut s'introduire chez vous par un trou de la taille d'une pièce de 2€.",
     presentation: "Les rongeurs commensaux, comme le rat brun ou la souris domestique, sont des opportunistes redoutables. Dotés d'une intelligence sociale élevée, ils s'infiltrent dans les structures via des ouvertures de moins de 2cm. Au-delà des nuisances sonores, ils représentent un risque majeur pour l'hygiène et la sécurité (courts-circuits dus aux câbles rongés).",
     faq: [
         { q: "Quels sont les risques si je ne fais rien ?", a: "Dégâts électriques (incendies), maladies (leptospirose), dégradation des structures isolantes." },
@@ -41,6 +43,7 @@ export const pests = {
     title: 'Cafards & Blattes',
     image: 'images/cafard-sticker.png',
     description: 'Désinsectisation Rapide & Préventive',
+    expertFact: "Vecteurs de maladies : ils contaminent vos surfaces et aliments, favorisant allergies et asthme.",
     presentation: "La blatte (cockroach) est l'un des insectes les plus résistants de la planète. Capable de survivre sans nourriture pendant un mois, elle privilégie les zones sombres, chaudes et humides. Elles sont vectrices de nombreuses bactéries et peuvent déclencher des allergies respiratoires chez l'homme via leurs déjections.",
     faq: [
       { q: "Pourquoi ai-je des cafards alors que c'est propre ?", a: "Ils peuvent être rapportés par des emballages de supermarché ou voyager via les conduits d'aération des voisins." },
@@ -59,8 +62,9 @@ export const pests = {
   },
   'frelons': {
     title: 'Guêpes & Frelons',
-    image: 'frelon-t5.png', 
+    image: 'frelon-t5.png',
     description: 'Destruction de nids sécurisée',
+    expertFact: "Danger vital : un nid peut abriter plus de 1500 individus. Ne tentez JAMAIS de le détruire seul.",
     presentation: "Le frelon (asiatique ou européen) et la guêpe sont des insectes sociaux vivant en colonies organisées autour d'une reine. Leurs nids, architecturés à base de cellulose mâchée, peuvent abriter des milliers d'individus. Le danger principal réside dans leur agressivité défensive et la toxicité de leur venin en cas de piqûres multiples.",
     faq: [
       { q: "Quelle est la différence entre une guêpe et un frelon ?", a: "Le frelon est beaucoup plus gros et son vol est bruyant. Le frelon asiatique attaque en groupe s'il se sent menacé près du nid." },
@@ -81,6 +85,7 @@ export const pests = {
     title: 'Fourmis (Invasion)',
     image: 'images/fourmi-sticker.png',
     description: 'Identification des pistes & Éradication',
+    expertFact: "L'illusion du calme : éliminer les ouvrières isolées ne sert à rien tant que la reine n'est pas neutralisée.",
     presentation: "Les fourmis sont des maîtres de la logistique. Elles utilisent des pistes chimiques (phéromones) pour guider la colonie vers les sources de nourriture. Une simple miette suffit à attirer des centaines d'ouvrières en quelques minutes. L'enjeu est de neutraliser la reine, car tant qu'elle survit au cœur du nid, l'infestation renaîtra systématiquement.",
     faq: [
       { q: "Pourquoi reviennent-elles toujours au même endroit ?", a: "Elles laissent une 'piste phéromonale' invisible. Tant que cette piste n'est pas traitée avec des bloqueurs, elles reviendront." },

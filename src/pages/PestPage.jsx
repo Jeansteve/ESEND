@@ -154,44 +154,49 @@ const PestPage = () => {
             </p>
           </motion.div>
 
-          {/* Illustration Sticker & Badge */}
-          <motion.div 
-             initial={{ opacity: 0, rotate: 5 }} 
-             animate={{ opacity: 1, rotate: 0 }}
-             transition={{ delay: 0.3 }}
-             className="relative flex items-center justify-center"
-          >
-            <motion.div
-              animate={{ y: [0, -15, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="relative z-10 w-full"
-            >
-              <img 
-                src={pest.image} 
-                alt={pest.title} 
-                className="w-full max-w-[450px] mx-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]" 
-              />
-            </motion.div>
-
-            {/* Badge de Garantie rattaché à l'image */}
+          {/* Illustration Sticker & Info Cruciale */}
+          <div className="flex flex-col items-center">
             <motion.div 
-               initial={{ scale: 0, x: 20 }}
-               animate={{ scale: 1, x: 0 }}
-               transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.7 }}
-               className="absolute -bottom-6 right-0 md:-right-4 bg-[#0a1020]/95 backdrop-blur-2xl border-2 border-green-500/50 text-white p-5 md:p-6 rounded-3xl shadow-[0_20px_50px_rgba(34,197,94,0.2)] flex items-center gap-4 z-20"
+               initial={{ opacity: 0, rotate: 5 }} 
+               animate={{ opacity: 1, rotate: 0 }}
+               transition={{ delay: 0.3 }}
+               className="relative flex items-center justify-center mb-8"
             >
-              <div className="bg-green-500/20 p-2.5 rounded-2xl">
-                 <ShieldCheck className="w-6 h-6 md:w-8 md:h-8 text-green-500" />
-              </div>
-              <div className="pr-4">
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-tight mb-1">Expertise ESEND</p>
-                <p className="text-sm md:text-xl font-black uppercase tracking-tighter leading-none text-green-400">Garantie Totale</p>
-              </div>
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                className="relative z-10 w-full"
+              >
+                <img 
+                  src={pest.image} 
+                  alt={pest.title} 
+                  className="w-full max-w-[450px] mx-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]" 
+                />
+              </motion.div>
+
+              {/* Glow Aura */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
             </motion.div>
 
-            {/* Glow Aura */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
-          </motion.div>
+            {/* Nouveau Badge : L'Info Cruciale (Sous l'image) */}
+            <motion.div 
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.5 }}
+               className="w-full max-w-[500px] bg-red-600/5 backdrop-blur-xl border border-red-500/20 p-5 rounded-3xl flex items-center gap-5 shadow-xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 w-2 h-full bg-red-600" />
+              <div className="bg-red-600/20 p-3 rounded-2xl shrink-0">
+                 <AlertTriangle className="w-6 h-6 text-red-500" />
+              </div>
+              <div>
+                <p className="text-[10px] font-black text-red-500 uppercase tracking-[0.3em] mb-1">L'Info Cruciale</p>
+                <p className="text-sm md:text-base text-slate-200 font-bold leading-tight">
+                  {pest.expertFact}
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         {/* Widget Calculateur de Gravité */}
