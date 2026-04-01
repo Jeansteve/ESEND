@@ -135,32 +135,38 @@ const PestPage = () => {
           </motion.p>
         </div>
 
-        {/* Grille de présentation équilibrée */}
-        <div className="grid lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-16 items-center mb-20">
+        {/* Grille de présentation équilibrée avec hauteurs égales */}
+        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-16 items-stretch mb-20">
           
-          {/* Bloc Encyclopédie */}
+          {/* Bloc Encyclopédie : S'étire sur toute la hauteur */}
           <motion.div 
              initial={{ opacity: 0, scale: 0.95 }} 
              animate={{ opacity: 1, scale: 1 }}
              transition={{ delay: 0.2 }}
-             className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group min-h-[300px] flex flex-col justify-center"
+             className="bg-slate-900/50 backdrop-blur-xl border border-white/5 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden group flex flex-col h-full"
           >
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[100px] group-hover:bg-red-600/10 transition-colors -z-10" />
-            <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 mb-6 flex items-center gap-3">
-               <Info className="w-5 h-5 text-red-600" /> Présentation Générale
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[120px] group-hover:bg-red-600/10 transition-colors -z-10" />
+            
+            <h3 className="text-sm font-black uppercase tracking-[0.3em] text-red-500 mb-8 flex items-center gap-3">
+               <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" /> Présentation Générale
             </h3>
-            <p className="text-slate-300 leading-relaxed font-medium text-lg md:text-xl italic">
+            
+            <div className="text-slate-300 leading-relaxed font-medium text-lg md:text-xl space-y-6 flex-grow whitespace-pre-line">
               {pest.presentation}
-            </p>
+            </div>
+
+            <div className="mt-10 pt-8 border-t border-white/5 text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
+               <ShieldCheck className="w-4 h-4 text-green-500" /> Information validée par nos experts de terrain
+            </div>
           </motion.div>
 
-          {/* Illustration Sticker & Info Cruciale */}
-          <div className="flex flex-col items-center">
+          {/* Illustration Sticker & Info Cruciale : S'étire aussi */}
+          <div className="flex flex-col justify-between h-full gap-8">
             <motion.div 
                initial={{ opacity: 0, rotate: 5 }} 
                animate={{ opacity: 1, rotate: 0 }}
                transition={{ delay: 0.3 }}
-               className="relative flex items-center justify-center mb-8"
+               className="relative flex flex-grow items-center justify-center p-8 bg-white/[0.01] border border-white/5 rounded-[3rem] overflow-hidden"
             >
               <motion.div
                 animate={{ y: [0, -15, 0] }}
@@ -170,7 +176,7 @@ const PestPage = () => {
                 <img 
                   src={pest.image} 
                   alt={pest.title} 
-                  className="w-full max-w-[450px] mx-auto drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]" 
+                  className="w-full max-w-[420px] mx-auto drop-shadow-[0_40px_80px_rgba(0,0,0,0.7)]" 
                 />
               </motion.div>
 
@@ -178,21 +184,21 @@ const PestPage = () => {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-red-600/5 blur-[120px] -z-10 rounded-full" />
             </motion.div>
 
-            {/* Nouveau Badge : L'Info Cruciale (Sous l'image) */}
+            {/* Nouveau Badge : L'Info Cruciale (S'aligne en bas du bloc d'à côté) */}
             <motion.div 
                initial={{ opacity: 0, y: 20 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.5 }}
-               className="w-full max-w-[500px] bg-red-600/5 backdrop-blur-xl border border-red-500/20 p-5 rounded-3xl flex items-center gap-5 shadow-xl relative overflow-hidden"
+               className="bg-red-600/5 backdrop-blur-3xl border border-red-500/20 p-6 md:p-8 rounded-[2.5rem] flex items-center gap-6 shadow-2xl relative overflow-hidden"
             >
               <div className="absolute top-0 left-0 w-2 h-full bg-red-600" />
-              <div className="bg-red-600/20 p-3 rounded-2xl shrink-0">
-                 <AlertTriangle className="w-6 h-6 text-red-500" />
+              <div className="bg-red-600/20 p-4 rounded-2xl shrink-0">
+                 <AlertTriangle className="w-8 h-8 text-red-500" />
               </div>
               <div>
-                <p className="text-[10px] font-black text-red-500 uppercase tracking-[0.3em] mb-1">L'Info Cruciale</p>
-                <p className="text-sm md:text-base text-slate-200 font-bold leading-tight">
-                  {pest.expertFact}
+                <p className="text-xs font-black text-red-500 uppercase tracking-[0.4em] mb-2">L'Info Cruciale</p>
+                <p className="text-base md:text-xl text-white font-black leading-tight italic uppercase tracking-tighter">
+                   "{pest.expertFact}"
                 </p>
               </div>
             </motion.div>
