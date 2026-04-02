@@ -8,18 +8,84 @@ import { mockApi } from './mockApi';
 // Par défaut, on utilise le mode MOCK en développement
 const USE_MOCK = true; // Toujours à true pour le moment, en attendant le backend réel
 
+const API_BASE = '/api';
+
 const realApi = {
-    // Placeholder pour la phase 2 (Migration Hostinger)
-    getArticles: async () => { return []; },
-    getProjects: async () => { return []; },
-    createArticle: async () => { return { success: false }; },
-    updateArticle: async () => { return { success: false }; },
-    deleteArticle: async () => { return { success: false }; },
-    createProject: async () => { return { success: false }; },
-    updateProject: async () => { return { success: false }; },
-    deleteProject: async () => { return { success: false }; },
-    getSettings: async () => { return { gemini_api_key: '' }; },
-    updateSettings: async () => { return { success: false }; },
+    // --- Articles ---
+    getArticles: async () => {
+        const res = await fetch(`${API_BASE}/articles.php`);
+        return res.json();
+    },
+    createArticle: async (data) => {
+        const res = await fetch(`${API_BASE}/articles.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    updateArticle: async (id, data) => { // id est l'UUID ici
+        const res = await fetch(`${API_BASE}/articles.php`, {
+            method: 'PUT',
+            body: JSON.stringify({ ...data, uuid: id })
+        });
+        return res.json();
+    },
+    deleteArticle: async (id) => {
+        const res = await fetch(`${API_BASE}/articles.php?uuid=${id}`, {
+            method: 'DELETE'
+        });
+        return res.json();
+    },
+
+    // --- Projects ---
+    getProjects: async () => {
+        const res = await fetch(`${API_BASE}/projects.php`);
+        return res.json();
+    },
+    createProject: async (data) => {
+        const res = await fetch(`${API_BASE}/projects.php`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+        return res.json();
+    },
+    updateProject: async (id, data) => {
+        const res = await fetch(`${API_BASE}/projects.php`, {
+            method: 'PUT',
+            body: JSON.stringify({ ...data, id })
+        });
+        return res.json();
+    },
+    deleteProject: async (id) => {
+        const res = await fetch(`${API_BASE}/projects.php?id=${id}`, {
+            method: 'DELETE'
+        });
+        return res.json();
+    },
+
+    // --- Settings ---
+    getSettings: async () => {
+        const res = await fetch(`${API_BASE}/settings.php`);
+        return res.json();
+    },
+    updateSettings: async (settings) => {
+        const res = await fetch(`${API_BASE}/settings.php`, {
+            method: 'POST',
+            body: JSON.stringify(settings)
+        });
+        return res.json();
+    },
+
+    // --- Assets (Upload) ---
+    uploadImage: async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const res = await fetch(`${API_BASE}/upload.php`, {
+            method: 'POST',
+            body: formData
+        });
+        return res.json();
+    }
 };
 
 export const api = USE_MOCK ? mockApi : realApi;
