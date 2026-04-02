@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, ShieldCheck } from 'lucide-react';
 import { api } from '../../lib/api';
+import ThemeToggle from '../../components/UI/ThemeToggle';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -30,35 +31,40 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-6 transition-colors duration-300">
+      {/* Sélecteur de Thème en haut à droite */}
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
+
       <div className="max-w-md w-full">
         {/* Logo Section */}
         <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 bg-white rounded-2xl p-2 mb-4 border border-white/10 shadow-2xl">
+          <div className="w-16 h-16 bg-white rounded-2xl p-2 mb-4 border border-white/10 shadow-2xl overflow-hidden">
             <img src="./logo-esend.jpg" alt="ESEND" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-3xl font-black italic tracking-tighter text-white uppercase">
+          <h1 className="text-3xl font-black italic tracking-tighter text-[var(--text-main)] uppercase">
             ESEND <span className="text-red-600">ADMIN</span>
           </h1>
-          <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-2">
+          <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-2">
             Accès réservé aux techniciens certifiés
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="bg-slate-900/40 backdrop-blur-2xl border border-white/5 p-8 rounded-3xl shadow-2xl">
+        <div className="bg-[var(--bg-card)] backdrop-blur-2xl border border-[var(--border-subtle)] p-8 rounded-3xl shadow-2xl">
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-zinc-400 text-[10px] font-black uppercase tracking-widest mb-2 ml-1">
+              <label className="block text-[var(--text-dimmed)] text-[10px] font-black uppercase tracking-widest mb-2 ml-1">
                 E-mail
               </label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)]" />
                 <input 
                   type="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/40 border border-white/5 rounded-xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-red-600/50 transition-all text-sm font-medium"
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-xl py-4 pl-12 pr-4 text-[var(--text-main)] focus:outline-none focus:border-red-600/50 transition-all text-sm font-medium"
                   placeholder="nom@esend.fr"
                   required
                 />
@@ -66,16 +72,16 @@ const Login = () => {
             </div>
 
             <div>
-              <label className="block text-zinc-400 text-[10px] font-black uppercase tracking-widest mb-2 ml-1">
+              <label className="block text-[var(--text-dimmed)] text-[10px] font-black uppercase tracking-widest mb-2 ml-1">
                 Mot de passe
               </label>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)]" />
                 <input 
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-black/40 border border-white/5 rounded-xl py-4 pl-12 pr-4 text-white focus:outline-none focus:border-red-600/50 transition-all text-sm font-medium"
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-xl py-4 pl-12 pr-4 text-[var(--text-main)] focus:outline-none focus:border-red-600/50 transition-all text-sm font-medium"
                   placeholder="••••••••"
                   required
                 />
@@ -90,7 +96,7 @@ const Login = () => {
 
             <button 
               type="submit"
-              className="w-full bg-white text-black font-black uppercase tracking-widest py-4 rounded-xl hover:bg-red-600 hover:text-white transition-all transform active:scale-95 text-xs flex items-center justify-center gap-2 group"
+              className="w-full bg-red-600 text-white font-black uppercase tracking-widest py-4 rounded-xl hover:bg-red-700 transition-all transform active:scale-95 text-xs flex items-center justify-center gap-2 group shadow-lg shadow-red-600/20"
             >
               Connexion <ShieldCheck className="w-4 h-4 group-hover:animate-pulse" />
             </button>
@@ -98,7 +104,7 @@ const Login = () => {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-zinc-600 text-[9px] font-medium mt-8 uppercase tracking-widest">
+        <p className="text-center text-[var(--text-dimmed)] text-[9px] font-medium mt-8 uppercase tracking-widest">
           © 2026 ESEND MENTON — SYSTÈME DE GESTION IA v1.4
         </p>
       </div>
