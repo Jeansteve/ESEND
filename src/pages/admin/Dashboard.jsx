@@ -192,19 +192,27 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="relative group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-red-600 transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Rechercher..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="admin-search"
-              />
-            </div>
+            {activeTab !== 'settings' && (
+              <div className="relative group">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-red-600 transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Rechercher..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="admin-search"
+                />
+              </div>
+            )}
             
-            <button className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95">
-              <Plus className="w-4 h-4" /> Nouveau Dossier
+            <button 
+              onClick={() => {
+                if (activeTab === 'blog') setShowStudio(true);
+                else { setEditingProject(null); setShowProjectModal(true); }
+              }}
+              className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
+            >
+              <Plus className="w-4 h-4" /> {activeTab === 'blog' ? 'Nouveau Dossier' : 'Nouvelle Réalisation'}
             </button>
           </div>
         </header>
@@ -269,6 +277,7 @@ const Dashboard = () => {
           <BlogManager 
             onOpenStudio={() => setShowStudio(true)} 
             onEditArticle={(art) => setEditingArticle(art)}
+            searchQuery={searchQuery}
           />
         )}
 
@@ -283,12 +292,18 @@ const Dashboard = () => {
                    onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
                    className="flex items-center gap-3 bg-white text-black px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-600 hover:text-white transition-all"
                 >
-                   <Plus className="w-4 h-4" /> Nouvelle Intervention
+                   <Plus className="w-4 h-4" /> Nouvelle Réalisation 
                 </button>
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {projects.map((proj) => (
+                {projects.filter(p => {
+                    if (!searchQuery) return true;
+                    const query = searchQuery.toLowerCase();
+                    return p.title.toLowerCase().includes(query) || 
+                           p.location.toLowerCase().includes(query) || 
+                           p.tag?.toLowerCase().includes(query);
+                }).map((proj) => (
                   <div key={proj.id} className="glass-card group flex flex-col">
                      <div className="aspect-video rounded-xl overflow-hidden mb-6 relative">
                         <img src={proj.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all border border-white/5" />

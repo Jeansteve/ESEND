@@ -13,10 +13,9 @@ import {
 } from 'lucide-react';
 import { api } from '../../lib/api';
 
-const BlogManager = ({ onOpenStudio, onEditArticle }) => {
+const BlogManager = ({ onOpenStudio, onEditArticle, searchQuery }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     loadArticles();
@@ -36,10 +35,13 @@ const BlogManager = ({ onOpenStudio, onEditArticle }) => {
     }
   };
 
-  const filteredArticles = articles.filter(a => 
-    a.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    a.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredArticles = articles.filter(a => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return a.title.toLowerCase().includes(query) || 
+           a.category.toLowerCase().includes(query) ||
+           a.excerpt?.toLowerCase().includes(query);
+  });
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -52,16 +54,6 @@ const BlogManager = ({ onOpenStudio, onEditArticle }) => {
         </div>
         
         <div className="flex gap-3 w-full md:w-auto">
-          <div className="relative flex-grow md:flex-grow-0">
-             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-600" />
-             <input 
-               type="text" 
-               placeholder="Chercher..."
-               value={searchTerm}
-               onChange={(e) => setSearchTerm(e.target.value)}
-               className="bg-black/30 border border-white/5 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-red-600/50 w-full md:w-64"
-             />
-          </div>
           <button 
             onClick={onOpenStudio}
             className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-blue-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-lg active:scale-95"
