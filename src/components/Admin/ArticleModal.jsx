@@ -45,20 +45,20 @@ const ArticleModal = ({ article, onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/90 backdrop-blur-2xl animate-in fade-in duration-300">
-      <div className="glass-card w-full max-w-6xl h-[90vh] overflow-hidden flex flex-col p-0 border-white/10 shadow-3xl">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[var(--bg-overlay)] backdrop-blur-2xl animate-in fade-in duration-300">
+      <div className="glass-card w-full max-w-6xl h-[90vh] overflow-hidden flex flex-col p-0 border-[var(--border-subtle)] shadow-3xl">
         
         {/* Header Tabs */}
-        <div className="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 bg-slate-900/50">
+        <div className="p-6 border-b border-[var(--border-subtle)] flex flex-col md:flex-row justify-between items-center gap-6 bg-[var(--bg-secondary)]">
           <div className="flex items-center gap-6">
             <div>
               <h3 className="text-xl font-black uppercase tracking-tighter">
                 Dossier <span className="text-red-600 italic">Expert</span>
               </h3>
-              <p className="text-zinc-500 text-[9px] font-black uppercase tracking-[0.2em] mt-1">Management de contenu IA</p>
+              <p className="text-[var(--text-dimmed)] text-[9px] font-black uppercase tracking-[0.2em] mt-1">Management de contenu IA</p>
             </div>
             
-            <nav className="flex gap-1 bg-black/20 p-1 rounded-xl border border-white/5">
+            <nav className="flex gap-1 bg-[var(--bg-input)] p-1 rounded-xl border border-[var(--border-subtle)]">
               {[
                 { id: 'edit', label: 'Édition', icon: Type },
                 { id: 'preview', label: 'Aperçu', icon: Eye },
@@ -67,7 +67,7 @@ const ArticleModal = ({ article, onClose, onSave }) => {
                 <button
                   key={t.id}
                   onClick={() => setActiveTab(t.id)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === t.id ? 'bg-white text-black' : 'text-zinc-500 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === t.id ? 'bg-[var(--text-main)] text-[var(--bg-primary)]' : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)]'}`}
                 >
                   <t.icon className="w-3.5 h-3.5" /> {t.label}
                 </button>
@@ -84,65 +84,65 @@ const ArticleModal = ({ article, onClose, onSave }) => {
                {isGenerating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />} 
                IA Magie
              </button>
-             <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full text-zinc-500 hover:text-white transition-all">
+             <button onClick={onClose} className="p-2 hover:bg-[var(--bg-input)] rounded-full text-[var(--text-dimmed)] hover:text-red-600 transition-all border border-transparent hover:border-[var(--border-subtle)]">
                 <X className="w-6 h-6" />
              </button>
           </div>
         </div>
 
         {/* Content Area */}
-        <div className="flex-grow overflow-hidden flex flex-col bg-black/20">
+        <div className="flex-grow overflow-hidden flex flex-col bg-[var(--bg-primary)]">
           
           {activeTab === 'edit' && (
             <div className="flex-grow overflow-y-auto p-10 space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="md:col-span-2 space-y-8">
                   <div>
-                    <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Titre de l'article</label>
+                    <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Titre de l'article</label>
                     <input 
                       type="text" 
                       value={formData.title}
                       onChange={(e) => setFormData({...formData, title: e.target.value})}
-                      className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-5 py-4 text-xl font-black tracking-tight focus:border-red-600/50 outline-none transition-all placeholder:text-zinc-800"
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-xl font-black tracking-tight focus:border-red-600/50 outline-none transition-all placeholder:text-[var(--text-dimmed)]"
                       placeholder="Saisissez un titre percutant..."
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Résumé (Excerpt)</label>
+                    <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Résumé (Excerpt)</label>
                     <textarea 
                       value={formData.excerpt}
                       onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
                       rows={3}
-                      className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-zinc-400 font-medium"
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-[var(--text-main)] font-medium placeholder:text-[var(--text-dimmed)]"
                       placeholder="Une brève introduction pour le listing..."
                     />
                   </div>
 
                   <div>
                     <div className="flex justify-between items-center mb-2">
-                       <label className="block text-[10px] font-black uppercase text-zinc-500 tracking-widest">Contenu HTML</label>
+                       <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest">Contenu HTML</label>
                        <span className="text-[9px] font-bold text-red-600 uppercase bg-red-600/10 px-2 py-0.5 rounded">Mode Code Actif</span>
                     </div>
                     <textarea 
                       value={formData.content_html}
                       onChange={(e) => setFormData({...formData, content_html: e.target.value})}
-                      className="w-full h-[400px] bg-slate-950/80 border border-white/5 rounded-2xl px-6 py-6 text-sm font-mono focus:border-red-600/50 outline-none transition-all resize-none leading-relaxed text-zinc-300"
+                      className="w-full h-[400px] bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl px-6 py-6 text-sm font-mono focus:border-red-600/50 outline-none transition-all resize-none leading-relaxed text-[var(--text-main)]"
                       placeholder="<h2>Votre contenu ici...</h2>"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-8">
-                  <div className="glass-card bg-black/40 border-white/5">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest mb-6 border-b border-white/5 pb-4">Configuration</h4>
+                  <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)]">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest mb-6 border-b border-[var(--border-subtle)] pb-4">Configuration</h4>
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-[9px] font-black uppercase text-zinc-600 mb-2 tracking-widest">Catégorie</label>
+                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Catégorie</label>
                         <select 
                           value={formData.category}
                           onChange={(e) => setFormData({...formData, category: e.target.value})}
-                          className="w-full bg-black/50 border border-white/5 rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest"
+                          className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest"
                         >
                           <option>Expertise</option>
                           <option>Protocole</option>
@@ -152,11 +152,11 @@ const ArticleModal = ({ article, onClose, onSave }) => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[9px] font-black uppercase text-zinc-600 mb-2 tracking-widest">Service Pôle</label>
+                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Service Pôle</label>
                         <select 
                           value={formData.service_id}
                           onChange={(e) => setFormData({...formData, service_id: parseInt(e.target.value)})}
-                          className="w-full bg-black/50 border border-white/5 rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest"
+                          className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold uppercase tracking-widest"
                         >
                           <option value={1}>1 - Nuisibles</option>
                           <option value={2}>2 - Désinfection</option>
@@ -164,14 +164,14 @@ const ArticleModal = ({ article, onClose, onSave }) => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-[9px] font-black uppercase text-zinc-600 mb-2 tracking-widest">Image de Couverture</label>
+                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Image de Couverture</label>
                         <input 
                            type="text"
                            value={formData.image}
                            onChange={(e) => setFormData({...formData, image: e.target.value})}
-                           className="w-full bg-black/50 border border-white/5 rounded-xl px-4 py-3 text-[10px] font-medium mb-3"
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-[10px] font-medium mb-3"
                         />
-                        <div className="aspect-video rounded-xl overflow-hidden border border-white/5 grayscale">
+                        <div className="aspect-video rounded-xl overflow-hidden border border-[var(--border-subtle)] grayscale">
                           <img src={formData.image} className="w-full h-full object-cover" />
                         </div>
                       </div>
@@ -204,34 +204,34 @@ const ArticleModal = ({ article, onClose, onSave }) => {
 
           {activeTab === 'seo' && (
             <div className="flex-grow p-10 flex items-center justify-center">
-              <div className="max-w-2xl w-full glass-card border-blue-600/20 bg-blue-600/5">
-                 <div className="flex items-center gap-3 text-blue-500 mb-8 font-black uppercase tracking-widest text-[10px]">
+              <div className="max-w-2xl w-full glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
+                 <div className="flex items-center gap-3 text-[var(--text-main)] mb-8 font-black uppercase tracking-widest text-[10px]">
                     <Search className="w-4 h-4" /> Optimisation Moteurs de Recherche
                  </div>
                  <div className="space-y-6">
                     <div>
-                      <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Meta Title (Google)</label>
+                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Meta Title (Google)</label>
                       <input 
                         type="text" 
                         value={formData.meta_title}
                         onChange={(e) => setFormData({...formData, meta_title: e.target.value})}
-                        className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-blue-500/50 outline-none transition-all"
+                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
                         placeholder="Titre apparaissant dans les résultats Google"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Meta Description</label>
+                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Meta Description</label>
                       <textarea 
                         value={formData.meta_description}
                         onChange={(e) => setFormData({...formData, meta_description: e.target.value})}
                         rows={4}
-                        className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-blue-500/50 outline-none transition-all resize-none text-zinc-400"
+                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-[var(--text-main)]"
                         placeholder="Description optimisée pour le clic..."
                       />
                     </div>
-                    <div className="bg-blue-600/10 p-5 rounded-2xl border border-blue-600/20 flex gap-4 items-start">
-                       <Info className="w-5 h-5 text-blue-500 shrink-0" />
-                       <div className="text-[11px] text-blue-400/80 leading-relaxed font-medium">
+                    <div className="bg-[var(--bg-input)] p-5 rounded-2xl border border-[var(--border-subtle)] flex gap-4 items-start">
+                       <Info className="w-5 h-5 text-[var(--text-dimmed)] shrink-0" />
+                       <div className="text-[11px] text-[var(--text-dimmed)] leading-relaxed font-medium">
                           <strong>Conseil Riviera :</strong> Incluez les mots-clés "Menton" ou "Monaco" dans votre méta-description pour favoriser le référencement local. L'IA a déjà pré-rempli ces champs si vous avez utilisé "IA Magie".
                        </div>
                     </div>
@@ -243,8 +243,8 @@ const ArticleModal = ({ article, onClose, onSave }) => {
         </div>
 
         {/* Action Footer */}
-        <div className="p-8 border-t border-white/5 flex justify-between items-center bg-slate-950">
-          <div className="flex items-center gap-2 text-zinc-600 text-[10px] font-black uppercase tracking-widest">
+        <div className="p-8 border-t border-[var(--border-subtle)] flex justify-between items-center bg-[var(--bg-secondary)]">
+          <div className="flex items-center gap-2 text-[var(--text-dimmed)] text-[10px] font-black uppercase tracking-widest">
              Status : <span className="text-amber-500">{formData.status === 'draft' ? 'Brouillon' : 'Publié'}</span>
           </div>
           
@@ -252,7 +252,7 @@ const ArticleModal = ({ article, onClose, onSave }) => {
             <button 
               type="button"
               onClick={onClose}
-              className="px-6 py-4 rounded-xl border border-white/5 text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white hover:bg-white/5 transition-all"
+              className="px-6 py-4 rounded-xl border border-[var(--border-subtle)] text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] hover:text-red-600 hover:bg-[var(--bg-input)] transition-all"
             >
               Fermer
             </button>

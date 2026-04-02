@@ -48,7 +48,7 @@ const BlogManager = ({ onOpenStudio, onEditArticle, searchQuery }) => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h3 className="text-2xl font-black uppercase tracking-tighter">Le Journal de l'Expert</h3>
-          <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">
+          <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">
             Gérez vos contenus SEO et l'intelligence artificielle
           </p>
         </div>
@@ -67,11 +67,11 @@ const BlogManager = ({ onOpenStudio, onEditArticle, searchQuery }) => {
         {filteredArticles.map((article) => (
           <div 
             key={article.id} 
-            className="glass-card group relative overflow-hidden flex flex-col h-full"
+            className="glass-card group relative overflow-hidden flex flex-col h-full bg-[var(--bg-secondary)] border-[var(--border-subtle)]"
           >
-            <div className="relative aspect-video rounded-xl overflow-hidden mb-6 border border-white/5">
+            <div className="relative aspect-video rounded-xl overflow-hidden mb-6 border border-[var(--border-subtle)]">
               <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent" />
               <div className="absolute top-3 left-3 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
                 {article.category}
               </div>
@@ -81,21 +81,21 @@ const BlogManager = ({ onOpenStudio, onEditArticle, searchQuery }) => {
               {article.title}
             </h4>
             
-            <p className="text-zinc-500 text-[11px] leading-relaxed mb-6 line-clamp-3">
+            <p className="text-[var(--text-dimmed)] text-[11px] leading-relaxed mb-6 line-clamp-3">
               {article.excerpt}
             </p>
 
-            <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+            <div className="mt-auto pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
               <div className="flex items-center gap-4">
-                 <div className="flex items-center gap-1.5 text-zinc-600 text-[9px] font-black uppercase tracking-widest">
-                   <Calendar className="w-3 h-3" /> {article.date}
+                 <div className="flex items-center gap-1.5 text-[var(--text-dimmed)] text-[9px] font-black uppercase tracking-widest">
+                    <Calendar className="w-3 h-3" /> {article.date}
                  </div>
               </div>
               
               <div className="flex items-center gap-2">
                 <button 
                   onClick={() => onEditArticle(article)}
-                  className="p-2.5 rounded-lg bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-all border border-white/5"
+                  className="p-2.5 rounded-lg bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-red-600 hover:bg-[var(--bg-primary)] transition-all border border-[var(--border-subtle)]"
                   title="Éditer"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
@@ -114,8 +114,8 @@ const BlogManager = ({ onOpenStudio, onEditArticle, searchQuery }) => {
       </div>
 
       {filteredArticles.length === 0 && !loading && (
-        <div className="py-20 text-center glass-card border-dashed">
-          <p className="text-zinc-600 font-black uppercase tracking-[0.2em] text-[10px]">Aucun dossier trouvé</p>
+        <div className="py-20 text-center glass-card border-dashed border-[var(--border-subtle)]">
+          <p className="text-[var(--text-dimmed)] font-black uppercase tracking-[0.2em] text-[10px]">Aucun dossier trouvé</p>
         </div>
       )}
     </div>

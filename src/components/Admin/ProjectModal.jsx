@@ -28,33 +28,33 @@ const ProjectModal = ({ project, onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-xl animate-in fade-in duration-300">
-      <div className="glass-card w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col p-0 border-white/10 shadow-2xl">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[var(--bg-overlay)] backdrop-blur-xl animate-in fade-in duration-300">
+      <div className="glass-card w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col p-0 border-[var(--border-subtle)] shadow-2xl">
         {/* Header */}
-        <div className="p-8 border-b border-white/5 flex justify-between items-center bg-slate-900/50">
+        <div className="p-8 border-b border-[var(--border-subtle)] flex justify-between items-center bg-[var(--bg-secondary)]">
           <div>
             <h3 className="text-2xl font-black uppercase tracking-tighter">
               {project ? 'Éditer' : 'Nouvelle'} <span className="text-red-600 italic">Réalisation</span>
             </h3>
-            <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Archive de terrain ESEND</p>
+            <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Archive de terrain ESEND</p>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-white/5 rounded-full text-zinc-500 hover:text-white transition-all">
+          <button onClick={onClose} className="p-2 hover:bg-black/5 rounded-full text-[var(--text-dimmed)] hover:text-red-600 transition-all">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="flex-grow overflow-y-auto p-8 bg-black/20">
+        <form onSubmit={handleSubmit} className="flex-grow overflow-y-auto p-8 bg-[var(--bg-primary)]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {/* Left: General Info */}
             <div className="space-y-6">
               <div>
-                <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Titre de l'intervention</label>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Titre de l'intervention</label>
                 <input 
                   type="text" 
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all placeholder:text-[var(--text-dimmed)]"
                   placeholder="Ex: Éradication Rongeurs - Villa Menton"
                   required
                 />
@@ -62,24 +62,24 @@ const ProjectModal = ({ project, onClose, onSave }) => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Localisation</label>
+                  <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Localisation</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-red-600" />
                     <input 
                       type="text" 
                       value={formData.location}
                       onChange={(e) => setFormData({...formData, location: e.target.value})}
-                      className="w-full bg-slate-950/50 border border-white/5 rounded-xl pl-9 pr-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl pl-9 pr-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all placeholder:text-[var(--text-dimmed)]"
                       placeholder="Menton, Monaco..."
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Catégorie</label>
+                  <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Catégorie</label>
                   <select 
                     value={formData.category}
                     onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                    className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
                   >
                     <option value="nuisibles">Nuisibles</option>
                     <option value="desinfection">Désinfection</option>
@@ -89,12 +89,12 @@ const ProjectModal = ({ project, onClose, onSave }) => {
               </div>
 
               <div>
-                <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Description détaillée</label>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Description détaillée</label>
                 <textarea 
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   rows={4}
-                  className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none placeholder:text-[var(--text-dimmed)]"
                   placeholder="Détails de l'infestation ou du besoin client..."
                 />
               </div>
@@ -103,43 +103,43 @@ const ProjectModal = ({ project, onClose, onSave }) => {
             {/* Right: Technical Info & Image */}
             <div className="space-y-6">
               <div>
-                <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Méthode employée</label>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Méthode employée</label>
                 <input 
                   type="text" 
                   value={formData.method}
                   onChange={(e) => setFormData({...formData, method: e.target.value})}
-                  className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all placeholder:text-[var(--text-dimmed)]"
                   placeholder="Ex: Traitement Thermique & Vapeur"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Résultat / Validation</label>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Résultat / Validation</label>
                 <input 
                   type="text" 
                   value={formData.result}
                   onChange={(e) => setFormData({...formData, result: e.target.value})}
-                  className="w-full bg-slate-950/50 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-black uppercase text-zinc-500 mb-2 tracking-widest">Image (URL)</label>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Image (URL)</label>
                 <div className="relative">
-                   <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
+                   <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--text-dimmed)]" />
                    <input 
                      type="text" 
                      value={formData.img}
                      onChange={(e) => setFormData({...formData, img: e.target.value})}
-                     className="w-full bg-slate-950/50 border border-white/5 rounded-xl pl-9 pr-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                     className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl pl-9 pr-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
                    />
                 </div>
               </div>
 
-              <div className="aspect-video bg-black/40 rounded-2xl overflow-hidden border border-white/5 relative group">
-                 <img src={formData.img} className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500" />
+              <div className="aspect-video bg-[var(--bg-secondary)] rounded-2xl overflow-hidden border border-[var(--border-subtle)] relative group">
+                 <img src={formData.img} className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500" />
                  <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white ring-1 ring-white/20 px-3 py-1 rounded bg-black/20">Aperçu Réalisation</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white ring-1 ring-white/20 px-3 py-1 rounded bg-black/40">Aperçu Réalisation</p>
                  </div>
               </div>
             </div>
@@ -147,11 +147,11 @@ const ProjectModal = ({ project, onClose, onSave }) => {
         </form>
 
         {/* Footer Actions */}
-        <div className="p-8 border-t border-white/5 flex justify-end gap-4 bg-slate-950">
+        <div className="p-8 border-t border-[var(--border-subtle)] flex justify-end gap-4 bg-[var(--bg-secondary)]">
           <button 
             type="button"
             onClick={onClose}
-            className="px-6 py-4 rounded-xl border border-white/5 text-[10px] font-black uppercase tracking-widest text-zinc-500 hover:text-white hover:bg-white/5 transition-all"
+            className="px-6 py-4 rounded-xl border border-[var(--border-subtle)] text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] hover:text-red-600 hover:bg-black/5 transition-all"
           >
             Annuler
           </button>

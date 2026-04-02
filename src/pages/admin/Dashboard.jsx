@@ -203,7 +203,7 @@ const Dashboard = () => {
                   placeholder="Rechercher..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="admin-search bg-[var(--bg-secondary)] border-[var(--border-subtle)] text-[var(--text-main)]"
+                  className="admin-search bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
                 />
               </div>
             )}
@@ -225,8 +225,8 @@ const Dashboard = () => {
           <>
             {renderStats()}
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="glass-card">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
+              <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)]">
                 <div className="flex justify-between items-center mb-8">
                   <h3 className="text-xl font-black uppercase tracking-tighter">Émissions Récentes</h3>
                   <TrendingUp className="w-5 h-5 text-red-600" />
@@ -236,41 +236,45 @@ const Dashboard = () => {
                     <div 
                       key={i} 
                       onClick={() => setEditingArticle(art)}
-                      className="flex justify-between items-center group cursor-pointer border-b border-white/5 pb-4 last:border-0 last:pb-0"
+                      className="flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center overflow-hidden border border-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center overflow-hidden border border-[var(--border-subtle)]">
                            <img src={art.image} className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 transition-all" />
                         </div>
                         <div>
-                          <div className="text-xs font-black uppercase tracking-tight group-hover:text-red-600 transition-colors line-clamp-1">{art.title}</div>
-                          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-0.5">{art.date} — {art.category}</div>
+                          <p className="text-[10px] text-[var(--text-dimmed)] uppercase font-black tracking-widest group-hover:text-amber-500 transition-colors">{art.category}</p>
+                          <h5 className="text-[11px] font-bold text-[var(--text-main)] transition-colors">{art.title}</h5>
                         </div>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-red-600 transition-all transform group-hover:translate-x-1" />
+                      <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)]">
+                        {art.date}
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="glass-card bg-gradient-to-br from-red-600/10 to-blue-600/10 border-red-600/20 flex flex-col justify-between ai-pulse">
-                <div>
-                  <div className="flex items-center gap-3 text-red-600 font-black uppercase tracking-widest text-[9px] mb-6">
-                    <Sparkles className="w-4 h-4" /> Moteur IA Actif — Gemini Pro
-                  </div>
-                  <h3 className="text-4xl font-black uppercase tracking-tighter mb-4 leading-none">
-                    Studio de <span className="text-red-600 italic">Création</span>
-                  </h3>
-                  <p className="text-[var(--text-dimmed)] text-sm leading-relaxed mb-10 font-medium">
-                    Optimisez votre SEO local sur Menton et Monaco en générant des articles d'expertise en un clic.
-                  </p>
+              <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8">
+                <h4 className="flex items-center gap-3 text-sm font-black uppercase tracking-widest text-[var(--text-main)] mb-8">
+                  <CheckCircle2 className="w-4 h-4 text-green-500" /> Quick Actions
+                </h4>
+                <div className="grid grid-cols-1 gap-4">
+                  {[
+                    { label: 'Nouveau Dossier', icon: Plus, color: 'bg-red-600' },
+                    { label: 'Maillage Interne', icon: Search, color: 'bg-indigo-600' },
+                    { label: 'Rapport Sécurité', icon: Layout, color: 'bg-blue-600' },
+                    { label: 'Radar Punaise IA', icon: Zap, color: 'bg-amber-600' }
+                  ].map((act, i) => (
+                    <button key={i} className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-input)] border border-[var(--border-subtle)] hover:scale-[1.02] active:scale-95 transition-all text-left">
+                       <div className={`p-2.5 rounded-lg ${act.color} text-white`}>
+                          <act.icon className="w-4 h-4" />
+                       </div>
+                       <span className="text-[11px] font-black uppercase tracking-widest text-[var(--text-main)]">{act.label}</span>
+                    </button>
+                  ))}
                 </div>
-                <button 
-                  onClick={() => { setActiveTab('blog'); setShowStudio(true); }}
-                  className="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-600 hover:text-white transition-all shadow-2xl active:scale-95"
-                >
-                  Lancer le Studio de Rédaction
-                </button>
               </div>
             </div>
           </>
@@ -328,19 +332,18 @@ const Dashboard = () => {
         {activeTab === 'settings' && (
           <div className="max-w-4xl mx-auto space-y-8 pb-32">
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* 1. Coordination & Contact */}
-                <div className="glass-card border-red-600/20 bg-red-600/5 p-8">
-                   <div className="flex items-center gap-4 text-red-600 mb-8">
-                      <div className="p-3 bg-red-600/10 rounded-xl"><Mail className="w-5 h-5" /></div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter">Coordination</h3>
+                
+                <div className="glass-card bg-red-600/5 border-red-600/10 p-8 flex flex-col justify-between">
+                   <div className="flex items-center gap-3 text-red-600 font-black uppercase text-[11px] mb-8">
+                      <div className="p-2 bg-red-600/10 rounded-lg"><Mail className="w-4 h-4" /></div> COORDINATION
                    </div>
                    
                    <div className="space-y-6">
                       <div>
-                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">E-mail de réception des devis</label>
+                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">E-mail de réception des devis</label>
                          <input 
                             type="email" 
-                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)]"
                             defaultValue={settings.contact_email}
                             onBlur={async (e) => {
                                const sets = await api.getSettings();
@@ -352,19 +355,17 @@ const Dashboard = () => {
                    </div>
                 </div>
 
-                {/* 2. Visibilité & Marketing */}
-                <div className="glass-card border-blue-600/20 bg-blue-600/5 p-8">
-                   <div className="flex items-center gap-4 text-blue-600 mb-8">
-                      <div className="p-3 bg-blue-600/10 rounded-xl"><Globe className="w-5 h-5" /></div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter">Visibilité Web</h3>
+                <div className="glass-card bg-blue-600/5 border-blue-600/10 p-8 flex flex-col justify-between">
+                   <div className="flex items-center gap-3 text-blue-600 font-black uppercase text-[11px] mb-8">
+                      <div className="p-2 bg-blue-600/10 rounded-lg"><Globe className="w-4 h-4" /></div> VISIBILITÉ WEB
                    </div>
                    
                    <div className="space-y-6">
                       <div>
-                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">⭐ ID Avis Google (Automatiques)</label>
+                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">⭐ ID Avis Google (Automatiques)</label>
                          <input 
                             type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
                             placeholder="Place ID Google"
                             defaultValue={settings.google_reviews_id}
                             onBlur={async (e) => {
@@ -373,11 +374,11 @@ const Dashboard = () => {
                             }}
                          />
                       </div>
-                      <div>
-                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">Google Analytics (Measurement ID)</label>
+                      <div className="mt-8 pt-8 border-t border-[var(--border-subtle)]">
+                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">Google Analytics (Measurement ID)</label>
                          <input 
                             type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
                             placeholder="G-XXXXXXXXXX"
                             defaultValue={settings.ga_id}
                             onBlur={async (e) => {
@@ -389,19 +390,17 @@ const Dashboard = () => {
                    </div>
                 </div>
 
-                {/* 3. Moteur IA Intelligence */}
-                <div className="glass-card border-indigo-600/20 bg-indigo-600/5 p-8">
-                   <div className="flex items-center gap-4 text-indigo-600 mb-8">
-                      <div className="p-3 bg-indigo-600/10 rounded-xl"><Sparkles className="w-5 h-5" /></div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter">Intelligence Artificielle</h3>
+                <div className="glass-card bg-indigo-600/5 border-indigo-600/10 p-8 flex flex-col justify-between">
+                   <div className="flex items-center gap-3 text-indigo-600 font-black uppercase text-[11px] mb-8">
+                      <div className="p-2 bg-indigo-600/10 rounded-lg"><Sparkles className="w-4 h-4" /></div> INTELLIGENCE ARTIFICIELLE
                    </div>
                    
                    <div className="space-y-6">
                       <div>
-                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">Google AI Studio (Gemini Pro)</label>
+                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">Google AI Studio (Gemini Pro)</label>
                          <input 
                             type="password" 
-                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)]"
                             placeholder="••••••••••••••••"
                             defaultValue={settings.gemini_api_key}
                             onBlur={async (e) => {
@@ -413,45 +412,34 @@ const Dashboard = () => {
                    </div>
                 </div>
 
-                {/* 4. Sécurité Compte */}
-                <div className="glass-card border-zinc-600/20 bg-zinc-600/5 p-8">
-                   <div className="flex items-center gap-4 text-zinc-400 mb-8">
-                      <div className="p-3 bg-zinc-600/10 rounded-xl"><Key className="w-5 h-5" /></div>
-                      <h3 className="text-xl font-black uppercase tracking-tighter">Accès Admin</h3>
+                <div className="glass-card bg-zinc-600/5 border-zinc-600/10 p-8 flex flex-col justify-between">
+                   <div className="flex items-center gap-3 text-zinc-500 font-black uppercase text-[11px] mb-8">
+                      <div className="p-2 bg-zinc-600/10 rounded-lg"><Key className="w-4 h-4" /></div> ACCÈS ADMIN
                    </div>
                    
-                   <form className="space-y-4" onSubmit={async (e) => {
+                   <form onSubmit={async (e) => {
                       e.preventDefault();
-                      const formData = new FormData(e.target);
-                      const current = formData.get('current');
-                      const next = formData.get('next');
-                      const confirm = formData.get('confirm');
-
-                      const sets = await api.getSettings();
-                      if (current !== sets.admin_password) return alert("Ancien mot de passe incorrect");
-                      if (next !== confirm) return alert("Les nouveaux mots de passe ne correspondent pas");
-                      
-                      await api.updateSettings({ ...sets, admin_password: next });
-                      alert("Mot de passe mis à jour !");
-                      e.target.reset();
-                   }}>
+                      const res = await api.changePassword(e.target.current.value, e.target.next.value);
+                      if (res.success) alert("Mot de passe mis à jour !");
+                      else alert(res.message);
+                   }} className="space-y-4">
                       <input 
                         name="current"
                         type="password" 
                         placeholder="Ancien mot de passe"
-                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-xs outline-none focus:border-white/20 transition-all"
+                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
                       />
                       <input 
                         name="next"
                         type="password" 
                         placeholder="Nouveau mot de passe"
-                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-xs outline-none focus:border-white/20 transition-all"
+                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
                       />
                       <input 
                         name="confirm"
                         type="password" 
                         placeholder="Confirmer le nouveau"
-                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-xs outline-none focus:border-white/20 transition-all"
+                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
                       />
                       <button className="w-full bg-white text-black py-3 rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-red-600 hover:text-white transition-all">
                          Changer le mot de passe
