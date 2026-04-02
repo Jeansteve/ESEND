@@ -5,8 +5,13 @@ import { useState, useEffect } from 'react';
  * Specialist: developpeur-front-end
  */
 export const useTheme = () => {
-    // On initialise avec le thème stocké ou par défaut 'dark' (Frozen Night)
-    const [theme, setTheme] = useState(localStorage.getItem('esend_theme') || 'dark');
+    // Détection du thème par défaut selon le contexte (Public vs Admin)
+    // On utilise le hash car ESEND utilise un HashRouter
+    const isLoginPage = window.location.hash.includes('/admin');
+    const defaultTheme = isLoginPage ? 'light' : 'dark';
+
+    // On initialise avec le thème stocké ou le défaut contextuel
+    const [theme, setTheme] = useState(localStorage.getItem('esend_theme') || defaultTheme);
 
     useEffect(() => {
         const root = window.document.documentElement;
