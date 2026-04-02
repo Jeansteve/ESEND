@@ -56,7 +56,7 @@ const Hero = () => {
           </h1>
           
           <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-slate-400 font-medium mb-0 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
-            Dératisation, nettoyage pro et débarrassage. Le duo de choc pour un intérieur sain et sécurisé.
+            Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
           </p>
           
           {/* Desktop CTA Block */}
