@@ -1,10 +1,23 @@
--- SQL Schema for ESEND Admin (MySQL)
+-- SQL Schema for ESEND Admin (MySQL) - VERSION ALIGNÉE SUR TNERI
 -- Specialist: developpeur-back-end-ops
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- 1. Table Articles (Journal de l'Expert)
+-- 1. Table Utilisateurs (Authentification Admin)
+-- Comme sur TNERI, on sépare les comptes du reste des réglages.
+CREATE TABLE IF NOT EXISTS `esend_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `name` varchar(100) DEFAULT 'Admin ESEND',
+  `role` varchar(50) DEFAULT 'admin',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2. Table Articles (Journal de l'Expert)
 CREATE TABLE IF NOT EXISTS `esend_articles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uuid` varchar(50) NOT NULL,
@@ -20,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `esend_articles` (
   UNIQUE KEY `uuid` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 2. Table Réalisations (Interventions)
+-- 3. Table Réalisations (Interventions)
 CREATE TABLE IF NOT EXISTS `esend_projects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -32,21 +45,26 @@ CREATE TABLE IF NOT EXISTS `esend_projects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 3. Table Settings (Configurations)
+-- 4. Table Settings (Configurations)
 CREATE TABLE IF NOT EXISTS `esend_settings` (
   `setting_key` varchar(100) NOT NULL,
   `setting_value` text DEFAULT NULL,
   PRIMARY KEY (`setting_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 4. Initial Settings
+-- 5. Données Initiales
+-- Suppression de admin_password de settings (on utilise esend_users maintenant)
 INSERT INTO `esend_settings` (`setting_key`, `setting_value`) VALUES
 ('gemini_api_key', ''),
 ('gemini_enabled', 'true'),
 ('contact_email', 'contact@esendnuisibles.fr'),
 ('google_reviews_id', ''),
-('ga_id', ''),
-('admin_password', 'admin')
+('ga_id', '')
 ON DUPLICATE KEY UPDATE `setting_value` = `setting_value`;
+
+-- Création de l'utilisateur admin par défaut
+INSERT INTO `esend_users` (`email`, `password`, `name`) VALUES
+('admin@esend.fr', 'admin', 'Steve ESEND')
+ON DUPLICATE KEY UPDATE `email` = `email`;
 
 SET FOREIGN_KEY_CHECKS = 1;

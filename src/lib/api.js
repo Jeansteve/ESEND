@@ -11,6 +11,15 @@ const USE_MOCK = false; // Toujours à true pour le moment, en attendant le back
 const API_BASE = '/api';
 
 const realApi = {
+    // --- Authentification ---
+    login: async (email, password) => {
+        const res = await fetch(`${API_BASE}/login.php`, {
+            method: 'POST',
+            body: JSON.stringify({ email, password })
+        });
+        return res.json();
+    },
+
     // --- Articles ---
     getArticles: async () => {
         const res = await fetch(`${API_BASE}/articles.php`);

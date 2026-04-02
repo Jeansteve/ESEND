@@ -14,25 +14,18 @@ const Login = () => {
     setError('');
 
     try {
-      const settings = await api.getSettings();
+      const result = await api.login(email, password);
       
-      if (!settings) {
-        throw new Error('Le serveur ne répond pas (Réponse vide)');
-      }
-
-      // On accepte admin@esend.fr comme identifiant universel OU l'email de contact paramétré
-      const isValidEmail = (email === 'admin@esend.fr' || email === settings.contact_email);
-      const isValidPassword = (password === settings.admin_password);
-
-      if (isValidEmail && isValidPassword) {
+      if (result.success) {
         localStorage.setItem('esend_is_auth', 'true');
+        localStorage.setItem('esend_user', JSON.stringify(result.user));
         navigate('/admin/dashboard');
       } else {
-        setError('Identifiants incorrects (Vérifiez vos paramètres)');
+        setError(result.error || 'Connexion échouée');
       }
     } catch (err) {
       console.error('Erreur Login:', err);
-      setError(`Erreur de connexion : ${err.message || 'Impossible de contacter l\'API'}`);
+      setError(`Serveur indisponible : ${err.message || 'Merci de vérifier votre connexion'}`);
     }
   };
 
