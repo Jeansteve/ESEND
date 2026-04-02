@@ -31,12 +31,12 @@ const PortfolioBento = () => {
               <span className="w-8 h-px bg-red-600"></span> ARCHIVES TERRAIN
             </motion.div>
             <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
-              Nos <span className="text-red-600 italic">Interventions</span> <br />
+              Nos <span className="text-red-600 italic">Réalisations</span> <br />
               Réelles
             </h2>
           </div>
           <button className="flex items-center gap-3 text-sm font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
-            Voir tout le portfolio <ChevronRight className="w-4 h-4" />
+            Voir toutes les réalisations <ChevronRight className="w-4 h-4" />
           </button>
         </div>
 

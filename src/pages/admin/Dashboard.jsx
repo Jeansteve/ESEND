@@ -145,7 +145,7 @@ const Dashboard = () => {
             onClick={() => setActiveTab('portfolio')}
             className={`nav-item ${activeTab === 'portfolio' ? 'active' : ''}`}
           >
-            <Briefcase className="w-4 h-4" /> Portfolio
+            <Briefcase className="w-4 h-4" /> Réalisations
           </div>
           <div 
             onClick={() => setActiveTab('settings')}
@@ -264,7 +264,7 @@ const Dashboard = () => {
           <div className="space-y-8">
              <div className="flex justify-between items-center bg-black/40 p-6 rounded-2xl border border-white/5">
                 <div>
-                   <h3 className="text-xl font-black uppercase tracking-tighter">Gestion du Portfolio</h3>
+                   <h3 className="text-xl font-black uppercase tracking-tighter">Gestion des réalisations</h3>
                    <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Archives des interventions sur la Riviera</p>
                 </div>
                 <button 
