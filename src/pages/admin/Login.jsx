@@ -11,17 +11,28 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const settings = await api.getSettings();
-    
-    // On accepte admin@esend.fr comme identifiant universel OU l'email de contact paramétré
-    const isValidEmail = (email === 'admin@esend.fr' || email === settings.contact_email);
-    const isValidPassword = (password === settings.admin_password);
+    setError('');
 
-    if (isValidEmail && isValidPassword) {
-      localStorage.setItem('esend_is_auth', 'true');
-      navigate('/admin/dashboard');
-    } else {
-      setError('Identifiants incorrects (Vérifiez vos paramètres)');
+    try {
+      const settings = await api.getSettings();
+      
+      if (!settings) {
+        throw new Error('Le serveur ne répond pas (Réponse vide)');
+      }
+
+      // On accepte admin@esend.fr comme identifiant universel OU l'email de contact paramétré
+      const isValidEmail = (email === 'admin@esend.fr' || email === settings.contact_email);
+      const isValidPassword = (password === settings.admin_password);
+
+      if (isValidEmail && isValidPassword) {
+        localStorage.setItem('esend_is_auth', 'true');
+        navigate('/admin/dashboard');
+      } else {
+        setError('Identifiants incorrects (Vérifiez vos paramètres)');
+      }
+    } catch (err) {
+      console.error('Erreur Login:', err);
+      setError(`Erreur de connexion : ${err.message || 'Impossible de contacter l\'API'}`);
     }
   };
 
