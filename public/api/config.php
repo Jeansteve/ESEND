@@ -4,6 +4,10 @@
  * Specialist: developpeur-back-end-ops
  */
 
+// À DESACTIVER EN PRODUCTION UNE FOIS LE DEBUG TERMINÉ
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Paramètres de connexion Hostinger (À remplir par l'utilisateur)
 define('DB_HOST', 'localhost'); // Souvent localhost sur Hostinger
 define('DB_NAME', 'u387599421_esend'); // Exemple
