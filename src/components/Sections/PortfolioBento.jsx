@@ -2,38 +2,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Camera, CheckCircle2, ChevronRight } from 'lucide-react';
 
-const interventions = [
-  {
-    title: 'Éradication Rongeurs - Restauration',
-    location: 'Vieille Ville, Menton',
-    tag: 'Urgent',
-    size: 'col-span-2 row-span-2',
-    img: 'https://images.unsplash.com/photo-1590650516195-0f306ae04313?q=80&w=2070&auto=format&fit=crop'
-  },
-  {
-    title: 'Nettoyage Intégral Appartement',
-    location: 'Promenade du Soleil, Menton',
-    tag: 'Fin de bail',
-    size: 'col-span-1 row-span-1',
-    img: 'https://images.unsplash.com/photo-1581578731548-c64695ce6958?q=80&w=2070&auto=format&fit=crop'
-  },
-  {
-    title: 'Intervention Nids de Frelons',
-    location: 'Quartier Careï, Menton',
-    tag: 'Expertise S',
-    size: 'col-span-1 row-span-2',
-    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    title: 'Débarrassage Cave après Sinistre',
-    location: 'Centre-Ville, Menton',
-    tag: 'Logistique',
-    size: 'col-span-1 row-span-1',
-    img: 'https://images.unsplash.com/photo-1595246140625-573b715d11dc?q=80&w=2070&auto=format&fit=crop'
-  }
-];
+import { api } from '../../lib/api';
 
 const PortfolioBento = () => {
+  const [interventions, setInterventions] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getProjects().then(data => {
+      // On s'assure que chaque item a une taille bento, sinon on assigne une taille par défaut
+      const sizedData = data.map((item, index) => ({
+        ...item,
+        size: item.size || (index % 3 === 0 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1')
+      }));
+      setInterventions(sizedData);
+    });
+  }, []);
   return (
     <section id="portfolio" className="py-32 px-6 bg-slate-950 text-white">
       <div className="max-w-7xl mx-auto">

@@ -2,9 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Calendar } from 'lucide-react';
 
-import { articles } from '../../data/articles';
+import { api } from '../../lib/api';
 
 const KnowledgeHub = () => {
+  const [articles, setArticles] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getArticles().then(data => setArticles(data));
+  }, []);
   return (
     <section id="encyclopedie" className="py-32 px-6 bg-slate-950 text-white relative">
       <div className="max-w-7xl mx-auto">
