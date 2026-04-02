@@ -6,7 +6,7 @@
 import { mockApi } from './mockApi';
 
 // Par défaut, on utilise le mode MOCK en développement
-const USE_MOCK = true; // Toujours à true pour le moment, en attendant le backend réel
+const USE_MOCK = false; // Toujours à true pour le moment, en attendant le backend réel
 
 const API_BASE = '/api';
 

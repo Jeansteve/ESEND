@@ -1,0 +1,19 @@
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ESEND Backend Security
+public/api/config.php
+public/uploads/*
+!public/uploads/.gitkeep
