@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-esend-zinc-950 text-white pt-24 pb-12 px-6">
+    <footer className="bg-[var(--bg-secondary)] text-[var(--text-main)] pt-24 pb-12 px-6 border-t border-[var(--border-subtle)] transition-colors duration-400">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20 text-center md:text-left">
         <div>
           <div className="flex items-center justify-center md:justify-start gap-3 mb-8">
@@ -15,18 +15,18 @@ const Footer = () => {
               <div className="text-[9px] font-bold uppercase tracking-wider text-esend-red mt-1">Passer de nuisibles à paisible</div>
             </div>
           </div>
-          <p className="text-zinc-500 leading-relaxed max-w-xs mx-auto md:mx-0 font-medium text-sm">
+          <p className="text-[var(--text-dimmed)] leading-relaxed max-w-xs mx-auto md:mx-0 font-medium text-sm">
             Votre duo expert en hygiène, nettoyage et débarrassage. Intervention rapide à Menton et sur toute la Riviera.
           </p>
         </div>
         
         <div>
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
-          <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-zinc-400">
-            <li><Link to="/services/nuisibles" className="hover:text-white transition-colors">Dératisation & Nuisibles</Link></li>
-            <li><Link to="/services/desinfection" className="hover:text-cyan-400 transition-colors text-cyan-500/80">Désinfection Bio-Sécurité</Link></li>
-            <li><Link to="/services/nettoyage" className="hover:text-indigo-400 transition-colors text-indigo-500/80">Nettoyage & Vitrerie</Link></li>
-            <li><Link to="/realisations" className="hover:text-white transition-colors">Débarrassage & Archives</Link></li>
+          <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-[var(--text-dimmed)]">
+            <li><Link to="/services/nuisibles" className="hover:text-red-600 transition-colors">Dératisation & Nuisibles</Link></li>
+            <li><Link to="/services/desinfection" className="hover:text-red-500 transition-colors">Désinfection Bio-Sécurité</Link></li>
+            <li><Link to="/services/nettoyage" className="hover:text-red-500 transition-colors">Nettoyage & Vitrerie</Link></li>
+            <li><Link to="/realisations" className="hover:text-red-500 transition-colors">Débarrassage & Archives</Link></li>
           </ul>
         </div>
 
@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">
+      <div className="max-w-7xl mx-auto border-t border-[var(--border-subtle)] pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">
         <div>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</div>
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mt-6 md:mt-0">
           <a href="#devis" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>

@@ -1,9 +1,29 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  
+  /* --- PALETTE PAR DÉFAUT (FROZEN NIGHT / DARK) --- */
+  --bg-primary: #020617; /* Slate 950 */
+  --bg-secondary: #0f172a; /* Slate 900 */
+  --bg-card: rgba(15, 23, 42, 0.6);
+  --text-main: #f8fafc; /* Slate 50 */
+  --text-dimmed: #94a3b8; /* Slate 400 */
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --accent-red: #dc2626;
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --selection-bg: #dc2626;
+}
+
+/* --- MODE JOUR (MORNING MIST / LIGHT) --- */
+.light {
+  --bg-primary: #f8fafc; /* Slate 50 */
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --text-main: #0f172a; /* Slate 900 */
+  --text-dimmed: #64748b; /* Slate 500 */
+  --border-subtle: #e2e8f0; /* Slate 200 */
+  --accent-red: #ef4444;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --selection-bg: #ef4444;
 }
 
 h1, h2, h3, h4 {
@@ -13,4 +33,12 @@ h1, h2, h3, h4 {
 html, body, #root {
   overflow-x: hidden;
   width: 100%;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background-color: var(--selection-bg);
+  color: white;
 }

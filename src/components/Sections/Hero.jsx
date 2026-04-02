@@ -35,10 +35,10 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-[#020617] text-white pt-32 lg:pt-0">
+    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-[var(--bg-primary)] text-[var(--text-main)] pt-32 lg:pt-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[#020617]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#1e1b4b,transparent)] opacity-40" />
+        <div className="absolute inset-0 bg-[var(--bg-primary)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,var(--accent-red),transparent)] opacity-10 dark:opacity-40" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-between relative z-10 py-6 lg:py-0">
@@ -50,12 +50,12 @@ const Hero = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left"
         >
-          <h1 className="text-[clamp(1.75rem,4.5vh,4rem)] lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-[clamp(0.5rem,1.5vh,1rem)]">
+          <h1 className="text-[clamp(1.75rem,4.5vh,4rem)] lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-[clamp(0.5rem,1.5vh,1rem)] text-[var(--text-main)]">
             VOTRE EXPERT <br/>
             <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]">HYGIÈNE & NUISIBLES</span>
           </h1>
           
-          <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-slate-400 font-medium mb-0 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-[var(--text-dimmed)] font-medium mb-0 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
             Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
           </p>
           
@@ -76,9 +76,9 @@ const Hero = () => {
             </motion.a>
             
             <div className="flex items-center gap-4">
-              <div className="text-3xl font-black tracking-tighter text-white">4.9<span className="text-lg text-slate-500">/5</span></div>
-              <div className="h-8 w-px bg-slate-800"></div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 text-left">
+              <div className="text-3xl font-black tracking-tighter text-[var(--text-main)]">4.9<span className="text-lg text-[var(--text-dimmed)]">/5</span></div>
+              <div className="h-8 w-px bg-[var(--border-subtle)]"></div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] text-left">
                 Note <br/>Satisfaction
               </div>
             </div>
@@ -136,7 +136,7 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#020617] to-transparent z-25 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[var(--bg-primary)] to-transparent z-25 pointer-events-none" />
     </section>
   );
 };

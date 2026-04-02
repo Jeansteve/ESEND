@@ -127,17 +127,17 @@ const Dashboard = () => {
   );
 
   if (loading) return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+    <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center transition-colors duration-400">
        <div className="w-12 h-12 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
   return (
-    <div className="admin-container flex min-h-screen">
+    <div className="admin-container flex min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] transition-colors duration-400">
       {/* Sidebar */}
-      <aside className="admin-sidebar sticky top-0 h-screen overflow-hidden flex-shrink-0">
-        <div className="sidebar-logo">
-          ESEND <span className="text-red-600">ADMIN</span>
+      <aside className="admin-sidebar sticky top-0 h-screen overflow-hidden flex-shrink-0 bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)]">
+        <div className="sidebar-logo text-[var(--text-main)]">
+          ESEND <span className="text-red-600 font-black">ADMIN</span>
         </div>
 
         <nav className="flex-grow space-y-2">
@@ -169,21 +169,21 @@ const Dashboard = () => {
 
         <div 
           onClick={handleLogout}
-          className="nav-item text-zinc-600 hover:text-red-600 mt-auto"
+          className="nav-item text-zinc-500 hover:text-red-600 mt-auto border-t border-[var(--border-subtle)] pt-4"
         >
           <LogOut className="w-4 h-4" /> Quitter
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="admin-main">
+      <main className="admin-main bg-[var(--bg-primary)]">
         {/* Header */}
         <header className="flex justify-between items-center mb-16">
           <div>
-            <h2 className="text-4xl font-black tracking-tighter uppercase mb-2">
+            <h2 className="text-4xl font-black tracking-tighter uppercase mb-2 text-[var(--text-main)]">
               Statut <span className="text-red-600 italic">Opérationnel</span>
             </h2>
-            <p className="text-zinc-500 font-medium text-xs italic tracking-widest uppercase border-l border-red-600 pl-4">
+            <p className="text-[var(--text-dimmed)] font-medium text-xs italic tracking-widest uppercase border-l border-red-600 pl-4">
               {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
               {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
               {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
@@ -192,15 +192,17 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center gap-6">
+            <ThemeToggle />
+            
             {activeTab !== 'settings' && (
               <div className="relative group">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600 group-focus-within:text-red-600 transition-colors" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
                 <input 
                   type="text" 
                   placeholder="Rechercher..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="admin-search"
+                  className="admin-search bg-[var(--bg-secondary)] border-[var(--border-subtle)] text-[var(--text-main)]"
                 />
               </div>
             )}

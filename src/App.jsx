@@ -14,7 +14,7 @@ import Dashboard from './pages/admin/Dashboard'
 function App() {
   return (
     <HashRouter>
-      <div className="min-h-screen bg-slate-950 selection:bg-red-600 selection:text-white">
+      <div className="min-h-screen text-[var(--text-main)] transition-colors duration-400">
         <Routes>
           {/* --- ADMIN ROUTES --- */}
           <Route path="/admin/login" element={<Login />} />

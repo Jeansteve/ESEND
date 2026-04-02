@@ -1,16 +1,16 @@
 /* src/pages/admin/AdminPanel.css */
 .admin-container {
   min-height: 100vh;
-  background-color: #020617;
-  color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
   font-family: inherit;
 }
 
 .admin-sidebar {
   width: 280px;
-  background-color: rgba(15, 23, 42, 0.4);
+  background-color: var(--bg-secondary);
   backdrop-filter: blur(20px);
-  border-right: 1px border rgba(255, 255, 255, 0.05);
+  border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   padding: 2rem;
@@ -24,12 +24,13 @@
 
 /* Glass Buttons & Cards */
 .glass-card {
-  background: rgba(15, 23, 42, 0.4);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
   border-radius: 1.5rem;
   padding: 1.5rem;
   transition: all 0.3s ease;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
 }
 
 .glass-card:hover {
@@ -43,7 +44,7 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 1rem;
-  color: #94a3b8;
+  color: var(--text-dimmed);
   font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -53,9 +54,10 @@
 }
 
 .nav-item.active {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--accent-red);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--accent-red);
+  box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.3);
 }
 
 .nav-item:hover:not(.active) {
@@ -105,7 +107,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-subtle);
   border-radius: 10px;
 }
 
@@ -115,11 +117,11 @@
 
 /* Search Input */
 .admin-search {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
   border-radius: 1rem;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
-  color: white;
+  color: var(--text-main);
   font-size: 0.85rem;
   width: 300px;
   transition: all 0.3s;

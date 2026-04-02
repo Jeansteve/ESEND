@@ -9,7 +9,7 @@ import KnowledgeHub from '../components/Sections/KnowledgeHub'
 
 function Home() {
   return (
-    <div className="bg-slate-950 overflow-x-hidden">
+    <div className="transition-colors duration-400">
       <Hero />
       <PestSelector />
       <PortfolioBento />

@@ -3,7 +3,10 @@ import { Phone, ArrowRight, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 
+import ThemeToggle from '../UI/ThemeToggle';
+
 const Header = () => {
+    // ... existant
   const [isScrolled, setIsScrolled] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -68,16 +71,16 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'py-2' : 'py-4'}`}>
-      <div className={`absolute inset-0 transition-opacity duration-300 ${isScrolled || isMobileMenuOpen ? 'opacity-100 bg-slate-950/90 backdrop-blur-lg border-b border-white/5' : 'opacity-0'}`} style={{ zIndex: 0 }} />
+      <div className={`absolute inset-0 transition-opacity duration-300 ${isScrolled || isMobileMenuOpen ? 'opacity-100 bg-[var(--glass-bg)] backdrop-blur-lg border-b border-[var(--border-subtle)]' : 'opacity-0'}`} style={{ zIndex: 0 }} />
       <div className="relative z-10 max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
           <Link to="/" onClick={() => { setIsMobileMenuOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-2.5 group font-sans">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-white/10 shadow-2xl group-hover:scale-105 transition-transform bg-white flex items-center justify-center p-1 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg overflow-hidden border border-[var(--border-subtle)] shadow-2xl group-hover:scale-105 transition-transform bg-white flex items-center justify-center p-1 shrink-0">
               <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg sm:text-xl font-black tracking-tighter text-white leading-none text-left">ESEND</span>
+              <span className="text-lg sm:text-xl font-black tracking-tighter text-[var(--text-main)] leading-none text-left">ESEND</span>
               <span className="text-[6px] sm:text-[7px] font-bold uppercase tracking-[0.1em] text-red-600 leading-none mt-1 text-left line-clamp-1">Passer de nuisibles à paisible</span>
             </div>
           </Link>
@@ -159,13 +162,15 @@ const Header = () => {
         </nav>
 
         {/* Header Right Side */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <a href="tel:0651239841" className="flex bg-white/5 border border-white/10 text-white px-3 sm:px-4 py-2 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all items-center gap-2 font-sans">
-            <Phone className="w-3 h-3 text-red-600" />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <ThemeToggle />
+          
+          <a href="tel:0651239841" className="flex bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-3 sm:px-4 py-2 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 font-sans shadow-lg">
+            <Phone className="w-3 h-3 text-red-600 group-hover:text-white" />
             <span className="inline">06 51 23 98 41</span>
           </a>
           
-          <button className="lg:hidden text-white p-1.5 hover:bg-white/5 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
+          <button className="lg:hidden text-[var(--text-main)] p-1.5 hover:bg-white/5 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>

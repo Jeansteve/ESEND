@@ -43,15 +43,15 @@ const cardVariants = {
   initial: {
     y: 0,
     scale: 1,
-    borderColor: "rgba(255, 255, 255, 0.05)",
-    backgroundColor: "rgba(15, 23, 42, 0.4)",
+    borderColor: "var(--border-subtle)",
+    backgroundColor: "var(--bg-card)",
   },
   hover: {
     y: -10,
     scale: 1.05,
-    borderColor: "rgba(220, 38, 38, 0.5)",
-    backgroundColor: "rgba(15, 23, 42, 0.8)",
-    boxShadow: "0px 20px 50px rgba(0, 0, 0, 0.5)",
+    borderColor: "var(--accent-red)",
+    backgroundColor: "var(--bg-secondary)",
+    boxShadow: "0px 20px 50px rgba(0, 0, 0, 0.15)",
     transition: {
       type: "spring",
       stiffness: 400,
@@ -62,7 +62,7 @@ const cardVariants = {
 
 const PestSelector = () => {
   return (
-    <section id="services" className="relative min-h-screen flex items-center justify-center bg-[#020617] text-white py-16 lg:py-0 overflow-hidden text-left">
+    <section id="services" className="relative min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-main)] py-16 lg:py-0 overflow-hidden text-left transition-colors duration-400">
       <div className="max-w-[1440px] mx-auto w-full px-6 relative z-10 flex flex-col">
         <div className="max-w-3xl mb-10 lg:mb-16 pt-20 lg:pt-0">
           <motion.div 
@@ -73,10 +73,10 @@ const PestSelector = () => {
           >
             <span className="w-6 h-px bg-red-600"></span> Nos Dossiers Tactiques
           </motion.div>
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-left">
+          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-left text-[var(--text-main)]">
             Services <span className="text-red-600 italic">ESEND</span>
           </h2>
-          <p className="text-slate-400 font-medium text-base lg:text-lg italic border-l border-red-600 pl-4 text-left">
+          <p className="text-[var(--text-dimmed)] font-medium text-base lg:text-lg italic border-l border-red-600 pl-4 text-left">
             "L'expertise terrain au service de votre sérénité."
           </p>
         </div>
@@ -87,7 +87,7 @@ const PestSelector = () => {
               variants={cardVariants}
               initial="initial"
               whileHover="hover"
-              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden bg-slate-900/40 text-left"
+              className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden text-left"
             >
               {pest.isFloating ? (
                 <div className="relative h-56 w-full mb-6 flex items-center justify-center">
@@ -119,26 +119,26 @@ const PestSelector = () => {
               )}
               <div className="mb-6">
                 <span className="text-[9px] font-black uppercase tracking-widest text-red-600 block mb-1">{pest.species}</span>
-                <h3 className="text-xl lg:text-2xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors">{pest.name}</h3>
+                <h3 className="text-xl lg:text-2xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors text-[var(--text-main)]">{pest.name}</h3>
               </div>
               <div className="flex-grow space-y-4 mb-8">
                 <div className="flex gap-3">
                   <Target className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
-                  <p className="text-[11px] text-slate-400 leading-snug">{pest.expertise}</p>
+                  <p className="text-[11px] text-[var(--text-dimmed)] leading-snug">{pest.expertise}</p>
                 </div>
                 <div className="flex gap-3">
                   <Lightbulb className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
-                  <p className="text-[11px] text-slate-400 leading-snug">{pest.info}</p>
+                  <p className="text-[11px] text-[var(--text-dimmed)] leading-snug">{pest.info}</p>
                 </div>
                 <div className="flex gap-3">
                   <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
-                  <p className="text-[11px] text-slate-300 leading-snug font-bold italic">{pest.benefice}</p>
+                  <p className="text-[11px] text-[var(--text-main)] leading-snug font-bold italic">{pest.benefice}</p>
                 </div>
               </div>
               <Link to={pest.id === "rongeur" ? "/services/nuisibles" : `/services/${pest.id}`} className="block">
                 <motion.div 
-                  whileHover={{ x: 5 }}
-                  className="w-full bg-white text-black py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white"
+                   whileHover={{ scale: 1.02 }}
+                   className="w-full bg-[var(--text-main)] text-[var(--bg-primary)] py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white shadow-lg"
                 >
                   En savoir plus <ArrowRight className="w-3 h-3" />
                 </motion.div>
