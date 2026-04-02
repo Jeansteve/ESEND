@@ -57,12 +57,12 @@
   background: var(--accent-red);
   color: white;
   border: 1px solid var(--accent-red);
-  box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 10px 20px -5px rgba(220, 38, 38, 0.4);
 }
 
 .nav-item:hover:not(.active) {
-  color: white;
-  background: rgba(255, 255, 255, 0.02);
+  color: var(--accent-red);
+  background: rgba(220, 38, 38, 0.05);
 }
 
 .sidebar-logo {

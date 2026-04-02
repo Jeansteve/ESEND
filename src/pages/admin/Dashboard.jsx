@@ -82,7 +82,7 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="text-2xl font-black italic tracking-tighter">1,284</div>
-          <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Vues Articles</div>
+          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Vues Articles</div>
         </div>
       </div>
 
@@ -95,7 +95,7 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="text-2xl font-black italic tracking-tighter">{projects.length}</div>
-          <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Interventions</div>
+          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Interventions</div>
         </div>
       </div>
 
@@ -108,7 +108,7 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="text-2xl font-black italic tracking-tighter">{articles.length}</div>
-          <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Dossiers Expert</div>
+          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Dossiers Expert</div>
         </div>
       </div>
 
@@ -121,7 +121,7 @@ const Dashboard = () => {
         </div>
         <div>
           <div className="text-2xl font-black italic tracking-tighter">Gemini v1.5</div>
-          <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Moteur de Rédaction</div>
+          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Moteur de Rédaction</div>
         </div>
       </div>
     </div>
@@ -244,7 +244,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                           <div className="text-xs font-black uppercase tracking-tight group-hover:text-red-600 transition-colors line-clamp-1">{art.title}</div>
-                          <div className="text-zinc-600 text-[10px] font-bold uppercase tracking-widest mt-0.5">{art.date} — {art.category}</div>
+                          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-0.5">{art.date} — {art.category}</div>
                         </div>
                       </div>
                       <ChevronRight className="w-4 h-4 text-zinc-600 group-hover:text-red-600 transition-all transform group-hover:translate-x-1" />
@@ -261,7 +261,7 @@ const Dashboard = () => {
                   <h3 className="text-4xl font-black uppercase tracking-tighter mb-4 leading-none">
                     Studio de <span className="text-red-600 italic">Création</span>
                   </h3>
-                  <p className="text-zinc-400 text-sm leading-relaxed mb-10 font-medium">
+                  <p className="text-[var(--text-dimmed)] text-sm leading-relaxed mb-10 font-medium">
                     Optimisez votre SEO local sur Menton et Monaco en générant des articles d'expertise en un clic.
                   </p>
                 </div>
@@ -286,10 +286,10 @@ const Dashboard = () => {
 
         {activeTab === 'portfolio' && (
           <div className="space-y-8">
-             <div className="flex justify-between items-center bg-black/40 p-6 rounded-2xl border border-white/5">
+             <div className="flex justify-between items-center bg-[var(--bg-card)] p-6 rounded-2xl border border-[var(--border-subtle)]">
                 <div>
                    <h3 className="text-xl font-black uppercase tracking-tighter">Gestion des réalisations</h3>
-                   <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Archives des interventions sur la Riviera</p>
+                   <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest">Archives des interventions sur la Riviera</p>
                 </div>
              </div>
 
@@ -309,7 +309,7 @@ const Dashboard = () => {
                         </div>
                      </div>
                      <h4 className="text-sm font-black uppercase tracking-tight mb-2 group-hover:text-red-600 transition-colors">{proj.title}</h4>
-                     <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mb-6">{proj.location}</p>
+                     <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mb-6">{proj.location}</p>
                      
                      <div className="mt-auto flex justify-end gap-2 border-t border-white/5 pt-4">
                         <button 
