@@ -288,12 +288,6 @@ const Dashboard = () => {
                    <h3 className="text-xl font-black uppercase tracking-tighter">Gestion des réalisations</h3>
                    <p className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest">Archives des interventions sur la Riviera</p>
                 </div>
-                <button 
-                   onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
-                   className="flex items-center gap-3 bg-white text-black px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-600 hover:text-white transition-all"
-                >
-                   <Plus className="w-4 h-4" /> Nouvelle Réalisation 
-                </button>
              </div>
 
              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
