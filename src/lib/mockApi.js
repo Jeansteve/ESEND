@@ -130,7 +130,10 @@ export const mockApi = {
         return load(STORAGE_KEYS.SETTINGS, {
             gemini_api_key: '',
             gemini_enabled: true,
-            contact_email: 'contact@esendnuisibles.fr'
+            contact_email: 'contact@esendnuisibles.fr',
+            google_reviews_id: '',
+            ga_id: '',
+            admin_password: 'admin'
         });
     },
 

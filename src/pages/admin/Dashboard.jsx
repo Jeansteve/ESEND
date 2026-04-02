@@ -14,7 +14,10 @@ import {
   TrendingUp,
   Users,
   Eye,
-  FileText
+  FileText,
+  Mail,
+  Globe,
+  Key
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
@@ -27,6 +30,7 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [articles, setArticles] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [settings, setSettings] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   
@@ -50,12 +54,14 @@ const Dashboard = () => {
 
   const loadData = async () => {
     setLoading(true);
-    const [arts, projs] = await Promise.all([
+    const [arts, projs, sets] = await Promise.all([
       api.getArticles(),
-      api.getProjects()
+      api.getProjects(),
+      api.getSettings()
     ]);
     setArticles(arts);
     setProjects(projs);
+    setSettings(sets);
     setLoading(false);
   };
 
@@ -117,6 +123,12 @@ const Dashboard = () => {
           <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Moteur de Rédaction</div>
         </div>
       </div>
+    </div>
+  );
+
+  if (loading) return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+       <div className="w-12 h-12 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -302,32 +314,137 @@ const Dashboard = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="max-w-2xl mx-auto space-y-12 py-12">
-             <div className="glass-card border-indigo-600/20 bg-indigo-600/5 p-10">
-                <div className="flex items-center gap-4 text-indigo-500 mb-10">
-                   <Settings className="w-6 h-6" />
-                   <h3 className="text-2xl font-black uppercase tracking-tighter">Configuration Système</h3>
+          <div className="max-w-4xl mx-auto space-y-8 pb-32">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* 1. Coordination & Contact */}
+                <div className="glass-card border-red-600/20 bg-red-600/5 p-8">
+                   <div className="flex items-center gap-4 text-red-600 mb-8">
+                      <div className="p-3 bg-red-600/10 rounded-xl"><Mail className="w-5 h-5" /></div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Coordination</h3>
+                   </div>
+                   
+                   <div className="space-y-6">
+                      <div>
+                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">E-mail de réception des devis</label>
+                         <input 
+                            type="email" 
+                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                            defaultValue={settings.contact_email}
+                            onBlur={async (e) => {
+                               const sets = await api.getSettings();
+                               await api.updateSettings({ ...sets, contact_email: e.target.value });
+                               alert("Email de contact mis à jour");
+                            }}
+                         />
+                      </div>
+                   </div>
                 </div>
-                
-                <div className="space-y-8">
-                   <div>
-                      <label className="block text-[10px] font-black uppercase text-zinc-500 mb-3 tracking-widest">Moteur IA (API Key Gemini)</label>
-                      <input 
-                         type="password" 
-                         className="w-full bg-black/40 border border-white/5 rounded-xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all"
-                         placeholder="••••••••••••••••••••••••••••••••"
-                         onBlur={async (e) => {
-                            if (e.target.value) {
+
+                {/* 2. Visibilité & Marketing */}
+                <div className="glass-card border-blue-600/20 bg-blue-600/5 p-8">
+                   <div className="flex items-center gap-4 text-blue-600 mb-8">
+                      <div className="p-3 bg-blue-600/10 rounded-xl"><Globe className="w-5 h-5" /></div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Visibilité Web</h3>
+                   </div>
+                   
+                   <div className="space-y-6">
+                      <div>
+                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">⭐ ID Avis Google (Automatiques)</label>
+                         <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all"
+                            placeholder="Place ID Google"
+                            defaultValue={settings.google_reviews_id}
+                            onBlur={async (e) => {
+                               const sets = await api.getSettings();
+                               await api.updateSettings({ ...sets, google_reviews_id: e.target.value });
+                            }}
+                         />
+                      </div>
+                      <div>
+                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">Google Analytics (Measurement ID)</label>
+                         <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all"
+                            placeholder="G-XXXXXXXXXX"
+                            defaultValue={settings.ga_id}
+                            onBlur={async (e) => {
+                               const sets = await api.getSettings();
+                               await api.updateSettings({ ...sets, ga_id: e.target.value });
+                            }}
+                         />
+                      </div>
+                   </div>
+                </div>
+
+                {/* 3. Moteur IA Intelligence */}
+                <div className="glass-card border-indigo-600/20 bg-indigo-600/5 p-8">
+                   <div className="flex items-center gap-4 text-indigo-600 mb-8">
+                      <div className="p-3 bg-indigo-600/10 rounded-xl"><Sparkles className="w-5 h-5" /></div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Intelligence Artificielle</h3>
+                   </div>
+                   
+                   <div className="space-y-6">
+                      <div>
+                         <label className="block text-[9px] font-black uppercase text-zinc-500 mb-2 tracking-widest text-left">Google AI Studio (Gemini Pro)</label>
+                         <input 
+                            type="password" 
+                            className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all"
+                            placeholder="••••••••••••••••"
+                            defaultValue={settings.gemini_api_key}
+                            onBlur={async (e) => {
                                const sets = await api.getSettings();
                                await api.updateSettings({ ...sets, gemini_api_key: e.target.value });
-                               alert("Clé API enregistrée (Mock Mode)");
-                            }
-                         }}
-                      />
-                      <p className="mt-4 flex items-center gap-2 text-[10px] font-bold text-zinc-500 uppercase italic">
-                         <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Vos clés sont sécurisées en local via Mock Mode.
-                      </p>
+                            }}
+                         />
+                      </div>
                    </div>
+                </div>
+
+                {/* 4. Sécurité Compte */}
+                <div className="glass-card border-zinc-600/20 bg-zinc-600/5 p-8">
+                   <div className="flex items-center gap-4 text-zinc-400 mb-8">
+                      <div className="p-3 bg-zinc-600/10 rounded-xl"><Key className="w-5 h-5" /></div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Accès Admin</h3>
+                   </div>
+                   
+                   <form className="space-y-4" onSubmit={async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(e.target);
+                      const current = formData.get('current');
+                      const next = formData.get('next');
+                      const confirm = formData.get('confirm');
+
+                      const sets = await api.getSettings();
+                      if (current !== sets.admin_password) return alert("Ancien mot de passe incorrect");
+                      if (next !== confirm) return alert("Les nouveaux mots de passe ne correspondent pas");
+                      
+                      await api.updateSettings({ ...sets, admin_password: next });
+                      alert("Mot de passe mis à jour !");
+                      e.target.reset();
+                   }}>
+                      <input 
+                        name="current"
+                        type="password" 
+                        placeholder="Ancien mot de passe"
+                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-xs outline-none focus:border-white/20 transition-all"
+                      />
+                      <input 
+                        name="next"
+                        type="password" 
+                        placeholder="Nouveau mot de passe"
+                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-xs outline-none focus:border-white/20 transition-all"
+                      />
+                      <input 
+                        name="confirm"
+                        type="password" 
+                        placeholder="Confirmer le nouveau"
+                        className="w-full bg-black/40 border border-white/5 rounded-xl px-4 py-3 text-xs outline-none focus:border-white/20 transition-all"
+                      />
+                      <button className="w-full bg-white text-black py-3 rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-red-600 hover:text-white transition-all">
+                         Changer le mot de passe
+                      </button>
+                   </form>
                 </div>
              </div>
           </div>

@@ -1,7 +1,6 @@
 // src/pages/admin/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Lock, User, ShieldCheck } from 'lucide-react';
+import { api } from '../../lib/api';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -9,14 +8,19 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Simulation simple pour le mode développement
-    if (email === 'admin@esend.fr' && password === 'admin') {
+    const settings = await api.getSettings();
+    
+    // On accepte admin@esend.fr comme identifiant universel OU l'email de contact paramétré
+    const isValidEmail = (email === 'admin@esend.fr' || email === settings.contact_email);
+    const isValidPassword = (password === settings.admin_password);
+
+    if (isValidEmail && isValidPassword) {
       localStorage.setItem('esend_is_auth', 'true');
       navigate('/admin/dashboard');
     } else {
-      setError('Identifiants incorrects (admin@esend.fr / admin)');
+      setError('Identifiants incorrects (Vérifiez vos paramètres)');
     }
   };
 
