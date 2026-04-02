@@ -12,13 +12,19 @@ import {
   Search, 
   Sparkles, 
   ChevronRight,
+  ArrowRight,
   TrendingUp,
   Users,
+  User,
   Eye,
   FileText,
   Mail,
   Globe,
-  Key
+  Key,
+  Layout,
+  Zap,
+  CheckCircle2,
+  MapPin
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
