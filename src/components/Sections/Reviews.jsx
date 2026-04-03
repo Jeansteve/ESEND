@@ -203,7 +203,8 @@ const Reviews = () => {
           ))}
         </div>
 
-        {/* Bottom CTA for Trust */}
+        {/* Bottom CTA for Trust (Hidden until link is ready) */}
+        {/* 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -227,6 +228,7 @@ const Reviews = () => {
             </span>
           </a>
         </motion.div>
+        */}
       </div>
 
       {/* Background Decorations */}
