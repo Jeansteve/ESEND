@@ -1,5 +1,6 @@
 // src/pages/admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import ThemeToggle from '../../components/UI/ThemeToggle';
 import { 
@@ -161,9 +162,9 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="admin-container flex min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] transition-colors duration-400">
+    <div className="admin-container bg-[var(--bg-primary)]">
       {/* Sidebar */}
-      <aside className="admin-sidebar sticky top-0 h-screen overflow-hidden flex-shrink-0 bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)]">
+      <aside className="admin-sidebar bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)]">
         <div className="sidebar-logo text-[var(--text-main)]">
           ESEND <span className="text-red-600 font-black">ADMIN</span>
         </div>
@@ -357,169 +358,205 @@ const Dashboard = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="max-w-4xl mx-auto space-y-12 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            
-            {/* UNIFIED SETTINGS CONTAINER */}
-            <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-0 overflow-hidden shadow-2xl">
-              
-              {/* HEADER WITH STATUS */}
-              <div className="p-8 border-b border-[var(--border-subtle)] bg-white/5 flex justify-between items-center">
-                <div>
-                  <h3 className="text-xl font-black uppercase tracking-tighter">Configuration Système</h3>
-                  <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Gestion centralisée des paramètres ESEND</p>
-                </div>
-                {saveStatus.id === 'global' && (
-                  <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full animate-bounce">
-                    <CheckCircle2 className="w-4 h-4 text-green-500" />
-                    <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Réglages enregistrés !</span>
-                  </div>
-                )}
+          <div className="max-w-4xl mx-auto pb-40">
+            <div className="flex justify-between items-center mb-10 p-6 glass-card bg-white/5 border-white/5">
+              <div>
+                <h3 className="text-2xl font-black uppercase tracking-tighter">Configuration Système</h3>
+                <p className="text-[var(--text-dimmed)] text-[11px] font-bold uppercase tracking-widest mt-1 italic">Gestion centralisée des paramètres ESEND</p>
               </div>
+              <AnimatePresence>
+                {saveStatus.id === 'global' && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, x: 20 }}
+                    className="flex items-center gap-3 px-5 py-2 bg-green-500/10 border border-green-500/20 rounded-full"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                    <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Réglages enregistrés</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
-              <div className="p-8 space-y-12">
-                {/* SECTION: COORDINATION */}
-                <section className="space-y-6">
-                  <div className="flex items-center gap-3 text-red-600 font-black uppercase text-[11px] mb-4">
-                    <div className="p-2 bg-red-600/10 rounded-lg"><Mail className="w-4 h-4" /></div> 
-                    1. Coordination & Contact
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-12">
-                     <div>
-                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">E-mail de réception des devis</label>
-                        <input 
-                           type="email" 
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)]"
-                           value={localSettings.contact_email || ''}
-                           onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
-                           placeholder="contact@esendnuisibles.fr"
-                        />
-                     </div>
-                  </div>
-                </section>
-
-                <div className="h-px bg-gradient-to-r from-transparent via-[var(--border-subtle)] to-transparent" />
-
-                {/* SECTION: VISIBILITÉ WEB */}
-                <section className="space-y-6">
-                  <div className="flex items-center gap-3 text-blue-600 font-black uppercase text-[11px] mb-4">
-                    <div className="p-2 bg-blue-600/10 rounded-lg"><Globe className="w-4 h-4" /></div> 
-                    2. Visibilité & Analytics
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-12">
-                     <div>
-                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
-                        <input 
-                           type="text" 
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
-                           placeholder="Ex: ChIJ..."
-                           value={localSettings.google_reviews_id || ''}
-                           onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
-                        />
-                     </div>
-                     <div>
-                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
-                        <input 
-                           type="text" 
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
-                           placeholder="G-XXXXXXXXXX"
-                           value={localSettings.ga_id || ''}
-                           onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
-                        />
-                     </div>
-                  </div>
-                </section>
-
-                <div className="h-px bg-gradient-to-r from-transparent via-[var(--border-subtle)] to-transparent" />
-
-                {/* SECTION: INTELLIGENCE ARTIFICIELLE */}
-                <section className="space-y-6">
-                  <div className="flex items-center gap-3 text-indigo-600 font-black uppercase text-[11px] mb-4">
-                    <div className="p-2 bg-indigo-600/10 rounded-lg"><Sparkles className="w-4 h-4" /></div> 
-                    3. Moteur IA (Gemini Pro)
-                  </div>
-                  <div className="pl-12">
-                    <div className="max-w-md">
-                      <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
+            <div className="space-y-12">
+              {/* SECTIONS WRAPPED WITH MOTION */}
+              {[
+                {
+                  id: 'coordination',
+                  icon: Mail,
+                  title: '1. Coordination & Contact',
+                  color: 'text-red-600',
+                  bg: 'bg-red-600/10',
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       <div className="space-y-3">
+                          <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">E-mail de réception des devis</label>
+                          <input 
+                             type="email" 
+                             className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                             value={localSettings.contact_email || ''}
+                             onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
+                             placeholder="contact@esendnuisibles.fr"
+                          />
+                       </div>
+                    </div>
+                  )
+                },
+                {
+                  id: 'visibility',
+                  icon: Globe,
+                  title: '2. Visibilité & Analytics',
+                  color: 'text-blue-600',
+                  bg: 'bg-blue-600/10',
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       <div className="space-y-3">
+                          <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
+                          <input 
+                             type="text" 
+                             className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                             placeholder="Ex: ChIJ..."
+                             value={localSettings.google_reviews_id || ''}
+                             onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
+                          />
+                       </div>
+                       <div className="space-y-3">
+                          <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
+                          <input 
+                             type="text" 
+                             className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                             placeholder="G-XXXXXXXXXX"
+                             value={localSettings.ga_id || ''}
+                             onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
+                          />
+                       </div>
+                    </div>
+                  )
+                },
+                {
+                  id: 'ai',
+                  icon: Sparkles,
+                  title: '3. Moteur IA (Gemini Pro)',
+                  color: 'text-indigo-600',
+                  bg: 'bg-indigo-600/10',
+                  content: (
+                    <div className="max-w-md space-y-3">
+                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
                       <input 
                          type="password" 
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)]"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
                          placeholder="••••••••••••••••"
                          value={localSettings.gemini_api_key || ''}
                          onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
                       />
                     </div>
-                  </div>
-                </section>
-              </div>
-
-              {/* FOOTER ACTION */}
-              <div className="p-8 bg-zinc-900/40 border-t border-[var(--border-subtle)] flex justify-end">
-                <button 
-                   onClick={handleUpdateSettings}
-                   className="flex items-center gap-3 bg-red-600 text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                   disabled={loading}
+                  )
+                }
+              ].map((section, idx) => (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  key={section.id} 
+                  className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8 hover:border-[var(--border-strong)] transition-all"
                 >
-                   {loading ? (
-                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                   ) : (
-                     <Save className="w-4 h-4" />
-                   )}
-                   {loading ? "Traitement..." : "Sauvegarder tous les réglages"}
-                </button>
-              </div>
-            </div>
-
-            {/* ACCÈS ADMIN (SEPARATE FOR SECURITY) */}
-            <div className="glass-card bg-zinc-600/5 border-zinc-600/10 p-8 flex flex-col justify-between group hover:border-zinc-500/30 transition-all duration-500 max-w-2xl">
-               <div>
-                  <div className="flex items-center gap-3 text-zinc-500 font-black uppercase text-[11px] mb-8">
-                     <div className="p-2 bg-zinc-600/10 rounded-lg group-hover:scale-110 transition-transform"><Key className="w-4 h-4" /></div> 
-                     Sécurité : Accès Admin
+                  <div className={`flex items-center gap-4 ${section.color} font-black uppercase text-[12px] mb-8 tracking-wider`}>
+                    <div className={`p-2.5 ${section.bg} rounded-xl shadow-lg`}><section.icon className="w-5 h-5" /></div> 
+                    {section.title}
                   </div>
-                  
-                  <form onSubmit={async (e) => {
-                     e.preventDefault();
-                     const res = await api.changePassword(e.target.current.value, e.target.next.value);
-                     if (res.success) {
-                        setSaveStatus({ id: 'admin', type: 'success' });
-                        setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
-                        e.target.reset();
-                     } else {
-                        alert(res.message);
-                     }
-                  }} className="space-y-4">
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="pl-0 md:pl-14">
+                    {section.content}
+                  </div>
+                </motion.div>
+              ))}
+
+              {/* SECURITY SECTION */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="glass-card bg-zinc-600/5 border-zinc-600/10 p-10 group hover:border-zinc-500/30 transition-all duration-500"
+              >
+                <div className="flex items-center gap-4 text-zinc-500 font-black uppercase text-[12px] mb-10 tracking-wider">
+                  <div className="p-2.5 bg-zinc-600/10 rounded-xl group-hover:scale-110 transition-transform"><Key className="w-5 h-5" /></div> 
+                  Sécurité : Accès Admin
+                </div>
+                
+                <form onSubmit={async (e) => {
+                   e.preventDefault();
+                   const res = await api.changePassword(e.target.current.value, e.target.next.value);
+                   if (res.success) {
+                      setSaveStatus({ id: 'admin', type: 'success' });
+                      setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
+                      e.target.reset();
+                   } else {
+                      alert(res.message);
+                   }
+                }} className="space-y-8 pl-0 md:pl-14">
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div className="space-y-2">
+                       <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Ancien mot de passe</label>
                        <input 
                          name="current"
                          type="password" 
-                         placeholder="Ancien mot de passe"
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
                        />
-                       <div className="hidden md:block" />
+                     </div>
+                     <div className="hidden md:block" />
+                     <div className="space-y-2">
+                       <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Nouveau mot de passe</label>
                        <input 
                          name="next"
                          type="password" 
-                         placeholder="Nouveau mot de passe"
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
                        />
+                     </div>
+                     <div className="space-y-2">
+                       <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Confirmer le nouveau</label>
                        <input 
                          name="confirm"
                          type="password" 
-                         placeholder="Confirmer le nouveau"
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
                        />
                      </div>
-                     <button className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-zinc-200 transition-all active:scale-95">
-                        <Key className="w-3.5 h-3.5" /> Mettre à jour le mot de passe
+                   </div>
+                   <div className="flex items-center gap-6">
+                     <button className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-zinc-200 transition-all active:scale-95 shadow-xl">
+                        <Key className="w-4 h-4" /> Mettre à jour l'accès
                      </button>
                      {saveStatus.id === 'admin' && (
-                       <p className="text-[9px] font-black text-green-500 uppercase tracking-widest text-center mt-2 animate-pulse">Mot de passe mis à jour !</p>
+                       <p className="text-[10px] font-black text-green-500 uppercase tracking-widest animate-pulse">Succès !</p>
                      )}
-                  </form>
-               </div>
+                   </div>
+                </form>
+              </motion.div>
+            </div>
+
+            {/* STICKY GLOBAL SAVE BAR */}
+            <div className="fixed bottom-8 left-[300px] right-24 z-50 flex justify-center pointer-events-none">
+              <motion.div 
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                className="pointer-events-auto"
+              >
+                <button 
+                   onClick={handleUpdateSettings}
+                   className="flex items-center gap-4 bg-red-600 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-[11px] hover:bg-red-700 transition-all shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_25px_60px_rgba(220,38,38,0.4)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
+                   disabled={loading}
+                >
+                   {loading ? (
+                     <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                   ) : (
+                     <Save className="w-5 h-5" />
+                   )}
+                   {loading ? "Traitement..." : "Sauvegarder tout les réglages"}
+                </button>
+              </motion.div>
             </div>
           </div>
         )}
+
       </main>
 
       {/* --- OVERLAYS & MODALS --- */}
