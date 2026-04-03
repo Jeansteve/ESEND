@@ -88,7 +88,10 @@ const ReviewCard = ({ review, index }) => (
   >
     <div className="h-full bg-[var(--bg-card)] backdrop-blur-xl border border-[var(--border-subtle)] p-8 lg:p-10 rounded-[3rem] shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
       {/* Decorative Quote */}
-      <Quote className="absolute -top-4 -right-4 w-24 h-24 text-[var(--accent-red)]/5 -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+      <Quote 
+        className="absolute top-8 right-10 w-12 h-12 text-[var(--accent-red)]/10 -rotate-6 group-hover:rotate-0 transition-transform duration-700" 
+        strokeWidth={1.2} 
+      />
       
       {/* Google Trust Header */}
       <div className="flex items-center gap-4 mb-8">
