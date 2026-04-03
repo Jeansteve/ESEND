@@ -7,7 +7,7 @@
 import { api } from './api';
 
 const IS_DEV = import.meta.env.DEV;
-const DIRECT_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+const DIRECT_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
 
 // --- Quota Tracker (localStorage) ---
 const QUOTA_KEY = 'esend_ai_quota';
@@ -63,17 +63,37 @@ export const AIService = {
         const key = await this._getApiKey();
         if (!key) throw new Error("Clé API Gemini manquante dans les Paramètres.");
 
-        const response = await fetch(`${DIRECT_ENDPOINT}?key=${key}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-        });
+        const modelsToTry = [
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
+        ];
 
-        if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.error?.message || `Erreur API Google (${response.status})`);
+        let lastError = null;
+
+        for (const endpoint of modelsToTry) {
+            try {
+                const response = await fetch(`${endpoint}?key=${key}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    lastError = err.error?.message || `Erreur API Google (${response.status})`;
+                    console.warn(`Model failed: ${endpoint}`, lastError);
+                    continue; // Essayons le modèle suivant
+                }
+                return response;
+            } catch (error) {
+                lastError = error.message;
+                console.warn(`Fetch error for ${endpoint}`, error);
+            }
         }
-        return response;
+
+        throw new Error(`Incident Moteur IA: ${lastError || 'Tous les modèles configurés ont échoué.'}`);
     },
 
     /**
