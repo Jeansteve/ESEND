@@ -97,21 +97,23 @@ const PestSelector = () => {
                    <div className="absolute top-0 right-0 bg-[var(--bg-secondary)]/50 backdrop-blur-md p-2 rounded-full border border-[var(--border-subtle)] z-0 shadow-lg">
                      {pest.icon}
                    </div>
-                   <motion.img 
+                    <motion.img 
                       variants={{
-                        initial: { y: 0, filter: 'drop-shadow(0 0 0 transparent)' },
+                        initial: { y: 0, filter: 'grayscale(100%) brightness(100%) drop-shadow(0 0 0 transparent)', opacity: 0.5 },
                         hover: { 
                           y: [0, -12, 0],
-                          filter: `drop-shadow(0 20px 40px ${pest.shadowColor})`,
+                          filter: `grayscale(0%) brightness(100%) drop-shadow(0 20px 40px ${pest.shadowColor})`,
+                          opacity: 1,
                           transition: { 
                             y: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
-                            filter: { duration: 0.4 }
+                            filter: { duration: 0.4 },
+                            opacity: { duration: 0.4 }
                           }
                         }
                       }}
                       src={pest.image} 
-                      className="w-full h-full object-contain z-10 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
-                      style={{ transition: 'filter 0.4s ease, opacity 0.7s ease, transform 0.7s ease' }}
+                      className="w-full h-full object-contain z-10"
+                      style={{ transition: 'transform 0.7s ease' }}
                       alt={pest.name}
                    />
                 </div>
