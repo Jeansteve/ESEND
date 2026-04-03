@@ -96,7 +96,7 @@ const Hero = () => {
           <div className="relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] flex items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0">
             <div className="relative w-full h-full flex items-end overflow-visible">
               <img 
-                src="./duo-experts-esend.png?v=1774355595" 
+                src="./duo-experts-esend-hd.png" 
                 className="w-full h-full object-contain object-bottom z-10 [mask-image:linear-gradient(to_top,transparent_0%,black_25%)] [-webkit-mask-image:linear-gradient(to_top,transparent_0%,black_25%)]" 
                 alt="Duo Experts ESEND"
               />
