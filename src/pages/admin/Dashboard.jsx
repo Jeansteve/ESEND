@@ -24,7 +24,8 @@ import {
   Layout,
   Zap,
   CheckCircle2,
-  MapPin
+  MapPin,
+  Save
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
@@ -38,6 +39,8 @@ const Dashboard = () => {
   const [articles, setArticles] = useState([]);
   const [projects, setProjects] = useState([]);
   const [settings, setSettings] = useState({});
+  const [localSettings, setLocalSettings] = useState({});
+  const [saveStatus, setSaveStatus] = useState({ id: null, type: '' }); // { id: 'coordination', type: 'success' }
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   
@@ -69,7 +72,24 @@ const Dashboard = () => {
     setArticles(arts);
     setProjects(projs);
     setSettings(sets);
+    setLocalSettings(sets);
     setLoading(false);
+  };
+
+  const handleUpdateSettings = async (cardId, updatedFields) => {
+    try {
+      const newSettings = { ...settings, ...updatedFields };
+      const res = await api.updateSettings(newSettings);
+      if (res.success || res) {
+        setSettings(newSettings);
+        setLocalSettings(newSettings);
+        setSaveStatus({ id: cardId, type: 'success' });
+        setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
+      }
+    } catch (error) {
+      console.error("Error updating settings:", error);
+      alert("Erreur lors de la sauvegarde");
+    }
   };
 
   const handleLogout = () => {
@@ -336,121 +356,168 @@ const Dashboard = () => {
         )}
 
         {activeTab === 'settings' && (
-          <div className="max-w-4xl mx-auto space-y-8 pb-32">
+          <div className="max-w-4xl mx-auto space-y-8 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-700">
              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
-                <div className="glass-card bg-red-600/5 border-red-600/10 p-8 flex flex-col justify-between">
-                   <div className="flex items-center gap-3 text-red-600 font-black uppercase text-[11px] mb-8">
-                      <div className="p-2 bg-red-600/10 rounded-lg"><Mail className="w-4 h-4" /></div> COORDINATION
-                   </div>
-                   
-                   <div className="space-y-6">
-                      <div>
-                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">E-mail de réception des devis</label>
-                         <input 
-                            type="email" 
-                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)]"
-                            defaultValue={settings.contact_email}
-                            onBlur={async (e) => {
-                               const sets = await api.getSettings();
-                               await api.updateSettings({ ...sets, contact_email: e.target.value });
-                               alert("Email de contact mis à jour");
-                            }}
-                         />
+                {/* COORDINATION */}
+                <div className="glass-card bg-red-600/5 border-red-600/10 p-8 flex flex-col justify-between group hover:border-red-600/30 transition-all duration-500">
+                   <div>
+                      <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3 text-red-600 font-black uppercase text-[11px]">
+                           <div className="p-2 bg-red-600/10 rounded-lg group-hover:scale-110 transition-transform"><Mail className="w-4 h-4" /></div> COORDINATION
+                        </div>
+                        {saveStatus.id === 'coordination' && (
+                          <span className="text-[9px] font-black text-green-500 uppercase tracking-widest animate-pulse">Sauvegardé !</span>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-6">
+                         <div>
+                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">E-mail de réception des devis</label>
+                            <input 
+                               type="email" 
+                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
+                               value={localSettings.contact_email || ''}
+                               onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
+                               placeholder="contact@esendnuisibles.fr"
+                            />
+                         </div>
                       </div>
                    </div>
+
+                   <button 
+                      onClick={() => handleUpdateSettings('coordination', { contact_email: localSettings.contact_email })}
+                      className="mt-8 flex items-center justify-center gap-2 w-full bg-red-600/10 hover:bg-red-600 text-red-600 hover:text-white border border-red-600/20 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all active:scale-95"
+                   >
+                      <Save className="w-3.5 h-3.5" /> Enregistrer les modifications
+                   </button>
                 </div>
 
-                <div className="glass-card bg-blue-600/5 border-blue-600/10 p-8 flex flex-col justify-between">
-                   <div className="flex items-center gap-3 text-blue-600 font-black uppercase text-[11px] mb-8">
-                      <div className="p-2 bg-blue-600/10 rounded-lg"><Globe className="w-4 h-4" /></div> VISIBILITÉ WEB
-                   </div>
-                   
-                   <div className="space-y-6">
-                      <div>
-                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">⭐ ID Avis Google (Automatiques)</label>
-                         <input 
-                            type="text" 
-                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
-                            placeholder="Place ID Google"
-                            defaultValue={settings.google_reviews_id}
-                            onBlur={async (e) => {
-                               const sets = await api.getSettings();
-                               await api.updateSettings({ ...sets, google_reviews_id: e.target.value });
-                            }}
-                         />
+                {/* VISIBILITÉ WEB */}
+                <div className="glass-card bg-blue-600/5 border-blue-600/10 p-8 flex flex-col justify-between group hover:border-blue-600/30 transition-all duration-500">
+                   <div>
+                      <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3 text-blue-600 font-black uppercase text-[11px]">
+                           <div className="p-2 bg-blue-600/10 rounded-lg group-hover:scale-110 transition-transform"><Globe className="w-4 h-4" /></div> VISIBILITÉ WEB
+                        </div>
+                        {saveStatus.id === 'visibility' && (
+                          <span className="text-[9px] font-black text-green-500 uppercase tracking-widest animate-pulse">Sauvegardé !</span>
+                        )}
                       </div>
-                      <div className="mt-8 pt-8 border-t border-[var(--border-subtle)]">
-                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">Google Analytics (Measurement ID)</label>
-                         <input 
-                            type="text" 
-                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
-                            placeholder="G-XXXXXXXXXX"
-                            defaultValue={settings.ga_id}
-                            onBlur={async (e) => {
-                               const sets = await api.getSettings();
-                               await api.updateSettings({ ...sets, ga_id: e.target.value });
-                            }}
-                         />
+                      
+                      <div className="space-y-6">
+                         <div>
+                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
+                            <input 
+                               type="text" 
+                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
+                               placeholder="Place ID Google"
+                               value={localSettings.google_reviews_id || ''}
+                               onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
+                            />
+                         </div>
+                         <div className="pt-4 border-t border-[var(--border-subtle)]">
+                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
+                            <input 
+                               type="text" 
+                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
+                               placeholder="G-XXXXXXXXXX"
+                               value={localSettings.ga_id || ''}
+                               onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
+                            />
+                         </div>
                       </div>
                    </div>
+
+                   <button 
+                      onClick={() => handleUpdateSettings('visibility', { 
+                        google_reviews_id: localSettings.google_reviews_id,
+                        ga_id: localSettings.ga_id 
+                      })}
+                      className="mt-8 flex items-center justify-center gap-2 w-full bg-blue-600/10 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-600/20 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all active:scale-95"
+                   >
+                      <Save className="w-3.5 h-3.5" /> Enregistrer les modifications
+                   </button>
                 </div>
 
-                <div className="glass-card bg-indigo-600/5 border-indigo-600/10 p-8 flex flex-col justify-between">
-                   <div className="flex items-center gap-3 text-indigo-600 font-black uppercase text-[11px] mb-8">
-                      <div className="p-2 bg-indigo-600/10 rounded-lg"><Sparkles className="w-4 h-4" /></div> INTELLIGENCE ARTIFICIELLE
-                   </div>
-                   
-                   <div className="space-y-6">
-                      <div>
-                         <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left">Google AI Studio (Gemini Pro)</label>
-                         <input 
-                            type="password" 
-                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)]"
-                            placeholder="••••••••••••••••"
-                            defaultValue={settings.gemini_api_key}
-                            onBlur={async (e) => {
-                               const sets = await api.getSettings();
-                               await api.updateSettings({ ...sets, gemini_api_key: e.target.value });
-                            }}
-                         />
+                {/* INTELLIGENCE ARTIFICIELLE */}
+                <div className="glass-card bg-indigo-600/5 border-indigo-600/10 p-8 flex flex-col justify-between group hover:border-indigo-600/30 transition-all duration-500">
+                   <div>
+                      <div className="flex items-center justify-between mb-8">
+                        <div className="flex items-center gap-3 text-indigo-600 font-black uppercase text-[11px]">
+                           <div className="p-2 bg-indigo-600/10 rounded-lg group-hover:scale-110 transition-transform"><Sparkles className="w-4 h-4" /></div> INTELLIGENCE ARTIFICIELLE
+                        </div>
+                        {saveStatus.id === 'ai' && (
+                          <span className="text-[9px] font-black text-green-500 uppercase tracking-widest animate-pulse">Sauvegardé !</span>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-6">
+                         <div>
+                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Google AI Studio (Gemini Pro)</label>
+                            <input 
+                               type="password" 
+                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)]"
+                               placeholder="••••••••••••••••"
+                               value={localSettings.gemini_api_key || ''}
+                               onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
+                            />
+                         </div>
                       </div>
                    </div>
+
+                   <button 
+                      onClick={() => handleUpdateSettings('ai', { gemini_api_key: localSettings.gemini_api_key })}
+                      className="mt-8 flex items-center justify-center gap-2 w-full bg-indigo-600/10 hover:bg-indigo-600 text-indigo-600 hover:text-white border border-indigo-600/20 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all active:scale-95"
+                   >
+                      <Save className="w-3.5 h-3.5" /> Enregistrer les modifications
+                   </button>
                 </div>
 
-                <div className="glass-card bg-zinc-600/5 border-zinc-600/10 p-8 flex flex-col justify-between">
-                   <div className="flex items-center gap-3 text-zinc-500 font-black uppercase text-[11px] mb-8">
-                      <div className="p-2 bg-zinc-600/10 rounded-lg"><Key className="w-4 h-4" /></div> ACCÈS ADMIN
+                {/* ACCÈS ADMIN */}
+                <div className="glass-card bg-zinc-600/5 border-zinc-600/10 p-8 flex flex-col justify-between group hover:border-zinc-500/30 transition-all duration-500">
+                   <div>
+                      <div className="flex items-center gap-3 text-zinc-500 font-black uppercase text-[11px] mb-8">
+                         <div className="p-2 bg-zinc-600/10 rounded-lg group-hover:scale-110 transition-transform"><Key className="w-4 h-4" /></div> ACCÈS ADMIN
+                      </div>
+                      
+                      <form onSubmit={async (e) => {
+                         e.preventDefault();
+                         const res = await api.changePassword(e.target.current.value, e.target.next.value);
+                         if (res.success) {
+                            setSaveStatus({ id: 'admin', type: 'success' });
+                            setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
+                            e.target.reset();
+                         } else {
+                            alert(res.message);
+                         }
+                      }} className="space-y-4">
+                         <input 
+                           name="current"
+                           type="password" 
+                           placeholder="Ancien mot de passe"
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                         />
+                         <input 
+                           name="next"
+                           type="password" 
+                           placeholder="Nouveau mot de passe"
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                         />
+                         <input 
+                           name="confirm"
+                           type="password" 
+                           placeholder="Confirmer le nouveau"
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                         />
+                         <button className="w-full bg-white text-black py-3 rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-red-600 hover:text-white transition-all active:scale-95">
+                            Changer le mot de passe
+                         </button>
+                         {saveStatus.id === 'admin' && (
+                           <p className="text-[9px] font-black text-green-500 uppercase tracking-widest text-center mt-2 animate-pulse">Mot de passe mis à jour !</p>
+                         )}
+                      </form>
                    </div>
-                   
-                   <form onSubmit={async (e) => {
-                      e.preventDefault();
-                      const res = await api.changePassword(e.target.current.value, e.target.next.value);
-                      if (res.success) alert("Mot de passe mis à jour !");
-                      else alert(res.message);
-                   }} className="space-y-4">
-                      <input 
-                        name="current"
-                        type="password" 
-                        placeholder="Ancien mot de passe"
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
-                      />
-                      <input 
-                        name="next"
-                        type="password" 
-                        placeholder="Nouveau mot de passe"
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
-                      />
-                      <input 
-                        name="confirm"
-                        type="password" 
-                        placeholder="Confirmer le nouveau"
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
-                      />
-                      <button className="w-full bg-white text-black py-3 rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-red-600 hover:text-white transition-all">
-                         Changer le mot de passe
-                      </button>
-                   </form>
                 </div>
              </div>
           </div>
