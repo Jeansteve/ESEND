@@ -15,10 +15,10 @@ const ThemeToggle = ({ variant = 'default' }) => {
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.05 }}
             onClick={toggleTheme}
-            className={`relative flex items-center justify-center p-2 rounded-xl transition-all duration-300 border border-white/10 shadow-lg ${
+            className={`relative flex items-center justify-center p-2 rounded-xl transition-all duration-300 border border-[var(--border-subtle)] shadow-lg ${
                 theme === 'dark' 
-                ? 'bg-slate-900/60 hover:bg-slate-800/80 text-amber-400' 
-                : 'bg-white border-slate-200 text-amber-600 shadow-slate-200/50 hover:bg-slate-50'
+                ? 'bg-slate-900/40 hover:bg-slate-800/60 text-amber-400 backdrop-blur-md' 
+                : 'bg-white/80 border-[var(--border-subtle)] text-amber-500 shadow-slate-200/20 hover:bg-white backdrop-blur-md'
             }`}
             aria-label="Toggle Theme"
         >

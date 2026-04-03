@@ -11,6 +11,7 @@ const pests = [
     image: './frelon-t5.png',
     isFloating: true,
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
+    shadowColor: 'rgba(220, 38, 38, 0.6)', // Rouge
     expertise: "Expertise radicale en dératisation et désinsectisation à Menton.",
     info: "Diagnostic des points d'entrée et protocoles d'éradication certifiés.",
     benefice: "Protection durable de votre habitat et de votre santé."
@@ -22,6 +23,7 @@ const pests = [
     image: './desinfection-t.png',
     isFloating: true,
     icon: <Activity className="w-5 h-5 text-red-600" />,
+    shadowColor: 'rgba(2, 132, 199, 0.6)', // Bleu Profond
     expertise: "Assainissement virucide et bactéricide de haut niveau.",
     info: "Intervention après infestation ou pour sécurisation de locaux.",
     benefice: "Un environnement purifié conforme aux normes de santé."
@@ -33,6 +35,7 @@ const pests = [
     image: './nettoyage-t.png',
     isFloating: true,
     icon: <Sparkles className="w-5 h-5 text-red-600" />,
+    shadowColor: 'rgba(13, 148, 136, 0.6)', // Cyan
     expertise: "Propreté méticuleuse pour appartements et vitrages complexes.",
     info: "Matériel de pointe et finitions haute précision sans trace.",
     benefice: "Mise en valeur de votre patrimoine et confort visuel total."
@@ -89,22 +92,26 @@ const PestSelector = () => {
               whileHover="hover"
               className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden text-left"
             >
-              {pest.isFloating ? (
+                  {pest.isFloating ? (
                 <div className="relative h-56 w-full mb-6 flex items-center justify-center">
-                   <div className="absolute top-0 right-0 bg-black/50 backdrop-blur-md p-2 rounded-full border border-white/10 z-0">
+                   <div className="absolute top-0 right-0 bg-[var(--bg-secondary)]/50 backdrop-blur-md p-2 rounded-full border border-[var(--border-subtle)] z-0 shadow-lg">
                      {pest.icon}
                    </div>
                    <motion.img 
                       variants={{
-                        initial: { y: 0 },
+                        initial: { y: 0, filter: 'drop-shadow(0 0 0 transparent)' },
                         hover: { 
                           y: [0, -12, 0],
-                          transition: { repeat: Infinity, duration: 3, ease: 'easeInOut' }
+                          filter: `drop-shadow(0 20px 40px ${pest.shadowColor})`,
+                          transition: { 
+                            y: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
+                            filter: { duration: 0.4 }
+                          }
                         }
                       }}
                       src={pest.image} 
-                      className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.8)] z-10 lg:grayscale lg:brightness-75 lg:opacity-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
-                      style={{ transition: 'filter 0.7s ease, opacity 0.7s ease' }}
+                      className="w-full h-full object-contain z-10 lg:grayscale lg:brightness-75 lg:opacity-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                      style={{ transition: 'filter 0.4s ease, opacity 0.7s ease, transform 0.7s ease' }}
                       alt={pest.name}
                    />
                 </div>
