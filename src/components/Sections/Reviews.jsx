@@ -39,12 +39,36 @@ const reviews = [
     id: 5, 
     name: "Myriam Bilquez", 
     date: "24 Octobre 2022",
-    text: "Une personne très professionnel et sympathique. Il intervient rapidement avec un prix correcte. N'hésitez pas à le contacter.", 
+    text: "Une personne très professionnel et sympathique. Il intervient rapidement avec un prix correcte. N'hésitez pas à le contacter. (Les autres entreprises, j'attends encore leur réponse.)", 
     rating: 5,
     avatarColor: "bg-cyan-600"
   },
   { 
     id: 6, 
+    name: "laurent loeuillet", 
+    date: "18 Septembre 2022",
+    text: "Prestation de qualité concernant 1 nid de guêpes. Traitement en 2 temps car difficile d'accès. Personne très sympathique et professionnelle. Je recommande.", 
+    rating: 5,
+    avatarColor: "bg-orange-800"
+  },
+  { 
+    id: 7, 
+    name: "Fanny Trupin", 
+    date: "7 Septembre 2022",
+    text: "Personne sérieuse et professionnelle. Ce Monsieur s'est déplacé plusieurs fois et rapidement pour exterminer un nid de guêpe. Merci pour vos services.", 
+    rating: 5,
+    avatarColor: "bg-blue-600"
+  },
+  { 
+    id: 8, 
+    name: "Fabrice Daenekint", 
+    date: "7 Septembre 2022",
+    text: "Trous dans le jardin devant la maison. Intervention rapide et efficace.", 
+    rating: 5,
+    avatarColor: "bg-green-700"
+  },
+  { 
+    id: 9, 
     name: "Thomas Patenotre", 
     date: "25 Août 2022",
     text: "Superbe prestation et très grande réactivité (Evacuation d'un essaim d'abeille) : Personnel très sympathique : très grand merci", 
