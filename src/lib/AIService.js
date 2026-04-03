@@ -126,9 +126,27 @@ ${serviceConstraint}
 Réponse en JSON uniquement (tableau de 3 objets) :
 [{"title":"Titre impactant","description":"Résumé en 2 phrases","trend":5,"service_id":X}]`;
 
+        const schema = {
+            type: "ARRAY",
+            items: {
+                type: "OBJECT",
+                properties: {
+                    title: { type: "STRING" },
+                    description: { type: "STRING" },
+                    trend: { type: "INTEGER" },
+                    service_id: { type: "INTEGER" }
+                },
+                required: ["title", "description", "trend", "service_id"]
+            }
+        };
+
         const response = await this._callLLM({ 
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
+            generationConfig: { 
+                temperature: 0.7, 
+                responseMimeType: "application/json",
+                responseSchema: schema
+            }
         });
         const data = await response.json();
         const text = data.candidates[0].content.parts[0].text;
@@ -166,9 +184,28 @@ FORMAT RÉPONSE (JSON uniquement) :
   "service_id": X
 }`;
 
+        const schema = {
+            type: "OBJECT",
+            properties: {
+                title: { type: "STRING" },
+                category: { type: "STRING" },
+                excerpt: { type: "STRING" },
+                content_html: { type: "STRING" },
+                meta_title: { type: "STRING" },
+                meta_description: { type: "STRING" },
+                service_id: { type: "INTEGER" }
+            },
+            required: ["title", "category", "excerpt", "content_html", "meta_title", "meta_description", "service_id"]
+        };
+
         const response = await this._callLLM({ 
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.7, maxOutputTokens: 2048, responseMimeType: "application/json" }
+            generationConfig: { 
+                temperature: 0.7, 
+                maxOutputTokens: 2048, 
+                responseMimeType: "application/json",
+                responseSchema: schema
+            }
         });
         const data = await response.json();
         const text = data.candidates[0].content.parts[0].text;
