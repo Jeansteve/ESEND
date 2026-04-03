@@ -26,7 +26,10 @@ const CreationStudio = ({ onClose, onSuccess }) => {
   const [quota, setQuota] = useState({ topicsLeft: 0, articlesLeft: 0 });
 
   useEffect(() => {
-    loadRadar();
+    const cachedTopics = localStorage.getItem('esend_ai_radar_topics');
+    if (cachedTopics) {
+      setTopics(JSON.parse(cachedTopics));
+    }
     updateQuota();
   }, []);
 
@@ -41,6 +44,7 @@ const CreationStudio = ({ onClose, onSuccess }) => {
       // Simulation ou Appel réel Gemini
       const results = await AIService.searchLatestNews();
       setTopics(results);
+      localStorage.setItem('esend_ai_radar_topics', JSON.stringify(results));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -68,6 +72,13 @@ const CreationStudio = ({ onClose, onSuccess }) => {
       
       if (res.success) {
         onSuccess(res.article);
+        const updatedTopics = topics.filter(t => t.title !== topic.title);
+        setTopics(updatedTopics);
+        if (updatedTopics.length > 0) {
+          localStorage.setItem('esend_ai_radar_topics', JSON.stringify(updatedTopics));
+        } else {
+          localStorage.removeItem('esend_ai_radar_topics');
+        }
       }
     } catch (err) {
       setError(`Erreur de génération : ${err.message}`);
@@ -171,6 +182,21 @@ const CreationStudio = ({ onClose, onSuccess }) => {
                 ))
               ) : (
                 <AnimatePresence mode="popLayout">
+                  {topics.length === 0 && !error && (
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="flex flex-col items-center justify-center p-12 text-center glass-card border-[var(--border-subtle)] bg-[var(--bg-input)]"
+                    >
+                       <div className="w-16 h-16 rounded-full bg-red-600/10 flex items-center justify-center mb-6 border border-red-600/20 shadow-inner">
+                         <Search className="w-8 h-8 text-red-600 opacity-80" />
+                       </div>
+                       <h5 className="text-[13px] font-black uppercase tracking-widest text-[var(--text-main)] mb-3">Radar en Veille</h5>
+                       <p className="text-[11px] text-[var(--text-dimmed)] font-medium leading-relaxed max-w-[280px]">
+                         Cliquez sur le bouton 🔄 en haut à droite pour rechercher de nouvelles opportunités SEO sur votre zone.
+                       </p>
+                    </motion.div>
+                  )}
                   {topics.map((topic, i) => (
                     <motion.div 
                       key={i} 

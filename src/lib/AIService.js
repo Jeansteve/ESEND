@@ -126,7 +126,10 @@ ${serviceConstraint}
 Réponse en JSON uniquement (tableau de 3 objets) :
 [{"title":"Titre impactant","description":"Résumé en 2 phrases","trend":5,"service_id":X}]`;
 
-        const response = await this._callLLM({ contents: [{ parts: [{ text: prompt }] }] });
+        const response = await this._callLLM({ 
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, responseMimeType: "application/json" }
+        });
         const data = await response.json();
         const text = data.candidates[0].content.parts[0].text;
         const clean = text.replace(/```json|```/g, '').trim();
@@ -165,7 +168,7 @@ FORMAT RÉPONSE (JSON uniquement) :
 
         const response = await this._callLLM({ 
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { temperature: 0.7, maxOutputTokens: 2048 }
+            generationConfig: { temperature: 0.7, maxOutputTokens: 2048, responseMimeType: "application/json" }
         });
         const data = await response.json();
         const text = data.candidates[0].content.parts[0].text;
