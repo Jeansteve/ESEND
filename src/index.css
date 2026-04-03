@@ -39,14 +39,14 @@
   --shadow-md: 0 4px 12px var(--shadow-color);
   --shadow-lg: 0 8px 24px var(--shadow-color);
   --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.82);
   --sidebar-shadow: 4px 0 24px rgba(0, 0, 0, 0.03);
-  --header-bg: rgba(255, 255, 255, 0.8);
-  --glass-bg: rgba(255, 255, 255, 0.7);
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg: rgba(255, 255, 255, 0.75);
   --glass-border: rgba(0, 0, 0, 0.05);
   --selection-bg: #ef4444;
-  --shadow-subtle: 0 10px 40px -20px rgba(0,0,0,0.1);
-  --card-glow: 0 0 30px -15px rgba(0, 0, 0, 0.05);
+  --shadow-subtle: 0 10px 40px -20px rgba(0,0,0,0.08);
+  --card-glow: 0 0 30px -15px rgba(59, 130, 246, 0.15); /* Tint azur premium */
 }
 
 h1, h2, h3, h4, h5, h6 {
