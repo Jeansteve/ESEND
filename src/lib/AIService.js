@@ -63,14 +63,8 @@ export const AIService = {
         const key = await this._getApiKey();
         if (!key) throw new Error("Clé API Gemini manquante dans les Paramètres.");
 
-        const modelsToTry = [
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent",
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent",
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
-        ];
+        const models = ['gemini-1.5-pro-latest', 'gemini-1.5-pro', 'gemini-1.5-flash-latest', 'gemini-1.5-flash'];
+        const modelsToTry = models.map(m => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`);
 
         let lastError = null;
 
@@ -155,8 +149,9 @@ Réponse en JSON uniquement (tableau de 3 objets) :
         // Élimination des caractères de contrôle litéraux (retours à la ligne non échappés) qui brisent JSON.parse
         clean = clean.replace(/[\n\r\t]/g, ' ');
         
+        const parsedData = JSON.parse(clean);
         QuotaTracker.increment('topics');
-        return JSON.parse(clean);
+        return parsedData;
     },
 
     /**
@@ -205,7 +200,7 @@ FORMAT RÉPONSE (JSON uniquement) :
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: { 
                 temperature: 0.7, 
-                maxOutputTokens: 2048, 
+                maxOutputTokens: 8192, 
                 responseMimeType: "application/json",
                 responseSchema: schema
             }
@@ -217,7 +212,8 @@ FORMAT RÉPONSE (JSON uniquement) :
         // Éliminer les retours à la ligne litéraux qui font planter le parseur avec l'erreur "Unterminated string"
         clean = clean.replace(/[\n\r\t]/g, ' ');
         
+        const parsedArticle = JSON.parse(clean);
         QuotaTracker.increment('articles');
-        return JSON.parse(clean);
+        return parsedArticle;
     }
 };
