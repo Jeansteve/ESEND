@@ -76,19 +76,20 @@ const Dashboard = () => {
     setLoading(false);
   };
 
-  const handleUpdateSettings = async (cardId, updatedFields) => {
+  const handleUpdateSettings = async () => {
     try {
-      const newSettings = { ...settings, ...updatedFields };
-      const res = await api.updateSettings(newSettings);
+      setLoading(true);
+      const res = await api.updateSettings(localSettings);
       if (res.success || res) {
-        setSettings(newSettings);
-        setLocalSettings(newSettings);
-        setSaveStatus({ id: cardId, type: 'success' });
+        setSettings(localSettings);
+        setSaveStatus({ id: 'global', type: 'success' });
         setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
       }
     } catch (error) {
       console.error("Error updating settings:", error);
-      alert("Erreur lors de la sauvegarde");
+      alert("Erreur lors de la sauvegarde globale");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -351,175 +352,172 @@ const Dashboard = () => {
                      </div>
                   </div>
                 ))}
-             </div>
-          </div>
+              </div>
+           </div>
         )}
 
         {activeTab === 'settings' && (
-          <div className="max-w-4xl mx-auto space-y-8 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-700">
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                
-                {/* COORDINATION */}
-                <div className="glass-card bg-red-600/5 border-red-600/10 p-8 flex flex-col justify-between group hover:border-red-600/30 transition-all duration-500">
-                   <div>
-                      <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3 text-red-600 font-black uppercase text-[11px]">
-                           <div className="p-2 bg-red-600/10 rounded-lg group-hover:scale-110 transition-transform"><Mail className="w-4 h-4" /></div> COORDINATION
-                        </div>
-                        {saveStatus.id === 'coordination' && (
-                          <span className="text-[9px] font-black text-green-500 uppercase tracking-widest animate-pulse">Sauvegardé !</span>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-6">
-                         <div>
-                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">E-mail de réception des devis</label>
-                            <input 
-                               type="email" 
-                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
-                               value={localSettings.contact_email || ''}
-                               onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
-                               placeholder="contact@esendnuisibles.fr"
-                            />
-                         </div>
-                      </div>
-                   </div>
-
-                   <button 
-                      onClick={() => handleUpdateSettings('coordination', { contact_email: localSettings.contact_email })}
-                      className="mt-8 flex items-center justify-center gap-2 w-full bg-red-600/10 hover:bg-red-600 text-red-600 hover:text-white border border-red-600/20 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all active:scale-95"
-                   >
-                      <Save className="w-3.5 h-3.5" /> Enregistrer les modifications
-                   </button>
+          <div className="max-w-4xl mx-auto space-y-12 pb-32 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            
+            {/* UNIFIED SETTINGS CONTAINER */}
+            <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-0 overflow-hidden shadow-2xl">
+              
+              {/* HEADER WITH STATUS */}
+              <div className="p-8 border-b border-[var(--border-subtle)] bg-white/5 flex justify-between items-center">
+                <div>
+                  <h3 className="text-xl font-black uppercase tracking-tighter">Configuration Système</h3>
+                  <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Gestion centralisée des paramètres ESEND</p>
                 </div>
+                {saveStatus.id === 'global' && (
+                  <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full animate-bounce">
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                    <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Réglages enregistrés !</span>
+                  </div>
+                )}
+              </div>
 
-                {/* VISIBILITÉ WEB */}
-                <div className="glass-card bg-blue-600/5 border-blue-600/10 p-8 flex flex-col justify-between group hover:border-blue-600/30 transition-all duration-500">
-                   <div>
-                      <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3 text-blue-600 font-black uppercase text-[11px]">
-                           <div className="p-2 bg-blue-600/10 rounded-lg group-hover:scale-110 transition-transform"><Globe className="w-4 h-4" /></div> VISIBILITÉ WEB
-                        </div>
-                        {saveStatus.id === 'visibility' && (
-                          <span className="text-[9px] font-black text-green-500 uppercase tracking-widest animate-pulse">Sauvegardé !</span>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-6">
-                         <div>
-                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
-                            <input 
-                               type="text" 
-                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
-                               placeholder="Place ID Google"
-                               value={localSettings.google_reviews_id || ''}
-                               onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
-                            />
-                         </div>
-                         <div className="pt-4 border-t border-[var(--border-subtle)]">
-                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
-                            <input 
-                               type="text" 
-                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
-                               placeholder="G-XXXXXXXXXX"
-                               value={localSettings.ga_id || ''}
-                               onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
-                            />
-                         </div>
-                      </div>
-                   </div>
+              <div className="p-8 space-y-12">
+                {/* SECTION: COORDINATION */}
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3 text-red-600 font-black uppercase text-[11px] mb-4">
+                    <div className="p-2 bg-red-600/10 rounded-lg"><Mail className="w-4 h-4" /></div> 
+                    1. Coordination & Contact
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-12">
+                     <div>
+                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">E-mail de réception des devis</label>
+                        <input 
+                           type="email" 
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)]"
+                           value={localSettings.contact_email || ''}
+                           onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
+                           placeholder="contact@esendnuisibles.fr"
+                        />
+                     </div>
+                  </div>
+                </section>
 
-                   <button 
-                      onClick={() => handleUpdateSettings('visibility', { 
-                        google_reviews_id: localSettings.google_reviews_id,
-                        ga_id: localSettings.ga_id 
-                      })}
-                      className="mt-8 flex items-center justify-center gap-2 w-full bg-blue-600/10 hover:bg-blue-600 text-blue-600 hover:text-white border border-blue-600/20 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all active:scale-95"
-                   >
-                      <Save className="w-3.5 h-3.5" /> Enregistrer les modifications
-                   </button>
-                </div>
+                <div className="h-px bg-gradient-to-r from-transparent via-[var(--border-subtle)] to-transparent" />
 
-                {/* INTELLIGENCE ARTIFICIELLE */}
-                <div className="glass-card bg-indigo-600/5 border-indigo-600/10 p-8 flex flex-col justify-between group hover:border-indigo-600/30 transition-all duration-500">
-                   <div>
-                      <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3 text-indigo-600 font-black uppercase text-[11px]">
-                           <div className="p-2 bg-indigo-600/10 rounded-lg group-hover:scale-110 transition-transform"><Sparkles className="w-4 h-4" /></div> INTELLIGENCE ARTIFICIELLE
-                        </div>
-                        {saveStatus.id === 'ai' && (
-                          <span className="text-[9px] font-black text-green-500 uppercase tracking-widest animate-pulse">Sauvegardé !</span>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-6">
-                         <div>
-                            <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Google AI Studio (Gemini Pro)</label>
-                            <input 
-                               type="password" 
-                               className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)]"
-                               placeholder="••••••••••••••••"
-                               value={localSettings.gemini_api_key || ''}
-                               onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
-                            />
-                         </div>
-                      </div>
-                   </div>
+                {/* SECTION: VISIBILITÉ WEB */}
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3 text-blue-600 font-black uppercase text-[11px] mb-4">
+                    <div className="p-2 bg-blue-600/10 rounded-lg"><Globe className="w-4 h-4" /></div> 
+                    2. Visibilité & Analytics
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-12">
+                     <div>
+                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
+                        <input 
+                           type="text" 
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
+                           placeholder="Ex: ChIJ..."
+                           value={localSettings.google_reviews_id || ''}
+                           onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
+                        />
+                     </div>
+                     <div>
+                        <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
+                        <input 
+                           type="text" 
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)]"
+                           placeholder="G-XXXXXXXXXX"
+                           value={localSettings.ga_id || ''}
+                           onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
+                        />
+                     </div>
+                  </div>
+                </section>
 
-                   <button 
-                      onClick={() => handleUpdateSettings('ai', { gemini_api_key: localSettings.gemini_api_key })}
-                      className="mt-8 flex items-center justify-center gap-2 w-full bg-indigo-600/10 hover:bg-indigo-600 text-indigo-600 hover:text-white border border-indigo-600/20 py-3 rounded-xl font-black uppercase text-[9px] tracking-widest transition-all active:scale-95"
-                   >
-                      <Save className="w-3.5 h-3.5" /> Enregistrer les modifications
-                   </button>
-                </div>
+                <div className="h-px bg-gradient-to-r from-transparent via-[var(--border-subtle)] to-transparent" />
 
-                {/* ACCÈS ADMIN */}
-                <div className="glass-card bg-zinc-600/5 border-zinc-600/10 p-8 flex flex-col justify-between group hover:border-zinc-500/30 transition-all duration-500">
-                   <div>
-                      <div className="flex items-center gap-3 text-zinc-500 font-black uppercase text-[11px] mb-8">
-                         <div className="p-2 bg-zinc-600/10 rounded-lg group-hover:scale-110 transition-transform"><Key className="w-4 h-4" /></div> ACCÈS ADMIN
-                      </div>
-                      
-                      <form onSubmit={async (e) => {
-                         e.preventDefault();
-                         const res = await api.changePassword(e.target.current.value, e.target.next.value);
-                         if (res.success) {
-                            setSaveStatus({ id: 'admin', type: 'success' });
-                            setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
-                            e.target.reset();
-                         } else {
-                            alert(res.message);
-                         }
-                      }} className="space-y-4">
-                         <input 
-                           name="current"
-                           type="password" 
-                           placeholder="Ancien mot de passe"
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
-                         />
-                         <input 
-                           name="next"
-                           type="password" 
-                           placeholder="Nouveau mot de passe"
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
-                         />
-                         <input 
-                           name="confirm"
-                           type="password" 
-                           placeholder="Confirmer le nouveau"
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
-                         />
-                         <button className="w-full bg-white text-black py-3 rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-red-600 hover:text-white transition-all active:scale-95">
-                            Changer le mot de passe
-                         </button>
-                         {saveStatus.id === 'admin' && (
-                           <p className="text-[9px] font-black text-green-500 uppercase tracking-widest text-center mt-2 animate-pulse">Mot de passe mis à jour !</p>
-                         )}
-                      </form>
-                   </div>
-                </div>
-             </div>
+                {/* SECTION: INTELLIGENCE ARTIFICIELLE */}
+                <section className="space-y-6">
+                  <div className="flex items-center gap-3 text-indigo-600 font-black uppercase text-[11px] mb-4">
+                    <div className="p-2 bg-indigo-600/10 rounded-lg"><Sparkles className="w-4 h-4" /></div> 
+                    3. Moteur IA (Gemini Pro)
+                  </div>
+                  <div className="pl-12">
+                    <div className="max-w-md">
+                      <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
+                      <input 
+                         type="password" 
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)]"
+                         placeholder="••••••••••••••••"
+                         value={localSettings.gemini_api_key || ''}
+                         onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
+                      />
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              {/* FOOTER ACTION */}
+              <div className="p-8 bg-zinc-900/40 border-t border-[var(--border-subtle)] flex justify-end">
+                <button 
+                   onClick={handleUpdateSettings}
+                   className="flex items-center gap-3 bg-red-600 text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                   disabled={loading}
+                >
+                   {loading ? (
+                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                   ) : (
+                     <Save className="w-4 h-4" />
+                   )}
+                   {loading ? "Traitement..." : "Sauvegarder tous les réglages"}
+                </button>
+              </div>
+            </div>
+
+            {/* ACCÈS ADMIN (SEPARATE FOR SECURITY) */}
+            <div className="glass-card bg-zinc-600/5 border-zinc-600/10 p-8 flex flex-col justify-between group hover:border-zinc-500/30 transition-all duration-500 max-w-2xl">
+               <div>
+                  <div className="flex items-center gap-3 text-zinc-500 font-black uppercase text-[11px] mb-8">
+                     <div className="p-2 bg-zinc-600/10 rounded-lg group-hover:scale-110 transition-transform"><Key className="w-4 h-4" /></div> 
+                     Sécurité : Accès Admin
+                  </div>
+                  
+                  <form onSubmit={async (e) => {
+                     e.preventDefault();
+                     const res = await api.changePassword(e.target.current.value, e.target.next.value);
+                     if (res.success) {
+                        setSaveStatus({ id: 'admin', type: 'success' });
+                        setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
+                        e.target.reset();
+                     } else {
+                        alert(res.message);
+                     }
+                  }} className="space-y-4">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                       <input 
+                         name="current"
+                         type="password" 
+                         placeholder="Ancien mot de passe"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                       />
+                       <div className="hidden md:block" />
+                       <input 
+                         name="next"
+                         type="password" 
+                         placeholder="Nouveau mot de passe"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                       />
+                       <input 
+                         name="confirm"
+                         type="password" 
+                         placeholder="Confirmer le nouveau"
+                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs outline-none focus:border-red-600/50 transition-all placeholder:text-[var(--text-dimmed)] text-[var(--text-main)]"
+                       />
+                     </div>
+                     <button className="flex items-center justify-center gap-2 px-6 py-3 bg-white text-black rounded-xl font-black uppercase text-[9px] tracking-widest hover:bg-zinc-200 transition-all active:scale-95">
+                        <Key className="w-3.5 h-3.5" /> Mettre à jour le mot de passe
+                     </button>
+                     {saveStatus.id === 'admin' && (
+                       <p className="text-[9px] font-black text-green-500 uppercase tracking-widest text-center mt-2 animate-pulse">Mot de passe mis à jour !</p>
+                     )}
+                  </form>
+               </div>
+            </div>
           </div>
         )}
       </main>

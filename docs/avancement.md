@@ -13,13 +13,13 @@ Tous les Hubs suivent désormais l'architecture "Encyclopédique" :
   - FAQ Experte (minimum 10 questions/réponses).
   - CTA Devis persistant synchronisé.
 
-## 🎨 Interface & UX (Header)
-- **Menu Déroulant Premium** : Ajout d'un dropdown dynamique sur l'onglet "Services".
-- **Optimisation Mobile** : Système d'accordéon pour une navigation fluide sur smartphone.
-- **Sauvetage UI/UX** :
-  - Typographie augmentée (12px Titles / 10px Descriptions).
-  - Centrage optique sous le lien parent.
-  - Correctif Technique : Découplage du flou (backdrop-filter) pour éviter le scintillement au défilement.
+## ✅ Pilotage & Gouvernance IA
+- **Nouveau Protocole de Travail** : Le `chef-de-projet-ia` (SKILL.md) a été mis à jour avec une règle impérative de délégation systématique aux experts et mention systématique des compétences utilisées pour chaque tâche.
+
+## 🛠️ Refonte de l'Administration (Dashboard)
+- **Settings V2** : Transition d'une structure en blocs vers une interface unifiée et sectionnée pour les paramètres (Coordination, Visibilité, IA).
+- **Sauvegarde Centralisée** : Remplacement des boutons de sauvegarde individuels par un bouton global "Sauvegarder tous les réglages" avec indicateurs d'état.
+- **Sécurité Renforcée** : Isolation du changement de mot de passe du flux des paramètres système.
 
 ## 🔄 Conversion & Devis
 - **FormWizard** : Toujours actif sur `#devis`.
@@ -28,4 +28,4 @@ Tous les Hubs suivent désormais l'architecture "Encyclopédique" :
 ## 🚀 Prochaines Étapes Suggérées
 1. **Hub Débarrassage** : Création d'un hub dédié (similaire à Nuisibles) pour structurer l'offre de débarras.
 2. **SEO Local** : Enrichir le Journal de l'Expert avec des articles ciblant spécifiquement "Menton", "Roquebrune" et "Monaco" pour chaque service.
-3. **Preuve Sociale** : Intégrer les avis clients spécifiques à chaque catégorie dans leurs Hubs respectifs.
+3. **Mise en Production (MEP)** : Pousser les derniers correctifs d'interface sur le serveur Hostinger via la branche `main`.
