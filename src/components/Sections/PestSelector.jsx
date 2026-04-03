@@ -99,7 +99,11 @@ const PestSelector = () => {
                    </div>
                     <motion.img 
                       variants={{
-                        initial: { y: 0, filter: 'grayscale(100%) brightness(100%) drop-shadow(0 0 0 transparent)', opacity: 0.5 },
+                        initial: { 
+                          y: 0, 
+                          filter: 'grayscale(100%) brightness(100%) drop-shadow(0 0 0 rgba(0,0,0,0))', 
+                          opacity: 0.5 
+                        },
                         hover: { 
                           y: [0, -12, 0],
                           filter: `grayscale(0%) brightness(100%) drop-shadow(0 20px 40px ${pest.shadowColor})`,

@@ -105,15 +105,15 @@ const FormWizard = () => {
   ) : null;
 
   return (
-    <section id="devis" className="py-32 px-6 bg-[var(--bg-primary)]">
+    <section id="devis" className="py-32 px-6 bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-[var(--text-main)] px-4">
             Demander une <span className="text-[#A72422]">Intervention</span>
           </h2>
         </div>
-        <div className="bg-[var(--bg-card)] rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.08)] border border-[var(--border-subtle)] overflow-hidden">
-          <div className="flex border-b border-[var(--border-subtle)] overflow-x-auto">
+        <div className="bg-white/90 dark:bg-slate-900/60 backdrop-blur-2xl rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] border border-[var(--border-subtle)] overflow-hidden">
+          <div className="flex border-b border-[var(--border-subtle)] bg-[var(--bg-secondary)]/10 overflow-x-auto">
             {currentSteps.map((step, idx) => (
               <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-[var(--text-dimmed)]')}>
                 <div className={'hidden sm:block'}>{step.icon}</div>
