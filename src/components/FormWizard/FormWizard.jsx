@@ -108,7 +108,7 @@ const FormWizard = () => {
     <section id="devis" className="py-32 px-6 bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-[var(--text-main)] px-4">
+          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-slate-900 dark:text-white px-4">
             Demander une <span className="text-[#A72422]">Intervention</span>
           </h2>
         </div>
@@ -135,7 +135,7 @@ const FormWizard = () => {
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   {currentStepData.id === 'welcome' && (
                     <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
-                    <h3 className="text-2xl font-black italic mb-8 text-[var(--text-main)] px-4">Bienvenue chez ESEND</h3>
+                    <h3 className="text-2xl font-black italic mb-8 text-slate-900 dark:text-white px-4">Bienvenue chez ESEND</h3>
                     <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer</button></div>
                   )}
                   {currentStepData.id === 'service' && (
