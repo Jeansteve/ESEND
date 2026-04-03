@@ -150,7 +150,10 @@ Réponse en JSON uniquement (tableau de 3 objets) :
         });
         const data = await response.json();
         const text = data.candidates[0].content.parts[0].text;
-        const clean = text.replace(/```json|```/g, '').trim();
+        
+        let clean = text.replace(/```json|```/g, '').trim();
+        // Élimination des caractères de contrôle litéraux (retours à la ligne non échappés) qui brisent JSON.parse
+        clean = clean.replace(/[\n\r\t]/g, ' ');
         
         QuotaTracker.increment('topics');
         return JSON.parse(clean);
@@ -209,7 +212,10 @@ FORMAT RÉPONSE (JSON uniquement) :
         });
         const data = await response.json();
         const text = data.candidates[0].content.parts[0].text;
-        const clean = text.replace(/```json|```/g, '').trim();
+        
+        let clean = text.replace(/```json|```/g, '').trim();
+        // Éliminer les retours à la ligne litéraux qui font planter le parseur avec l'erreur "Unterminated string"
+        clean = clean.replace(/[\n\r\t]/g, ' ');
         
         QuotaTracker.increment('articles');
         return JSON.parse(clean);
