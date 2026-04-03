@@ -97,11 +97,11 @@ const Header = () => {
             >
                 <div className="flex items-center gap-1.5 cursor-pointer group">
                     {item.type === 'link' ? (
-                        <Link to={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{item.name}</Link>
+                        <Link to={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] group-hover:text-[var(--text-main)] transition-colors">{item.name}</Link>
                     ) : (
-                        <a href={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-white/60 group-hover:text-white transition-colors">{item.name}</a>
+                        <a href={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] group-hover:text-[var(--text-main)] transition-colors">{item.name}</a>
                     )}
-                    {item.subItems && <ChevronDown className={`w-3.5 h-3.5 text-white/40 group-hover:text-red-500 transition-all ${hoveredItem === item.name ? 'rotate-180' : ''}`} />}
+                    {item.subItems && <ChevronDown className={`w-3.5 h-3.5 text-[var(--text-dimmed)] group-hover:text-red-500 transition-all ${hoveredItem === item.name ? 'rotate-180' : ''}`} />}
                 </div>
 
                 {/* Submenu Desktop */}
@@ -114,21 +114,21 @@ const Header = () => {
                             className="absolute top-full left-0 w-72 pt-3"
                         >
                             {/* Pointeur Visuel */}
-                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-slate-900 border-l border-t border-white/20 rotate-45 z-0" />
+                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-[var(--bg-secondary)] border-l border-t border-[var(--border-subtle)] rotate-45 z-0" />
                             
-                            <div className="relative z-10 bg-slate-900/60 backdrop-blur-2xl border border-white/20 rounded-2xl p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+                            <div className="relative z-10 bg-[var(--bg-secondary)]/80 backdrop-blur-2xl border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-[var(--shadow-subtle)] overflow-hidden">
                                 {item.subItems.map((sub) => (
                                     <Link 
                                         key={sub.name} 
                                         to={sub.href} 
                                         onClick={(e) => handleNavClick(e, { ...sub, type: 'link' })}
-                                        className="sub-link flex flex-col p-3.5 rounded-xl hover:bg-white/5 transition-all group/sub"
+                                        className="sub-link flex flex-col p-3.5 rounded-xl hover:bg-[var(--text-main)]/5 transition-all group/sub"
                                     >
                                         <div className="flex items-center justify-between mb-0.5">
-                                            <span className="text-xs font-black uppercase tracking-widest text-white group-hover/sub:text-red-500 transition-colors">{sub.name}</span>
+                                            <span className="text-xs font-black uppercase tracking-widest text-[var(--text-main)] group-hover/sub:text-red-500 transition-colors">{sub.name}</span>
                                             <ArrowRight className="w-3 h-3 text-red-600 opacity-0 -translate-x-2 group-hover/sub:opacity-100 group-hover/sub:translate-x-0 transition-all" />
                                         </div>
-                                        <span className="text-[10px] font-bold text-slate-400 group-hover/sub:text-slate-300 transition-colors line-clamp-1">{sub.desc}</span>
+                                        <span className="text-[10px] font-bold text-[var(--text-dimmed)] group-hover/sub:opacity-100 transition-colors line-clamp-1">{sub.desc}</span>
                                     </Link>
                                 ))}
                             </div>
@@ -183,7 +183,7 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }} 
             animate={{ opacity: 1, height: 'auto' }} 
             exit={{ opacity: 0, height: 0 }} 
-            className="lg:hidden bg-slate-950/98 backdrop-blur-2xl border-b border-white/5 overflow-hidden text-left"
+            className="lg:hidden bg-[var(--bg-primary)] backdrop-blur-2xl border-b border-[var(--border-subtle)] overflow-hidden text-left"
           >
             <div className="px-6 py-8 flex flex-col gap-4">
               {menuItems.map((item) => (
@@ -193,9 +193,9 @@ const Header = () => {
                         onClick={(e) => handleNavClick(e, item)}
                     >
                         {item.type === 'link' ? (
-                            <Link to={item.href} className="text-xs font-black uppercase tracking-[0.2em] text-white/60">{item.name}</Link>
+                            <Link to={item.href} className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">{item.name}</Link>
                         ) : (
-                            <a href={item.href} className="text-xs font-black uppercase tracking-[0.2em] text-white/60">{item.name}</a>
+                            <a href={item.href} className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">{item.name}</a>
                         )}
                         {item.subItems && <ChevronDown className={`w-4 h-4 text-red-600 transition-transform ${mobileSubMenuOpen === item.name ? 'rotate-180' : ''}`} />}
                     </div>
@@ -215,8 +215,8 @@ const Header = () => {
                                         onClick={(e) => handleNavClick(e, { ...sub, type: 'link' })}
                                         className="sub-link flex flex-col pt-1"
                                     >
-                                        <span className="text-[11px] font-bold uppercase tracking-wider text-white hover:text-red-600 transition-colors">{sub.name}</span>
-                                        <span className="text-[9px] font-medium text-slate-500 mt-0.5">{sub.desc}</span>
+                                        <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-main)] hover:text-red-600 transition-colors">{sub.name}</span>
+                                        <span className="text-[9px] font-medium text-[var(--text-dimmed)] mt-0.5">{sub.desc}</span>
                                     </Link>
                                 ))}
                             </motion.div>
@@ -224,12 +224,12 @@ const Header = () => {
                     </AnimatePresence>
                 </div>
               ))}
-              <div className="h-px bg-white/5 my-2" />
+              <div className="h-px bg-[var(--border-subtle)] my-2" />
               <div className="flex flex-col gap-4">
-                <a href="tel:0651239841" className="flex items-center gap-4 text-white text-xs font-black uppercase tracking-widest bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition-colors font-sans">
+                <a href="tel:0651239841" className="flex items-center gap-4 text-[var(--text-main)] text-xs font-black uppercase tracking-widest bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-subtle)] hover:bg-black/5 transition-colors font-sans">
                   <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20"><Phone className="w-4 h-4 text-red-600" /></div>
                   <div className="flex flex-col text-left">
-                    <span className="text-[8px] text-white/40 mb-1">Assistance 24/7</span>
+                    <span className="text-[8px] text-[var(--text-dimmed)] mb-1">Assistance 24/7</span>
                     06 51 23 98 41
                   </div>
                 </a>
