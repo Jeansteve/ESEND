@@ -110,7 +110,7 @@ const PestSelector = () => {
                         }
                       }}
                       src={pest.image} 
-                      className="w-full h-full object-contain z-10 lg:grayscale lg:brightness-75 lg:opacity-90 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                      className="w-full h-full object-contain z-10 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100"
                       style={{ transition: 'filter 0.4s ease, opacity 0.7s ease, transform 0.7s ease' }}
                       alt={pest.name}
                    />
