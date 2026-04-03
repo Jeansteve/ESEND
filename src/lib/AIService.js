@@ -7,7 +7,7 @@
 import { api } from './api';
 
 const IS_DEV = import.meta.env.DEV;
-const DIRECT_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
+const DIRECT_ENDPOINT = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent";
 
 // --- Quota Tracker (localStorage) ---
 const QUOTA_KEY = 'esend_ai_quota';
