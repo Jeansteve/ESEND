@@ -148,7 +148,7 @@ const Dashboard = () => {
           <span className="text-[10px] font-black text-amber-600 bg-amber-600/10 px-2 py-1 rounded-lg">AI Ready</span>
         </div>
         <div>
-          <div className="text-2xl font-black italic tracking-tighter">Gemini v1.5</div>
+          <div className="text-2xl font-black italic tracking-tighter">Gemini v3</div>
           <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Moteur de Rédaction</div>
         </div>
       </div>

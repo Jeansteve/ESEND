@@ -64,9 +64,11 @@ export const AIService = {
         if (!key) throw new Error("Clé API Gemini manquante dans les Paramètres.");
 
         const modelsToTry = [
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro:generateContent",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent",
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
         ];
 
