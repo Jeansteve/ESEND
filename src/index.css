@@ -27,21 +27,14 @@
 .light {
   --bg-primary: #fdfdfd;
   --bg-secondary: #f4f7f9;
-  --bg-surface: #ffffff;
-  --bg-sidebar: #ffffff;
-  --border-color: rgba(99, 102, 241, 0.12);
-  --border-glass: rgba(99, 102, 241, 0.08);
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-input: rgba(255, 255, 255, 0.9);
+  --bg-overlay: rgba(244, 247, 249, 0.95);
+  --text-main: #0f172a;
   --text-dimmed: #64748b;
-  --shadow-color: rgba(14, 30, 37, 0.1);
-  --shadow-sm: 0 1px 3px var(--shadow-color);
-  --shadow-md: 0 10px 15px -3px var(--shadow-color);
-  --shadow-lg: 0 20px 25px -5px var(--shadow-color);
-  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
-  --card-bg: #ffffff;
-  --sidebar-shadow: 10px 0 20px -15px rgba(0, 0, 0, 0.03);
-  --header-bg: rgba(253, 253, 253, 0.85);
+  --border-subtle: rgba(15, 23, 42, 0.05);
+  --border-strong: rgba(15, 23, 42, 0.1);
+  --accent-red: #dc2626;
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(99, 102, 241, 0.1);
   --selection-bg: #ef4444;
