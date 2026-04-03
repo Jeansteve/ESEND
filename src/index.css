@@ -25,16 +25,23 @@
 
 /* --- MODE JOUR (MORNING MIST / LIGHT) --- */
 .light {
-  --bg-primary: #f1f5f9; /* Slate 100 base */
+  --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-input: #f8fafc;
-  --bg-overlay: rgba(255, 255, 255, 0.9);
-  --text-main: #0f172a; /* Slate 900 */
-  --text-dimmed: #475569; /* Slate 600 */
-  --border-subtle: #e2e8f0; /* Slate 200 */
-  --border-strong: #cbd5e1; /* Slate 300 */
-  --accent-red: #ef4444;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #ffffff;
+  --border-color: rgba(226, 232, 240, 0.6);
+  --border-glass: rgba(203, 213, 225, 0.3);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-dimmed: #94a3b8;
+  --shadow-color: rgba(148, 163, 184, 0.1);
+  --shadow-sm: 0 2px 4px var(--shadow-color);
+  --shadow-md: 0 4px 12px var(--shadow-color);
+  --shadow-lg: 0 8px 24px var(--shadow-color);
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --sidebar-shadow: 4px 0 24px rgba(0, 0, 0, 0.03);
+  --header-bg: rgba(255, 255, 255, 0.8);
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(0, 0, 0, 0.05);
   --selection-bg: #ef4444;
