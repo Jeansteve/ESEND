@@ -347,16 +347,24 @@ const Dashboard = () => {
                 />
               </div>
             )}
-            
-            <button 
-              onClick={() => {
-                if (activeTab === 'blog') setShowStudio(true);
-                else { setEditingProject(null); setShowProjectModal(true); }
-              }}
-              className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
-            >
-              <Plus className="w-4 h-4" /> {activeTab === 'blog' ? 'Nouveau Dossier' : 'Nouvelle Réalisation'}
-            </button>
+
+            {activeTab === 'blog' && (
+              <button
+                onClick={() => setShowStudio(true)}
+                className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
+              >
+                <Plus className="w-4 h-4" /> Nouvel Article
+              </button>
+            )}
+
+            {activeTab === 'portfolio' && (
+              <button
+                onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
+                className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
+              >
+                <Plus className="w-4 h-4" /> Nouvelle Réalisation
+              </button>
+            )}
           </div>
         </header>
 

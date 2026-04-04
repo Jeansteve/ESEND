@@ -102,20 +102,11 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
     <div className="space-y-8 animate-in fade-in duration-700">
 
       {/* ─── Header ─── */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <h3 className="text-2xl font-black uppercase tracking-tighter">Le Journal de l'Expert</h3>
-          <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">
-            {articles.length} article{articles.length !== 1 ? 's' : ''} · {articles.filter(a => a.is_published).length} publié{articles.filter(a => a.is_published).length !== 1 ? 's' : ''}
-          </p>
-        </div>
-
-        <button
-          onClick={() => setShowModeSelector(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-lg shadow-red-600/20 active:scale-95"
-        >
-          <Plus className="w-3.5 h-3.5" /> Nouvel Article
-        </button>
+      <div>
+        <h3 className="text-2xl font-black uppercase tracking-tighter">Le Journal de l'Expert</h3>
+        <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">
+          {articles.length} article{articles.length !== 1 ? 's' : ''} · {articles.filter(a => a.is_published).length} publié{articles.filter(a => a.is_published).length !== 1 ? 's' : ''}
+        </p>
       </div>
 
       {/* ─── Filtres Catégories ─── */}
