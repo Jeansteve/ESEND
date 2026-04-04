@@ -14,25 +14,34 @@ switch ($method) {
         $filter = $_GET['status'] ?? null;
         $category = $_GET['category'] ?? null;
 
-        $sql = "SELECT id, title, location, img, tag, description, method, result,
-                       category, is_published, created_at, updated_at
-                FROM esend_projects";
+        // SELECT * pour compatibilité avec l'ancien schéma DB (avant migration v2)
+        $sql = "SELECT * FROM esend_projects";
         $conditions = [];
         $params = [];
 
-        if ($filter === 'draft') {
-            $conditions[] = "is_published = 0";
-        } elseif ($filter === 'published') {
-            $conditions[] = "is_published = 1";
+        // Filtre is_published conditionnel
+        try {
+            $checkPub = $pdo->query("SHOW COLUMNS FROM esend_projects LIKE 'is_published'");
+            $hasIsPublished = ($checkPub->rowCount() > 0);
+        } catch (Exception $e) { $hasIsPublished = false; }
+
+        if ($hasIsPublished) {
+            if ($filter === 'draft') $conditions[] = "is_published = 0";
+            elseif ($filter === 'published') $conditions[] = "is_published = 1";
         }
-        if ($category) {
+
+        // Filtre category conditionnel
+        try {
+            $checkCat = $pdo->query("SHOW COLUMNS FROM esend_projects LIKE 'category'");
+            $hasCat = ($checkCat->rowCount() > 0);
+        } catch (Exception $e) { $hasCat = false; }
+
+        if ($hasCat && $category) {
             $conditions[] = "category = ?";
             $params[] = $category;
         }
 
-        if (!empty($conditions)) {
-            $sql .= " WHERE " . implode(" AND ", $conditions);
-        }
+        if (!empty($conditions)) $sql .= " WHERE " . implode(" AND ", $conditions);
         $sql .= " ORDER BY created_at DESC";
 
         $stmt = $pdo->prepare($sql);
