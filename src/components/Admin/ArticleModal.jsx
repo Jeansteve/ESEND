@@ -272,13 +272,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
           </div>
         )}
         <div
-          className="prose prose-slate max-w-none
-            prose-h2:text-2xl prose-h2:font-black prose-h2:tracking-tight prose-h2:mt-10 prose-h2:mb-4
-            prose-h3:text-xl prose-h3:font-black prose-h3:mt-6 prose-h3:mb-3
-            prose-p:leading-relaxed prose-p:mb-5 prose-p:text-slate-700
-            prose-ul:my-5 prose-li:mb-2 prose-ol:my-5
-            prose-strong:text-slate-900 prose-strong:font-black
-            prose-blockquote:border-l-4 prose-blockquote:border-red-600 prose-blockquote:bg-red-50 prose-blockquote:py-3 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:font-bold prose-blockquote:text-red-800"
+          className="article-preview-content"
           dangerouslySetInnerHTML={{ __html: formData.content_html || '<p>Le contenu apparaîtra ici...</p>' }}
         />
         <div className="mt-12 pt-6 border-t border-slate-200 flex items-center justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
