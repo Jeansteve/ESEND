@@ -1,23 +1,20 @@
 -- ============================================================
--- ESEND Admin v2 — Migration SQL
--- Specialist: developpeur-back-end-ops, database-migrations-sql-migrations
--- À exécuter UNE SEULE FOIS sur Hostinger via phpMyAdmin
+-- ESEND Admin v2 - Migration SQL
+-- A executer UNE SEULE FOIS sur Hostinger via phpMyAdmin
 -- ============================================================
 
 -- === TABLE esend_articles ===
 
--- Ajout colonne nuisible_tag (catégorie granulaire : rats, frelons...)
+-- Ajout colonne nuisible_tag (categorie granulaire : rats, frelons...)
 ALTER TABLE esend_articles 
   ADD COLUMN IF NOT EXISTS nuisible_tag VARCHAR(100) DEFAULT 'actualites';
 
--- Ajout colonne is_published (1=publié, 0=brouillon)
+-- Ajout colonne is_published (1=publie, 0=brouillon)
 ALTER TABLE esend_articles 
   ADD COLUMN IF NOT EXISTS is_published TINYINT(1) NOT NULL DEFAULT 0;
 
--- Synchroniser status existant → is_published
-UPDATE esend_articles SET is_published = 1 WHERE status = 'published' OR status = 'publish';
 
--- Ajout colonne updated_at (date de dernière modification)
+-- Ajout colonne updated_at (date de derniere modification)
 ALTER TABLE esend_articles 
   ADD COLUMN IF NOT EXISTS updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
@@ -27,7 +24,7 @@ ALTER TABLE esend_articles
 
 -- === TABLE esend_projects ===
 
--- Ajout is_published (réalisations publiées par défaut)
+-- Ajout is_published (realisations publiees par defaut)
 ALTER TABLE esend_projects 
   ADD COLUMN IF NOT EXISTS is_published TINYINT(1) NOT NULL DEFAULT 1;
 
@@ -39,12 +36,12 @@ ALTER TABLE esend_projects
 ALTER TABLE esend_projects 
   ADD COLUMN IF NOT EXISTS method VARCHAR(255) DEFAULT NULL;
 ALTER TABLE esend_projects 
-  ADD COLUMN IF NOT EXISTS result VARCHAR(255) DEFAULT 'Succès';
+  ADD COLUMN IF NOT EXISTS result VARCHAR(255) DEFAULT 'Succes';
 ALTER TABLE esend_projects 
   ADD COLUMN IF NOT EXISTS category VARCHAR(100) DEFAULT 'nuisibles';
 
 -- ============================================================
--- Vérification post-migration
+-- Verification post-migration (decommentez pour tester)
 -- ============================================================
 -- SELECT id, title, is_published, nuisible_tag, updated_at FROM esend_articles LIMIT 5;
 -- SELECT id, title, is_published, updated_at FROM esend_projects LIMIT 5;
