@@ -38,6 +38,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AIService } from '../../lib/AIService';
 import { api } from '../../lib/api';
 import ArticleEditor from './ArticleModal';
+import './BlogAdmin.css';
 
 // Local mock service to substitute TNERI's backend AiTopics logic using localStorage (as ESEND originally did)
 const mockBlogService = {
