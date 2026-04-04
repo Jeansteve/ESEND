@@ -318,8 +318,21 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="admin-main bg-[var(--bg-primary)]">
-        {/* Header */}
-        <header className="flex justify-between items-center mb-16">
+        {showStudio ? (
+          <div className="h-[calc(100vh-64px)] w-full overflow-y-auto pb-20">
+            <CreationStudio 
+              onClose={() => setShowStudio(false)} 
+              onSuccess={(newArt) => {
+                setArticles([newArt, ...articles]);
+                setEditingArticle(newArt);
+                setShowStudio(false);
+              }}
+            />
+          </div>
+        ) : (
+          <>
+            {/* Header */}
+            <header className="flex justify-between items-center mb-16">
           <div>
             <h2 className="text-4xl font-black tracking-tighter uppercase mb-2 text-[var(--text-main)]">
               Statut <span className="text-red-600 italic">Opérationnel</span>
@@ -646,24 +659,9 @@ const Dashboard = () => {
             </div>
           </div>
         )}
-
+          </>
+        )}
       </main>
-
-      {/* --- OVERLAYS & MODALS --- */}
-      {showStudio && (
-        <div className="fixed inset-0 z-[150] bg-slate-950/80 backdrop-blur-3xl flex items-center justify-center p-12 animate-in fade-in duration-500">
-           <div className="w-full max-w-7xl h-full">
-              <CreationStudio 
-                onClose={() => setShowStudio(false)} 
-                onSuccess={(newArt) => {
-                  setArticles([newArt, ...articles]);
-                  setEditingArticle(newArt);
-                  setShowStudio(false);
-                }}
-              />
-           </div>
-        </div>
-      )}
 
       {editingArticle && (
         <ArticleModal

@@ -1,336 +1,601 @@
-// src/components/Admin/CreationStudio.jsx
-import React, { useState, useEffect } from 'react';
-import { 
-  Sparkles, 
-  Search, 
-  RotateCw, 
-  ChevronRight, 
-  Zap, 
-  CheckCircle2, 
-  Clock,
-  ArrowLeft,
-  Loader2,
-  AlertCircle,
-  TrendingUp,
-  Newspaper
+/**
+ * @file CreationStudio.jsx — Studio de création d'articles assisté par IA
+ * @description Interface "Single Page" (pas de modale) permettant de
+ * générer des articles de blog via l'intelligence artificielle (Gemini/OpenRouter).
+ *
+ * PARCOURS UTILISATEUR :
+ * 1. "Magie Totale" (Auto) : L'IA génère un sujet + rédige l'article automatiquement.
+ * 2. "Assistant Prompt" (Manuel) : Tunnel interactif en 3 étapes
+ *    (Veille → Sélection du sujet → Rédaction).
+ * 3. "Rédaction Libre" : Ouverture directe de l'éditeur vide.
+ *
+ * COMPOSANTS INTERNES :
+ * - `QuotaGauge` : Jauge visuelle du quota IA journalier.
+ * - `ChoiceScreen` : Écran d'onboarding (choix du parcours).
+ * - `ManualPromptScreen` : Affiche les prompts pour copier-coller.
+ * - `TopicChoiceScreen` : Sélection de sujets générés par l'IA (Radar à Sujets).
+ * - `GeneratingScreen` : Écran de chargement pendant la génération IA.
+ *
+ * PERSISTANCE :
+ * - Les sujets générés sont sauvegardés via `api.saveAiTopics()`
+ *   pour éviter de perdre les idées entre les sessions.
+ * - Nettoyage automatique des sujets "fantômes" (IDs manquants).
+ *
+ * @see AIService.js pour les appels Gemini/OpenRouter
+ * @see ArticleModal.jsx pour l'éditeur d'article (ouvert après génération)
+ * @see BlogAdmin.css pour le styling partagé
+ */
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import {
+    Plus, Edit3, Wand2, Terminal, MousePointer2,
+    X, ArrowLeft, Loader2, Sparkles, Copy,
+    FileJson, Send, Flame, Newspaper, ShieldAlert,
+    CheckCircle, AlertCircle, Clock, ChevronRight,
+    ArrowRight, Check, Bug, ShieldCheck, Microscope,
+    Zap, BarChart2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AIService } from '../../lib/AIService';
 import { api } from '../../lib/api';
+import ArticleEditor from './ArticleModal';
 
-const CreationStudio = ({ onClose, onSuccess }) => {
-  const [topics, setTopics] = useState([]);
-  const [loadingRadar, setLoadingRadar] = useState(false);
-  const [generatingArticle, setGeneratingArticle] = useState(null); // id of topic
-  const [error, setError] = useState('');
-  const [quota, setQuota] = useState({ topicsLeft: 0, articlesLeft: 0 });
+// Local mock service to substitute TNERI's backend AiTopics logic using localStorage (as ESEND originally did)
+const mockBlogService = {
+  getAiTopics: async () => JSON.parse(localStorage.getItem('esend_ai_radar_topics') || '[]'),
+  saveAiTopics: async (topics) => {
+    const existing = JSON.parse(localStorage.getItem('esend_ai_radar_topics') || '[]');
+    const merged = [...existing, ...topics];
+    localStorage.setItem('esend_ai_radar_topics', JSON.stringify(merged));
+    return true;
+  },
+  discardAiTopic: async (id) => {
+    const existing = JSON.parse(localStorage.getItem('esend_ai_radar_topics') || '[]');
+    localStorage.setItem('esend_ai_radar_topics', JSON.stringify(existing.filter(t => t.id !== id)));
+    return true;
+  }
+};
 
-  useEffect(() => {
-    const cachedTopics = localStorage.getItem('esend_ai_radar_topics');
-    if (cachedTopics) {
-      setTopics(JSON.parse(cachedTopics));
-    }
-    updateQuota();
-  }, []);
+// --- Composant Jauge de Quota IA ---
+const QuotaGauge = ({ quota, compact = false }) => {
+    if (!quota) return null;
+    const topicPct = Math.min(100, (quota.topicsUsed / quota.topicsMax) * 100);
+    const articlePct = Math.min(100, (quota.articlesUsed / quota.articlesMax) * 100);
+    const getColor = (pct) => pct >= 90 ? '#ef4444' : pct >= 60 ? '#f59e0b' : '#22c55e';
 
-  const updateQuota = () => {
-    setQuota(AIService.getQuota());
-  };
-
-  const loadRadar = async () => {
-    setLoadingRadar(true);
-    setError('');
-    try {
-      // Simulation ou Appel réel Gemini
-      const results = await AIService.searchLatestNews();
-      setTopics(results);
-      localStorage.setItem('esend_ai_radar_topics', JSON.stringify(results));
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoadingRadar(false);
-    }
-  };
-
-  const handleGenerate = async (topic) => {
-    if (quota.articlesLeft <= 0) {
-      alert("Quota d'articles épuisé pour aujourd'hui.");
-      return;
-    }
-
-    setGeneratingArticle(topic.title);
-    setError('');
-    
-    try {
-      const article = await AIService.draftArticle(topic.title);
-      // Sauvegarde automatique en brouillon via mockApi
-      const res = await api.createArticle({
-        ...article,
-        image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2070', // Placeholder image
-        status: 'draft'
-      });
-      
-      if (res.success) {
-        onSuccess(res.article);
-        const updatedTopics = topics.filter(t => t.title !== topic.title);
-        setTopics(updatedTopics);
-        if (updatedTopics.length > 0) {
-          localStorage.setItem('esend_ai_radar_topics', JSON.stringify(updatedTopics));
-        } else {
-          localStorage.removeItem('esend_ai_radar_topics');
-        }
-      }
-    } catch (err) {
-      setError(`Erreur de génération : ${err.message}`);
-    } finally {
-      setGeneratingArticle(null);
-      updateQuota();
-    }
-  };
-
-  return (
-    <div className="flex flex-col h-full">
-      {/* Header Studio */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between mb-10"
-      >
-        <div className="flex items-center gap-6">
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onClose}
-            className="p-3 rounded-2xl bg-[var(--bg-secondary)] text-[var(--text-dimmed)] hover:text-red-600 hover:shadow-[0_0_20px_rgba(220,38,38,0.2)] transition-all border border-[var(--border-subtle)]"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </motion.button>
-          <div>
-            <div className="flex items-center gap-3">
-              <h3 className="text-3xl font-black uppercase tracking-tighter">Studio de Création <span className="text-red-600 italic">IA</span></h3>
-              <div className="px-3 py-1 bg-red-600/10 border border-red-600/20 rounded-full text-[9px] font-black uppercase tracking-widest text-red-600">Premium</div>
+    if (compact) {
+        return (
+            <div className="quota-gauge-compact">
+                <Zap size={12} />
+                <span>Recherches : {quota.topicsUsed}/{quota.topicsMax}</span>
+                <div className="quota-bar-mini"><div style={{ width: `${topicPct}%`, background: getColor(topicPct) }} /></div>
+                <span>Rédactions : {quota.articlesUsed}/{quota.articlesMax}</span>
+                <div className="quota-bar-mini"><div style={{ width: `${articlePct}%`, background: getColor(articlePct) }} /></div>
             </div>
-            <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1 opacity-60">Motorisé par Gemini 1.5 Flash High-Speed</p>
-          </div>
-        </div>
+        );
+    }
 
-        <div className="flex items-center gap-6 glass-card py-3 px-6 bg-white/5 border-white/5 rounded-2xl">
-           <div className="flex flex-col items-end">
-              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--text-dimmed)] opacity-50 mb-1">Quota Journalier</span>
-              <div className="flex items-center gap-2">
-                <div className="h-1.5 w-24 bg-white/5 rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(quota.articlesUsed / quota.articlesMax) * 100}%` }}
-                    className="h-full bg-red-600 shadow-[0_0_10px_#dc2626]"
-                  />
+    return (
+        <div className="quota-gauge-full">
+            <div className="quota-gauge-header">
+                <BarChart2 size={14} />
+                <span>Consommation IA du jour (réinitialisation à minuit)</span>
+            </div>
+            <div className="quota-gauge-rows">
+                <div className="quota-row">
+                    <span className="quota-label">📋 Recherches</span>
+                    <div className="quota-track"><div className="quota-fill" style={{ width: `${topicPct}%`, background: getColor(topicPct) }} /></div>
+                    <span className="quota-count" style={{ color: getColor(topicPct) }}>{quota.topicsUsed} / {quota.topicsMax}</span>
                 </div>
-                <span className={`text-[11px] font-black tabular-nums ${quota.articlesLeft === 0 ? 'text-red-500' : 'text-green-500'}`}>
-                  {quota.articlesLeft}/{quota.articlesMax}
-                </span>
-              </div>
-           </div>
-        </div>
-      </motion.div>
-
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 flex-grow overflow-hidden">
-        
-        {/* Radar à Sujets */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-2 glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)] flex flex-col overflow-hidden shadow-2xl relative"
-        >
-          {/* Subtle background glow */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[120px] pointer-events-none" />
-
-          <div className="sticky top-0 z-10 p-8 border-b border-[var(--border-subtle)] bg-[var(--bg-secondary)]/80 backdrop-blur-md flex justify-between items-center">
-            <h4 className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-[var(--text-main)]">
-              <TrendingUp className="w-4 h-4 text-red-600" /> Radar à Opportunités SEO
-            </h4>
-            <motion.button 
-              whileHover={{ rotate: 180 }}
-              transition={{ duration: 0.5 }}
-              onClick={loadRadar}
-              disabled={loadingRadar}
-              className="p-2.5 rounded-xl bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-red-600 transition-all border border-[var(--border-subtle)] disabled:opacity-50 shadow-inner"
-            >
-              <RotateCw className={`w-4 h-4 ${loadingRadar ? 'animate-spin' : ''}`} />
-            </motion.button>
-          </div>
-
-          <div className="p-8 flex-grow overflow-y-auto pr-2 custom-scrollbar">
-            {error && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="p-5 bg-red-600/5 border border-red-600/20 rounded-2xl mb-8 flex items-start gap-4 text-red-500 text-[11px] font-bold italic leading-relaxed"
-              >
-                 <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" /> 
-                 <div>
-                    <span className="block uppercase not-italic font-black text-[10px] tracking-widest mb-1">Incident Moteur IA</span>
-                    {error}
-                 </div>
-              </motion.div>
-            )}
-
-            <div className="grid gap-6">
-              {loadingRadar ? (
-                Array(3).fill(0).map((_, i) => (
-                  <div key={i} className="h-40 bg-[var(--bg-input)] rounded-3xl animate-pulse border border-[var(--border-subtle)]/50" />
-                ))
-              ) : (
-                <AnimatePresence mode="popLayout">
-                  {topics.length === 0 && !error && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex flex-col items-center justify-center p-12 text-center glass-card border-[var(--border-subtle)] bg-[var(--bg-input)]"
-                    >
-                       <div className="w-16 h-16 rounded-full bg-red-600/10 flex items-center justify-center mb-6 border border-red-600/20 shadow-inner">
-                         <Search className="w-8 h-8 text-red-600 opacity-80" />
-                       </div>
-                       <h5 className="text-[13px] font-black uppercase tracking-widest text-[var(--text-main)] mb-3">Radar en Veille</h5>
-                       <p className="text-[11px] text-[var(--text-dimmed)] font-medium leading-relaxed max-w-[280px]">
-                         Cliquez sur le bouton 🔄 en haut à droite pour rechercher de nouvelles opportunités SEO sur votre zone.
-                       </p>
-                    </motion.div>
-                  )}
-                  {topics.map((topic, i) => (
-                    <motion.div 
-                      key={i} 
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      whileHover={{ y: -5, borderColor: 'rgba(220, 38, 38, 0.4)' }}
-                      className={`group relative overflow-hidden glass-card bg-[var(--bg-input)] border-[var(--border-subtle)] p-6 cursor-pointer transition-all ${generatingArticle === topic.title ? 'opacity-50 grayscale pointer-events-none' : ''}`}
-                      onClick={() => !generatingArticle && handleGenerate(topic)}
-                    >
-                      {/* Interactive glow */}
-                      <div className="absolute inset-0 bg-red-600/0 group-hover:bg-red-600/[0.02] transition-colors pointer-events-none" />
-                      
-                      <div className="flex justify-between items-start mb-4 relative z-10">
-                        <div className="flex gap-2">
-                           <span className="px-2.5 py-1 bg-red-600/10 border border-red-600/20 text-red-600 text-[9px] font-black uppercase rounded-lg">
-                             Service #{topic.service_id}
-                           </span>
-                        </div>
-                        <span className="flex items-center gap-1.5 text-green-500 text-[10px] font-black uppercase bg-green-500/10 px-2 py-1 rounded-lg">
-                           <Zap className="w-3.5 h-3.5 fill-current" /> Tendance {topic.trend}/5
-                        </span>
-                      </div>
-                      
-                      <h5 className="text-base font-black uppercase tracking-tight group-hover:text-red-600 transition-colors mb-3 leading-tight relative z-10">{topic.title}</h5>
-                      <p className="text-[var(--text-dimmed)] text-[12px] leading-relaxed line-clamp-2 font-medium relative z-10 opacity-80">{topic.description}</p>
-                      
-                      <div className="mt-8 flex justify-between items-center relative z-10">
-                        <div className="flex -space-x-2">
-                            <div className="w-6 h-6 rounded-full border-2 border-[var(--bg-secondary)] bg-zinc-800 flex items-center justify-center"><Newspaper className="w-3 h-3 text-white/50" /></div>
-                            <div className="w-6 h-6 rounded-full border-2 border-[var(--bg-secondary)] bg-zinc-700" />
-                        </div>
-                        <motion.div 
-                          whileHover={{ x: 5 }}
-                          className="flex items-center gap-2 text-red-600 text-[10px] font-black uppercase tracking-widest"
-                        >
-                          Rédiger avec IA <ChevronRight className="w-4 h-4 translate-y-[0.5px]" />
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              )}
+                <div className="quota-row">
+                    <span className="quota-label">✍️ Rédactions</span>
+                    <div className="quota-track"><div className="quota-fill" style={{ width: `${articlePct}%`, background: getColor(articlePct) }} /></div>
+                    <span className="quota-count" style={{ color: getColor(articlePct) }}>{quota.articlesUsed} / {quota.articlesMax}</span>
+                </div>
             </div>
-          </div>
-        </motion.div>
+            {(quota.topicsLeft === 0 || quota.articlesLeft === 0) && (
+                <div className="quota-warning">⚠️ Quota atteint — se réinitialise demain à minuit.</div>
+            )}
+        </div>
+    );
+};
 
-        {/* Status / Preview */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="glass-card flex flex-col justify-center items-center text-center p-12 bg-white/5 border-[var(--border-subtle)] shadow-inner relative overflow-hidden"
-        >
-           {/* Animated Background Gradients */}
-           <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-              <motion.div 
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  rotate: [0, 90, 0],
-                  opacity: [0.1, 0.3, 0.1]
-                }}
-                transition={{ duration: 10, repeat: Infinity }}
-                className="w-[300px] h-[300px] bg-red-600/10 blur-[100px] rounded-full" 
-              />
-           </div>
+// --- MOCK DATA FOR FAST TESTING ---
+const MOCK_TOPICS_JSON = `[
+  { "title": "Certibiocide 2026 : Nouvelles obligations de désinfection", "description": "L'impact juridique et sanitaire des nouvelles normes biocides dans le Riviera.", "trend": 5, "service_id": 6 },
+  { "title": "Rattus Norvegicus : Pic d'activité à Menton", "description": "Pourquoi les rongeurs envahissent les zones portuaires en ce moment.", "trend": 4, "service_id": 1 }
+]`;
 
-           {generatingArticle ? (
-             <div className="relative z-10">
-               <div className="relative w-32 h-32 mb-10 mx-auto">
-                  <div className="absolute inset-0 border-4 border-red-600/10 rounded-full" />
-                  <motion.div 
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 border-4 border-t-red-600 rounded-full" 
-                  />
-                  <div className="absolute inset-1 border border-white/5 rounded-full" />
-                  <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 text-red-600" />
-               </div>
-               
-               <motion.h4 
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="text-2xl font-black uppercase tracking-tighter mb-4 text-[var(--text-main)]"
-               >
-                 Rédaction en cours...
-               </motion.h4>
-               <p className="text-[var(--text-dimmed)] text-[11px] italic max-w-xs uppercase font-bold tracking-widest leading-relaxed opacity-60">
-                  Gemini Flash-1.5 analyse : <br />
-                  <span className="text-[var(--text-main)] not-italic mt-3 block font-black text-xs text-red-600">"{generatingArticle}"</span>
-               </p>
-               
-               <div className="mt-14 space-y-4 w-full max-w-[200px] mx-auto text-left">
-                  {[
-                    { label: "Analyse sémantique", done: true },
-                    { label: "Structuration HTML5", done: true },
-                    { label: "Injection SEO Riviera", done: false },
-                  ].map((step, k) => (
-                    <motion.div 
-                      key={k}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: k * 0.3 }}
-                      className="flex items-center gap-4"
-                    >
-                      {step.done ? (
-                        <div className="p-1 bg-green-500/10 rounded-full"><CheckCircle2 className="w-3.5 h-3.5 text-green-500" /></div>
-                      ) : (
-                        <div className="p-1 bg-white/5 rounded-full"><Loader2 className="w-3.5 h-3.5 text-red-600 animate-spin" /></div>
-                      )}
-                      <span className={`text-[10px] font-black uppercase tracking-widest ${step.done ? 'text-green-500' : 'text-[var(--text-dimmed)]'}`}>{step.label}</span>
-                    </motion.div>
-                  ))}
-               </div>
-             </div>
-           ) : (
-             <div className="relative z-10">
-               <motion.div 
-                 whileHover={{ scale: 1.1, rotate: 10 }}
-                 className="w-24 h-24 bg-[var(--bg-input)] rounded-[2.5rem] flex items-center justify-center mb-8 border border-[var(--border-subtle)] shadow-2xl mx-auto"
-               >
-                  <Sparkles className="w-10 h-10 text-[var(--text-dimmed)] opacity-30" />
-               </motion.div>
-               <h4 className="text-2xl font-black uppercase tracking-tighter mb-4">Moteur <span className="text-red-600">Prêt</span></h4>
-               <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest leading-relaxed max-w-[180px] opacity-60">
-                 Sélectionnez une opportunité SEO dans le radar pour lancer la rédaction automatisée.
-               </p>
-             </div>
-           )}
-        </motion.div>
+const MOCK_ARTICLE_JSON = `{
+  "title": "Nouvelle réglementation Certibiocide 2026 : Ce qui change pour les pros",
+  "category": "Réglementation",
+  "excerpt": "Le cadre légal se durcit. Analyse de l'impact pour les techniciens du Riviera.",
+  "content_html": "<h2>1. Le Contexte Réglementaire</h2><p>Depuis le 1er Janvier...</p><blockquote>\\"La sécurité avant tout.\\"</blockquote><h2>2. L'Analyse ESEND</h2><p>Nous avons anticipé ces changements...</p><h2>3. Notre Protocole Conforme</h2><p>Désormais, nous utilisons...</p>",
+  "cover_prompt": "Ultra-realistic photography of a pest control technician...",
+  "illustrations": [
+    {
+      "section_name": "1. Le Contexte Réglementaire",
+      "alt": "Dossier légal avec le tampon Certibiocide",
+      "prompt": "Ultra-realistic photography of an official legal document stamped with 'Certibiocide 2026', dramatic lighting, shot on Canon EOS R5 --ar 16:9 --v 6.0"
+    }
+  ]
+}`;
 
-      </div>
-    </div>
+const CreationStudio = ({ onClose, services, onSave, articles = [] }) => {
+    const [step, setStep] = useState('CHOICE');
+    const [manualSubStep, setManualSubStep] = useState(1);
+    const [foundNews, setNews] = useState([]);
+    const [aiError, setAiError] = useState(null);
+    const [hasApiKey, setHasApiKey] = useState(false);
+    const [draftData, setDraftData] = useState(null);
+    const [quota, setQuota] = useState(null);
+    const [loadingFromDb, setLoadingFromDb] = useState(false);
 
-  );
+    // Initialiser avec les MOCK DATA ou LOCAL STORAGE
+    const [manualPaste1, setManualPaste1] = useState(() => localStorage.getItem('esend_studio_paste1') || MOCK_TOPICS_JSON);
+    const [manualPaste3, setManualPaste3] = useState(() => localStorage.getItem('esend_studio_paste3') || MOCK_ARTICLE_JSON);
+
+    // Sauvegarder dans le localStorage à chaque changement
+    useEffect(() => {
+        localStorage.setItem('esend_studio_paste1', manualPaste1);
+    }, [manualPaste1]);
+
+    useEffect(() => {
+        localStorage.setItem('esend_studio_paste3', manualPaste3);
+    }, [manualPaste3]);
+
+    const [manualTopics, setManualTopics] = useState(() => {
+        try { return JSON.parse(localStorage.getItem('esend_studio_paste1') || MOCK_TOPICS_JSON); }
+        catch (e) { return []; }
+    });
+    const [selectedTopic, setSelectedTopic] = useState(JSON.parse(MOCK_TOPICS_JSON)[0]);
+
+    const [copiedId, setCopiedId] = useState(null);
+
+    const refreshQuota = useCallback(() => setQuota(AIService.getQuota()), []);
+
+    useEffect(() => {
+        const checkKey = async () => {
+            const hasKey = await AIService.hasApiKey();
+            setHasApiKey(hasKey);
+        };
+        checkKey();
+        refreshQuota();
+    }, []);
+
+    // Charger les sujets sauvegardés depuis la DB quand on entre dans TOPIC_CHOICE
+    const [topicsLoaded, setTopicsLoaded] = useState(false);
+    useEffect(() => {
+        if (step !== 'TOPIC_CHOICE' || topicsLoaded) return;
+        const loadSaved = async () => {
+            setLoadingFromDb(true);
+            try {
+                const savedTopics = await (api.getAiTopics || mockBlogService.getAiTopics)();
+                if (savedTopics && savedTopics.length > 0) {
+                    // We extract titles from existing articles (both drafted and published)
+                    const publishedTitles = new Set(articles.map(a => a.title.toLowerCase()));
+
+                    setNews(prev => {
+                        const existingTitles = new Set(prev.map(t => t.title.toLowerCase()));
+                        const fresh = savedTopics.filter(t =>
+                            !existingTitles.has(t.title.toLowerCase()) &&
+                            !publishedTitles.has(t.title.toLowerCase())
+                        );
+                        return fresh.length > 0 ? [...prev, ...fresh] : prev;
+                    });
+                }
+            } catch (e) {
+                console.warn('[Studio] Could not load saved topics:', e);
+            } finally {
+                setLoadingFromDb(false);
+                setTopicsLoaded(true);
+            }
+        };
+        loadSaved();
+    }, [step, topicsLoaded]);
+
+    // Validation Logic
+    const isStep1Valid = useMemo(() => {
+        try {
+            const clean = manualPaste1.replace(/```json/g, '').replace(/```/g, '').trim();
+            if (!clean) return false;
+            const parsed = JSON.parse(clean);
+            return Array.isArray(parsed) && parsed.length > 0;
+        } catch (e) { return false; }
+    }, [manualPaste1]);
+
+    const isStep3Valid = useMemo(() => {
+        try {
+            const clean = manualPaste3.replace(/```json/g, '').replace(/```/g, '').trim();
+            if (!clean) return false;
+            const parsed = JSON.parse(clean);
+            return !!(parsed.title && parsed.content_html);
+        } catch (e) { return false; }
+    }, [manualPaste3]);
+
+    const wordCount = useMemo(() => {
+        const text = manualPaste3.replace(/<[^>]*>/g, '');
+        return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    }, [manualPaste3]);
+
+    const handleCopy = (text, id) => {
+        navigator.clipboard.writeText(text);
+        setCopiedId(id);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
+
+    const handleFinalImport = () => {
+        try {
+            const clean = manualPaste3.replace(/```json/g, '').replace(/```/g, '').trim();
+            const data = JSON.parse(clean);
+
+            const fullDraft = {
+                ...data,
+                // On tente de deviner le meilleur service si c'est de l'import manuel
+                service_id: AIService.getBestServiceId(data.title, selectedTopic?.service_id || 1),
+                is_published: 0
+            };
+
+            // On s'assure que draftData est mis à jour avant de changer de vue
+            setDraftData(fullDraft);
+
+            // Délai de sécurité pour laisser React traiter l'état
+            setTimeout(() => {
+                setStep('EDITOR');
+            }, 50);
+        } catch (e) {
+            alert("JSON invalide");
+        }
+    };
+
+    // Sub-Screens
+    const ChoiceScreen = () => (
+        <div className="studio-onboarding">
+            <div className="studio-hero">
+                <h1 className="studio-title">Studio de Rédaction</h1>
+                <p className="studio-subtitle">Choisissez votre méthode de création experte.</p>
+            </div>
+            <div className="studio-cards">
+                <div className={`studio-card premium ${!hasApiKey ? 'locked' : ''}`} onClick={() => hasApiKey && setStep('TOPIC_CHOICE')}>
+                    <div className="recom-badge">Recommandé</div>
+                    <div className="card-icon-main"><Wand2 size={48} /></div>
+                    <h3>Magie Totale</h3>
+                    <p>L'IA cherche les actus locales et rédige tout pour vous.</p>
+                    <button className="studio-cta-btn">Commencer <ArrowRight size={16} /></button>
+                    {!hasApiKey && <div className="card-error-overlay"><AlertCircle size={20} /><span>Clé manquante</span></div>}
+                </div>
+                <div className="studio-card" onClick={() => setStep('MANUAL_PROMPT')}>
+                    <div className="card-icon-main"><Terminal size={48} /></div>
+                    <h3>Assistant Prompt</h3>
+                    <p>Utilisez nos prompts sur votre propre IA et importez le résultat.</p>
+                    <button className="studio-cta-btn">Commencer <ArrowRight size={16} /></button>
+                </div>
+                <div className="studio-card" onClick={() => { setDraftData(null); setStep('EDITOR'); }}>
+                    <div className="card-icon-main"><MousePointer2 size={48} /></div>
+                    <h3>Rédaction Libre</h3>
+                    <p>Démarrez de zéro avec notre structure experte de référence.</p>
+                    <button className="studio-cta-btn">Commencer <ArrowRight size={16} /></button>
+                </div>
+            </div>
+            {hasApiKey && quota && <QuotaGauge quota={quota} />}
+            <button className="studio-close-btn" onClick={onClose}><X size={24} /> Fermer</button>
+        </div>
+    );
+
+    const ManualPromptScreen = () => {
+        const prompts = AIService.getPrompts(selectedTopic?.title);
+        return (
+            <div className="studio-manual-flow">
+                <button className="back-btn" onClick={() => setStep('CHOICE')}><ArrowLeft size={20} /> Retour aux choix</button>
+                <div className="studio-hero" style={{ textAlign: 'left', marginBottom: '20px' }}>
+                    <h2 className="studio-title" style={{ fontSize: '2.5rem' }}>Assistant Manuel</h2>
+                    <p className="studio-subtitle">Test rapide activé : Données pré-remplies.</p>
+                </div>
+
+                <div className="manual-stepper-nav">
+                    <div className={`step ${manualSubStep === 1 ? 'active' : 'completed'}`} onClick={() => setManualSubStep(1)}>
+                        <span className="step-number-nav">01</span><span>Veille</span>
+                    </div>
+                    <span>→</span>
+                    <div className={`step ${manualSubStep === 2 ? 'active' : manualSubStep > 2 ? 'completed' : ''}`} onClick={() => setManualSubStep(2)}>
+                        <span className="step-number-nav">02</span><span>Sélection</span>
+                    </div>
+                    <span>→</span>
+                    <div className={`step ${manualSubStep === 3 ? 'active' : ''}`} onClick={() => setManualSubStep(3)}>
+                        <span className="step-number-nav">03</span><span>Rédaction</span>
+                    </div>
+                </div>
+
+                <div className="manual-stepper">
+                    {manualSubStep === 1 && (
+                        <div className="manual-step-section">
+                            <div className="flex items-center gap-6 mb-8"><div className="step-badge">01</div><h3 className="manual-step-title">Veille & Sujets</h3></div>
+                            <div className="prompt-box-modern"><code>{prompts.findNews}</code><button className={`copy-button ${copiedId === 'p1' ? 'copied' : ''}`} onClick={() => handleCopy(prompts.findNews, 'p1')}>{copiedId === 'p1' ? '✓ Copié !' : 'Copier'}</button></div>
+                            <textarea className={`json-paste-area-compact valid`} value={manualPaste1} onChange={(e) => setManualPaste1(e.target.value)} />
+                            <button className="btn-continue" onClick={() => setManualSubStep(2)}>Continuer à l'étape 02 →</button>
+                        </div>
+                    )}
+
+                    {manualSubStep === 2 && (
+                        <div className="manual-step-section">
+                            <div className="flex items-center gap-6 mb-8"><div className="step-badge">02</div><h3 className="manual-step-title">Sélection</h3></div>
+                            <div className="manual-topic-grid">
+                                {manualTopics.map((topic, i) => (
+                                    <div key={i} className={`manual-topic-item ${selectedTopic?.title === topic.title ? 'selected' : ''}`} onClick={() => setSelectedTopic(topic)}>
+                                        <div className="flex justify-between items-start mb-4"><div style={{ color: '#8B1538' }}><Bug size={24} /></div>{selectedTopic?.title === topic.title && <CheckCircle size={24} className="text-[#8B1538]" />}</div>
+                                        <strong className="block text-lg mb-2">{topic.title}</strong>
+                                        <p className="text-sm text-slate-500">{topic.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <button className="btn-continue" onClick={() => setManualSubStep(3)}>Continuer à l'étape 03 →</button>
+                        </div>
+                    )}
+
+                    {manualSubStep === 3 && (
+                        <div className="manual-step-section">
+                            <div className="flex items-center gap-6 mb-8"><div className="step-badge">03</div><h3 className="manual-step-title">Rédaction</h3></div>
+                            <div className="prompt-box-modern"><code>{prompts.articleGeneration}</code><button className={`copy-button ${copiedId === 'p3' ? 'copied' : ''}`} onClick={() => handleCopy(prompts.articleGeneration, 'p3')}>{copiedId === 'p3' ? '✓ Copié !' : 'Copier'}</button></div>
+                            <textarea className={`json-paste-area-compact valid`} style={{ minHeight: '300px' }} value={manualPaste3} onChange={(e) => setManualPaste3(e.target.value)} />
+                            <button className="btn-continue" onClick={handleFinalImport}>Ouvrir dans l'éditeur expert ESEND →</button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    };
+    // --- MAGIE TOTALE SCREENS ---
+    // SearchingScreen removed: click on Magie Totale goes directly to TOPIC_CHOICE with empty list
+
+    const TopicChoiceScreen = () => {
+        const [loadingMore, setLoadingMore] = useState(false);
+        const [targetServiceId, setTargetServiceId] = useState('');
+
+        const handleTopicSelect = (topic) => {
+            setSelectedTopic(topic);
+            setStep('GENERATING');
+        };
+
+        const handleLoadMore = async () => {
+            setLoadingMore(true);
+            try {
+                // Compile titles from both the currently suggested topics AND the global website articles
+                const existingTitles = [
+                    ...foundNews.map(n => n.title),
+                    ...articles.map(a => a.title)
+                ];
+
+                // Always request 3 new topics and APPEND to existing list, excluding all existing titles
+                // Pass targetServiceId if one is selected, otherwise null
+                const newTopics = await AIService.generateArticleTopics(
+                    existingTitles,
+                    targetServiceId ? parseInt(targetServiceId, 10) : null
+                );
+                if (newTopics && newTopics.length > 0) {
+                    try {
+                        // 1. Sauvegarder les nouveaux sujets en BDD pour générer leurs IDs
+                        await (api.saveAiTopics || mockBlogService.saveAiTopics)(newTopics);
+
+                        // 2. Recharger imméditament depuis la BDD pour récupérer les vrais 'id'
+                        // Cela est vital pour que le bouton "Générer l'article" puisse ensuite disacrter le sujet via son ID.
+                        const savedTopics = await (api.getAiTopics || mockBlogService.getAiTopics)();
+                        const publishedTitles = new Set(articles.map(a => a.title.toLowerCase()));
+
+                        const validTopics = savedTopics.filter(t => !publishedTitles.has(t.title.toLowerCase()));
+                        setNews(validTopics);
+
+                        refreshQuota();
+                    } catch (e) {
+                        console.warn('[TopicChoice] Could not save or fetch topics to DB:', e);
+                        // Fallback UI (qui n'aura pas d'ID, mais évite de bloquer l'écran)
+                        setNews(prev => [...prev, ...newTopics]);
+                        refreshQuota();
+                    }
+                }
+            } catch (e) {
+                alert("Erreur lors de la génération : " + e.message);
+                refreshQuota();
+            } finally {
+                setLoadingMore(false);
+            }
+        };
+
+        const handleDiscard = async (topicToDiscard, e) => {
+            e.stopPropagation();
+            // Retrait immédiat de la liste (optimistic UI)
+            setNews(prev => prev.filter(t => t.title !== topicToDiscard.title));
+            // Persist en DB
+            if (topicToDiscard.id) {
+                try {
+                    await (api.discardAiTopic || mockBlogService.discardAiTopic)(topicToDiscard.id);
+                } catch (e) {
+                    console.warn('[TopicChoice] Could not discard topic:', e);
+                }
+            }
+        };
+
+        const isEmpty = foundNews.length === 0;
+
+        return (
+            <div className="studio-manual-flow">
+                <button className="back-btn" onClick={() => setStep('CHOICE')}><ArrowLeft size={20} /> Retour aux choix</button>
+                <div className="flex justify-between items-center mb-8">
+                    <div className="studio-hero" style={{ textAlign: 'left', marginBottom: '0' }}>
+                        <h2 className="studio-title" style={{ fontSize: '2.5rem' }}>Sujets Recommandés (IA)</h2>
+                        <p className="studio-subtitle">
+                            {isEmpty
+                                ? "Cliquez sur le bouton pour que l'IA propose des sujets d'actualité."
+                                : "Choisissez un sujet ou générez 3 nouvelles idées."}
+                        </p>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+                        {quota && <QuotaGauge quota={quota} compact />}
+
+                        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                            <select
+                                value={targetServiceId}
+                                onChange={(e) => setTargetServiceId(e.target.value)}
+                                style={{
+                                    padding: '0.6rem 1rem',
+                                    borderRadius: '8px',
+                                    border: '1px solid #e2e8f0',
+                                    backgroundColor: '#f8fafc',
+                                    color: '#334155',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    outline: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                <option value="">Tous les nuisibles (Surprenez-moi)</option>
+                                {services?.map(s => (
+                                    <option key={s.id} value={s.id}>{s.name}</option>
+                                ))}
+                            </select>
+
+                            <button
+                                className="btn-continue"
+                                style={{ padding: '0.75rem 1.5rem', width: 'auto', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}
+                                onClick={handleLoadMore}
+                                disabled={loadingMore || (quota && quota.topicsLeft === 0)}
+                                title={quota && quota.topicsLeft === 0 ? 'Quota journalier atteint' : isEmpty ? 'Lancer la recherche IA' : 'Générer 3 nouvelles idées'}
+                            >
+                                {loadingMore ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
+                                {loadingMore ? "Recherche..." : isEmpty ? "🚀 Lancer la recherche IA" : "+ 3 nouvelles idées"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {loadingFromDb ? (
+                    <div style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
+                        <Loader2 size={32} className="animate-spin" style={{ display: 'inline-block', marginBottom: '1rem', color: '#8B1538' }} />
+                        <p style={{ fontSize: '0.875rem', fontStyle: 'italic' }}>Chargement des propositions enregistrées...</p>
+                    </div>
+                ) : isEmpty ? (
+                    <div className="studio-empty-topics">
+                        <Sparkles size={48} style={{ color: '#8B1538', opacity: 0.3, marginBottom: '1rem' }} />
+                        <p style={{ color: '#94a3b8', fontStyle: 'italic' }}>
+                            Aucun sujet enregistré. Cliquez sur "Lancer la recherche IA" pour que Gemini analyse les tendances locales et vous propose des idées d'articles.
+                        </p>
+                    </div>
+                ) : (
+                    <div className="radar-grid" style={{ position: 'relative', marginTop: '1rem' }}>
+                        {(() => {
+                            const maxTrend = Math.max(...foundNews.map(n => n.trend || 0));
+                            const topIndex = foundNews.findIndex(n => (n.trend || 0) === maxTrend);
+                            return foundNews.map((topic, i) => {
+                                const isTop = i === topIndex;
+                                return (
+                                    <div key={topic.id || i} className={`topic-card ${isTop ? 'featured' : ''}`} style={{ position: 'relative' }}>
+                                        {/* Bouton Discarter */}
+                                        <button
+                                            title="Écarter ce sujet"
+                                            onClick={(e) => handleDiscard(topic, e)}
+                                            style={{
+                                                position: 'absolute', top: '8px', right: '8px',
+                                                background: 'rgba(239,68,68,0.1)', border: 'none',
+                                                borderRadius: '50%', width: '24px', height: '24px',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                cursor: 'pointer', color: '#ef4444', zIndex: 2,
+                                                transition: 'background 0.2s'
+                                            }}
+                                            onMouseOver={e => e.currentTarget.style.background = 'rgba(239,68,68,0.25)'}
+                                            onMouseOut={e => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}
+                                        >
+                                            <X size={13} />
+                                        </button>
+                                        {isTop && (
+                                            <div className="featured-topic-badge">
+                                                <Flame size={14} /> Top Tendance
+                                            </div>
+                                        )}
+                                        <div className="topic-info">
+                                            <h4>{topic.title}</h4>
+                                            <p>{topic.description}</p>
+                                        </div>
+                                        <button className="topic-action" onClick={() => handleTopicSelect(topic)}>
+                                            <Wand2 size={14} /> Générer l'article
+                                        </button>
+                                    </div>
+                                );
+                            });
+                        })()}
+                    </div>
+                )}
+            </div>
+        );
+    };
+
+    const GeneratingScreen = () => {
+        useEffect(() => {
+            const generate = async () => {
+                setAiError(null);
+                try {
+                    const article = await AIService.generateFullArticle(selectedTopic.title);
+                    const bestServiceId = AIService.getBestServiceId(article.title, selectedTopic?.service_id || 1, (article.excerpt || '') + ' ' + (article.content_html || ''));
+
+                    // Image de couverture : laissée vide, l'utilisateur la génère à la demande dans l'éditeur
+                    // Prompt pré-généré instantanément par l'IA lors de la rédaction finale de l'article (ou un fallback local)
+                    const coverPrompt = article.cover_prompt || AIService.buildCoverPrompt(article.title, bestServiceId);
+                    const fullDraft = {
+                        ...article,
+                        service_id: bestServiceId,
+                        cover_image: '',
+                        cover_prompt: coverPrompt,
+                        is_published: 0
+                    };
+
+                    // L'article reste en mémoire — la SEULE sauvegarde se fait
+                    // quand l'utilisateur clique "Brouillon" ou "Publier" dans l'éditeur.
+                    // (Suppression de l'auto-save POST qui créait un doublon fantôme)
+                    let draftToEdit = fullDraft;
+
+                    setDraftData(draftToEdit);
+                    refreshQuota();
+                    if (selectedTopic?.id) {
+                        try {
+                            await (api.discardAiTopic || mockBlogService.discardAiTopic)(selectedTopic.id);
+                            setNews(prev => prev.filter(t => t.title !== selectedTopic.title));
+                        } catch { /* non bloquant */ }
+                    }
+                    setStep('EDITOR');
+                } catch (e) {
+                    setAiError(e.message);
+                    refreshQuota();
+                    setStep('TOPIC_CHOICE');
+                    alert("Erreur de rédaction : " + e.message);
+                }
+            };
+            if (selectedTopic) generate();
+            else setStep('CHOICE');
+        }, []);
+
+        return (
+            <div className="studio-onboarding">
+                <div className="text-center" style={{ textAlign: 'center' }}>
+                    <Loader2 size={64} className="animate-spin mx-auto mb-6" style={{ color: '#8B1538' }} />
+                    <h2 className="studio-title" style={{ fontSize: '2rem' }}>Rédaction experte...</h2>
+                    <p className="studio-subtitle">L'IA ESEND rédige le contenu pour : {selectedTopic?.title}</p>
+                </div>
+            </div>
+        );
+    };
+
+    return (
+        <div className="creation-studio-integrated">
+            <AnimatePresence mode="wait">
+                {step === 'CHOICE' && <ChoiceScreen key="choice" />}
+                {step === 'TOPIC_CHOICE' && <TopicChoiceScreen key="topic_choice" />}
+                {step === 'GENERATING' && <GeneratingScreen key="generating" />}
+                {step === 'MANUAL_PROMPT' && <ManualPromptScreen key="manual" />}
+                {step === 'EDITOR' && (
+                    <div className="full-editor-container">
+                        <ArticleEditor key={draftData?.title || 'new'} article={draftData} onClose={onClose} onSave={onSave} services={services} integratedMode={true} />
+                    </div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
 };
 
 export default CreationStudio;
