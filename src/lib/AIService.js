@@ -192,25 +192,33 @@ Réponse en JSON uniquement (tableau de 3 objets) :
     async draftArticle(title) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         
-        const prompt = `Tu es un expert certifié (ESEND, Menton), rédacteur SEO senior.
-Rédige un article d'expertise de haute qualité sur : "${title}".
-ZONE : Riviera française (Menton, Monaco, Alpes-Maritimes).
-TON : Professionnel, technique, rassurant, premium.
+        const prompt = `Tu es un expert certifié en hygiène et lutte anti-nuisibles (ESEND, Menton), rédacteur SEO senior spécialisé.
+Rédige un article d'expertise de HAUTE QUALITÉ sur : "${title}".
 
-RÈGLES :
-- Minimum 800 mots.
-- Structure HTML (<h2>, <h3>, <p>, <ul>, <li>, <blockquote>).
-- Zéro source inventée (hallucinations interdites). Cite des normes réelles (Certibiocide, ANSES) ou des observations de terrain.
-- Incorpore subtilement "Menton", "Riviera" et "Monaco" dans le texte.
+CONTEXTE :
+- Société : ESEND, experts certifiés Certibiocide implantés sur la Riviera (Menton, Monaco, Roquebrune).
+- Public cible : particuliers, propriétaires de villas, copropriétés, hôtels, restaurants.
+- Date : ${fullDate}.
+
+RÈGLES STRICTES :
+- MINIMUM 800 mots de contenu réel (NE PAS mettre de textes génériques comme "présentez le problème").
+- Utilise des <h2> et <h3> pour la hiérarchie.
+- Intègre des listes <ul><li> pour les conseils et symptômes.
+- Ajoute au moins 1 <blockquote> avec un chiffre ou fait marquant.
+- ZONE : Mentionne "Menton", "Riviera" ou "Monaco" au moins 3 fois naturellement.
+- TON : Expert rassurant, professionnel, orienté action.
+- Pas d'hallucinations : cite uniquement des normes réelles (Certibiocide, ANSES, vécu terrain).
+- Termine par un appel à l'action ESEND.
 
 FORMAT RÉPONSE (JSON uniquement) :
 {
-  "title": "Titre définitif",
+  "title": "Titre définitif impactant",
   "category": "Expertise",
-  "excerpt": "Introduction accrocheuse",
-  "content_html": "Le contenu structuré en HTML",
-  "meta_title": "SEO Title < 60 car",
-  "meta_description": "SEO Desc < 160 car avec Menton/Monaco",
+  "excerpt": "Introduction accrocheuse de 2-3 phrases max",
+  "content_html": "Le contenu complet structuré en HTML (minimum 800 mots)",
+  "meta_title": "SEO Title < 60 car incluant Menton ou Riviera",
+  "meta_description": "SEO Desc < 160 car avec Menton/Monaco + appel à l'action",
+  "image_prompt": "Description en anglais d'une photo professionnelle pertinente pour illustrer cet article",
   "service_id": X
 }`;
 
@@ -223,6 +231,7 @@ FORMAT RÉPONSE (JSON uniquement) :
                 content_html: { type: "STRING" },
                 meta_title: { type: "STRING" },
                 meta_description: { type: "STRING" },
+                image_prompt: { type: "STRING" },
                 service_id: { type: "INTEGER" }
             },
             required: ["title", "category", "excerpt", "content_html", "meta_title", "meta_description", "service_id"]
@@ -245,25 +254,40 @@ FORMAT RÉPONSE (JSON uniquement) :
         });
         const data = await response.json();
         
-        if (data.candidates[0].finishReason !== 'STOP') {
+        if (data.candidates?.[0]?.finishReason && data.candidates[0].finishReason !== 'STOP') {
              console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
              if(data.candidates[0].finishReason === 'SAFETY') {
                  throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
              }
         }
 
-        const text = data.candidates[0].content?.parts[0]?.text;
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) {
              throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée).");
         }
         
-        let clean = text.replace(/```json|```/g, '').trim();
-        
-        // BUG FIX : Au lieu de détruire tous les \n littéraux, on s'assure que les caractères
-        // de contrôle qui cassent le parseur soient remplacés par des espaces
-        clean = clean.replace(/[\n\r\t]/g, ' ');
-        
-        const parsedArticle = JSON.parse(clean);
+        // STRATÉGIE : Parser de façon robuste sans casser le HTML
+        // 1. Supprimer uniquement les delimiteurs markdown si présents
+        let clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+
+        let parsedArticle;
+        try {
+            // Tentative directe (idéal si responseSchema retourne du JSON propre)
+            parsedArticle = JSON.parse(clean);
+        } catch (firstErr) {
+            // Fallback: extraire uniquement le JSON entre { et } (dernier recours)
+            const jsonMatch = clean.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) throw new Error("Impossible d'extraire le JSON de la réponse IA.");
+            try {
+                parsedArticle = JSON.parse(jsonMatch[0]);
+            } catch (secondErr) {
+                // Dernier recours : nettoyer les caractères problématiques SAUF dans content_html
+                // On remplace uniquement les caractères de contrôle hors d'une string JSON
+                const sanitized = clean.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+                parsedArticle = JSON.parse(sanitized);
+            }
+        }
+
         QuotaTracker.increment('articles');
         return parsedArticle;
     }

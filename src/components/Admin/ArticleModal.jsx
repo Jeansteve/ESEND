@@ -86,11 +86,12 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
     nuisible_tag: article?.nuisible_tag || 'actualites',
     excerpt: article?.excerpt || '',
     content_html: article?.content_html || EXPERT_TEMPLATE,
-    cover_image: article?.cover_image || article?.image || '',
+    cover_image: article?.cover_image || article?.image || '', // Jamais de valeur par défaut — force la zone d'upload
     meta_title: article?.meta_title || '',
     meta_description: article?.meta_description || '',
     service_id: article?.service_id || 1,
     is_published: article?.is_published || 0,
+    image_prompt: '', // Suggestion image de l'IA (non stocké en DB)
   });
 
   const [activeTab, setActiveTab] = useState('split');
@@ -150,8 +151,27 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
     setIsGenerating(true);
     try {
       const refined = await AIService.draftArticle(formData.title);
-      setFormData(prev => ({ ...prev, ...refined }));
-      toast('Article généré par l\'IA ✨');
+      
+      // Construire le nouvel état — ne pas écraser l'image si elle est déjà personnalisée
+      const GENERIC_URLS = ['unsplash.com', 'picsum.photos', 'placeholder'];
+      const currentImageIsGeneric = !formData.cover_image || 
+        GENERIC_URLS.some(u => formData.cover_image.includes(u));
+      
+      setFormData(prev => ({
+        ...prev,
+        ...refined,
+        // Conserver l'image si elle est personnalisée, sinon vider pour forcer l'upload
+        cover_image: currentImageIsGeneric ? '' : prev.cover_image,
+        // Slug auto depuis le nouveau titre
+        slug: generateSlug(refined.title || prev.title),
+      }));
+
+      // Informer l'utilisateur du prompt image s'il est disponible
+      if (refined.image_prompt && currentImageIsGeneric) {
+        toast(`✨ Article généré ! Image suggérée : "${refined.image_prompt.slice(0, 60)}..."`);
+      } else {
+        toast('Article généré par l\'IA ✨');
+      }
     } catch (err) {
       alert(err.message);
     } finally {
@@ -267,8 +287,10 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
           </div>
         )}
         {formData.excerpt && (
-          <div className="text-base font-medium text-slate-500 leading-relaxed mb-10 italic border-l-4 border-red-600 pl-5">
-            {formData.excerpt}
+          <div className="mb-8 pb-8 border-b border-slate-100">
+            <p className="text-lg font-medium text-slate-600 leading-relaxed">
+              {formData.excerpt}
+            </p>
           </div>
         )}
         <div
@@ -375,8 +397,8 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
                     <span className="flex items-center gap-1 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
                       <FileText className="w-3 h-3" /> {metrics.words} MOTS
                     </span>
-                    <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${metrics.words > 300 ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'}`}>
-                      {metrics.words > 300 ? '✓ Qualité Experte' : 'À Compléter'}
+                    <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${metrics.words > 800 ? 'bg-emerald-500/10 text-emerald-500' : metrics.words > 300 ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400'}`}>
+                      {metrics.words > 800 ? '✓ Qualité Experte' : metrics.words > 300 ? '~ En cours' : 'À Compléter'}
                     </span>
                   </div>
                   {/* Slug */}
@@ -492,10 +514,15 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
                     ) : (
                       <div
                         onClick={() => fileInputRef.current?.click()}
-                        className="aspect-video rounded-xl border-2 border-dashed border-[var(--border-subtle)] hover:border-red-600/40 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-[var(--bg-input)] text-[var(--text-dimmed)]"
+                        className="aspect-video rounded-xl border-2 border-dashed border-[var(--border-subtle)] hover:border-red-600/40 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-[var(--bg-input)] text-[var(--text-dimmed)] px-4 text-center"
                       >
                         <Camera className="w-6 h-6" />
                         <span className="text-[9px] font-black uppercase tracking-widest">Cliquer pour uploader</span>
+                        {formData.image_prompt && (
+                          <span className="text-[8px] font-medium text-indigo-400 mt-1 leading-tight">
+                            💡 IA suggère : {formData.image_prompt.slice(0, 80)}...
+                          </span>
+                        )}
                       </div>
                     )}
                     <input
