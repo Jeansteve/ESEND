@@ -1,125 +1,275 @@
 // src/components/Admin/BlogManager.jsx
+/**
+ * @file BlogManager.jsx — Gestionnaire du Journal Expert v2
+ * @specialist frontend-dev-guidelines, frontend-ui-dark-ts
+ * Features: catégorisation dynamique, filtres pills, badges Publié/Brouillon,
+ *           dates créé/modifié, lien "Voir sur le site", sélecteur 3 modes de rédaction
+ */
 import React, { useState, useEffect } from 'react';
-import { 
-  Plus, 
-  Trash2, 
-  Edit3, 
-  Eye, 
-  Sparkles, 
-  Search,
-  Filter,
-  Calendar,
-  Tag
+import {
+  Plus, Trash2, Edit3, Eye, Sparkles, ExternalLink,
+  Calendar, Globe, EyeOff, Clock
 } from 'lucide-react';
 import { api } from '../../lib/api';
+import ModeSelector from './ModeSelector';
 
-const BlogManager = ({ onOpenStudio, onEditArticle, searchQuery }) => {
+// Catégories ESEND — nuisible_tag
+const CATEGORIES = [
+  { id: 'all',         label: 'Tous' },
+  { id: 'actualites',  label: 'Actualités' },
+  { id: 'cafards',     label: 'Cafards & Blattes' },
+  { id: 'desinfection',label: 'Désinfection' },
+  { id: 'fourmis',     label: 'Fourmis' },
+  { id: 'frelons',     label: 'Frelons & Guêpes' },
+  { id: 'nettoyage',   label: 'Nettoyage' },
+  { id: 'punaises',    label: 'Punaises de Lit' },
+  { id: 'rats',        label: 'Rats & Souris' },
+];
+
+const formatDate = (str) => {
+  if (!str) return '—';
+  try {
+    return new Date(str).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+  } catch { return str; }
+};
+
+const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [showModeSelector, setShowModeSelector] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
 
-  useEffect(() => {
-    loadArticles();
-  }, []);
+  useEffect(() => { loadArticles(); }, []);
 
   const loadArticles = async () => {
     setLoading(true);
-    const data = await api.getArticles();
-    setArticles(data);
-    setLoading(false);
-  };
-
-  const handleDelete = async (id) => {
-    if (window.confirm("Voulez-vous vraiment supprimer ce dossier d'expertise ?")) {
-      await api.deleteArticle(id);
-      loadArticles();
+    try {
+      const data = await api.getArticles();
+      setArticles(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error('[BlogManager] fetch error', e);
+      setArticles([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const filteredArticles = articles.filter(a => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return a.title.toLowerCase().includes(query) || 
-           a.category.toLowerCase().includes(query) ||
-           a.excerpt?.toLowerCase().includes(query);
+  const handleDelete = async (article) => {
+    if (!window.confirm(`Supprimer définitivement "${article.title}" ? Cette action est irréversible.`)) return;
+    setDeletingId(article.id);
+    try {
+      await api.deleteArticle(article.uuid || article.id);
+      setArticles(prev => prev.filter(a => a.id !== article.id));
+    } catch (e) {
+      alert('Erreur lors de la suppression : ' + e.message);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleModeSelect = (modeId, template) => {
+    setShowModeSelector(false);
+    if (modeId === 'ia') {
+      onOpenStudio();
+    } else if (modeId === 'prompt') {
+      // Ouvre le Studio en mode Prompt Guidé
+      onOpenStudio('prompt');
+    } else if (modeId === 'libre') {
+      onNewArticle({ content_html: template, status: 'draft', is_published: false });
+    }
+  };
+
+  // Filtrage
+  const filtered = articles.filter(a => {
+    const matchCat = activeCategory === 'all' || a.nuisible_tag === activeCategory;
+    if (!searchQuery) return matchCat;
+    const q = searchQuery.toLowerCase();
+    return matchCat && (
+      (a.title || '').toLowerCase().includes(q) ||
+      (a.category || '').toLowerCase().includes(q) ||
+      (a.excerpt || '').toLowerCase().includes(q)
+    );
   });
+
+  // Compteurs par catégorie
+  const countFor = (catId) =>
+    catId === 'all'
+      ? articles.length
+      : articles.filter(a => a.nuisible_tag === catId).length;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
+
+      {/* ─── Header ─── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h3 className="text-2xl font-black uppercase tracking-tighter">Le Journal de l'Expert</h3>
           <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">
-            Gérez vos contenus SEO et l'intelligence artificielle
+            {articles.length} article{articles.length !== 1 ? 's' : ''} · {articles.filter(a => a.is_published).length} publié{articles.filter(a => a.is_published).length !== 1 ? 's' : ''}
           </p>
         </div>
-        
-        <div className="flex gap-3 w-full md:w-auto">
-          <button 
-            onClick={onOpenStudio}
-            className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-blue-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-lg active:scale-95"
+
+        <button
+          onClick={() => setShowModeSelector(true)}
+          className="flex items-center gap-2 bg-gradient-to-r from-red-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-lg shadow-red-600/20 active:scale-95"
+        >
+          <Plus className="w-3.5 h-3.5" /> Nouvel Article
+        </button>
+      </div>
+
+      {/* ─── Filtres Catégories ─── */}
+      <div className="flex flex-wrap gap-2">
+        {CATEGORIES.map(cat => {
+          const count = countFor(cat.id);
+          return (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${
+                activeCategory === cat.id
+                  ? 'bg-[var(--text-main)] text-[var(--bg-primary)] border-transparent shadow-lg'
+                  : 'bg-[var(--bg-secondary)] text-[var(--text-dimmed)] border-[var(--border-subtle)] hover:border-[var(--text-main)]/30 hover:text-[var(--text-main)]'
+              }`}
+            >
+              {cat.label}
+              <span className={`px-1.5 py-0.5 rounded text-[9px] font-black ${
+                activeCategory === cat.id ? 'bg-white/20' : 'bg-[var(--bg-input)]'
+              }`}>
+                {count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ─── Grille ─── */}
+      {loading ? (
+        <div className="py-20 text-center">
+          <div className="inline-block w-8 h-8 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {filtered.map((article) => {
+            const isPublished = article.is_published === 1 || article.is_published === true || article.status === 'published';
+            const isDeleting = deletingId === article.id;
+            const publicUrl = `#/expert/${article.uuid || article.id}`;
+
+            return (
+              <div
+                key={article.id}
+                className={`glass-card group relative overflow-hidden flex flex-col bg-[var(--bg-secondary)] border-[var(--border-subtle)] transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}
+              >
+                {/* Image */}
+                <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)]">
+                  <img
+                    src={article.image || 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
+                    alt={article.title}
+                    className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent" />
+
+                  {/* Badge Catégorie nuisible */}
+                  {article.nuisible_tag && article.nuisible_tag !== 'actualites' && (
+                    <div className="absolute top-3 left-3 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
+                      {CATEGORIES.find(c => c.id === article.nuisible_tag)?.label || article.nuisible_tag}
+                    </div>
+                  )}
+
+                  {/* Badge Publié / Brouillon */}
+                  <div className={`absolute top-3 right-3 flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-lg border ${
+                    isPublished
+                      ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                      : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                  }`}>
+                    {isPublished ? <Globe className="w-2.5 h-2.5" /> : <EyeOff className="w-2.5 h-2.5" />}
+                    {isPublished ? 'Publié' : 'Brouillon'}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <h4 className="text-sm font-black uppercase tracking-tight mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+                  {article.title}
+                </h4>
+
+                <p className="text-[var(--text-dimmed)] text-[11px] leading-relaxed mb-4 line-clamp-2 flex-grow">
+                  {article.excerpt}
+                </p>
+
+                {/* Dates */}
+                <div className="flex items-center gap-4 mb-4 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3" />
+                    {formatDate(article.created_at || article.date)}
+                  </div>
+                  {article.updated_at && article.updated_at !== article.created_at && (
+                    <div className="flex items-center gap-1.5 text-amber-500/70">
+                      <Clock className="w-3 h-3" />
+                      Modifié {formatDate(article.updated_at)}
+                    </div>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
+                  <a
+                    href={publicUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-lg bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-blue-400 hover:bg-blue-600/10 transition-all border border-[var(--border-subtle)]"
+                    title="Voir sur le site"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => onEditArticle(article)}
+                      className="p-2.5 rounded-lg bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-red-600 hover:bg-[var(--bg-primary)] transition-all border border-[var(--border-subtle)]"
+                      title="Éditer"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(article)}
+                      className="p-2.5 rounded-lg bg-red-600/5 text-red-500/50 hover:text-red-500 hover:bg-red-600/10 transition-all border border-red-600/10 hover:border-red-600/30"
+                      title="Supprimer"
+                      disabled={isDeleting}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {!loading && filtered.length === 0 && (
+        <div className="py-20 text-center glass-card border-dashed border-[var(--border-subtle)]">
+          <p className="text-[var(--text-dimmed)] font-black uppercase tracking-[0.2em] text-[10px]">
+            {activeCategory !== 'all' ? `Aucun article dans "${CATEGORIES.find(c => c.id === activeCategory)?.label}"` : 'Aucun dossier trouvé'}
+          </p>
+          <button
+            onClick={() => setShowModeSelector(true)}
+            className="mt-6 flex items-center gap-2 mx-auto bg-gradient-to-r from-red-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all"
           >
-            <Sparkles className="w-3.5 h-3.5" /> Studio IA
+            <Sparkles className="w-3.5 h-3.5" /> Créer le premier article
           </button>
         </div>
-      </div>
+      )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {filteredArticles.map((article) => (
-          <div 
-            key={article.id} 
-            className="glass-card group relative overflow-hidden flex flex-col h-full bg-[var(--bg-secondary)] border-[var(--border-subtle)]"
-          >
-            <div className="relative aspect-video rounded-xl overflow-hidden mb-6 border border-[var(--border-subtle)]">
-              <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent" />
-              <div className="absolute top-3 left-3 bg-red-600 text-white text-[9px] font-black px-2 py-1 rounded-md uppercase tracking-wider">
-                {article.category}
-              </div>
-            </div>
-
-            <h4 className="text-sm font-black uppercase tracking-tight mb-3 group-hover:text-red-600 transition-colors line-clamp-2">
-              {article.title}
-            </h4>
-            
-            <p className="text-[var(--text-dimmed)] text-[11px] leading-relaxed mb-6 line-clamp-3">
-              {article.excerpt}
-            </p>
-
-            <div className="mt-auto pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                 <div className="flex items-center gap-1.5 text-[var(--text-dimmed)] text-[9px] font-black uppercase tracking-widest">
-                    <Calendar className="w-3 h-3" /> {article.date}
-                 </div>
-              </div>
-              
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={() => onEditArticle(article)}
-                  className="p-2.5 rounded-lg bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-red-600 hover:bg-[var(--bg-primary)] transition-all border border-[var(--border-subtle)]"
-                  title="Éditer"
-                >
-                  <Edit3 className="w-3.5 h-3.5" />
-                </button>
-                <button 
-                  onClick={() => handleDelete(article.id)}
-                  className="p-2.5 rounded-lg bg-red-600/5 text-red-500/50 hover:text-red-500 hover:bg-red-600/10 transition-all border border-red-600/10"
-                  title="Supprimer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {filteredArticles.length === 0 && !loading && (
-        <div className="py-20 text-center glass-card border-dashed border-[var(--border-subtle)]">
-          <p className="text-[var(--text-dimmed)] font-black uppercase tracking-[0.2em] text-[10px]">Aucun dossier trouvé</p>
-        </div>
+      {/* Mode Selector Modal */}
+      {showModeSelector && (
+        <ModeSelector
+          onSelectMode={handleModeSelect}
+          onClose={() => setShowModeSelector(false)}
+        />
       )}
     </div>
   );
 };
 
+export { CATEGORIES };
 export default BlogManager;

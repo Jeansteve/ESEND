@@ -3,20 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import ThemeToggle from '../../components/UI/ThemeToggle';
-import { 
-  BarChart3, 
-  BookOpen, 
-  Briefcase, 
-  Settings, 
-  LogOut, 
-  Plus, 
-  Search, 
-  Sparkles, 
-  ChevronRight,
+import {
+  BarChart3,
+  BookOpen,
+  Briefcase,
+  Settings,
+  LogOut,
+  Plus,
+  Search,
+  Sparkles,
   ArrowRight,
   TrendingUp,
-  Users,
-  User,
   Eye,
   FileText,
   Mail,
@@ -26,7 +23,10 @@ import {
   Zap,
   CheckCircle2,
   MapPin,
-  Save
+  Save,
+  Edit3,
+  Trash2,
+  Calendar
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
@@ -35,6 +35,126 @@ import ProjectModal from '../../components/Admin/ProjectModal';
 import ArticleModal from '../../components/Admin/ArticleModal';
 import './AdminPanel.css';
 
+// ─── Portfolio Tab Component ───────────────────────────────────────────────
+const PROJECT_CATS = [
+  { id: 'all', label: 'Tous' },
+  { id: 'nuisibles', label: '🐀 Nuisibles' },
+  { id: 'desinfection', label: '🧪 Désinfection' },
+  { id: 'nettoyage', label: '🪟 Nettoyage' },
+];
+
+const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
+  const [activeCategory, setActiveCategory] = React.useState('all');
+  const [deletingId, setDeletingId] = React.useState(null);
+
+  const handleDelete = async (proj) => {
+    if (!window.confirm(`Supprimer "${proj.title}" ? Action irréversible.`)) return;
+    setDeletingId(proj.id);
+    try {
+      const { api } = await import('../../lib/api');
+      await api.deleteProject(proj.id);
+      onDelete(proj.id);
+    } catch (e) { alert(e.message); }
+    finally { setDeletingId(null); }
+  };
+
+  const filtered = projects.filter(p => {
+    const matchCat = activeCategory === 'all' || p.category === activeCategory;
+    if (!searchQuery) return matchCat;
+    const q = searchQuery.toLowerCase();
+    return matchCat && (p.title?.toLowerCase().includes(q) || p.location?.toLowerCase().includes(q) || p.tag?.toLowerCase().includes(q));
+  });
+
+  const formatD = (s) => { try { return new Date(s).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' }); } catch { return s || '—'; } };
+
+  return (
+    <div className="space-y-8 animate-in fade-in duration-700">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+          <h3 className="text-2xl font-black uppercase tracking-tighter">Réalisations Terrain</h3>
+          <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">
+            {projects.length} intervention{projects.length !== 1 ? 's' : ''} archivée{projects.length !== 1 ? 's' : ''}
+          </p>
+        </div>
+        <button
+          onClick={onNew}
+          className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-lg shadow-blue-600/20 active:scale-95"
+        >
+          <Plus className="w-3.5 h-3.5" /> Nouvelle Réalisation
+        </button>
+      </div>
+
+      {/* Filtres */}
+      <div className="flex flex-wrap gap-2">
+        {PROJECT_CATS.map(cat => (
+          <button
+            key={cat.id}
+            onClick={() => setActiveCategory(cat.id)}
+            className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${
+              activeCategory === cat.id
+                ? 'bg-[var(--text-main)] text-[var(--bg-primary)] border-transparent'
+                : 'bg-[var(--bg-secondary)] text-[var(--text-dimmed)] border-[var(--border-subtle)] hover:border-[var(--text-main)]/30'
+            }`}
+          >
+            {cat.label} <span className="opacity-60">({projects.filter(p => cat.id === 'all' || p.category === cat.id).length})</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Grille */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {filtered.map((proj) => {
+          const isVisible = proj.is_published === 1 || proj.is_published === true;
+          const isDeleting = deletingId === proj.id;
+          return (
+            <div key={proj.id} className={`glass-card group flex flex-col transition-all hover:-translate-y-1 hover:shadow-2xl ${isDeleting ? 'opacity-40 pointer-events-none' : ''}`}>
+              <div className="aspect-video rounded-xl overflow-hidden mb-4 relative border border-[var(--border-subtle)]">
+                <img src={proj.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" alt={proj.title} />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/60 to-transparent" />
+                <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[9px] font-black uppercase tracking-widest border border-white/10 group-hover:bg-red-600 group-hover:border-red-600 transition-colors">
+                  {proj.tag}
+                </div>
+                <div className={`absolute top-3 right-3 flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-lg border ${
+                  isVisible ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                }`}>
+                  {isVisible ? <Globe className="w-2.5 h-2.5" /> : <Eye className="w-2.5 h-2.5" />}
+                  {isVisible ? 'Visible' : 'Masquée'}
+                </div>
+              </div>
+              <h4 className="text-sm font-black uppercase tracking-tight mb-1 group-hover:text-red-600 transition-colors line-clamp-1">{proj.title}</h4>
+              <div className="flex items-center gap-3 mb-3 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
+                <MapPin className="w-3 h-3 text-red-600" /> {proj.location}
+                {proj.created_at && <><span>·</span><Calendar className="w-3 h-3" />{formatD(proj.created_at)}</>}
+              </div>
+              {proj.method && <p className="text-[11px] text-[var(--text-dimmed)] line-clamp-1 mb-4">🔧 {proj.method}</p>}
+              <div className="mt-auto flex justify-between items-center border-t border-[var(--border-subtle)] pt-3">
+                <span className="text-[9px] font-black text-emerald-500 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" />{proj.result || 'Succès'}</span>
+                <div className="flex gap-2">
+                  <button onClick={() => onEdit(proj)} className="p-2 text-[var(--text-dimmed)] hover:text-white bg-[var(--bg-input)] rounded-lg border border-[var(--border-subtle)] transition-all" title="Éditer">
+                    <Edit3 className="w-3.5 h-3.5" />
+                  </button>
+                  <button onClick={() => handleDelete(proj)} className="p-2 text-red-500/40 hover:text-red-500 bg-red-600/5 rounded-lg border border-red-600/10 hover:border-red-600/30 transition-all" title="Supprimer">
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {filtered.length === 0 && (
+        <div className="py-20 text-center glass-card border-dashed border-[var(--border-subtle)]">
+          <p className="text-[var(--text-dimmed)] font-black uppercase tracking-[0.2em] text-[10px]">Aucune réalisation trouvée</p>
+          <button onClick={onNew} className="mt-6 flex items-center gap-2 mx-auto bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all">
+            <Plus className="w-3.5 h-3.5" /> Ajouter la première
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ─── Dashboard Component ────────────────────────────────────────────────────
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [articles, setArticles] = useState([]);
@@ -309,52 +429,22 @@ const Dashboard = () => {
         )}
 
         {activeTab === 'blog' && (
-          <BlogManager 
-            onOpenStudio={() => setShowStudio(true)} 
+          <BlogManager
+            onOpenStudio={(mode) => setShowStudio(mode || true)}
             onEditArticle={(art) => setEditingArticle(art)}
+            onNewArticle={(defaults) => { setEditingArticle(defaults || {}); }}
             searchQuery={searchQuery}
           />
         )}
 
         {activeTab === 'portfolio' && (
-          <div className="space-y-8">
-             <div className="flex justify-between items-center bg-[var(--bg-card)] p-6 rounded-2xl border border-[var(--border-subtle)]">
-                <div>
-                   <h3 className="text-xl font-black uppercase tracking-tighter">Gestion des réalisations</h3>
-                   <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest">Archives des interventions sur la Riviera</p>
-                </div>
-             </div>
-
-             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {projects.filter(p => {
-                    if (!searchQuery) return true;
-                    const query = searchQuery.toLowerCase();
-                    return p.title.toLowerCase().includes(query) || 
-                           p.location.toLowerCase().includes(query) || 
-                           p.tag?.toLowerCase().includes(query);
-                }).map((proj) => (
-                  <div key={proj.id} className="glass-card group flex flex-col">
-                     <div className="aspect-video rounded-xl overflow-hidden mb-6 relative">
-                        <img src={proj.img} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all border border-white/5" />
-                        <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[9px] font-black uppercase tracking-widest border border-white/10 group-hover:bg-red-600 group-hover:border-red-600 transition-colors">
-                           {proj.tag}
-                        </div>
-                     </div>
-                     <h4 className="text-sm font-black uppercase tracking-tight mb-2 group-hover:text-red-600 transition-colors">{proj.title}</h4>
-                     <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mb-6">{proj.location}</p>
-                     
-                     <div className="mt-auto flex justify-end gap-2 border-t border-white/5 pt-4">
-                        <button 
-                          onClick={() => { setEditingProject(proj); setShowProjectModal(true); }}
-                          className="p-2 text-zinc-500 hover:text-white bg-white/5 rounded-lg border border-white/5 transition-all"
-                        >
-                           <Search className="w-3.5 h-3.5" />
-                        </button>
-                     </div>
-                  </div>
-                ))}
-              </div>
-           </div>
+          <PortfolioTab
+            projects={projects}
+            searchQuery={searchQuery}
+            onEdit={(proj) => { setEditingProject(proj); setShowProjectModal(true); }}
+            onDelete={(id) => setProjects(prev => prev.filter(p => p.id !== id))}
+            onNew={() => { setEditingProject(null); setShowProjectModal(true); }}
+          />
         )}
 
         {activeTab === 'settings' && (
@@ -576,22 +666,30 @@ const Dashboard = () => {
       )}
 
       {editingArticle && (
-        <ArticleModal 
-          article={editingArticle}
+        <ArticleModal
+          article={editingArticle?.id ? editingArticle : null}
           onClose={() => setEditingArticle(null)}
-          onSave={async (res) => {
+          onSave={async () => {
             await loadData();
+            setEditingArticle(null);
+          }}
+          onDelete={(id) => {
+            setArticles(prev => prev.filter(a => a.id !== id));
             setEditingArticle(null);
           }}
         />
       )}
 
       {showProjectModal && (
-        <ProjectModal 
+        <ProjectModal
           project={editingProject}
           onClose={() => setShowProjectModal(false)}
-          onSave={async (res) => {
+          onSave={async () => {
             await loadData();
+            setShowProjectModal(false);
+          }}
+          onDelete={(id) => {
+            setProjects(prev => prev.filter(p => p.id !== id));
             setShowProjectModal(false);
           }}
         />
