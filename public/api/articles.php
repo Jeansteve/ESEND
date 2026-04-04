@@ -15,18 +15,37 @@ switch ($method) {
         $filter = $_GET['status'] ?? null;
         $nuisibleTag = $_GET['nuisible_tag'] ?? null;
 
-        $sql = "SELECT id, uuid, title, excerpt, image, category, nuisible_tag, service_id,
-                       is_published, status, publish_date, created_at, updated_at
-                FROM esend_articles";
+        // SELECT * pour être compatible avec l'ancienne schéma (avant migration v2)
+        // Les colonnes nuisible_tag, is_published, updated_at peuvent ne pas exister encore
+        $sql = "SELECT * FROM esend_articles";
         $conditions = [];
         $params = [];
 
-        if ($filter === 'draft') {
-            $conditions[] = "is_published = 0";
-        } elseif ($filter === 'published') {
-            $conditions[] = "is_published = 1";
+        // Vérifier si la colonne is_published existe avant de filtrer dessus
+        try {
+            $checkCol = $pdo->query("SHOW COLUMNS FROM esend_articles LIKE 'is_published'");
+            $hasIsPublished = ($checkCol->rowCount() > 0);
+        } catch (Exception $e) {
+            $hasIsPublished = false;
         }
-        if ($nuisibleTag) {
+
+        if ($hasIsPublished) {
+            if ($filter === 'draft') {
+                $conditions[] = "is_published = 0";
+            } elseif ($filter === 'published') {
+                $conditions[] = "is_published = 1";
+            }
+        }
+
+        // Filtre nuisible_tag conditionnel
+        try {
+            $checkTag = $pdo->query("SHOW COLUMNS FROM esend_articles LIKE 'nuisible_tag'");
+            $hasNuisibleTag = ($checkTag->rowCount() > 0);
+        } catch (Exception $e) {
+            $hasNuisibleTag = false;
+        }
+
+        if ($hasNuisibleTag && $nuisibleTag) {
             $conditions[] = "nuisible_tag = ?";
             $params[] = $nuisibleTag;
         }
