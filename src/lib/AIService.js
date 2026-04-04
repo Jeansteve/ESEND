@@ -63,17 +63,31 @@ export const AIService = {
         const key = await this._getApiKey();
         if (!key) throw new Error("Clé API Gemini manquante dans les Paramètres.");
 
-        const models = ['gemini-1.5-pro-latest', 'gemini-1.5-pro', 'gemini-1.5-flash-latest', 'gemini-1.5-flash'];
-        const modelsToTry = models.map(m => `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`);
+        // Cascade de modèles (v1 et v1beta) pour éviter les 404 (Not Found)
+        const endpointsToTry = [
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
+            'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
+            'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
+        ];
 
         let lastError = null;
 
-        for (const endpoint of modelsToTry) {
+        for (const endpoint of endpointsToTry) {
             try {
+                // gemini-pro (v1.0) ne supporte pas responseSchema de la même manière
+                const isLegacy = endpoint.includes('gemini-pro:');
+                let requestBody = { ...body };
+                if (isLegacy && requestBody.generationConfig?.responseSchema) {
+                    delete requestBody.generationConfig.responseSchema;
+                }
+
                 const response = await fetch(`${endpoint}?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
+                    body: JSON.stringify(requestBody)
                 });
 
                 if (!response.ok) {
