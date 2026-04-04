@@ -78,11 +78,39 @@
 }
 
 .article-preview-content img {
+    display: block;
     max-width: 100%;
     height: auto;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
+    margin: 2.5rem auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Style pour les placeholders d'images IA insérés par le rédacteur */
+.article-preview-content p:contains("[ILLUSTRATION"),
+.article-preview-content p:contains("[PHOTO"),
+.article-preview-content p:contains("[IMAGE") {
+    display: block;
+    background: #f8fafc;
+    border: 2px dashed #e2e8f0;
+    color: #64748b;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     margin: 2.5rem 0;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.article-preview-content p:contains("[ILLUSTRATION")::before {
+    content: "🖼️ SUGGESTION D'IMAGE IA :" ;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #8B1538;
 }
 
 /* ReactQuill Editor Adjustments */

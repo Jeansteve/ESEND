@@ -209,33 +209,36 @@ Réponse en JSON uniquement (tableau de 3 objets) :
     async draftArticle(title) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         
-        const prompt = `Tu es un expert certifié en hygiène et lutte anti-nuisibles (ESEND, Menton), rédacteur SEO senior spécialisé.
-Rédige un article d'expertise de HAUTE QUALITÉ sur : "${title}".
+        const prompt = `Tu es l'Expert Senior d'ESEND (Menton), spécialisé en hygiène et lutte anti-nuisibles sur la Riviera.
+Rédige un article d'expertise COMPLET et RÉEL sur : "${title}".
 
-CONTEXTE :
-- Société : ESEND, experts certifiés Certibiocide implantés sur la Riviera (Menton, Monaco, Roquebrune).
-- Public cible : particuliers, propriétaires de villas, copropriétés, hôtels, restaurants.
-- Date : ${fullDate}.
+⚠️ RÈGLE D'OR : NE GÉNÈRE JAMAIS de texte d'instruction (ex: "Présentez ici..."). Rédige uniquement le contenu final prêt à être publié.
 
-RÈGLES STRICTES :
-- MINIMUM 800 mots de contenu réel (NE PAS mettre de textes génériques comme "présentez le problème").
-- Utilise des <h2> et <h3> pour la hiérarchie.
-- Intègre des listes <ul><li> pour les conseils et symptômes.
-- Ajoute au moins 1 <blockquote> avec un chiffre ou fait marquant.
-- ZONE : Mentionne "Menton", "Riviera" ou "Monaco" au moins 3 fois naturellement.
-- TON : Expert rassurant, professionnel, orienté action.
-- Pas d'hallucinations : cite uniquement des normes réelles (Certibiocide, ANSES, vécu terrain).
-- Termine par un appel à l'action ESEND.
+STRUCTURE OBLIGATOIRE (en HTML) :
+1. Introduction : Analyse du problème actuel et contexte spécifique à la Riviera (Menton, Monaco, villas côtières).
+2. Les Causes : Facteurs locaux favorisant ce nuisible (climat, bâti ancien, flux touristiques).
+3. Chiffre Clé : Une statistique ou un fait scientifique marquant dans un <blockquote>.
+4. Notre Solution ESEND : Détail de notre protocole certifié Certibiocide, matériel utilisé et supériorité technique.
+5. Les Résultats : Garanties offertes, impact environnemental maîtrisé et témoignages types.
+6. Prévention — Nos Conseils : Liste <ul><li> de conseils d'expert pour éviter la récidive.
+
+ILLUSTRATIONS :
+Insère des balises de suggestion d'images comme suit : [ILLUSTRATION : Description précise de la photo à insérer ici] à au moins 2 endroits stratégiques.
+
+CONTRAINTE SEO :
+- Titres <h2> et <h3> uniquement.
+- Minimum 1000 mots de prose réelle et experte.
+- Ton : Très professionnel, rassurant, technique mais accessible.
 
 FORMAT RÉPONSE (JSON uniquement) :
 {
-  "title": "Titre définitif impactant",
+  "title": "Titre SEO définitif",
   "category": "Expertise",
-  "excerpt": "Introduction accrocheuse de 2-3 phrases max",
-  "content_html": "Le contenu complet structuré en HTML (minimum 800 mots)",
+  "excerpt": "Introduction accrocheuse (2 phrases) pour le listing",
+  "content_html": "Le corps de l'article complet structuré en HTML",
   "meta_title": "SEO Title < 60 car incluant Menton ou Riviera",
   "meta_description": "SEO Desc < 160 car avec Menton/Monaco + appel à l'action",
-  "image_prompt": "Description en anglais d'une photo professionnelle pertinente pour illustrer cet article",
+  "image_prompt": "Prompt anglais pour l'image de couverture",
   "service_id": X
 }`;
 

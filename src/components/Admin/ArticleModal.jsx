@@ -29,18 +29,26 @@ import { CATEGORIES } from './BlogManager';
 const NUISIBLE_TAGS = CATEGORIES.filter(c => c.id !== 'all');
 
 const EXPERT_TEMPLATE = `
-<p>Face à la recrudescence spectaculaire des infestations dans la région Riviera, les méthodes traditionnelles montrent leurs limites. L'accoutumance génétique des <strong>nuisibles</strong> aux molécules standards est désormais confirmée par nos experts de terrain.</p>
+<h2>Introduction</h2>
+<p>Face à la recrudescence des infestations de <strong>[Nom du Nuisible]</strong> dans la région Riviera, notamment à Menton et Monaco, un diagnostic précis est la première étape d'une éradication réussie. Le climat méditerranéen et la densité urbaine favorisent une prolifération rapide qui nécessite une expertise certifiée.</p>
 
-<h2>1. Le Constat : Une Problématique Locale</h2>
-<p>Il ne s'agit plus seulement d'éliminer les individus visibles. Les protocoles basés uniquement sur la pulvérisation chimique échouent souvent car ils n'atteignent pas les nids protégés dans les structures complexes des villas et immeubles de la Côte d'Azur.</p>
+<h2>Les Causes de l'infestation</h2>
+<p>Plusieurs facteurs locaux expliquent la présence massive de ces nuisibles dans notre région : l'humidité résiduelle, le bâti historique offrant de nombreuses cachettes, et les flux de marchandises. Sans un traitement de choc, la situation peut rapidement devenir incontrôlable.</p>
 
-<blockquote>"Une seule femelle survivante peut générer une colonie massive en quelques semaines. Sur Menton et Monaco, l'approximation n'est pas une option."</blockquote>
+<blockquote>"Une expertise technique est indispensable : 90% des traitements amateurs échouent par manque de compréhension du cycle biologique du nuisible."</blockquote>
 
-<h2>2. La Solution ESEND : L'Approche Intégrée</h2>
-<p>Chez ESEND, nous avons adopté une approche radicale : la combinaison de détection précise et de traitements ciblés. Nous utilisons des solutions professionnelles qui n'offrent <strong>aucune possibilité de résistance</strong> au cœur des foyers d'infestation.</p>
+<h2>Notre Solution ESEND : Protocole Certifié</h2>
+<p>Notre intervention repose sur une méthodologie rigoureuse : détection thermique ou canine, application de biocides de nouvelle génération (norme Certibiocide) et mise en place de barrières physiques durables. Nous garantissons une élimination totale du foyer principal.</p>
 
-<h2>3. Notre Protocole "Zéro Rémission"</h2>
-<p>Notre intervention se déroule en trois phases strictes : diagnostic minutieux, traitement intégral avec des produits certifiés Certibiocide, et pose de barrières de protection pour prévenir toute récidive.</p>
+<h2>Résultats et Garanties</h2>
+<p>Après notre passage, vous bénéficiez d'un certificat de conformité et d'une garantie de résultat de 6 mois. Nos clients à Roquebrune et Nice témoignent d'un retour à la sérénité immédiat après nos protocoles d'assainissement complets.</p>
+
+<h2>Prévention — Nos Conseils d'Expert</h2>
+<ul>
+  <li>Assainissez les zones de stockage de déchets.</li>
+  <li>Colmatez les fissures dans les structures anciennes.</li>
+  <li>Planifiez une inspection préventive annuelle.</li>
+</ul>
 `;
 
 const generateSlug = (text) =>
@@ -127,7 +135,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
         [{ header: [2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link'],
+        ['link', 'image', 'video'],
         ['clean'],
       ],
     },
