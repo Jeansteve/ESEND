@@ -29,26 +29,28 @@ import { CATEGORIES } from './BlogManager';
 const NUISIBLE_TAGS = CATEGORIES.filter(c => c.id !== 'all');
 
 const EXPERT_TEMPLATE = `
-<h2>Introduction</h2>
-<p>Face à la recrudescence des infestations de <strong>[Nom du Nuisible]</strong> dans la région Riviera, notamment à Menton et Monaco, un diagnostic précis est la première étape d'une éradication réussie. Le climat méditerranéen et la densité urbaine favorisent une prolifération rapide qui nécessite une expertise certifiée.</p>
+<h2>Introduction : Le défi des nuisibles sur la French Riviera</h2>
+<p>La Côte d'Azur, avec son climat doux et son urbanisme dense, offre un terrain propice à la prolifération des nuisibles. À Menton, Monaco ou Roquebrune, les copropriétés et les villas de prestige font face à des défis sanitaires sans précédent. Ignorer les premiers signes d’une infestation, c'est s'exposer à des dommages structurels et des risques sanitaires majeurs.</p>
 
-<h2>Les Causes de l'infestation</h2>
-<p>Plusieurs facteurs locaux expliquent la présence massive de ces nuisibles dans notre région : l'humidité résiduelle, le bâti historique offrant de nombreuses cachettes, et les flux de marchandises. Sans un traitement de choc, la situation peut rapidement devenir incontrôlable.</p>
+<h2>Les Causes : Pourquoi la région Riviera est-elle ciblée ?</h2>
+<p>L’attractivité de notre région ne concerne pas que les touristes. Les flux constants de marchandises, l'humidité maritime et les structures anciennes des centres-villes créent des "autoroutes" pour les rongeurs et les insectes. De plus, le réchauffement climatique allonge les périodes d'activité des frelons et des moustiques tigres sur toute la côte.</p>
 
-<blockquote>"Une expertise technique est indispensable : 90% des traitements amateurs échouent par manque de compréhension du cycle biologique du nuisible."</blockquote>
+<blockquote>"En 2025, nous avons constaté une augmentation de 40% des interventions pour résistances génétiques aux traitements du commerce sur le secteur de Menton."</blockquote>
 
-<h2>Notre Solution ESEND : Protocole Certifié</h2>
-<p>Notre intervention repose sur une méthodologie rigoureuse : détection thermique ou canine, application de biocides de nouvelle génération (norme Certibiocide) et mise en place de barrières physiques durables. Nous garantissons une élimination totale du foyer principal.</p>
+<h2>Notre Solution ESEND : L'Excellence Certifiée</h2>
+<p>Face à ces menaces, ESEND déploie un protocole d'assainissement radical. Certifiés <strong>Certibiocide</strong>, nous n'utilisons que des molécules professionnelles ciblées agissant au cœur des nids. Notre approche combine détection technologique (caméras thermiques) et lutte raisonnée pour une éradication durable sans impact inutile sur votre environnement immédiat.</p>
 
-<h2>Résultats et Garanties</h2>
-<p>Après notre passage, vous bénéficiez d'un certificat de conformité et d'une garantie de résultat de 6 mois. Nos clients à Roquebrune et Nice témoignent d'un retour à la sérénité immédiat après nos protocoles d'assainissement complets.</p>
+<h2>Résultats Garantis & Sérénité Retrouvée</h2>
+<p>Chaque intervention ESEND fait l'objet d'un rapport technique détaillé et d'une garantie de résultat. Que vous soyez un syndic à Nice ou un restaurateur à Monaco, notre discrétion et notre efficacité vous assurent un retour à la normale en moins de 48 heures. Votre protection est notre priorité absolue.</p>
 
-<h2>Prévention — Nos Conseils d'Expert</h2>
+<h2>Prévention : Les 3 Règles d'Or de l'Expert</h2>
 <ul>
-  <li>Assainissez les zones de stockage de déchets.</li>
-  <li>Colmatez les fissures dans les structures anciennes.</li>
-  <li>Planifiez une inspection préventive annuelle.</li>
+  <li>Étanchéité : Colmatez les accès techniques et les fissures dans les caves.</li>
+  <li>Gestion des déchets : Utilisez des contenants hermétiques et évitez les zones stagnantes.</li>
+  <li>Vigilance : Un contrôle annuel préventif divise par dix le coût d'une infestation déclarée.</li>
 </ul>
+
+<p>[IMAGE : Photo d'un technicien ESEND en intervention certifiée sur une toiture à Menton]</p>
 `;
 
 const generateSlug = (text) =>
@@ -132,11 +134,12 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
   const quillModules = useMemo(() => ({
     toolbar: {
       container: [
-        [{ header: [2, 3, false] }],
+        [{ 'header': [2, 3, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image', 'video'],
-        ['clean'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['link'],
+        ['image', 'video'],
+        ['clean']
       ],
     },
   }), []);
