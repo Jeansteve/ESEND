@@ -103,6 +103,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
   });
 
   const [activeTab, setActiveTab] = useState('split');
+  const [isUploading, setIsUploading] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
