@@ -56,6 +56,23 @@ export const AIService = {
         return settings.gemini_api_key || '';
     },
 
+    async hasFalKey() {
+        const settings = await api.getSettings();
+        return !!settings.fal_api_key;
+    },
+
+    getBestServiceId(title, fallbackId = 1) {
+        const t = (title || '').toLowerCase();
+        if (t.includes('rat') || t.includes('souris') || t.includes('rongeur')) return 1;
+        if (t.includes('frelon') || t.includes('guêpe')) return 2;
+        if (t.includes('punaise')) return 3;
+        if (t.includes('cafard') || t.includes('blatte')) return 4;
+        if (t.includes('fourmi')) return 5;
+        if (t.includes('désinfection') || t.includes('virus')) return 6;
+        if (t.includes('nettoyage') || t.includes('vitre')) return 7;
+        return fallbackId;
+    },
+
     /**
      * Appel direct au LLM (Uniquement via API Key en Mock Mode pour le moment)
      */
@@ -290,5 +307,31 @@ FORMAT RÉPONSE (JSON uniquement) :
 
         QuotaTracker.increment('articles');
         return parsedArticle;
+    },
+
+    /**
+     * Génération d'un prompt visuel pour Fal.ai
+     */
+    async generateVisualPrompt(title, serviceId, content = '') {
+        const prompt = `Task: Create a professional photographic prompt for an AI image generator (Stable Diffusion/Flux style).
+Subject: ${title}
+Context: High-end Pest Control service in the French Riviera (ESEND).
+Service ID: ${serviceId}
+Content Summary: ${content.substring(0, 500)}
+
+Requirements:
+- Cinematic lighting, professional photography style.
+- Clean, reassuring, expert atmosphere.
+- Avoid scary/disgusting close-ups of insects unless it's for technical identification.
+- Preferred: Modern tools, technician in professional ESEND uniform, or clean Riviera architecture being protected.
+- Language: English (for the AI generator).
+- Response: A single paragraph, detailed, describing the scene, textures, and lighting. NO PREAMBLE.`;
+
+        const response = await this._callLLM({ 
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
+        });
+        const data = await response.json();
+        return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
     }
 };

@@ -28,22 +28,20 @@ import { CATEGORIES } from './BlogManager';
 
 const NUISIBLE_TAGS = CATEGORIES.filter(c => c.id !== 'all');
 
-const EXPERT_TEMPLATE = `<h2>Introduction</h2>
-<p>Présentez le problème et le contexte de l'intervention dans la région Riviera...</p>
+const EXPERT_TEMPLATE = `
+<p>Face à la recrudescence spectaculaire des infestations dans la région Riviera, les méthodes traditionnelles montrent leurs limites. L'accoutumance génétique des <strong>nuisibles</strong> aux molécules standards est désormais confirmée par nos experts de terrain.</p>
 
-<h2>Les Causes</h2>
-<p>Expliquez les facteurs qui favorisent ce type de nuisible dans notre région...</p>
+<h2>1. Le Constat : Une Problématique Locale</h2>
+<p>Il ne s'agit plus seulement d'éliminer les individus visibles. Les protocoles basés uniquement sur la pulvérisation chimique échouent souvent car ils n'atteignent pas les nids protégés dans les structures complexes des villas et immeubles de la Côte d'Azur.</p>
 
-<blockquote>Citez un chiffre clé ou une information marquante pour renforcer la crédibilité.</blockquote>
+<blockquote>"Une seule femelle survivante peut générer une colonie massive en quelques semaines. Sur Menton et Monaco, l'approximation n'est pas une option."</blockquote>
 
-<h2>Notre Solution ESEND</h2>
-<p>Décrivez votre protocole d'intervention certifié, les techniques utilisées et pourquoi elles sont supérieures...</p>
+<h2>2. La Solution ESEND : L'Approche Intégrée</h2>
+<p>Chez ESEND, nous avons adopté une approche radicale : la combinaison de détection précise et de traitements ciblés. Nous utilisons des solutions professionnelles qui n'offrent <strong>aucune possibilité de résistance</strong> au cœur des foyers d'infestation.</p>
 
-<h2>Les Résultats</h2>
-<p>Résultats obtenus, témoignages, garanties offertes...</p>
-
-<h2>Prévention — Nos Conseils</h2>
-<p>Conseils pratiques pour éviter la récidive...</p>`;
+<h2>3. Notre Protocole "Zéro Rémission"</h2>
+<p>Notre intervention se déroule en trois phases strictes : diagnostic minutieux, traitement intégral avec des produits certifiés Certibiocide, et pose de barrières de protection pour prévenir toute récidive.</p>
+`;
 
 const generateSlug = (text) =>
   (text || '')
@@ -98,10 +96,29 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [toastMsg, setToastMsg] = useState('Article enregistré ✓');
+  const [toastMsg, setToastMsg] = useState('');
   const [lastSaved, setLastSaved] = useState(null);
+
+  const handleOpenPromptEditor = async () => {
+    setShowPromptEditor(true);
+    setLoadingPrompt(true);
+    try {
+      const prompt = await AIService.generateVisualPrompt(formData.title, formData.service_id || 1, formData.content_html || '');
+      setVisualPrompt(prompt);
+      update('image_prompt', prompt);
+    } catch (e) {
+      alert("Erreur génération prompt : " + e.message);
+    } finally {
+      setLoadingPrompt(false);
+    }
+  };
+
+  // AI Visual Prompt States (TNERI Parity)
+  const [visualPrompt, setVisualPrompt] = useState('');
+  const [showPromptEditor, setShowPromptEditor] = useState(false);
+  const [loadingPrompt, setLoadingPrompt] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // ── Quill modules ──
   const quillModules = useMemo(() => ({
@@ -391,15 +408,15 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
                   />
                   {/* Metrics bar */}
                   <div className="flex items-center gap-3 mt-2">
-                    <span className="flex items-center gap-1 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
+                    <div className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
                       <Clock className="w-3 h-3" /> {metrics.time} MIN
-                    </span>
-                    <span className="flex items-center gap-1 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
+                    </div>
+                    <div className="px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
                       <FileText className="w-3 h-3" /> {metrics.words} MOTS
-                    </span>
-                    <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded ${metrics.words > 800 ? 'bg-emerald-500/10 text-emerald-500' : metrics.words > 300 ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400'}`}>
-                      {metrics.words > 800 ? '✓ Qualité Experte' : metrics.words > 300 ? '~ En cours' : 'À Compléter'}
-                    </span>
+                    </div>
+                    <div className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${metrics.words > 800 ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : metrics.words > 300 ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500' : 'bg-red-500/10 border border-red-500/20 text-red-500'}`}>
+                      {metrics.words > 800 ? '✓ Premium' : metrics.words > 300 ? 'Qualité Standard' : 'Brouillon Court'}
+                    </div>
                   </div>
                   {/* Slug */}
                   <div className="mt-2 flex items-center gap-2 text-[9px] text-[var(--text-dimmed)] font-medium">
@@ -532,14 +549,46 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
                       accept="image/*"
                       onChange={e => handleImageUpload(e.target.files[0])}
                     />
-                    {/* Fallback URL */}
-                    <input
-                      type="text"
-                      value={formData.cover_image}
-                      onChange={e => update('cover_image', e.target.value)}
-                      className="mt-2 w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-lg px-3 py-2 text-[9px] font-mono text-[var(--text-main)] outline-none focus:border-red-600/30 placeholder:text-[var(--text-dimmed)]"
-                      placeholder="Ou collez une URL d'image..."
-                    />
+                    {/* AI Visual Prompt UI (TNERI Parity) */}
+                    <div className="mt-3">
+                      {!showPromptEditor ? (
+                        <button
+                          onClick={handleOpenPromptEditor}
+                          disabled={loadingPrompt}
+                          className="w-full py-2.5 rounded-xl border border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/10 text-indigo-400 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all"
+                        >
+                          {loadingPrompt ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                          {loadingPrompt ? 'Analyse...' : 'Générer prompt image (IA)'}
+                        </button>
+                      ) : (
+                        <div className="p-3 bg-[var(--bg-input)] rounded-xl border border-indigo-500/30 animate-in slide-in-from-top-2 duration-300">
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-indigo-400">Prompt Visuel IA</span>
+                            <button onClick={() => setShowPromptEditor(false)} className="text-[var(--text-dimmed)]"><X className="w-3 h-3" /></button>
+                          </div>
+                          <textarea
+                            value={visualPrompt}
+                            onChange={(e) => setVisualPrompt(e.target.value)}
+                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-lg p-2 text-[10px] font-mono text-[var(--text-dimmed)] min-h-[100px] outline-none"
+                            spellCheck="false"
+                          />
+                          <div className="flex gap-2 mt-2">
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(visualPrompt);
+                                setCopied(true);
+                                setTimeout(() => setCopied(false), 2000);
+                              }}
+                              className={`flex-1 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${copied ? 'bg-emerald-500 text-white' : 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'}`}
+                            >
+                              {copied ? <CheckCircle className="w-3 h-3" /> : <Save className="w-3 h-3" />}
+                              {copied ? 'Copié !' : 'Copier'}
+                            </button>
+                            <button onClick={handleOpenPromptEditor} className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-dimmed)] hover:text-indigo-400 transition-all"><RefreshCw className={`w-3 h-3 ${loadingPrompt ? 'animate-spin' : ''}`} /></button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
 
