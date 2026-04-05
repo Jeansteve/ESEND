@@ -95,60 +95,65 @@ switch ($method) {
         break;
 
     case 'PUT':
-        $data = json_decode(file_get_contents('php://input'), true);
-        $uuid = $data['uuid'] ?? $_GET['uuid'] ?? null;
-        $id   = $data['id']   ?? $_GET['id']   ?? null;
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $uuid = $data['uuid'] ?? $_GET['uuid'] ?? null;
+            $id   = $data['id']   ?? $_GET['id']   ?? null;
 
-        if (!$data || (!$uuid && !$id)) {
-            http_response_code(400); echo json_encode(['error' => 'uuid or id required']); exit;
+            if (!$data || (!$uuid && !$id)) {
+                http_response_code(400); echo json_encode(['error' => 'uuid or id required']); exit;
+            }
+
+            $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
+            $status = $isPublished ? 'published' : 'draft';
+
+            if ($uuid) {
+                $stmt = $pdo->prepare("UPDATE esend_articles SET
+                    title = ?, excerpt = ?, content = ?, image = ?, category = ?,
+                    nuisible_tag = ?, service_id = ?, is_published = ?, status = ?,
+                    meta_title = ?, meta_description = ?, updated_at = NOW()
+                    WHERE uuid = ?");
+                $stmt->execute([
+                    $data['title'] ?? '',
+                    $data['excerpt'] ?? '',
+                    $data['content_html'] ?? $data['content'] ?? '',
+                    $data['image'] ?? '',
+                    $data['category'] ?? 'Expertise',
+                    $data['nuisible_tag'] ?? 'actualites',
+                    $data['service_id'] ?? 1,
+                    $isPublished,
+                    $status,
+                    $data['meta_title'] ?? '',
+                    $data['meta_description'] ?? '',
+                    $uuid
+                ]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE esend_articles SET
+                    title = ?, excerpt = ?, content = ?, image = ?, category = ?,
+                    nuisible_tag = ?, service_id = ?, is_published = ?, status = ?,
+                    meta_title = ?, meta_description = ?, updated_at = NOW()
+                    WHERE id = ?");
+                $stmt->execute([
+                    $data['title'] ?? '',
+                    $data['excerpt'] ?? '',
+                    $data['content_html'] ?? $data['content'] ?? '',
+                    $data['image'] ?? '',
+                    $data['category'] ?? 'Expertise',
+                    $data['nuisible_tag'] ?? 'actualites',
+                    $data['service_id'] ?? 1,
+                    $isPublished,
+                    $status,
+                    $data['meta_title'] ?? '',
+                    $data['meta_description'] ?? '',
+                    $id
+                ]);
+            }
+
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
-
-        $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
-        $status = $isPublished ? 'published' : 'draft';
-
-        if ($uuid) {
-            $stmt = $pdo->prepare("UPDATE esend_articles SET
-                title = ?, excerpt = ?, content = ?, image = ?, category = ?,
-                nuisible_tag = ?, service_id = ?, is_published = ?, status = ?,
-                meta_title = ?, meta_description = ?, updated_at = NOW()
-                WHERE uuid = ?");
-            $stmt->execute([
-                $data['title'] ?? '',
-                $data['excerpt'] ?? '',
-                $data['content_html'] ?? $data['content'] ?? '',
-                $data['image'] ?? '',
-                $data['category'] ?? 'Expertise',
-                $data['nuisible_tag'] ?? 'actualites',
-                $data['service_id'] ?? 1,
-                $isPublished,
-                $status,
-                $data['meta_title'] ?? '',
-                $data['meta_description'] ?? '',
-                $uuid
-            ]);
-        } else {
-            $stmt = $pdo->prepare("UPDATE esend_articles SET
-                title = ?, excerpt = ?, content = ?, image = ?, category = ?,
-                nuisible_tag = ?, service_id = ?, is_published = ?, status = ?,
-                meta_title = ?, meta_description = ?, updated_at = NOW()
-                WHERE id = ?");
-            $stmt->execute([
-                $data['title'] ?? '',
-                $data['excerpt'] ?? '',
-                $data['content_html'] ?? $data['content'] ?? '',
-                $data['image'] ?? '',
-                $data['category'] ?? 'Expertise',
-                $data['nuisible_tag'] ?? 'actualites',
-                $data['service_id'] ?? 1,
-                $isPublished,
-                $status,
-                $data['meta_title'] ?? '',
-                $data['meta_description'] ?? '',
-                $id
-            ]);
-        }
-
-        echo json_encode(['success' => true]);
         break;
 
     case 'DELETE':

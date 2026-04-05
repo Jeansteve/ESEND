@@ -4,9 +4,10 @@
  * Specialist: developpeur-back-end-ops
  */
 
-// À DESACTIVER EN PRODUCTION UNE FOIS LE DEBUG TERMINÉ
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Optimisation PHP pour les API JSON
+error_reporting(0);
+ini_set('display_errors', 0);
+header('Content-Type: application/json; charset=utf-8');
 
 // Paramètres de connexion Hostinger (À remplir par l'utilisateur)
 define('DB_HOST', 'localhost'); // Souvent localhost sur Hostinger
@@ -26,7 +27,7 @@ $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
 try {
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (\PDOException $e) {
-    header('Content-Type: application/json', true, 500);
+    header('HTTP/1.1 500 Internal Server Error');
     echo json_encode(['success' => false, 'error' => 'Erreur de connexion DB : ' . $e->getMessage()]);
     exit;
 }
