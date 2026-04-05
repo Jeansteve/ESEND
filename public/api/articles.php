@@ -5,6 +5,7 @@
  * Supports: nuisible_tag, is_published, updated_at, service_id, meta_title, meta_description
  */
 
+header('Content-Type: application/json');
 require_once 'config.php';
 
 $method = $_SERVER['REQUEST_METHOD'];

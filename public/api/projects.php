@@ -5,6 +5,7 @@
  * Supports: is_published, updated_at, method, result, category
  */
 
+header('Content-Type: application/json');
 require_once 'config.php';
 
 $method = $_SERVER['REQUEST_METHOD'];

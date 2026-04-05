@@ -8,7 +8,15 @@ const KnowledgeHub = () => {
   const [articles, setArticles] = React.useState([]);
 
   React.useEffect(() => {
-    api.getArticles().then(data => setArticles(data));
+    api.getArticles().then(data => {
+      // Filtrer les articles pour n'afficher que ceux qui sont publiés
+      const publishedArticles = (data || []).filter(article => 
+        article.is_published === 1 || 
+        article.is_published === true || 
+        article.status === 'published'
+      );
+      setArticles(publishedArticles);
+    });
   }, []);
   return (
     <section id="encyclopedie" className="py-32 px-6 bg-slate-950 text-white relative">

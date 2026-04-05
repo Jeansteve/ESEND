@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, X, ShieldCheck, MapPin, Calendar, Target, Activity, ArrowLeft, Filter, Info } from 'lucide-react';
-import { interventions } from '../data/interventions';
 import { Link } from 'react-router-dom';
+import { api } from '../services/api';
 
 const categories = ['Tous', 'Nuisibles', 'Désinfection', 'Nettoyage'];
 
 const PortfolioPage = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [interventions, setInterventions] = React.useState([]);
   const [activeCategory, setActiveCategory] = useState('Tous');
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-  const filtered = activeCategory === 'Tous' ? interventions : interventions.filter(i => i.category === activeCategory);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    api.getProjects().then(data => {
+      setInterventions(data || []);
+    });
+  }, []);
+
+  const filtered = activeCategory === 'Tous' 
+    ? interventions 
+    : interventions.filter(i => i.category === activeCategory);
   return (
     <div className="min-h-screen bg-slate-950 text-white pb-32 text-left">
       <section className="pt-40 pb-20 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-b border-white/5">
