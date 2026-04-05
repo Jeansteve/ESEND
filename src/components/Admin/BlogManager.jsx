@@ -39,6 +39,7 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
   const [activeCategory, setActiveCategory] = useState('all');
   const [showModeSelector, setShowModeSelector] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [publishingId, setPublishingId] = useState(null);
 
   useEffect(() => { loadArticles(); }, []);
 
@@ -65,6 +66,26 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
       alert('Erreur lors de la suppression : ' + e.message);
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleTogglePublish = async (article) => {
+    const newStatus = !article.is_published;
+    setPublishingId(article.id);
+    try {
+      await api.updateArticle(article.uuid || article.id, {
+        ...article,
+        is_published: newStatus,
+        status: newStatus ? 'published' : 'draft'
+      });
+      // Local update
+      setArticles(prev => prev.map(a => 
+        a.id === article.id ? { ...a, is_published: newStatus, status: newStatus ? 'published' : 'draft' } : a
+      ));
+    } catch (e) {
+      alert('Erreur lors du changement de statut : ' + e.message);
+    } finally {
+      setPublishingId(null);
     }
   };
 
@@ -149,7 +170,11 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
             return (
               <div
                 key={article.id}
-                className={`glass-card group relative overflow-hidden flex flex-col bg-[var(--bg-secondary)] border-[var(--border-subtle)] transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}
+                className={`glass-card group relative overflow-hidden flex flex-col bg-[var(--bg-secondary)] transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${
+                  isPublished 
+                    ? 'border-[var(--border-subtle)]' 
+                    : 'border-amber-500/20 border-dashed bg-amber-500/5'
+                } ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}
               >
                 {/* Image */}
                 <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)]">
@@ -167,14 +192,16 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
                     </div>
                   )}
 
-                  {/* Badge Publié / Brouillon */}
-                  <div className={`absolute top-3 right-3 flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2.5 py-1.5 rounded-lg border ${
+                  {/* Badge Publié / Brouillon — V3 ULTRA VISIBLE */}
+                  <div className={`absolute top-0 right-0 px-4 py-2 rounded-bl-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl skew-x-[-2deg] origin-top-right transition-all duration-500 z-10 ${
                     isPublished
-                      ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
-                      : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                      ? 'bg-emerald-500 text-white border-b border-l border-emerald-400/50'
+                      : 'bg-amber-500 text-black border-b border-l border-amber-400/50 scale-110 translate-x-1 translate-y-1'
                   }`}>
-                    {isPublished ? <Globe className="w-2.5 h-2.5" /> : <EyeOff className="w-2.5 h-2.5" />}
-                    {isPublished ? 'Publié' : 'Brouillon'}
+                    <div className="flex items-center gap-2">
+                       {isPublished ? <Globe className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                       {isPublished ? 'PUBLIÉ' : 'BROUILLON'}
+                    </div>
                   </div>
                 </div>
 
@@ -203,15 +230,39 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
 
                 {/* Actions */}
                 <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-                  <a
-                    href={publicUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 rounded-lg bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-blue-400 hover:bg-blue-600/10 transition-all border border-[var(--border-subtle)]"
-                    title="Voir sur le site"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={publicUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 rounded-lg bg-[var(--bg-input)] text-[var(--text-dimmed)] hover:text-blue-400 hover:bg-blue-600/10 transition-all border border-[var(--border-subtle)]"
+                      title="Voir sur le site"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+
+                    <button
+                      onClick={() => handleTogglePublish(article)}
+                      disabled={publishingId === article.id}
+                      className={`p-2.5 rounded-lg transition-all border flex items-center gap-2 min-w-[42px] justify-center ${
+                        isPublished
+                          ? 'bg-amber-500/5 text-amber-500/50 hover:text-amber-500 hover:bg-amber-500/10 border-amber-500/10 hover:border-amber-500/30'
+                          : 'bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500 hover:text-white border-emerald-500/50 hover:shadow-[0_0_15px_rgba(16,185,129,0.4)]'
+                      }`}
+                      title={isPublished ? "Repasser en brouillon" : "Publier immédiatement"}
+                    >
+                      {publishingId === article.id ? (
+                        <div className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      ) : isPublished ? (
+                        <EyeOff className="w-3.5 h-3.5" />
+                      ) : (
+                        <>
+                          <Globe className="w-3.5 h-3.5" />
+                          <span className="text-[9px] font-black uppercase tracking-widest hidden sm:inline">Publier</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
 
                   <div className="flex items-center gap-2">
                     <button
