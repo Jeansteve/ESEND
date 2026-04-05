@@ -48,28 +48,28 @@ const realApi = {
 
     // --- Projects ---
     getProjects: async () => {
-        const res = await fetch(`${API_BASE}/projects.php`);
-        return res.json();
+      const res = await fetch(`${API_BASE}/projects_v3.php`);
+      return res.json();
     },
     createProject: async (data) => {
-        const res = await fetch(`${API_BASE}/projects.php`, {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-        return res.json();
+      const res = await fetch(`${API_BASE}/projects_v3.php`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      return res.json();
     },
     updateProject: async (id, data) => {
-        const res = await fetch(`${API_BASE}/projects.php`, {
-            method: 'PUT',
-            body: JSON.stringify({ ...data, id })
-        });
-        return res.json();
+      const res = await fetch(`${API_BASE}/projects_v3.php`, {
+        method: 'PUT',
+        body: JSON.stringify({ ...data, id })
+      });
+      return res.json();
     },
     deleteProject: async (id) => {
-        const res = await fetch(`${API_BASE}/projects.php?id=${id}`, {
-            method: 'DELETE'
-        });
-        return res.json();
+      const res = await fetch(`${API_BASE}/projects_v3.php?id=${id}`, {
+        method: 'DELETE'
+      });
+      return res.json();
     },
 
     // --- Settings ---
