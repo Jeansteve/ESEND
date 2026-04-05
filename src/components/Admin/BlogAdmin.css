@@ -116,7 +116,7 @@
 /* ReactQuill Editor Adjustments */
 .ql-toolbar.ql-snow {
     position: sticky;
-    top: 0;
+    top: 73px;
     z-index: 100;
     background: white !important;
     border-top: none !important;

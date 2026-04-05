@@ -458,7 +458,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
                 {/* Contenu WYSIWYG */}
                 <div>
                   <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Contenu de l'article</label>
-                  <div className="rounded-xl overflow-hidden border border-[var(--border-subtle)] bg-white">
+                  <div className="rounded-xl border border-[var(--border-subtle)] bg-white">
                     <ReactQuill
                       theme="snow"
                       value={formData.content_html}
