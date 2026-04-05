@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, X, ShieldCheck, MapPin, Calendar, Target, Activity, ArrowLeft, Filter, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { api } from '../services/api';
+import { api } from '../lib/api';
 
 const categories = ['Tous', 'Nuisibles', 'Désinfection', 'Nettoyage'];
 
