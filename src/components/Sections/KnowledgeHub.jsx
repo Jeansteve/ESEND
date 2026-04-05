@@ -10,12 +10,9 @@ const KnowledgeHub = () => {
   React.useEffect(() => {
     api.getArticles().then(data => {
       // Filtrer les articles pour n'afficher que ceux qui sont réellement publiés (is_published == 1)
-      const publishedArticles = (data || []).filter(article => {
-        const isPub = Number(article.is_published) === 1 || 
-                      article.is_published === true || 
-                      article.status === 'published';
-        return isPub;
-      });
+      const publishedArticles = (data || []).filter(article => 
+        article.is_published == 1 || article.is_published === true
+      );
       setArticles(publishedArticles);
     });
   }, []);

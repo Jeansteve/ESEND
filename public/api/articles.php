@@ -72,8 +72,8 @@ switch ($method) {
 
         $stmt = $pdo->prepare("INSERT INTO esend_articles 
             (uuid, title, excerpt, content, image, category, nuisible_tag, service_id, 
-             is_published, status, publish_date, meta_title, meta_description)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+             is_published, publish_date, meta_title, meta_description)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([
             $uuid,
             $data['title'] ?? '',
@@ -84,7 +84,6 @@ switch ($method) {
             $data['nuisible_tag'] ?? 'actualites',
             $data['service_id'] ?? 1,
             $isPublished,
-            $status,
             $data['date'] ?? date('d M Y'),
             $data['meta_title'] ?? '',
             $data['meta_description'] ?? ''
@@ -110,7 +109,7 @@ switch ($method) {
             if ($uuid) {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
                     title = ?, excerpt = ?, content = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?, status = ?,
+                    nuisible_tag = ?, service_id = ?, is_published = ?,
                     meta_title = ?, meta_description = ?, updated_at = NOW()
                     WHERE uuid = ?");
                 $stmt->execute([
@@ -122,7 +121,6 @@ switch ($method) {
                     $data['nuisible_tag'] ?? 'actualites',
                     $data['service_id'] ?? 1,
                     $isPublished,
-                    $status,
                     $data['meta_title'] ?? '',
                     $data['meta_description'] ?? '',
                     $uuid
@@ -130,7 +128,7 @@ switch ($method) {
             } else {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
                     title = ?, excerpt = ?, content = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?, status = ?,
+                    nuisible_tag = ?, service_id = ?, is_published = ?,
                     meta_title = ?, meta_description = ?, updated_at = NOW()
                     WHERE id = ?");
                 $stmt->execute([
@@ -142,7 +140,6 @@ switch ($method) {
                     $data['nuisible_tag'] ?? 'actualites',
                     $data['service_id'] ?? 1,
                     $isPublished,
-                    $status,
                     $data['meta_title'] ?? '',
                     $data['meta_description'] ?? '',
                     $id

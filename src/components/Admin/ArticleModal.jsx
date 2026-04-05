@@ -216,8 +216,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
       const payload = {
         ...formData,
         image: formData.cover_image, // backward compat with API
-        is_published,
-        status: is_published ? 'published' : 'draft',
+        is_published
       };
 
       let res;

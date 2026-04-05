@@ -75,12 +75,11 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
     try {
       await api.updateArticle(article.uuid || article.id, {
         ...article,
-        is_published: newStatus,
-        status: newStatus ? 'published' : 'draft'
+        is_published: newStatus
       });
       // Local update
       setArticles(prev => prev.map(a => 
-        a.id === article.id ? { ...a, is_published: newStatus, status: newStatus ? 'published' : 'draft' } : a
+        a.id === article.id ? { ...a, is_published: newStatus } : a
       ));
     } catch (e) {
       alert('Erreur lors du changement de statut : ' + e.message);
