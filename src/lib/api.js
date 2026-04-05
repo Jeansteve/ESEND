@@ -22,28 +22,28 @@ const realApi = {
 
     // --- Articles ---
     getArticles: async () => {
-        const res = await fetch(`${API_BASE}/articles.php`);
-        return res.json();
+      const res = await fetch(`${API_BASE}/articles_v3.php`);
+      return res.json();
     },
     createArticle: async (data) => {
-        const res = await fetch(`${API_BASE}/articles.php`, {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-        return res.json();
+      const res = await fetch(`${API_BASE}/articles_v3.php`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
+      return res.json();
     },
     updateArticle: async (id, data) => { // id est l'UUID ici
-        const res = await fetch(`${API_BASE}/articles.php`, {
-            method: 'PUT',
-            body: JSON.stringify({ ...data, uuid: id })
-        });
-        return res.json();
+      const res = await fetch(`${API_BASE}/articles_v3.php`, {
+        method: 'PUT',
+        body: JSON.stringify({ ...data, uuid: id })
+      });
+      return res.json();
     },
     deleteArticle: async (id) => {
-        const res = await fetch(`${API_BASE}/articles.php?uuid=${id}`, {
-            method: 'DELETE'
-        });
-        return res.json();
+      const res = await fetch(`${API_BASE}/articles_v3.php?uuid=${id}`, {
+        method: 'DELETE'
+      });
+      return res.json();
     },
 
     // --- Projects ---
