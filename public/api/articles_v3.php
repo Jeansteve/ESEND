@@ -2,7 +2,7 @@
 /**
  * API Articles v3 - ESEND Admin Upgrade (Bypass Deploy Issues)
  * @specialist developpeur-back-end-ops
- * Supports: nuisible_tag, is_published, updated_at, service_id, meta_title, meta_description
+ * FIXED SCHEMA: removed meta_title, meta_description which do not exist in the table.
  */
 
 header('Content-Type: application/json');
@@ -22,9 +22,7 @@ switch ($method) {
         try {
             $checkCol = $pdo->query("SHOW COLUMNS FROM esend_articles LIKE 'is_published'");
             $hasIsPublished = ($checkCol->rowCount() > 0);
-        } catch (Exception $e) {
-            $hasIsPublished = false;
-        }
+        } catch (Exception $e) { $hasIsPublished = false; }
 
         if ($hasIsPublished) {
             if ($filter === 'draft') {
@@ -37,9 +35,7 @@ switch ($method) {
         try {
             $checkTag = $pdo->query("SHOW COLUMNS FROM esend_articles LIKE 'nuisible_tag'");
             $hasNuisibleTag = ($checkTag->rowCount() > 0);
-        } catch (Exception $e) {
-            $hasNuisibleTag = false;
-        }
+        } catch (Exception $e) { $hasNuisibleTag = false; }
 
         if ($hasNuisibleTag && $nuisibleTag) {
             $conditions[] = "nuisible_tag = ?";
@@ -53,38 +49,41 @@ switch ($method) {
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
-        $articles = $stmt->fetchAll();
+        $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($articles);
         break;
 
     case 'POST':
-        $data = json_decode(file_get_contents('php://input'), true);
-        if (!$data) { http_response_code(400); echo json_encode(['error' => 'Invalid JSON']); exit; }
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (!$data) { http_response_code(400); echo json_encode(['error' => 'Invalid JSON']); exit; }
 
-        $uuid = $data['uuid'] ?? 'art-' . uniqid();
-        $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
+            $uuid = $data['uuid'] ?? 'art-' . uniqid();
+            $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
 
-        $stmt = $pdo->prepare("INSERT INTO esend_articles 
-            (uuid, title, excerpt, content, image, category, nuisible_tag, service_id, 
-             is_published, publish_date, meta_title, meta_description)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([
-            $uuid,
-            $data['title'] ?? '',
-            $data['excerpt'] ?? '',
-            $data['content_html'] ?? $data['content'] ?? '',
-            $data['image'] ?? '',
-            $data['category'] ?? 'Expertise',
-            $data['nuisible_tag'] ?? 'actualites',
-            $data['service_id'] ?? 1,
-            $isPublished,
-            $data['date'] ?? date('d M Y'),
-            $data['meta_title'] ?? '',
-            $data['meta_description'] ?? ''
-        ]);
+            // REAL SCHEMA: id, uuid, title, excerpt, content, image, category, publish_date, created_at, updated_at, nuisible_tag, is_published, service_id
+            $stmt = $pdo->prepare("INSERT INTO esend_articles 
+                (uuid, title, excerpt, content, image, category, nuisible_tag, service_id, is_published, publish_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $uuid,
+                $data['title'] ?? '',
+                $data['excerpt'] ?? '',
+                $data['content_html'] ?? $data['content'] ?? '',
+                $data['image'] ?? '',
+                $data['category'] ?? 'Expertise',
+                $data['nuisible_tag'] ?? 'actualites',
+                $data['service_id'] ?? 1,
+                $isPublished,
+                $data['date'] ?? date('d M Y')
+            ]);
 
-        $id = $pdo->lastInsertId();
-        echo json_encode(['success' => true, 'id' => $id, 'uuid' => $uuid]);
+            $id = $pdo->lastInsertId();
+            echo json_encode(['success' => true, 'id' => $id, 'uuid' => $uuid]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        }
         break;
 
     case 'PUT':
@@ -102,8 +101,7 @@ switch ($method) {
             if ($uuid) {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
                     title = ?, excerpt = ?, content = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?,
-                    meta_title = ?, meta_description = ?, updated_at = NOW()
+                    nuisible_tag = ?, service_id = ?, is_published = ?, updated_at = NOW()
                     WHERE uuid = ?");
                 $stmt->execute([
                     $data['title'] ?? '',
@@ -114,15 +112,12 @@ switch ($method) {
                     $data['nuisible_tag'] ?? 'actualites',
                     $data['service_id'] ?? 1,
                     $isPublished,
-                    $data['meta_title'] ?? '',
-                    $data['meta_description'] ?? '',
                     $uuid
                 ]);
             } else {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
                     title = ?, excerpt = ?, content = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?,
-                    meta_title = ?, meta_description = ?, updated_at = NOW()
+                    nuisible_tag = ?, service_id = ?, is_published = ?, updated_at = NOW()
                     WHERE id = ?");
                 $stmt->execute([
                     $data['title'] ?? '',
@@ -133,8 +128,6 @@ switch ($method) {
                     $data['nuisible_tag'] ?? 'actualites',
                     $data['service_id'] ?? 1,
                     $isPublished,
-                    $data['meta_title'] ?? '',
-                    $data['meta_description'] ?? '',
                     $id
                 ]);
             }
