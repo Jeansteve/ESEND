@@ -1432,27 +1432,31 @@
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 20px;
-    height: 70vh;
-    /* Fixed height for scrolling */
+    /* Remove fixed height and overflow-hidden to allow sticky toolbar to track page scroll */
+    min-height: 400px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .quill-wrapper-premium .quill {
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible;
 }
 
-.ql-toolbar.ql-snow {
+.quill-wrapper-premium .ql-toolbar.ql-snow {
+    position: sticky;
+    top: 73px;
+    z-index: 100;
     border: none !important;
-    background: #f8fafc !important;
+    background: #ffffff !important;
     padding: 15px !important;
-    border-bottom: 1px solid #eee !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
     flex-shrink: 0;
-    z-index: 10;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95) !important;
 }
 
 .ql-container.ql-snow {
