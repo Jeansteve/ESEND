@@ -114,6 +114,19 @@
 }
 
 /* ReactQuill Editor Adjustments */
+.ql-toolbar.ql-snow {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.9) !important;
+}
+
 .ql-editor {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
