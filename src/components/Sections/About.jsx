@@ -17,8 +17,8 @@ const About = () => {
           >
             <div className="aspect-square bg-slate-900 rounded-[3.5rem] overflow-hidden relative group">
               <img 
-                src="/duo-experts-esend-hd.png" 
-                className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
+                src="/duo-experts-esend.png" 
+                className="w-full h-full object-cover transition-all duration-1000"
                 alt="Votre duo d'experts à Menton"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
