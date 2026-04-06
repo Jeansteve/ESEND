@@ -17,7 +17,7 @@ const About = () => {
           >
             <div className="aspect-square bg-slate-900 rounded-[3.5rem] overflow-hidden relative group">
               <img 
-                src="https://images.unsplash.com/photo-1581578731548-c64695ce6958?q=80&w=2070&auto=format&fit=crop" 
+                src="/duo-experts-esend-hd.png" 
                 className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000"
                 alt="Votre duo d'experts à Menton"
               />
