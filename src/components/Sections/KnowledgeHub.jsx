@@ -17,7 +17,7 @@ const KnowledgeHub = () => {
   }, []);
 
   return (
-    <section id="encyclopedie" className="py-32 px-6 bg-slate-950 text-white relative">
+    <section id="encyclopedie" className="py-32 px-6 bg-slate-50 text-slate-900 relative transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         {/* ... Header remains same ... */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
@@ -41,7 +41,7 @@ const KnowledgeHub = () => {
             viewport={{ once: true }}
             className="flex-shrink-0"
           >
-            <button className="px-8 py-4 bg-white text-black font-black uppercase tracking-wider text-sm rounded-full hover:bg-zinc-200 transition-colors flex items-center gap-2 group">
+            <button className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-sm rounded-full hover:bg-black transition-colors flex items-center gap-2 group shadow-lg">
               Voir tout
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
@@ -57,7 +57,7 @@ const KnowledgeHub = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               onClick={() => setSelectedArticle(article)}
-              className="group cursor-pointer flex flex-col h-full bg-slate-900/60 border border-white/5 rounded-3xl overflow-hidden hover:border-red-600/50 transition-all duration-500"
+              className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
             >
               <div className="relative h-64 overflow-hidden">
                 <img 
@@ -65,7 +65,7 @@ const KnowledgeHub = () => {
                   alt={article.title} 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent text-left" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent text-left" />
                 <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1.5 rounded-full tracking-widest text-left">
                   {article.category}
                 </span>

@@ -25,7 +25,7 @@ const PortfolioBento = () => {
   }, []);
 
   return (
-    <section id="portfolio" className="py-32 px-6 bg-slate-950 text-white">
+    <section id="portfolio" className="py-32 px-6 bg-white text-slate-900 transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl text-left">
@@ -56,7 +56,7 @@ const PortfolioBento = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               onClick={() => setSelectedItem(item)}
-              className={`group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer ${item.size}`}
+              className={`group relative overflow-hidden rounded-[2.5rem] border border-black/5 cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 ${item.size}`}
             >
               <img 
                 src={item.img || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070'} 
