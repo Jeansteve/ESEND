@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, CheckCircle2, ChevronRight } from 'lucide-react';
 import { api } from '../../lib/api';
+import { Link } from 'react-router-dom';
 import ProjectDetailModal from '../UI/ProjectDetailModal';
 
 const PortfolioBento = () => {
@@ -10,7 +11,12 @@ const PortfolioBento = () => {
 
   React.useEffect(() => {
     api.getProjects().then(data => {
-      const sizedData = (data || []).map((item, index) => ({
+      // Trier par ID décroissant (plus récents d'abord) et limiter à 6
+      const recentData = (data || [])
+        .sort((a, b) => (b.id || 0) - (a.id || 0))
+        .slice(0, 6);
+
+      const sizedData = recentData.map((item, index) => ({
         ...item,
         size: item.size || (index % 3 === 0 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1')
       }));
@@ -32,13 +38,12 @@ const PortfolioBento = () => {
               <span className="w-8 h-px bg-red-600"></span> ARCHIVES TERRAIN
             </motion.div>
             <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase mb-6 leading-none">
-              Nos <span className="text-red-600 italic">Réalisations</span> <br />
-              Réelles
+              Nos <span className="text-red-600 italic">Réalisations</span>
             </h2>
           </div>
-          <button className="flex items-center gap-3 text-sm font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
-            Voir toutes les réalisations <ChevronRight className="w-4 h-4" />
-          </button>
+          <Link to="/realisations" className="flex items-center gap-3 text-sm font-black uppercase tracking-widest text-slate-400 hover:text-white transition-colors group">
+            Voir toutes les réalisations <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
         {/* Bento Grid */}
