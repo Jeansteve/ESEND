@@ -37,9 +37,9 @@ const Hero = () => {
   return (
     <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 lg:pt-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
-        {/* Main Hero Background - Powered by V3.3.9 Asset Management */}
+        {/* Main Hero Background - Powered by V3.3.10 Asset Management */}
         <img 
-          src="./hero-menton.jpg" 
+          src="./hero-menton-v2.jpg" 
           alt="ESEND Context" 
           className="w-full h-full object-cover opacity-60 lg:opacity-80"
         />
