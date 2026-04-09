@@ -139,8 +139,7 @@ const ProjectDetailModal = ({ project, onClose }) => {
              <button onClick={onClose} className="flex items-center gap-2 text-slate-900 hover:text-red-600 transition-colors">
                 <ArrowLeft className="w-4 h-4" /> Fermer la vue
              </button>
-          </div>
-        </div>
+            </div>
       </motion.div>
     </motion.div>
   );
