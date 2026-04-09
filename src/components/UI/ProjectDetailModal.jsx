@@ -27,7 +27,8 @@ const ProjectDetailModal = ({ project, onClose }) => {
         animate={{ opacity: 1, scale: 1, y: 0 }} 
         exit={{ opacity: 0, scale: 0.9, y: 30 }} 
         className="relative w-full max-w-6xl max-h-[95vh] bg-white rounded-[2rem] md:rounded-[3rem] border border-black/5 overflow-hidden shadow-3xl flex flex-col selection:bg-red-100"
-              <button 
+      >
+        <button 
           onClick={onClose} 
           className="absolute top-4 right-4 md:top-6 md:right-6 z-50 p-2 md:p-3 rounded-full bg-white/80 backdrop-blur-md text-slate-900 hover:bg-red-600 hover:text-white hover:scale-110 transition-all border border-black/10 shadow-lg"
         >
@@ -139,7 +140,8 @@ const ProjectDetailModal = ({ project, onClose }) => {
              <button onClick={onClose} className="flex items-center gap-2 text-slate-900 hover:text-red-600 transition-colors">
                 <ArrowLeft className="w-4 h-4" /> Fermer la vue
              </button>
-            </div>
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   );
