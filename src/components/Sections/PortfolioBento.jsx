@@ -93,5 +93,3 @@ const PortfolioBento = () => {
 };
 
 export default PortfolioBento;
-
-export default PortfolioBento;

@@ -136,5 +136,3 @@ const KnowledgeHub = () => {
 
 export default KnowledgeHub;
 
-export default KnowledgeHub;
-

@@ -136,11 +136,11 @@ html, body, #root {
 }
 
 .article-preview-content ul {
-  list-style-type: disc;
+  list-style-type: disc !important;
 }
 
 .article-preview-content ol {
-  list-style-type: decimal;
+  list-style-type: decimal !important;
 }
 
 .article-preview-content li {
