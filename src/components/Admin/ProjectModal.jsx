@@ -241,7 +241,7 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
 
         {/* Rich Content Story */}
         <div 
-          className="prose prose-slate max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-blockquote:font-serif prose-blockquote:text-slate-600"
+          className="article-preview-content max-w-none"
           dangerouslySetInnerHTML={{ __html: formData.content_html || `<p className="text-slate-400 italic">Racontez ici l'histoire de cette intervention...</p>` }} 
         />
 

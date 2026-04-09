@@ -1,27 +1,28 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, CheckCircle2, ChevronRight } from 'lucide-react';
-
 import { api } from '../../lib/api';
+import ProjectDetailModal from '../UI/ProjectDetailModal';
 
 const PortfolioBento = () => {
   const [interventions, setInterventions] = React.useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   React.useEffect(() => {
     api.getProjects().then(data => {
-      // On s'assure que chaque item a une taille bento, sinon on assigne une taille par défaut
-      const sizedData = data.map((item, index) => ({
+      const sizedData = (data || []).map((item, index) => ({
         ...item,
         size: item.size || (index % 3 === 0 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1')
       }));
       setInterventions(sizedData);
     });
   }, []);
+
   return (
     <section id="portfolio" className="py-32 px-6 bg-slate-950 text-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl text-left">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -44,15 +45,16 @@ const PortfolioBento = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[250px]">
           {interventions.map((item, index) => (
             <motion.div
-              key={index}
+              key={item.id || index}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`group relative overflow-hidden rounded-[2.5rem] border border-white/5 ${item.size}`}
+              onClick={() => setSelectedItem(item)}
+              className={`group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer ${item.size}`}
             >
               <img 
-                src={item.img} 
+                src={item.img || 'https://images.unsplash.com/photo-1590650516195-0f306ae04313?q=80&w=2070'} 
                 alt={item.title} 
                 className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
               />
@@ -62,7 +64,7 @@ const PortfolioBento = () => {
                 <Camera className="w-4 h-4 text-red-600" />
               </div>
               
-              <div className="absolute bottom-8 left-8 right-8">
+              <div className="absolute bottom-8 left-8 right-8 text-left">
                 <span className="inline-block px-2 py-1 rounded-md bg-red-600 text-[9px] font-black uppercase tracking-widest text-white mb-3">
                    {item.tag}
                 </span>
@@ -77,8 +79,19 @@ const PortfolioBento = () => {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedItem && (
+          <ProjectDetailModal 
+            project={selectedItem} 
+            onClose={() => setSelectedItem(null)} 
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };
+
+export default PortfolioBento;
 
 export default PortfolioBento;
