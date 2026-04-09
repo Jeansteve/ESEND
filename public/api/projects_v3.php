@@ -56,8 +56,8 @@ switch ($method) {
             $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 1; 
 
             $stmt = $pdo->prepare("INSERT INTO esend_projects 
-                (title, location, img, tag, description, method, result, category, is_published)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (title, location, img, tag, description, method, result, category, is_published, content_html, gallery, slug, meta_title, meta_description, service_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $data['title'] ?? '',
                 $data['location'] ?? '',
@@ -67,7 +67,13 @@ switch ($method) {
                 $data['method'] ?? '',
                 $data['result'] ?? 'Succès',
                 $data['category'] ?? 'nuisibles',
-                $isPublished
+                $isPublished,
+                $data['content_html'] ?? null,
+                $data['gallery'] ?? null,
+                $data['slug'] ?? null,
+                $data['meta_title'] ?? null,
+                $data['meta_description'] ?? null,
+                $data['service_id'] ?? 1
             ]);
 
             $id = $pdo->lastInsertId();
@@ -91,7 +97,9 @@ switch ($method) {
 
             $stmt = $pdo->prepare("UPDATE esend_projects SET
                 title = ?, location = ?, img = ?, tag = ?, description = ?,
-                method = ?, result = ?, category = ?, is_published = ?, updated_at = NOW()
+                method = ?, result = ?, category = ?, is_published = ?, 
+                content_html = ?, gallery = ?, slug = ?, meta_title = ?, meta_description = ?,
+                service_id = ?, updated_at = NOW()
                 WHERE id = ?");
             $stmt->execute([
                 $data['title'] ?? '',
@@ -103,6 +111,12 @@ switch ($method) {
                 $data['result'] ?? 'Succès',
                 $data['category'] ?? 'nuisibles',
                 $isPublished,
+                $data['content_html'] ?? null,
+                $data['gallery'] ?? null,
+                $data['slug'] ?? null,
+                $data['meta_title'] ?? null,
+                $data['meta_description'] ?? null,
+                $data['service_id'] ?? 1,
                 $id
             ]);
 
