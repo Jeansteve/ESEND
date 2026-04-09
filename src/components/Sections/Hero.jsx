@@ -35,10 +35,15 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-[var(--bg-primary)] text-[var(--text-main)] pt-32 lg:pt-0 transition-colors duration-400">
+    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 lg:pt-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[var(--bg-primary)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,var(--accent-red),transparent)] opacity-10 dark:opacity-40" />
+        <img 
+          src="./hero-menton.jpg" 
+          alt="ESEND Context" 
+          className="w-full h-full object-cover opacity-60 lg:opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent z-1" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/20 z-1" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-between relative z-10 py-6 lg:py-0">
@@ -92,15 +97,9 @@ const Hero = () => {
           transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
           className="lg:w-[50%] relative flex flex-col items-center lg:items-start w-full flex-grow lg:flex-none justify-center"
         >
-          {/* Image scales based on available height */}
-          <div className="relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] flex items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0">
-            <div className="relative w-full h-full flex items-end overflow-visible">
-              <img 
-                src="./duo-experts-esend-hd-transparent.png" 
-                className="w-full h-full object-contain object-bottom z-10 [mask-image:linear-gradient(to_top,transparent_0%,black_25%)] [-webkit-mask-image:linear-gradient(to_top,transparent_0%,black_25%)]" 
-                alt="Duo Experts ESEND"
-              />
-            </div>
+          {/* Visual Space Reserved for Background Duo */}
+          <div className="relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] flex items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0 h-[400px]">
+             {/* Spacing empty to show background photo clearly */}
           </div>
 
           {/* MOBILE ONLY CTA BLOCK */}
