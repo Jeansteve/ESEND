@@ -9,7 +9,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { 
   X, Save, Image as ImageIcon, MapPin, Loader2, Trash2, Globe, 
-  EyeOff, Calendar, Clock, CheckCircle2, Tag, FileText, Layout, 
+  EyeOff, Eye, Calendar, Clock, CheckCircle2, Tag, FileText, Layout, 
   Search, Columns, Sparkles, Wand2, Plus, Minus, Info, Maximize2,
   ChevronDown, ExternalLink, Camera
 } from 'lucide-react';
@@ -106,8 +106,8 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
       };
 
       let res;
-      if (project?.id) {
-        res = await api.updateProject(project.id, payload);
+      if (project?.id || formData.id) {
+        res = await api.updateProject(formData.id || project.id, payload);
       } else {
         res = await api.createProject(payload);
       }
