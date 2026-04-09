@@ -61,7 +61,7 @@ const KnowledgeHub = () => {
             >
               <div className="relative h-64 overflow-hidden">
                 <img 
-                  src={article.image || 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?w=1000'} 
+                  src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'} 
                   alt={article.title} 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
                 />

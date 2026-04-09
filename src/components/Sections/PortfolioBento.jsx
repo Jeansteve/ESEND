@@ -54,7 +54,7 @@ const PortfolioBento = () => {
               className={`group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer ${item.size}`}
             >
               <img 
-                src={item.img || 'https://images.unsplash.com/photo-1590650516195-0f306ae04313?q=80&w=2070'} 
+                src={item.img || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070'} 
                 alt={item.title} 
                 className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
               />
