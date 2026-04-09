@@ -11,8 +11,9 @@ import {
   X, Save, Image as ImageIcon, MapPin, Loader2, Trash2, Globe, 
   EyeOff, Eye, Calendar, Clock, CheckCircle2, Tag, FileText, Layout, 
   Search, Columns, Sparkles, Wand2, Plus, Minus, Info, Maximize2,
-  ChevronDown, ExternalLink, Camera
+  ChevronDown, ExternalLink, Camera, Edit3
 } from 'lucide-react';
+import imageCompression from 'browser-image-compression';
 import { api } from '../../lib/api';
 import { AIService } from '../../lib/AIService';
 
@@ -54,6 +55,8 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isFormatting, setIsFormatting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
   
   // Gallery strings management
   const [galleryItems, setGalleryItems] = useState(() => {
@@ -146,8 +149,6 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
     }
     setIsFormatting(true);
     try {
-      // Logic inspired by ArticleModal / AIService
-      // We use draftArticle as a baseline if specific formatProjectContent doesn't exist
       const refined = await AIService.draftArticle(`Réalisation ESEND : ${formData.title}. Description : ${formData.description}. Méthode : ${formData.method}. Résultat : ${formData.result}`);
       update('content_html', refined.content_html);
       if (!formData.meta_title) update('meta_title', refined.meta_title);
@@ -156,6 +157,33 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
       alert("IA indisponible : " + err.message);
     } finally {
       setIsFormatting(false);
+    }
+  };
+
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+    setIsUploading(true);
+    try {
+      const options = {
+        maxSizeMB: 2,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+        fileType: 'image/webp',
+      };
+      const compressed = await imageCompression(file, options);
+      const newName = file.name.replace(/\.[^/.]+$/, '') + '.webp';
+      const finalFile = new File([compressed], newName, { type: 'image/webp' });
+
+      const res = await api.uploadImage(finalFile);
+      if (res?.success) {
+        update('img', res.url);
+      } else {
+        throw new Error(res?.error || 'Erreur d\'upload');
+      }
+    } catch (err) {
+      alert('Upload indisponible : ' + err.message);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -337,7 +365,6 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
           {/* TAB 1: SUMMARY / TECH */}
           {activeTab === 'summary' && (
             <div className="w-full flex overflow-y-auto">
-              {/* L'ancienne vue améliorée */}
               <div className="max-w-4xl mx-auto w-full p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
                  {/* Left Col */}
                  <div className="space-y-8">
@@ -403,25 +430,42 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
                  <div className="space-y-8">
                     <section>
                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-3 tracking-[0.2em]">Image de Couverture</label>
-                       <div className="relative group aspect-video rounded-3xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-inner">
-                          {formData.img ? (
-                            <>
-                              <img src={formData.img} alt="Cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
-                                 <button onClick={() => update('img', '')} className="p-3 bg-red-600 rounded-2xl text-white shadow-xl hover:rotate-6 transition-all"><Trash2 className="w-5 h-5" /></button>
-                              </div>
-                            </>
-                          ) : (
-                            <div className="h-full flex flex-col items-center justify-center gap-4 text-[var(--text-dimmed)]">
-                               <Camera className="w-10 h-10 opacity-20" />
-                               <span className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Aucune Image</span>
-                            </div>
-                          )}
+                       <div 
+                         onClick={() => fileInputRef.current?.click()}
+                         className="relative group aspect-video rounded-3xl overflow-hidden border border-[var(--border-subtle)] bg-[var(--bg-secondary)] shadow-inner cursor-pointer"
+                       >
+                         {isUploading ? (
+                           <div className="h-full flex flex-col items-center justify-center gap-4 text-red-600">
+                              <Loader2 className="w-10 h-10 animate-spin" />
+                              <span className="text-[10px] font-black uppercase tracking-widest text-red-600">Téléversement...</span>
+                           </div>
+                         ) : formData.img ? (
+                           <>
+                             <img src={formData.img} alt="Cover" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-3">
+                                <div className="p-3 bg-white/20 backdrop-blur-md rounded-2xl text-white shadow-xl flex items-center gap-2 hover:bg-white/30 transition-all">
+                                   <Edit3 className="w-5 h-5" />
+                                   <span className="text-[10px] font-black uppercase tracking-widest text-white">Changer la couverture</span>
+                                </div>
+                                <button onClick={(e) => { e.stopPropagation(); update('img', ''); }} className="p-3 bg-red-600 rounded-2xl text-white shadow-xl hover:rotate-6 transition-all">
+                                   <Trash2 className="w-5 h-5" />
+                                </button>
+                             </div>
+                           </>
+                         ) : (
+                           <div className="h-full flex flex-col items-center justify-center gap-4 text-[var(--text-dimmed)]">
+                              <Camera className="w-10 h-10 opacity-20" />
+                              <span className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40">Cliquer pour uploader</span>
+                           </div>
+                         )}
                        </div>
-                       <div className="mt-3 relative">
-                          <ImageIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)]" />
-                          <input type="text" value={formData.img} onChange={e => update('img', e.target.value)} className="admin-input-premium pl-12 text-[10px]" placeholder="Coller l'URL de l'image de couverture..." />
-                       </div>
+                       <input
+                         ref={fileInputRef}
+                         type="file"
+                         hidden
+                         accept="image/*"
+                         onChange={e => handleImageUpload(e.target.files[0])}
+                       />
                     </section>
                     
                     <section className="bg-[var(--bg-input)] p-6 rounded-3xl border border-[var(--border-subtle)] space-y-4">
@@ -592,7 +636,7 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
               <button 
                 onClick={() => handleSave(0)} 
                 disabled={isSaving}
-                className="flex items-center gap-2 px-6 py-3 rounded-2xl border border-amber-500/40 text-amber-500 bg-amber-500/5 hover:bg-amber-500/10 text-[10px] font-black uppercase tracking-widest transition-all"
+                className="flex items-center gap-2 px-6 py-3 rounded-2xl border border-amber-500/40 text-amber-400 bg-amber-500/5 hover:bg-amber-500/10 text-[10px] font-black uppercase tracking-widest transition-all"
               >
                 {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <EyeOff className="w-3.5 h-3.5" />}
                 Draft

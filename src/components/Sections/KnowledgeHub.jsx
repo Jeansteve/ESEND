@@ -105,24 +105,24 @@ const KnowledgeHub = () => {
             <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-3xl" onClick={() => setSelectedArticle(null)} />
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-4xl max-h-[90vh] bg-slate-900 rounded-3xl border border-white/10 overflow-hidden flex flex-col shadow-2xl"
+              className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl border border-black/5 overflow-hidden flex flex-col shadow-2xl text-slate-900 selection:bg-red-100"
             >
               <button 
                 onClick={() => setSelectedArticle(null)}
-                className="absolute top-6 right-6 z-50 p-2 rounded-full bg-black/40 text-white hover:bg-red-600 border border-white/10"
+                className="absolute top-6 right-6 z-50 p-2 rounded-full bg-white/80 backdrop-blur-md text-slate-900 hover:bg-red-600 hover:text-white border border-black/10 shadow-lg transition-all"
               >
                 <X className="w-6 h-6" />
               </button>
               <div className="flex-1 overflow-y-auto custom-scrollbar p-10 md:p-16 text-left">
-                 <div className="mb-10 text-[10px] font-black uppercase tracking-widest text-red-600">
+                 <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-red-600">
                     Journal / {selectedArticle.category}
                  </div>
-                 <h2 className="text-4xl md:text-5xl font-black uppercase mb-10 leading-tight">{selectedArticle.title}</h2>
+                 <h2 className="text-4xl md:text-5xl font-black uppercase mb-10 leading-tight text-slate-950">{selectedArticle.title}</h2>
                  <div className="aspect-video rounded-2xl overflow-hidden mb-12">
                     <img src={selectedArticle.image || 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?w=1000'} className="w-full h-full object-cover" alt="Article" />
                  </div>
                  <div 
-                   className="article-preview-content prose prose-invert prose-red max-w-none"
+                   className="article-preview-content prose prose-red max-w-none prose-headings:text-slate-950 prose-p:text-slate-700 prose-strong:text-slate-950"
                    dangerouslySetInnerHTML={{ __html: selectedArticle.content_html || selectedArticle.excerpt }} 
                  />
               </div>
