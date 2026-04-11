@@ -17,8 +17,8 @@ const KnowledgeHub = () => {
   }, []);
 
   return (
-    <section id="encyclopedie" className="py-32 px-6 bg-slate-50 text-slate-900 relative transition-colors duration-500">
-      <div className="max-w-7xl mx-auto">
+    <section id="encyclopedie" className="pt-32 pb-48 px-6 bg-white text-slate-900 relative transition-colors duration-500 overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* ... Header remains same ... */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl text-left">
@@ -57,7 +57,7 @@ const KnowledgeHub = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               onClick={() => setSelectedArticle(article)}
-              className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
+              className="group cursor-pointer flex flex-col h-full bg-slate-50 border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
             >
               <div className="relative h-64 overflow-hidden">
                 <img 
@@ -93,6 +93,13 @@ const KnowledgeHub = () => {
             </motion.article>
           ))}
         </div>
+      </div>
+
+      {/* Decorative Curvey Divider to separate from next section */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[100px] fill-slate-50 rotate-180">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+        </svg>
       </div>
 
       {/* Article Detail Modal (Simple Full Screen Magazine) */}
