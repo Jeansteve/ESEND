@@ -105,7 +105,7 @@ const FormWizard = () => {
   ) : null;
 
   return (
-    <section id="devis" className="py-32 px-6 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 border-t border-slate-200/60 relative">
+    <section id="devis" className="py-32 px-6 bg-white dark:bg-slate-950 transition-colors duration-500">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-slate-900 dark:text-white px-4">
@@ -123,7 +123,7 @@ const FormWizard = () => {
           </div>
           <div className="p-10 lg:p-16 min-h-[400px] relative">
             {currentStepIndex > 0 && !isSubmitted && (
-              <button 
+              <button
                 onClick={prevStep}
                 className="absolute top-6 left-6 text-[var(--text-dimmed)] hover:text-[var(--text-main)] flex items-center gap-2 font-bold text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10"
               >
@@ -135,54 +135,54 @@ const FormWizard = () => {
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   {currentStepData.id === 'welcome' && (
                     <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
-                    <h3 className="text-2xl font-black italic mb-8 text-slate-900 dark:text-white px-4">Bienvenue chez ESEND</h3>
-                    <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer</button></div>
+                      <h3 className="text-2xl font-black italic mb-8 text-slate-900 dark:text-white px-4">Bienvenue chez ESEND</h3>
+                      <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer</button></div>
                   )}
                   {currentStepData.id === 'service' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-[var(--text-main)]"><SprayCan /> Quel service ?</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      {[{n:'Nuisibles', i:<Bug/>}, {n:'Désinfection', i:<ShieldCheck/>}, {n:'Nettoyage', i:<Zap/>}].map(s => (
-                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)]/30 text-[var(--text-main)] rounded-2xl font-bold hover:border-[#A72422] hover:shadow-lg transition-all">{s.i}{s.n}</motion.button>
-                      ))}
-                    </div></div>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {[{ n: 'Nuisibles', i: <Bug /> }, { n: 'Désinfection', i: <ShieldCheck /> }, { n: 'Nettoyage', i: <Zap /> }].map(s => (
+                          <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)]/30 text-[var(--text-main)] rounded-2xl font-bold hover:border-[#A72422] hover:shadow-lg transition-all">{s.i}{s.n}</motion.button>
+                        ))}
+                      </div></div>
                   )}
                   {currentStepData.id === 'pest' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><Bug /> Quel nuisible ?</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                      {[{n:'Cafard', i:<Bug/>}, {n:'Fourmis', i:<Asterisk/>}, {n:'Abeille', i:<Star/>}, {n:'Souris', i:<Rat/>}, {n:'Frelons', i:<ShieldCheck/>}, {n:'Punaise de lit', i:<Snail/>}, {n:'Autre', i:<MessageSquare/>}].map(s => (
-                        <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center justify-center gap-2 p-3 sm:p-4 border-2 rounded-2xl font-bold transition-all hover:shadow-md h-full ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)]/30 text-[var(--text-main)] hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center px-1">{s.n}</span></motion.button>
-                      ))}
-                    </div>
-                    {formData.pestType === 'Autre' && (
-                      <div className="pt-4 space-y-4">
-                        <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none focus:ring-4 focus:ring-red-100 transition-all" />
-                        <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50 hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98]">Continuer</button>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+                        {[{ n: 'Cafard', i: <Bug /> }, { n: 'Fourmis', i: <Asterisk /> }, { n: 'Abeille', i: <Star /> }, { n: 'Souris', i: <Rat /> }, { n: 'Frelons', i: <ShieldCheck /> }, { n: 'Punaise de lit', i: <Snail /> }, { n: 'Autre', i: <MessageSquare /> }].map(s => (
+                          <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center justify-center gap-2 p-3 sm:p-4 border-2 rounded-2xl font-bold transition-all hover:shadow-md h-full ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)]/30 text-[var(--text-main)] hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center px-1">{s.n}</span></motion.button>
+                        ))}
                       </div>
-                    )}</div>
+                      {formData.pestType === 'Autre' && (
+                        <div className="pt-4 space-y-4">
+                          <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none focus:ring-4 focus:ring-red-100 transition-all" />
+                          <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50 hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98]">Continuer</button>
+                        </div>
+                      )}</div>
                   )}
                   {currentStepData.id === 'client' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><Building2 /> Type de client</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      {['Particulier', 'Entreprise'].map(option => (
-                        <motion.button key={option} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)]/30 text-[var(--text-main)] rounded-2xl font-bold hover:border-[#A72422] hover:shadow-lg transition-all">{option}</motion.button>
-                      ))}
-                    </div></div>
+                      <div className="grid grid-cols-2 gap-4">
+                        {['Particulier', 'Entreprise'].map(option => (
+                          <motion.button key={option} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)]/30 text-[var(--text-main)] rounded-2xl font-bold hover:border-[#A72422] hover:shadow-lg transition-all">{option}</motion.button>
+                        ))}
+                      </div></div>
                   )}
                   {currentStepData.id === 'zone' && (
                     <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><MapPin /> Secteur</h3>
-                    <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-2xl border-2 border-[var(--border-subtle)]" />
-                    <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-[var(--bg-secondary)]/50 text-[var(--text-dimmed)] rounded-2xl font-bold outline-none border border-[var(--border-subtle)]" />
-                    <button onClick={nextStep} className="w-full mt-2 bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Continuer</button></div>
+                      <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-2xl border-2 border-[var(--border-subtle)]" />
+                      <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-[var(--bg-secondary)]/50 text-[var(--text-dimmed)] rounded-2xl font-bold outline-none border border-[var(--border-subtle)]" />
+                      <button onClick={nextStep} className="w-full mt-2 bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Continuer</button></div>
                   )}
                   {currentStepData.id === 'contact' && (
                     <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8"><User /> Vos coordonnées</h3>
-                    <ErrorMsg error={errors.name} />
-                    <input type="text" placeholder="Nom" className="w-full p-4 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('name', e.target.value)} />
-                    <ErrorMsg error={errors.email} />
-                    <input type="email" placeholder="Email" className="w-full p-4 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('email', e.target.value)} />
-                    <ErrorMsg error={errors.phone} />
-                    <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
-                    <button onClick={() => validate() && setIsSubmitted(true)} className="w-full mt-4 bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98]">Envoyer</button></div>
+                      <ErrorMsg error={errors.name} />
+                      <input type="text" placeholder="Nom" className="w-full p-4 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('name', e.target.value)} />
+                      <ErrorMsg error={errors.email} />
+                      <input type="email" placeholder="Email" className="w-full p-4 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('email', e.target.value)} />
+                      <ErrorMsg error={errors.phone} />
+                      <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-[var(--border-subtle)] bg-[var(--bg-secondary)] text-[var(--text-main)] rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
+                      <button onClick={() => validate() && setIsSubmitted(true)} className="w-full mt-4 bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98]">Envoyer</button></div>
                   )}
                 </motion.div>
               </AnimatePresence>

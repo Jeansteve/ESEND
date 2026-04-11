@@ -6,6 +6,7 @@ import About from '../components/Sections/About'
 import Reviews from '../components/Sections/Reviews'
 import FormWizard from '../components/FormWizard/FormWizard'
 import KnowledgeHub from '../components/Sections/KnowledgeHub'
+import TrustBanner from '../components/Sections/TrustBanner'
 
 function Home() {
   return (
@@ -16,6 +17,7 @@ function Home() {
       <About />
       <Reviews />
       <KnowledgeHub />
+      <TrustBanner />
       <FormWizard />
     </div>
   )

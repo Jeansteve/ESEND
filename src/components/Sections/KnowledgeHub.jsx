@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Clock, Calendar, X, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, X } from 'lucide-react';
 import { api } from '../../lib/api';
 
 const KnowledgeHub = () => {
@@ -9,7 +9,7 @@ const KnowledgeHub = () => {
 
   React.useEffect(() => {
     api.getArticles().then(data => {
-      const publishedArticles = (data || []).filter(article => 
+      const publishedArticles = (data || []).filter(article =>
         article.is_published == 1 || article.is_published === true
       );
       setArticles(publishedArticles);
@@ -17,12 +17,12 @@ const KnowledgeHub = () => {
   }, []);
 
   return (
-    <section id="encyclopedie" className="pt-32 pb-48 px-6 bg-white text-slate-900 relative transition-colors duration-500 overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section id="encyclopedie" className="py-32 px-6 bg-white text-slate-900 relative transition-colors duration-500">
+      <div className="max-w-7xl mx-auto">
         {/* ... Header remains same ... */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl text-left">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -35,7 +35,7 @@ const KnowledgeHub = () => {
               <span className="text-red-600 italic">Articles</span>
             </h2>
           </div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -48,21 +48,21 @@ const KnowledgeHub = () => {
           </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.slice(0, 3).map((article, index) => (
-            <motion.article 
+            <motion.article
               key={article.id || index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               onClick={() => setSelectedArticle(article)}
-              className="group cursor-pointer flex flex-col h-full bg-slate-50 border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
+              className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
             >
               <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'} 
-                  alt={article.title} 
+                <img
+                  src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'}
+                  alt={article.title}
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent text-left" />
@@ -70,21 +70,21 @@ const KnowledgeHub = () => {
                   {article.category}
                 </span>
               </div>
-              
+
               <div className="p-8 flex flex-col flex-grow text-left">
                 <div className="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
                   <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
                   <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {article.readTime}</span>
                 </div>
-                
+
                 <h3 className="text-2xl font-black leading-tight mb-4 group-hover:text-red-500 transition-colors">
                   {article.title}
                 </h3>
-                
+
                 <p className="text-slate-400 leading-relaxed mb-6 font-medium flex-grow text-sm">
                   {article.excerpt}
                 </p>
-                
+
                 <div className="mt-auto flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-xs">
                   Lire l'article
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -95,50 +95,36 @@ const KnowledgeHub = () => {
         </div>
       </div>
 
-      {/* Decorative Curvey Divider to separate from next section */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[100px] fill-slate-50 rotate-180">
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
-        </svg>
-        {/* Floating Transition Badge */}
-        <div className="absolute bottom-[20px] left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2">
-           <div className="w-12 h-12 bg-white rounded-full border-4 border-slate-50 flex items-center justify-center text-red-600 shadow-xl">
-              <CheckCircle2 className="w-6 h-6" />
-           </div>
-           <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400">Passer à l'action</span>
-        </div>
-      </div>
-
       {/* Article Detail Modal (Simple Full Screen Magazine) */}
       <AnimatePresence>
         {selectedArticle && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[110] flex items-center justify-center p-4"
           >
             <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-3xl" onClick={() => setSelectedArticle(null)} />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
               className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl border border-black/5 overflow-hidden flex flex-col shadow-2xl text-slate-900 selection:bg-red-100"
             >
-              <button 
+              <button
                 onClick={() => setSelectedArticle(null)}
                 className="absolute top-6 right-6 z-50 p-2 rounded-full bg-white/80 backdrop-blur-md text-slate-900 hover:bg-red-600 hover:text-white border border-black/10 shadow-lg transition-all"
               >
                 <X className="w-6 h-6" />
               </button>
               <div className="flex-1 overflow-y-auto custom-scrollbar p-10 md:p-16 text-left">
-                 <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-red-600">
-                    Journal / {selectedArticle.category}
-                 </div>
-                 <h2 className="text-4xl md:text-5xl font-black uppercase mb-10 leading-tight text-slate-950">{selectedArticle.title}</h2>
-                 <div className="aspect-video rounded-2xl overflow-hidden mb-12">
-                    <img src={selectedArticle.image || 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?w=1000'} className="w-full h-full object-cover" alt="Article" />
-                 </div>
-                 <div 
-                   className="article-preview-content prose prose-red max-w-none prose-headings:text-slate-950 prose-p:text-slate-700 prose-strong:text-slate-950"
-                   dangerouslySetInnerHTML={{ __html: selectedArticle.content_html || selectedArticle.excerpt }} 
-                 />
+                <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-red-600">
+                  Journal / {selectedArticle.category}
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black uppercase mb-10 leading-tight text-slate-950">{selectedArticle.title}</h2>
+                <div className="aspect-video rounded-2xl overflow-hidden mb-12">
+                  <img src={selectedArticle.image || 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?w=1000'} className="w-full h-full object-cover" alt="Article" />
+                </div>
+                <div
+                  className="article-preview-content prose prose-red max-w-none prose-headings:text-slate-950 prose-p:text-slate-700 prose-strong:text-slate-950"
+                  dangerouslySetInnerHTML={{ __html: selectedArticle.content_html || selectedArticle.excerpt }}
+                />
               </div>
             </motion.div>
           </motion.div>
