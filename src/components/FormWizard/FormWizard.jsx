@@ -105,7 +105,7 @@ const FormWizard = () => {
   ) : null;
 
   return (
-    <section id="devis" className="py-32 px-6 bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
+    <section id="devis" className="py-32 px-6 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 border-t border-slate-200/60 relative">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-slate-900 dark:text-white px-4">

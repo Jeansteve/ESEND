@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Clock, Calendar, X } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, X, CheckCircle2 } from 'lucide-react';
 import { api } from '../../lib/api';
 
 const KnowledgeHub = () => {
@@ -96,10 +96,17 @@ const KnowledgeHub = () => {
       </div>
 
       {/* Decorative Curvey Divider to separate from next section */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20">
         <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[100px] fill-slate-50 rotate-180">
           <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
         </svg>
+        {/* Floating Transition Badge */}
+        <div className="absolute bottom-[20px] left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2">
+           <div className="w-12 h-12 bg-white rounded-full border-4 border-slate-50 flex items-center justify-center text-red-600 shadow-xl">
+              <CheckCircle2 className="w-6 h-6" />
+           </div>
+           <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400">Passer à l'action</span>
+        </div>
       </div>
 
       {/* Article Detail Modal (Simple Full Screen Magazine) */}
