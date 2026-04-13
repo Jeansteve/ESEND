@@ -487,7 +487,7 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
             <div className={`w-full h-full flex overflow-hidden`}>
               {/* Left Column: Editor */}
               {(viewMode === 'editor' || viewMode === 'split') && (
-                <div className={`${viewMode === 'split' ? 'w-1/2' : 'w-full'} flex flex-col h-full bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] overflow-y-auto`}>
+                <div className={`${viewMode === 'split' ? 'w-1/2' : 'w-full'} flex flex-col h-full bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)]`}>
                    <div className="p-8 space-y-10">
                       
                       {/* AI Formatting */}
@@ -506,7 +506,7 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
                          </button>
                       </div>
 
-                      <div className="rounded-3xl border border-[var(--border-subtle)] bg-white overflow-hidden shadow-2xl flex flex-col max-h-[600px]">
+                      <div className="rounded-3xl border border-[var(--border-subtle)] bg-white overflow-hidden shadow-2xl flex flex-col max-h-[70vh]">
                          <ReactQuill
                            theme="snow"
                            value={formData.content_html}
@@ -692,10 +692,15 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
         .ql-toolbar.ql-snow {
           border: none !important;
           border-bottom: 1px solid var(--border-subtle) !important;
-          background: #f8fafc !important;
-          position: sticky;
-          top: 0;
-          z-index: 10;
+          background: rgba(248, 250, 252, 0.95) !important;
+          backdrop-filter: blur(8px);
+          position: sticky !important;
+          top: 0 !important;
+          z-index: 50 !important;
+        }
+        .ql-container.ql-snow { 
+          border: none !important; 
+          font-family: 'Inter', sans-serif !important; 
         }
         .ql-editor h2 { font-size: 1.5rem !important; font-weight: 900 !important; color: #0f172a !important; margin-top: 1rem !important; }
         .ql-editor blockquote { 
