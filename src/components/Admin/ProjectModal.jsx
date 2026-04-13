@@ -381,11 +381,11 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
                           <div className="grid grid-cols-2 gap-4">
                              <div className="relative group">
                                 <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-red-600 group-focus-within:animate-bounce" />
-                                <input type="text" value={formData.location} onChange={e => update('location', e.target.value)} className="admin-input-premium pl-12" placeholder="Ex: Monaco" />
+                                <input type="text" value={formData.location} onChange={e => update('location', e.target.value)} className="admin-input-premium with-icon" placeholder="Ex: Monaco" />
                              </div>
                              <div className="relative group">
                                 <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)]" />
-                                <input type="text" value={formData.date} onChange={e => update('date', e.target.value)} className="admin-input-premium pl-12" placeholder="Ex: Avril 2026" />
+                                <input type="text" value={formData.date} onChange={e => update('date', e.target.value)} className="admin-input-premium with-icon" placeholder="Ex: Avril 2026" />
                              </div>
                           </div>
                        </div>
@@ -667,6 +667,9 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
           outline: none;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           color: var(--text-main);
+        }
+        .admin-input-premium.with-icon {
+          padding-left: 3.5rem !important;
         }
         .admin-input-premium:focus {
           border-color: rgba(220, 38, 38, 0.4);
