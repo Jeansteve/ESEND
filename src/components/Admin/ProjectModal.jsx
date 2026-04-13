@@ -659,7 +659,10 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
           background: var(--bg-input);
           border: 1px solid var(--border-subtle);
           border-radius: 1.25rem;
-          padding: 0.875rem 1.25rem;
+          padding-top: 0.875rem;
+          padding-right: 1.25rem;
+          padding-bottom: 0.875rem;
+          padding-left: 1.25rem;
           font-weight: 600;
           outline: none;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
