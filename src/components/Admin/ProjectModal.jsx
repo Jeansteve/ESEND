@@ -506,13 +506,13 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
                          </button>
                       </div>
 
-                      <div className="rounded-3xl border border-[var(--border-subtle)] bg-white overflow-hidden shadow-2xl">
+                      <div className="rounded-3xl border border-[var(--border-subtle)] bg-white overflow-hidden shadow-2xl flex flex-col max-h-[600px]">
                          <ReactQuill
                            theme="snow"
                            value={formData.content_html}
                            onChange={v => update('content_html', v)}
                            modules={quillModules}
-                           style={{ minHeight: '400px', color: '#1e293b', background: 'white' }}
+                           className="flex-grow flex flex-col overflow-hidden"
                          />
                       </div>
 
@@ -676,8 +676,36 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
           background: var(--bg-primary);
           box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
         }
-        .article-preview-content h2 { font-size: 1.5rem; font-weight: 900; margin-top: 2rem; margin-bottom: 1rem; }
-        .article-preview-content p { line-height: 1.7; margin-bottom: 1.25rem; }
+        .article-preview-content h2 { font-size: 1.5rem; font-weight: 900; margin-top: 2rem; margin-bottom: 1rem; color: #0f172a; }
+        .article-preview-content p { line-height: 1.8; margin-bottom: 1.25rem; color: #334155; }
+        
+        /* --- Harmonisation Quill Editor --- */
+        .ql-container.ql-snow { border: none !important; font-family: 'Inter', sans-serif !important; }
+        .ql-editor { 
+          min-height: 300px; 
+          padding: 2rem !important; 
+          font-size: 1.125rem !important; 
+          line-height: 1.8 !important; 
+          color: #334155 !important;
+          overflow-y: auto !important;
+        }
+        .ql-toolbar.ql-snow {
+          border: none !important;
+          border-bottom: 1px solid var(--border-subtle) !important;
+          background: #f8fafc !important;
+          position: sticky;
+          top: 0;
+          z-index: 10;
+        }
+        .ql-editor h2 { font-size: 1.5rem !important; font-weight: 900 !important; color: #0f172a !important; margin-top: 1rem !important; }
+        .ql-editor blockquote { 
+          border-left: 4px solid #dc2626 !important; 
+          background: #fef2f2 !important; 
+          color: #b91c1c !important; 
+          font-style: italic !important;
+          padding: 1rem 1.5rem !important;
+          margin: 1.5rem 0 !important;
+        }
       `}</style>
     </div>
   );
