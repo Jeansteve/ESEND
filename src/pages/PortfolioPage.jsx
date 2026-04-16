@@ -5,21 +5,28 @@ import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import ProjectDetailModal from '../components/UI/ProjectDetailModal';
 
-const categories = ['Tous', 'Nuisibles', 'Désinfection', 'Nettoyage'];
+const CATEGORIES = [
+  { id: 'all', label: 'Tous' },
+  { id: 'nuisibles', label: 'Nuisibles' },
+  { id: 'desinfection', label: 'Désinfection' },
+  { id: 'nettoyage', label: 'Nettoyage' }
+];
 
 const PortfolioPage = () => {
   const [interventions, setInterventions] = React.useState([]);
-  const [activeCategory, setActiveCategory] = useState('Tous');
+  const [activeCategory, setActiveCategory] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     api.getProjects().then(data => {
-      setInterventions(data || []);
+      // Filtrer pour ne garder que les projets publiés (is_published = 1)
+      const published = (data || []).filter(p => p.is_published == 1 || p.is_published === true);
+      setInterventions(published);
     });
   }, []);
 
-  const filtered = activeCategory === 'Tous' 
+  const filtered = activeCategory === 'all' 
     ? interventions 
     : interventions.filter(i => i.category === activeCategory);
   return (
@@ -36,8 +43,14 @@ const PortfolioPage = () => {
       </section>
       <section className="sticky top-20 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-white/5 py-6 px-6">
         <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-4">
-          {categories.map(c => (
-            <button key={c} onClick={() => setActiveCategory(c)} className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${activeCategory === c ? 'bg-red-600 border-red-600 text-white' : 'border-white/10 text-slate-400 hover:border-white/30'}`}>{c}</button>
+          {CATEGORIES.map(c => (
+            <button 
+                key={c.id} 
+                onClick={() => setActiveCategory(c.id)} 
+                className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${activeCategory === c.id ? 'bg-red-600 border-red-600 text-white' : 'border-white/10 text-slate-400 hover:border-white/30'}`}
+            >
+                {c.label}
+            </button>
           ))}
         </div>
       </section>
