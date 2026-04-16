@@ -111,20 +111,21 @@ const Header = () => {
                 </div>
 
                 {/* Submenu Desktop */}
-                <AnimatePresence>
-                    {item.subItems && hoveredItem === item.name && (
-                        <motion.div 
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute top-full left-0 w-72 pt-3"
-                        >
+                <div 
+                    className={`absolute top-full left-0 w-72 pt-3 transition-all duration-300 origin-top ${
+                        item.subItems && hoveredItem === item.name 
+                            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto visible' 
+                            : 'opacity-0 translate-y-2 scale-95 pointer-events-none invisible'
+                    }`}
+                >
+                    {item.subItems && (
+                        <>
                             {/* Pointeur Visuel */}
                             <div className="absolute top-[8px] left-10 w-4 h-4 bg-[var(--bg-secondary)]/80 border-l border-t border-[var(--border-subtle)] rotate-45 z-0" style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "rotate(45deg) translateZ(0)" }} />
                             
                             <div 
-                              className="relative z-10 bg-[var(--bg-secondary)]/80 border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-[var(--shadow-subtle)] overflow-hidden"
-                              style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "translateZ(0)", willChange: "transform, backdrop-filter" }}
+                              className="relative z-10 bg-[var(--bg-secondary)]/80 border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-2xl overflow-hidden"
+                              style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "translateZ(0)" }}
                             >
                                 {item.subItems.map((sub) => (
                                     <Link 
@@ -141,9 +142,9 @@ const Header = () => {
                                     </Link>
                                 ))}
                             </div>
-                        </motion.div>
+                        </>
                     )}
-                </AnimatePresence>
+                </div>
             </div>
           ))}
           
