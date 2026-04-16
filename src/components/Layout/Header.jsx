@@ -112,7 +112,7 @@ const Header = () => {
 
                 {/* Submenu Desktop */}
                 <div 
-                    className={`absolute top-full left-0 w-72 pt-3 transition-all duration-300 origin-top ${
+                    className={`absolute top-full left-0 w-72 pt-3 transition-all duration-200 origin-top ${
                         item.subItems && hoveredItem === item.name 
                             ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto visible' 
                             : 'opacity-0 translate-y-2 scale-95 pointer-events-none invisible'
@@ -121,12 +121,9 @@ const Header = () => {
                     {item.subItems && (
                         <>
                             {/* Pointeur Visuel */}
-                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-[var(--bg-secondary)]/80 border-l border-t border-[var(--border-subtle)] rotate-45 z-0" style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "rotate(45deg) translateZ(0)" }} />
+                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-[var(--bg-secondary)] border-l border-t border-[var(--border-subtle)] rotate-45 z-0" />
                             
-                            <div 
-                              className="relative z-10 bg-[var(--bg-secondary)]/80 border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-2xl overflow-hidden"
-                              style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "translateZ(0)" }}
-                            >
+                            <div className="relative z-10 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-2xl overflow-hidden">
                                 {item.subItems.map((sub) => (
                                     <Link 
                                         key={sub.name} 
