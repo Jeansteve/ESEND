@@ -39,7 +39,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         {/* Main Hero Background - Powered by V3.3.10 Asset Management */}
         <img 
-          src="./hero-menton-v2.jpg" 
+          src="./hero-menton-v2.png" 
           alt="ESEND Context" 
           className="w-full h-full object-cover opacity-60 lg:opacity-80"
         />
