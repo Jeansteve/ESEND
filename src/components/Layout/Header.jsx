@@ -120,9 +120,12 @@ const Header = () => {
                             className="absolute top-full left-0 w-72 pt-3"
                         >
                             {/* Pointeur Visuel */}
-                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-[var(--bg-secondary)] border-l border-t border-[var(--border-subtle)] rotate-45 z-0" />
+                            <div className="absolute top-[8px] left-10 w-4 h-4 bg-[var(--bg-secondary)]/80 border-l border-t border-[var(--border-subtle)] rotate-45 z-0" style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "rotate(45deg) translateZ(0)" }} />
                             
-                            <div className="relative z-10 bg-[var(--bg-secondary)]/80 backdrop-blur-2xl border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-[var(--shadow-subtle)] overflow-hidden">
+                            <div 
+                              className="relative z-10 bg-[var(--bg-secondary)]/80 border border-[var(--border-subtle)] rounded-2xl p-2.5 shadow-[var(--shadow-subtle)] overflow-hidden"
+                              style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", transform: "translateZ(0)", willChange: "transform, backdrop-filter" }}
+                            >
                                 {item.subItems.map((sub) => (
                                     <Link 
                                         key={sub.name} 
