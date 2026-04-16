@@ -56,9 +56,9 @@ const PortfolioPage = () => {
       </section>
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode='popLayout'>
+          <AnimatePresence>
             {filtered.map(item => (
-              <motion.div layout key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedItem(item)} className="group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer bg-slate-900 aspect-square">
+              <motion.div key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedItem(item)} className="group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer bg-slate-900 aspect-square">
                 <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60" />
                 <div className="absolute bottom-10 left-10 right-10">
