@@ -26,7 +26,6 @@ const Header = () => {
   }, []);
 
   const menuItems = [
-    { name: 'Expertise', href: '#expertise', type: 'anchor' },
     { 
       name: 'Services', 
       href: '#services', 
@@ -38,7 +37,8 @@ const Header = () => {
       ]
     },
     { name: 'Nos réalisations', href: '/realisations', type: 'link' },
-    { name: 'Encyclopédie', href: '#encyclopedie', type: 'anchor' },
+    { name: 'Le Journal', href: '/journal', type: 'link' },
+    { name: 'A propos', href: '/#valeurs', type: 'anchor' },
   ];
 
   const handleNavClick = (e, item) => {
@@ -64,6 +64,12 @@ const Header = () => {
           const elementPosition = target.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      } else {
+        // En dehors de l'accueil, comportement normal : la page charge "/" puis l'ancre native prend le relais.
+        // Sur React-Router avec HashRouter, on force la nav :
+        if (item.href.startsWith('/#')) {
+            window.location.href = item.href;
         }
       }
     }
