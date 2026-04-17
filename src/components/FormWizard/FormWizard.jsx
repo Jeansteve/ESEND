@@ -135,7 +135,7 @@ const FormWizard = () => {
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   {currentStepData.id === 'welcome' && (
                     <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
-                      <h3 className="text-2xl font-black italic mb-8 text-slate-900 px-4">Votre Devis Gratuit en 1 Minute</h3>
+                      <h3 className="text-2xl font-black italic mb-8 text-slate-900 px-4">Votre Devis Gratuit</h3>
                       <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer</button></div>
                   )}
                   {currentStepData.id === 'service' && (
