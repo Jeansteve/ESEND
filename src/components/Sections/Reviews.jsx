@@ -71,7 +71,7 @@ const reviews = [
     id: 9, 
     name: "Thomas Patenotre", 
     date: "25 Août 2022",
-    text: "Superbe prestation et très grande réactivité (Evacuation d'un essaim d'abeille) : Personnel très sympathique : très grand merci", 
+    text: "Superbe prestation et très grande réactivité (Destruction d'un nid de frelons) : Personnel très sympathique : très grand merci", 
     rating: 5,
     avatarColor: "bg-indigo-600"
   }

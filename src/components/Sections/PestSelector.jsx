@@ -7,12 +7,12 @@ const pests = [
   {
     id: 'rongeur',
     name: 'Traitement des Nuisibles',
-    species: 'Rats, Souris & Insectes',
+    species: 'Rats, Souris, Punaises & Insectes',
     image: './frelon-t5.png',
     isFloating: true,
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
     shadowColor: 'rgba(220, 38, 38, 0.6)', // Rouge
-    expertise: "Expertise radicale en dératisation et désinsectisation à Menton.",
+    expertise: "Éradication certifiée de Cafards, Guêpes, Frelons, Punaises de lit, Puces, Rats, Souris & Fourmis à Menton.",
     info: "Diagnostic des points d'entrée et protocoles d'éradication certifiés.",
     benefice: "Protection durable de votre habitat et de votre santé."
   },

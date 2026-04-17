@@ -59,7 +59,8 @@ const PestPage = () => {
     'rats': <Rat className="w-5 h-5 md:w-6 md:h-6" />,
     'cafards': <Bug className="w-5 h-5 md:w-6 md:h-6" />,
     'frelons': <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" />,
-    'fourmis': <Asterisk className="w-5 h-5 md:w-6 md:h-6" />
+    'fourmis': <Bug className="w-5 h-5 md:w-6 md:h-6" />,
+    'puces': <Bug className="w-5 h-5 md:w-6 md:h-6" />
   };
 
   return (

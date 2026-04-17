@@ -148,5 +148,30 @@ export const pests = {
       { q: "Ont-elles atteint vos provisions alimentaires ou points d'eau ?", options: ["Oui, dans les placards/éviers", "Non, au sol"] },
       { q: "Voyez-vous des montagnes de terre fine le long des plinthes ou carrelages ?", options: ["Oui", "Non"] }
     ]
+  },
+  'puces': {
+    title: 'Puces',
+    image: 'images/cafard-sticker.png', // Placeholder insect
+    description: 'Parasites & Animaux',
+    expertFact: "Vitesse d'infestation : une seule puce peut pondre jusqu'à 50 œufs par jour, envahissant textiles et parquets en un temps record.",
+    presentation: "Les puces sont des parasites externes qui se nourrissent du sang des mammifères. Souvent introduites par les animaux domestiques, elles colonisent rapidement les moquettes, les tapis et les lits. \n\nLeur cycle de vie est complexe : les larves se cachent dans les fibres et les parquets, échappant aux traitements de surface classiques. Elles peuvent rester en dormance pendant plusieurs mois avant d'éclore simultanément lors d'une vibration ou d'une présence humaine, créant une invasion soudaine.",
+    faq: [
+      { q: "Pourquoi ai-je des puces sans animaux ?", a: "Elles ont pu être apportées par un ancien locataire ou transportées sous vos chaussures depuis un extérieur contaminé." },
+      { q: "Est-ce dangereux pour l'humain ?", a: "Oui, les piqûres causent des dermatites allergiques sévères et une détresse psychologique importante." },
+      { q: "Le lavage à 30° suffit-il ?", a: "Non, il faut impérativement laver les textiles à 60°C minimum pour détruire les œufs et les larves." },
+      { q: "Pourquoi je continue à en voir après traitement ?", a: "C'est normal : le traitement tue les adultes, mais il faut attendre l'éclosion des dernières nymphes." },
+      { q: "Puis-je traiter ma maison seul ?", a: "Les fumigènes du commerce ne pénètrent pas assez les tissus. Seul un traitement professionnel par pulvérisation garantit l'éradication." }
+    ],
+    actionImmediate: "Passez l'aspirateur minutieusement partout et lavez vos draps à 60°C. Ne secouez pas les tapis à l'intérieur.",
+    mythesVsRealite: [
+      { mythe: "Les puces meurent en hiver.", realite: "À l'intérieur de nos maisons chauffées, elles se reproduisent toute l'année sans interruption." },
+      { mythe: "Mon chat n'en a pas, donc le problème n'est pas là.", realite: "95% des puces vivent dans l'environnement (tapis, parquet), pas sur l'animal." },
+      { mythe: "Elles ne piquent que la nuit.", realite: "Elles attaquent dès qu'elles détectent une source de chaleur, de jour comme de nuit." }
+    ],
+    diagnostic: [
+      { q: "Avez-vous des piqûres alignées, principalement aux chevilles ?", options: ["Oui, c'est localisé là", "Non"] },
+      { q: "Voyez-vous de petits points noirs sauteurs sur vos textiles ?", options: ["Oui, j'en ai vu", "Non"] },
+      { q: "Votre animal se gratte-t-il frénétiquement ces derniers temps ?", options: ["Oui, beaucoup", "Non/Pas d'animal"] }
+    ]
   }
 };
