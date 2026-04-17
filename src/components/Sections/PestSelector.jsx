@@ -134,19 +134,30 @@ const PestSelector = () => {
                 <span className="text-[9px] font-black uppercase tracking-widest text-red-600 block mb-1">{pest.species}</span>
                 <h3 className="text-xl lg:text-2xl font-black uppercase tracking-tighter group-hover:text-red-600 transition-colors text-[var(--text-main)]">{pest.name}</h3>
               </div>
-              <div className="flex-grow space-y-4 mb-8">
-                <div className="flex gap-3">
-                  <Target className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
-                  <p className="text-[11px] text-[var(--text-dimmed)] leading-snug">{pest.expertise}</p>
-                </div>
-                <div className="flex gap-3">
-                  <Lightbulb className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
-                  <p className="text-[11px] text-[var(--text-dimmed)] leading-snug">{pest.info}</p>
-                </div>
-                <div className="flex gap-3">
-                  <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover:opacity-100" />
+              <div className="flex-grow space-y-5 mb-8">
+                <motion.div 
+                  whileHover={{ x: 10, scale: 1.02 }}
+                  className="flex gap-3 cursor-default group/item transition-all"
+                >
+                  <Target className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all" />
+                  <p className="text-[11px] text-[var(--text-dimmed)] leading-snug group-hover/item:text-[var(--text-main)] transition-colors">{pest.expertise}</p>
+                </motion.div>
+
+                <motion.div 
+                  whileHover={{ x: 10, scale: 1.02 }}
+                  className="flex gap-3 cursor-default group/item transition-all"
+                >
+                  <Lightbulb className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all" />
+                  <p className="text-[11px] text-[var(--text-dimmed)] leading-snug group-hover/item:text-[var(--text-main)] transition-colors">{pest.info}</p>
+                </motion.div>
+
+                <motion.div 
+                  whileHover={{ x: 10, scale: 1.02 }}
+                  className="flex gap-3 cursor-default group/item transition-all"
+                >
+                  <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all" />
                   <p className="text-[11px] text-[var(--text-main)] leading-snug font-bold italic">{pest.benefice}</p>
-                </div>
+                </motion.div>
               </div>
               <Link to={pest.id === "rongeur" ? "/services/nuisibles" : `/services/${pest.id}`} className="block">
                 <motion.div 
