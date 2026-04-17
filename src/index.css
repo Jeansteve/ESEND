@@ -264,3 +264,16 @@ html, body, #root {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--accent-red);
 }
+
+/* ─── Premium Animations ─────────────────────────────────────────────────── */
+@keyframes sweep {
+  0% { transform: translateX(-150%) skewX(-45deg); opacity: 0; }
+  20% { opacity: 0.5; }
+  50% { opacity: 0.5; }
+  80% { opacity: 0.5; }
+  100% { transform: translateX(250%) skewX(-45deg); opacity: 0; }
+}
+
+.animate-sweep {
+  animation: sweep 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
