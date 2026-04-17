@@ -28,17 +28,7 @@ const trustItems = [
 const TrustBanner = () => {
   return (
     <section className="bg-[#A72422] py-20 px-6 relative overflow-hidden transition-colors duration-500">
-      {/* Decorative Texture/Background Pattern */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-        <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100" height="100" fill="url(#grid)" />
-        </svg>
-      </div>
+
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
