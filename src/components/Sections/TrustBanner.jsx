@@ -87,8 +87,11 @@ const TrustBanner = () => {
               >
                 {/* Magnetic Core Container */}
                 <div className="p-5 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl relative overflow-hidden group-hover:bg-white group-hover:text-[#A72422] transition-colors duration-500">
-                  {/* Shimmer / Gloss Sweep */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-[250%] skew-x-[-45deg] animate-sweep pointer-events-none" />
+                  {/* Shimmer / Gloss Sweep - Sequenced */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-[250%] skew-x-[-45deg] animate-sweep pointer-events-none" 
+                    style={{ animationDelay: `${index * 0.8}s` }}
+                  />
                   
                   {/* Internal Glow on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
