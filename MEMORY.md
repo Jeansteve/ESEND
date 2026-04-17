@@ -20,3 +20,17 @@
 - **Concept :** Transformation des pages services en "Encyclopédies Tactiques" autonomes.
 - **Structure Standard :** Hero > Protocoles (Bento) > Mythes vs Réalité > Journal de l'Expert > FAQ > CTA Devis.
 - **Lien avec FormWizard :** Le bouton devis doit pointer vers `/#devis` avec un hash listener pour garantir l'ouverture immédiate du wizard, même en navigation inter-page.
+
+### [PSA-2026-04-17-A] : Synchronisation Globale & Exclusion Éthique
+- **Règle métier :** La liste des nuisibles traités par ESEND est strictement limitée à : Cafard, Guêpes/Frelons, Punaises de lit, Puces, Rats, Souris et Fourmis.
+- **Exclusion :** Les **Abeilles** ne sont PAS traitées (protection des pollinisateurs). L'option doit être absente de tout sélecteur ou formulaire.
+- **Impact Contenu :** Toute modification de la liste des nuisibles doit être répercutée sur `FormWizard.jsx`, `PestSelector.jsx`, `src/data/pests.js` et les témoignages clients.
+
+### [PSA-2026-04-17-B] : Persistance du Fond Blanc Wizard (Anti-Dark Mode)
+- **Le Problème :** Sur un site hybride (clair/sombre), le formulaire "Demander une Intervention" perdait sa lisibilité quand le fond restait blanc mais que les labels devenaient blancs (Classes `dark:`).
+- **La Solution :** Forcer le fond blanc pur (`bg-white`) et les textes sombres (`text-slate-900`) en supprimant les classes conditionnelles `dark:`. Le formulaire devient une zone "sanctuarisée" hors-thème pour garantir la conversion.
+
+### [PSA-2026-04-17-C] : Animations Premium Staggered (TrustBanner)
+- **Concept :** Pour un rendu haut de gamme, les effets visuels ne doivent pas se déclencher en simultané.
+- **Implémentation :** Utilisation d'un `staggered delay` sur les animations de sweep (balayage lumineux). Par exemple, un `animationDelay: (index * 0.4)s` crée une vague de reflets perçue comme un mouvement fluide traversant la page.
+- **Micro-interactions :** Le tilt 3D magnétique au survol renforce l'aspect "tangible" et premium des cartes de réassurance.
