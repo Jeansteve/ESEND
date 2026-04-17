@@ -30,29 +30,32 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2
+      staggerChildren: 0.12,
+      delayChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  hidden: { opacity: 0, y: 40, scale: 0.95, filter: 'blur(10px)' },
   visible: { 
     opacity: 1, 
     y: 0, 
     scale: 1,
+    filter: 'blur(0px)',
     transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 12
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1] // Custom ease-out
     }
   }
 };
 
 const TrustBanner = () => {
   return (
-    <section className="bg-[#A72422] py-20 px-6 relative overflow-hidden transition-colors duration-500">
+    <section className="bg-[#A72422] py-24 px-6 relative overflow-hidden transition-colors duration-500">
+      {/* Decorative center glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 blur-[120px] rounded-full pointer-events-none" />
+
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div 
           variants={containerVariants}
@@ -65,36 +68,61 @@ const TrustBanner = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="flex flex-col items-center text-center text-white group"
+              className="group flex flex-col items-center text-center text-white"
+              style={{ perspective: "1000px" }}
             >
-              <div className="relative mb-6">
-                <motion.div 
-                  animate={{ y: [-3, 3, -3] }}
-                  transition={{ 
-                    duration: 4, 
-                    repeat: Infinity, 
-                    ease: "easeInOut",
-                    delay: index * 0.5 
-                  }}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="p-4 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-sm group-hover:bg-white group-hover:text-[#A72422] transition-all duration-300 relative overflow-hidden"
-                >
-                  {/* Sweep Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-[200%] skew-x-[-45deg] animate-sweep pointer-events-none" />
+              <motion.div 
+                whileHover={{ 
+                  rotateX: -15, 
+                  rotateY: 15, 
+                  scale: 1.1,
+                  z: 50
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 300, 
+                  damping: 20 
+                }}
+                className="relative mb-8"
+              >
+                {/* Magnetic Core Container */}
+                <div className="p-5 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl relative overflow-hidden group-hover:bg-white group-hover:text-[#A72422] transition-colors duration-500">
+                  {/* Shimmer / Gloss Sweep */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-[250%] skew-x-[-45deg] animate-sweep pointer-events-none" />
                   
-                  {item.icon}
-                </motion.div>
-                
-                {/* Subtle outer glow */}
-                <div className="absolute inset-0 bg-white/5 blur-2xl rounded-full -z-10 group-hover:bg-white/20 transition-colors" />
-              </div>
+                  {/* Internal Glow on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  
+                  <div className="relative z-10 drop-shadow-lg">
+                    {item.icon}
+                  </div>
+                </div>
 
-              <h3 className="text-xl font-black uppercase tracking-tighter mb-2">
-                {item.label}
-              </h3>
-              <p className="text-white/70 text-xs font-bold uppercase tracking-widest">
-                {item.description}
-              </p>
+                {/* Reflection effect */}
+                <div className="absolute inset-0 bg-white/20 blur-xl opacity-0 group-hover:opacity-40 transition-opacity rounded-full -z-10" />
+              </motion.div>
+
+              <div className="overflow-hidden">
+                <motion.h3 
+                  initial={{ y: "100%" }}
+                  whileInView={{ y: 0 }}
+                  transition={{ delay: (index * 0.1) + 0.5, duration: 0.6 }}
+                  className="text-xl font-black uppercase tracking-tight mb-2"
+                >
+                  {item.label}
+                </motion.h3>
+              </div>
+              
+              <div className="overflow-hidden">
+                <motion.p 
+                  initial={{ y: "100%" }}
+                  whileInView={{ y: 0 }}
+                  transition={{ delay: (index * 0.1) + 0.6, duration: 0.6 }}
+                  className="text-white/60 text-xs font-bold uppercase tracking-[0.2em]"
+                >
+                  {item.description}
+                </motion.p>
+              </div>
             </motion.div>
           ))}
         </motion.div>
