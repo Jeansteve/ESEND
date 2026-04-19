@@ -59,7 +59,8 @@ const Hero = () => {
           <h1 className="text-[clamp(1.75rem,4.5vh,4rem)] lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-[clamp(0.5rem,1.5vh,1rem)] text-[var(--text-main)]">
             VOTRE EXPERT <br/>
             <span className="text-sky-400 drop-shadow-[0_0_25px_rgba(56,189,248,0.4)]">HYGIÈNE</span>
-            <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]"> & NUISIBLES</span>
+            <span className="text-[var(--text-main)]"> & </span>
+            <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]">NUISIBLES</span>
           </h1>
           
           <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-[var(--text-dimmed)] font-medium mb-0 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
