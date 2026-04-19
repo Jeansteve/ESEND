@@ -160,8 +160,20 @@ const FormWizard = () => {
                   {currentStepData.id === 'service' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><SprayCan /> Quel service ?</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {[{ n: 'Nuisibles', i: <Bug /> }, { n: 'Désinfection', i: <ShieldCheck /> }, { n: 'Nettoyage', i: <Zap /> }].map(s => (
-                          <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handleProblemSelect(s.n)} className="flex flex-col items-center gap-4 p-6 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-2xl font-bold hover:border-[#A72422] hover:shadow-lg transition-all">{s.i}{s.n}</motion.button>
+                        {[
+                          { n: 'Nuisibles', i: <Bug /> }, 
+                          { n: 'Désinfection', i: <ShieldCheck /> }, 
+                          { n: 'Nettoyage', i: <Zap /> }
+                        ].map(s => (
+                          <motion.button 
+                            key={s.n} 
+                            whileHover={{ scale: 1.05 }} 
+                            whileTap={{ scale: 0.95 }} 
+                            onClick={() => handleProblemSelect(s.n)} 
+                            className={'flex flex-col items-center gap-4 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ' + (formData.problem === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-slate-100 bg-slate-50 text-slate-900 hover:border-[#A72422]')}
+                          >
+                            {s.i}{s.n}
+                          </motion.button>
                         ))}
                       </div></div>
                   )}
@@ -191,8 +203,19 @@ const FormWizard = () => {
                   {currentStepData.id === 'client' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><Building2 /> Type de client</h3>
                       <div className="grid grid-cols-2 gap-4">
-                        {['Particulier', 'Entreprise'].map(option => (
-                          <motion.button key={option} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => { updateData('clientType', option); nextStep(); }} className="p-6 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-2xl font-bold hover:border-[#A72422] hover:shadow-lg transition-all">{option}</motion.button>
+                        {[
+                          { n: 'Particulier', i: <User /> }, 
+                          { n: 'Entreprise', i: <Building2 /> }
+                        ].map(option => (
+                          <motion.button 
+                            key={option.n} 
+                            whileHover={{ scale: 1.05 }} 
+                            whileTap={{ scale: 0.95 }} 
+                            onClick={() => { updateData('clientType', option.n); nextStep(); }} 
+                            className={'flex flex-col items-center gap-4 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ' + (formData.clientType === option.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-slate-100 bg-slate-50 text-slate-900 hover:border-[#A72422]')}
+                          >
+                            {option.i}{option.n}
+                          </motion.button>
                         ))}
                       </div></div>
                   )}
