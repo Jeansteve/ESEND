@@ -7,6 +7,7 @@ import Reviews from '../components/Sections/Reviews'
 import FormWizard from '../components/FormWizard/FormWizard'
 import KnowledgeHub from '../components/Sections/KnowledgeHub'
 import TrustBanner from '../components/Sections/TrustBanner'
+import SectionSeparator from '../components/Layout/SectionSeparator'
 
 function Home() {
   return (
@@ -15,6 +16,7 @@ function Home() {
       <PestSelector />
       <PortfolioBento />
       <About />
+      <SectionSeparator text="Témoignages Clients" />
       <Reviews />
       <KnowledgeHub />
       <TrustBanner />

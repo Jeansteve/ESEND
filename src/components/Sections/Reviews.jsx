@@ -160,10 +160,6 @@ const Reviews = () => {
             viewport={{ once: true }}
             className="flex-1"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--accent-red)]/10 text-[var(--accent-red)] text-xs font-black uppercase tracking-[0.2em] mb-8 border border-[var(--accent-red)]/20 shadow-sm">
-              <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-red)] animate-pulse" />
-              Témoignages Clients
-            </div>
             <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-[0.85] mb-8 text-[var(--text-main)]">
               Paroles de <br/>
               <span className="text-[var(--accent-red)] italic">Confiance</span>
