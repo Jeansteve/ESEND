@@ -18,16 +18,16 @@ const Hero = () => {
   };
 
   const ctaPulseVariants = {
-    initial: { scale: 1, boxShadow: "0 0 0px rgba(220, 38, 38, 0)" },
+    initial: { scale: 1, boxShadow: "0 0 0px 0px rgba(220, 38, 38, 0)" },
     animate: {
       scale: [1, 1.03, 1],
       boxShadow: [
-        "0 0 0px rgba(220, 38, 38, 0.4)",
-        "0 0 25px rgba(220, 38, 38, 0.7)",
-        "0 0 0px rgba(220, 38, 38, 0.4)"
+        "0 0 0px 0px rgba(220, 38, 38, 0)",
+        "0 0 30px 10px rgba(220, 38, 38, 0.2)",
+        "0 0 0px 0px rgba(220, 38, 38, 0)"
       ],
       transition: {
-        duration: 2,
+        duration: 3,
         repeat: Infinity,
         ease: "easeInOut"
       }
@@ -67,19 +67,29 @@ const Hero = () => {
           
           {/* Desktop CTA Block */}
           <div className="hidden lg:flex flex-row gap-8 items-center justify-start mb-10 mt-10">
-            <motion.a 
-              href="#devis"
-              onClick={scrollToDevis}
-              variants={ctaPulseVariants}
-              initial="initial"
-              animate="animate"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20"
-            >
-              <span>Obtenir mon devis</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-            </motion.a>
+            <div className="flex flex-col items-center">
+              <motion.a 
+                href="#devis"
+                onClick={scrollToDevis}
+                variants={ctaPulseVariants}
+                initial="initial"
+                animate="animate"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20"
+              >
+                <span>Obtenir mon devis offert</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
+              </motion.a>
+              <motion.span 
+                 initial={{ opacity: 0 }}
+                 animate={{ opacity: 1 }}
+                 transition={{ delay: 1 }}
+                 className="mt-3 text-[9px] font-bold uppercase tracking-widest text-slate-400 italic"
+              >
+                Estimation offerte sans engagement
+              </motion.span>
+            </div>
             
             <div className="flex items-center gap-4">
               <div className="text-3xl font-black tracking-tighter text-[var(--text-main)]">4.9<span className="text-lg text-[var(--text-dimmed)]">/5</span></div>
@@ -114,11 +124,14 @@ const Hero = () => {
               whileTap={{ scale: 0.95 }}
               className="w-full bg-red-600 text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
             >
-              <span>Obtenir mon devis</span>
+              <span>Obtenir mon devis offert</span>
               <ArrowRight className="w-4 h-4" />
             </motion.a>
+            <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400 italic">
+               Estimation offerte sans engagement
+            </span>
 
-            <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+            <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 mt-2">
               <div className="flex flex-col items-center">
                 <span className="text-[clamp(1rem,2.5vh,1.25rem)] font-black tracking-tighter text-white leading-none">4.9/5</span>
                 <div className="flex gap-0.5 mt-0.5">
