@@ -91,10 +91,29 @@ const FormWizard = () => {
     if (pest !== 'Autre') nextStep();
   };
 
-  const handleZipChange = (val) => {
-    const cityMap = { '06500': 'Menton', '59430': 'Saint-Pol-sur-Mer' };
-    setFormData(prev => ({ ...prev, zipCode: val, city: cityMap[val] || '' }));
+  const [isSearchingCity, setIsSearchingCity] = useState(false);
+
+  const handleZipChange = async (val) => {
+    const cleanVal = val.replace(/\D/g, '').slice(0, 5);
+    setFormData(prev => ({ ...prev, zipCode: cleanVal }));
+    
+    if (cleanVal.length === 5) {
+      setIsSearchingCity(true);
+      try {
+        const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${cleanVal}&postcode=${cleanVal}&type=municipality`);
+        const data = await response.json();
+        if (data.features && data.features.length > 0) {
+          const city = data.features[0].properties.city;
+          setFormData(prev => ({ ...prev, city }));
+        }
+      } catch (error) {
+        console.error("Erreur recherche ville:", error);
+      } finally {
+        setIsSearchingCity(false);
+      }
+    }
   };
+
   const handleProblemSelect = (problem) => {
     setFormData(prev => ({ ...prev, problem }));
     setCurrentStepIndex(1); nextStep();
@@ -178,10 +197,31 @@ const FormWizard = () => {
                       </div></div>
                   )}
                   {currentStepData.id === 'zone' && (
-                    <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><MapPin /> Secteur</h3>
-                      <input type="text" placeholder="Code Postal (ex: 59430)" value={formData.zipCode} onChange={(e) => handleZipChange(e.target.value)} className="w-full p-6 bg-slate-50 text-slate-900 rounded-2xl border-2 border-slate-100" />
-                      <input type="text" placeholder="Ville" value={formData.city} readOnly className="w-full p-6 bg-slate-100/50 text-slate-500 rounded-2xl font-bold outline-none border border-slate-100" />
-                      <button onClick={nextStep} className="w-full mt-2 bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Continuer</button></div>
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><MapPin /> Secteur</h3>
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          placeholder="Code Postal (ex: 59430)" 
+                          value={formData.zipCode} 
+                          onChange={(e) => handleZipChange(e.target.value)} 
+                          className="w-full p-6 bg-slate-50 text-slate-900 rounded-2xl border-2 border-slate-100 focus:border-[#A72422] outline-none transition-all" 
+                        />
+                        {isSearchingCity && (
+                          <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="w-5 h-5 border-2 border-[#A72422] border-t-transparent rounded-full" />
+                          </div>
+                        )}
+                      </div>
+                      <input 
+                        type="text" 
+                        placeholder="Ville" 
+                        value={formData.city} 
+                        onChange={(e) => updateData('city', e.target.value)}
+                        className="w-full p-6 bg-slate-50 text-slate-900 rounded-2xl border-2 border-slate-100 focus:border-[#A72422] outline-none transition-all" 
+                      />
+                      <button onClick={nextStep} disabled={!formData.zipCode || !formData.city} className="w-full mt-2 bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50">Continuer</button>
+                    </div>
                   )}
                   {currentStepData.id === 'contact' && (
                     <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><User /> Vos coordonnées</h3>

@@ -43,3 +43,9 @@
 - **Concept :** Pour différencier le bouton de rappel de l'arrière-plan, utilisation d'une aura lumineuse liquide.
 - **Technique :** Combinaison de `scale` modéré (1.03) et d'un `boxShadow` en expansion (ex: `0 0 30px 10px rgba(220, 38, 38, 0.2)`).
 - **Règle de Clarté :** Pas d'icônes complexes (comme le prix barré) au-dessus du bouton pour éviter de charger l'interface. La réassurance doit rester textuelle et l'animation purement atmosphérique.
+
+### 2. Normes de Conversion & UI
+*   **CTA principal** : Utiliser impérativement "Devis Offert" ou "MON DEVIS OFFERT" pour maximiser le taux de clics.
+*   **Liquid Pulse** : Animation Framer Motion obligatoire sur les boutons de conversion (aura lumineuse organique).
+*   **Bicolore** : Hygiène en Bleu (`sky-400`), Nuisibles en Rouge (`red-600`).
+*   **Separateurs de Section** : Utiliser le composant `<SectionSeparator text="..." />` pour les transitions entre blocs majeurs. Bulle centrée, lignes rouges fines de 80px, animation de balayage.
