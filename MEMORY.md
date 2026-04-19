@@ -34,3 +34,12 @@
 - **Concept :** Pour un rendu haut de gamme, les effets visuels ne doivent pas se déclencher en simultané.
 - **Implémentation :** Utilisation d'un `staggered delay` sur les animations de sweep (balayage lumineux). Par exemple, un `animationDelay: (index * 0.4)s` crée une vague de reflets perçue comme un mouvement fluide traversant la page.
 - **Micro-interactions :** Le tilt 3D magnétique au survol renforce l'aspect "tangible" et premium des cartes de réassurance.
+
+### [PSA-2026-04-19-A] : Standardisation 'Devis Offert' & Réassurance
+- **Wording de Conversion :** Le terme "Obtenir mon devis offert" remplace définitivement "Obtenir mon devis". Le mot "Offert" valorise mieux la gratuité que "Gratuit" dans l'univers premium d'ESEND.
+- **Trust Signal :** Ajout systématique du sous-titre "Estimation offerte sans engagement" sous les CTA principaux (Hero, FormWizard). Cela lève le frein psychologique de l'engagement financier immédiat.
+
+### [PSA-2026-04-19-B] : Pattern d'Animation 'Liquid Pulse' (Innovation)
+- **Concept :** Pour différencier le bouton de rappel de l'arrière-plan, utilisation d'une aura lumineuse liquide.
+- **Technique :** Combinaison de `scale` modéré (1.03) et d'un `boxShadow` en expansion (ex: `0 0 30px 10px rgba(220, 38, 38, 0.2)`).
+- **Règle de Clarté :** Pas d'icônes complexes (comme le prix barré) au-dessus du bouton pour éviter de charger l'interface. La réassurance doit rester textuelle et l'animation purement atmosphérique.
