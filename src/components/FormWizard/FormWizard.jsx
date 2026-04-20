@@ -306,7 +306,11 @@ const FormWizard = () => {
         if (response.ok) {
           setIsPending(false);
           setIsSuccess(true);
-          // L'animation du bouton sert de message de succès permanent
+          // On laisse l'utilisateur admirer l'animation du bouton Vert "Envoyé" pendant 1.5s
+          // avant de le féliciter avec le bel écran complet.
+          setTimeout(() => {
+            setIsSubmitted(true);
+          }, 1500);
         } else {
           throw new Error("Erreur serveur FormSubmit");
         }
@@ -315,6 +319,9 @@ const FormWizard = () => {
         // Fallback visuel en cas de blocage réseau (adblocker, etc.)
         setIsPending(false);
         setIsSuccess(true);
+        setTimeout(() => {
+          setIsSubmitted(true);
+        }, 1500);
       }
     }
   };
