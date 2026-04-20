@@ -3,6 +3,59 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan, Asterisk, Bird, Snail } from 'lucide-react';
 
+const LiquidSubmitButton = ({ onClick, isPending, isSuccess }) => {
+  return (
+    <motion.button
+      layout
+      onClick={onClick}
+      disabled={isPending || isSuccess}
+      initial={false}
+      className={`relative mx-auto mt-4 text-white font-black uppercase flex items-center justify-center transition-all duration-500 shadow-xl ${
+        isPending || isSuccess ? "w-16 h-16 rounded-full p-0" : "w-full p-6 rounded-2xl hover:bg-black hover:scale-[1.02] active:scale-[0.98]"
+      }`}
+      style={{
+        backgroundColor: isSuccess ? "#15803d" : "#A72422"
+      }}
+    >
+      <AnimatePresence mode="wait">
+        {!isPending && !isSuccess ? (
+          <motion.span
+            key="text"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+          >
+            Envoyer
+          </motion.span>
+        ) : isPending ? (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            className="flex items-center justify-center"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+              className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full"
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="success"
+            initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            className="flex items-center justify-center"
+          >
+            <Check className="w-8 h-8" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+};
+
 const FormWizard = () => {
   const [searchParams] = useSearchParams();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -139,59 +192,6 @@ const FormWizard = () => {
         }, 1200);
       }, 2000);
     }
-  };
-
-  const LiquidSubmitButton = ({ onClick, isPending, isSuccess }) => {
-    return (
-      <motion.button
-        layout
-        onClick={onClick}
-        disabled={isPending || isSuccess}
-        initial={false}
-        className={`relative mx-auto mt-4 text-white font-black uppercase flex items-center justify-center transition-all duration-500 shadow-xl ${
-          isPending || isSuccess ? "w-16 h-16 rounded-full p-0" : "w-full p-6 rounded-2xl hover:bg-black hover:scale-[1.02] active:scale-[0.98]"
-        }`}
-        style={{
-          backgroundColor: isSuccess ? "#15803d" : "#A72422"
-        }}
-      >
-        <AnimatePresence mode="wait">
-          {!isPending && !isSuccess ? (
-            <motion.span
-              key="text"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              Envoyer
-            </motion.span>
-          ) : isPending ? (
-            <motion.div
-              key="loader"
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              className="flex items-center justify-center"
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full"
-              />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              className="flex items-center justify-center"
-            >
-              <Check className="w-8 h-8" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.button>
-    );
   };
 
   return (
