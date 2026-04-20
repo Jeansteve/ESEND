@@ -41,9 +41,9 @@ const KnowledgeHub = () => {
             viewport={{ once: true }}
             className="flex-shrink-0"
           >
-            <button className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-sm rounded-full hover:bg-black transition-colors flex items-center gap-2 group shadow-lg">
-              Voir tout
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <button className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-[10px] rounded-full hover:bg-red-600 transition-all flex items-center gap-3 group shadow-lg border border-white/5">
+              Explorer le Journal expert
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
             </button>
           </motion.div>
         </div>

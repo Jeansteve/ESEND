@@ -14,7 +14,8 @@ const pests = [
     shadowColor: 'rgba(220, 38, 38, 0.6)', // Rouge
     expertise: "Éradication certifiée de Cafards, Guêpes, Frelons, Punaises de lit, Puces, Rats, Souris & Fourmis à Menton.",
     info: "Diagnostic des points d'entrée et protocoles d'éradication certifiés.",
-    benefice: "Protection durable de votre habitat et de votre santé."
+    benefice: "Protection durable de votre habitat et de votre santé.",
+    cta: "Dossiers & Traitements"
   },
   {
     id: 'desinfection',
@@ -26,7 +27,8 @@ const pests = [
     shadowColor: 'rgba(2, 132, 199, 0.6)', // Bleu Profond
     expertise: "Assainissement virucide et bactéricide de haut niveau.",
     info: "Intervention après infestation ou pour sécurisation de locaux.",
-    benefice: "Un environnement purifié conforme aux normes de santé."
+    benefice: "Un environnement purifié conforme aux normes de santé.",
+    cta: "Protocoles de Sécurité"
   },
   {
     id: 'nettoyage',
@@ -38,7 +40,8 @@ const pests = [
     shadowColor: 'rgba(13, 148, 136, 0.6)', // Cyan
     expertise: "Propreté méticuleuse pour appartements et vitrages complexes.",
     info: "Matériel de pointe et finitions haute précision sans trace.",
-    benefice: "Mise en valeur de votre patrimoine et confort visuel total."
+    benefice: "Mise en valeur de votre patrimoine et confort visuel total.",
+    cta: "Prestations de Prestige"
   }
 ];
 
@@ -51,10 +54,10 @@ const cardVariants = {
   },
   hover: {
     y: -10,
-    scale: 1.05,
+    scale: 1.02,
     borderColor: "var(--accent-red)",
     backgroundColor: "var(--bg-secondary)",
-    boxShadow: "0px 20px 50px rgba(0, 0, 0, 0.15)",
+    boxShadow: "0px 20px 50px rgba(0, 0, 0, 0.3)",
     transition: {
       type: "spring",
       stiffness: 400,
@@ -92,7 +95,10 @@ const PestSelector = () => {
               whileHover="hover"
               className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden text-left"
             >
-                  {pest.isFloating ? (
+                   {/* Full-width link overlay for better UX */}
+              <Link to={pest.id === "rongeur" ? "/services/nuisibles" : `/services/${pest.id}`} className="absolute inset-0 z-30" />
+
+              {pest.isFloating ? (
                 <div className="relative h-56 w-full mb-6 flex items-center justify-center">
                    <div className="absolute top-0 right-0 bg-[var(--bg-secondary)]/50 backdrop-blur-md p-2 rounded-full border border-[var(--border-subtle)] z-0 shadow-lg">
                      {pest.icon}
@@ -136,7 +142,7 @@ const PestSelector = () => {
               </div>
               <div className="flex-grow space-y-5 mb-8">
                 <motion.div 
-                  whileHover={{ x: 10, scale: 1.02 }}
+                  whileHover={{ x: 5, scale: 1.02 }}
                   className="flex gap-3 cursor-default group/item transition-all"
                 >
                   <Target className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all" />
@@ -144,7 +150,7 @@ const PestSelector = () => {
                 </motion.div>
 
                 <motion.div 
-                  whileHover={{ x: 10, scale: 1.02 }}
+                  whileHover={{ x: 5, scale: 1.02 }}
                   className="flex gap-3 cursor-default group/item transition-all"
                 >
                   <Lightbulb className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all" />
@@ -152,22 +158,34 @@ const PestSelector = () => {
                 </motion.div>
 
                 <motion.div 
-                  whileHover={{ x: 10, scale: 1.02 }}
+                  whileHover={{ x: 5, scale: 1.02 }}
                   className="flex gap-3 cursor-default group/item transition-all"
                 >
                   <ShieldCheck className="w-4 h-4 text-red-600 shrink-0 mt-0.5 opacity-60 group-hover/item:opacity-100 group-hover/item:scale-110 transition-all" />
                   <p className="text-[11px] text-[var(--text-main)] leading-snug font-bold italic">{pest.benefice}</p>
                 </motion.div>
               </div>
-              <Link to={pest.id === "rongeur" ? "/services/nuisibles" : `/services/${pest.id}`} className="block">
+              
+              <div className="relative z-40">
                 <motion.div 
-                   whileHover={{ scale: 1.02 }}
-                   className="w-full bg-[var(--text-main)] text-[var(--bg-primary)] py-4 rounded-xl font-black text-[9px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:text-white shadow-lg"
+                   whileHover={{ scale: 1.05, backgroundColor: "#dc2626", color: "#fff" }}
+                   className="w-full bg-[var(--text-main)] text-[var(--bg-primary)] py-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl border border-white/10 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.3)]"
                 >
-                  En savoir plus <ArrowRight className="w-3 h-3" />
+                  {pest.cta} 
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  >
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </motion.div>
                 </motion.div>
-              </Link>
+              </div>
             </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+n.div>
           ))}
         </div>
       </div>
