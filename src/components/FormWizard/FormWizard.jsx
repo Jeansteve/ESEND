@@ -281,14 +281,12 @@ const FormWizard = () => {
   const handleSubmit = () => {
     if (validate()) {
       setIsPending(true);
-      // Simulation d'envoi (2 secondes pour l'animation)
+      // Envoi réel ou simulé (ici simulé à 2 secondes pour l'animation)
+      // TODO: Connect submission API here in the future
       setTimeout(() => {
         setIsPending(false);
         setIsSuccess(true);
-        // On laisse la coche de succès visible 1 seconde
-        setTimeout(() => {
-          setIsSubmitted(true);
-        }, 1200);
+        // L'animation du bouton sert de message de succès, on ne réinitialise plus !
       }, 2000);
     }
   };
@@ -435,7 +433,7 @@ const FormWizard = () => {
                             setTimeout(() => {
                               setIsPending(false);
                               setIsSuccess(true);
-                              setTimeout(() => setIsSuccess(false), 3000);
+                              // Plus de réinitialisation automatique ! Ça reste sur "Envoyé"
                             }, 2500);
                           }} 
                           className="text-xs px-3 py-1 text-slate-400 border border-slate-200 rounded-full hover:bg-slate-50 transition-colors"
