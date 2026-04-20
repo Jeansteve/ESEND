@@ -41,9 +41,10 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
           <motion.g
             initial="idle"
             animate={btnState}
+            style={{ transformOrigin: "20px 35px" }}
             variants={{
               idle: { x: 0, opacity: 1, scale: 1 },
-              loading: { x: 30, opacity: 0, scale: 0.5, transition: { duration: 0.4, ease: "easeOut" } },
+              loading: { x: 30, opacity: 0, scale: 1, transition: { duration: 0.4, ease: "easeOut" } },
               success: { x: 30, opacity: 0, scale: 0 }
             }}
           >
@@ -52,7 +53,7 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             <path d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none" />
           </motion.g>
 
-          {/* Text Envoyer */}
+          {/* Text Envoyer - y:0 means no offset applied via transform. The text stays locked nicely ! */}
           <motion.text 
             x="55" y="36.5" 
             fill={mainRed} 
@@ -61,12 +62,13 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             fontFamily="system-ui, sans-serif" 
             fontWeight="700" 
             letterSpacing="0.2"
+            style={{ transformOrigin: "55px 36.5px" }}
             initial="idle"
             animate={btnState}
             variants={{
-              idle: { opacity: 1, y: 36.5, scale: 1 },
-              loading: { opacity: 0, y: 44, scale: 0.7, transition: { duration: 0.3 } },
-              success: { opacity: 0, y: 44, scale: 0.7 }
+              idle: { opacity: 1, y: 0, scale: 1 },
+              loading: { opacity: 0, y: 7, scale: 0.7, transition: { duration: 0.3 } },
+              success: { opacity: 0, y: 7, scale: 0.7 }
             }}
           >
             Envoyer
@@ -74,13 +76,13 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
 
           {/* Loading Spinner Dot running around the track */}
           <motion.g
-            style={{ originX: "50px", originY: "35px" }}
+            style={{ transformOrigin: "50px 35px" }}
             initial="idle"
             animate={btnState}
             variants={{
               idle: { rotate: 0, opacity: 0 },
               loading: { rotate: 360, opacity: 1, transition: { rotate: { repeat: Infinity, duration: 1.1, ease: "linear" }, opacity: { delay: 0.2 } } },
-              success: { rotate: 0, opacity: 0 }
+              success: { rotate: 360, opacity: 0, transition: { duration: 0.2 } }
             }}
           >
             <circle cx="50" cy="25" r="1.5" fill={mainRed} />
@@ -88,6 +90,7 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
 
           {/* Success Checkmark Circle */}
           <motion.g
+            style={{ transformOrigin: "50px 35px" }}
             initial="idle"
             animate={btnState}
             variants={{
@@ -100,6 +103,8 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             <motion.path 
               d="M46,35 l3,3 l5,-6" 
               fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" 
+              initial="idle"
+              animate={btnState}
               variants={{
                 idle: { pathLength: 0 },
                 loading: { pathLength: 0 },
