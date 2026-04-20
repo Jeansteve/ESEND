@@ -8,15 +8,15 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
   const circlePath = "M50,25 h0 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s0,0 0,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h0";
 
   return (
-    <div className="flex justify-center w-full mt-2 mb-4">
+    <div className="flex justify-center w-full mt-6 mb-8 px-4">
       <button 
         type="button" 
         onClick={onClick}
         disabled={isPending || isSuccess} 
-        className="relative flex items-center justify-center outline-none w-full max-w-[400px] h-[80px]"
-        style={{ cursor: isPending || isSuccess ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent' }}
+        className="relative flex items-center justify-center outline-none w-full max-w-[360px] mx-auto hover:!scale-105 active:!scale-95 transition-all duration-300"
+        style={{ cursor: isPending || isSuccess ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent', height: 'auto' }}
       >
-        <svg viewBox="0 10 100 50" className="w-full h-full overflow-visible">
+        <svg viewBox="5 20 90 30" className="w-full h-auto overflow-visible drop-shadow-lg">
           {/* Main Pill / Circle Stroke */}
           <motion.path
             d={isPending || isSuccess ? circlePath : pillPath}
