@@ -185,11 +185,6 @@ const PestSelector = () => {
         </div>
       </div>
     </section>
-n.div>
-          ))}
-        </div>
-      </div>
-    </section>
   );
 };
 
