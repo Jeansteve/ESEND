@@ -8,7 +8,7 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
   const circlePath = "M50,25 h0 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s0,0 0,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h0";
 
   const mainRed = "#A72422";
-  const successGreen = "#02fc86";
+  const successGreen = "#16a34a"; // Vert standard, pro et équilibré au lieu du vert fluo original
   const btnState = isSuccess ? "success" : (isPending ? "loading" : "idle");
 
   return (
@@ -88,9 +88,10 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             initial="idle"
             animate={btnState}
             variants={{
-              idle: { opacity: 1, y: 0, scale: 1, fill: mainRed },
-              loading: { opacity: 0, y: 7, scale: 0.7, fill: mainRed, transition: { duration: 0.3 } },
-              success: { opacity: 1, y: 0, scale: 1, fill: successGreen, transition: { delay: 1.0, type: "spring", stiffness: 200 } }
+              idle: { opacity: 1, y: 0, x: 0, scale: 1, fill: mainRed },
+              loading: { opacity: 0, y: 7, x: 0, scale: 0.7, fill: mainRed, transition: { duration: 0.3 } },
+              // Translating text by x: -5 units perfectly centers it when the red circle isn't there anymore
+              success: { opacity: 1, y: 0, x: -5, scale: 1, fill: successGreen, transition: { delay: 1.0, type: "spring", stiffness: 200 } }
             }}
           >
             {btnState === "success" ? "Envoyé" : "Envoyer"}
