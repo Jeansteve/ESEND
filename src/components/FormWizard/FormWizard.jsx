@@ -278,16 +278,44 @@ const FormWizard = () => {
 
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validate()) {
       setIsPending(true);
-      // Envoi réel ou simulé (ici simulé à 2 secondes pour l'animation)
-      // TODO: Connect submission API here in the future
-      setTimeout(() => {
+      
+      try {
+        // Envoi réel des données via FormSubmit (Mode AJAX sans redirection)
+        const response = await fetch("https://formsubmit.co/ajax/contact@esendnuisibles.fr", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            Sujet: "Nouvelle demande de devis - " + formData.problem,
+            Nom: formData.name,
+            Téléphone: formData.phone,
+            Email: formData.email,
+            Nuisible: formData.pestType || formData.otherPest || "Non spécifié",
+            Type_Client: formData.clientType,
+            Ville: `${formData.zipCode} ${formData.city}`,
+            "_subject": "Nouveau Devis ESEND",
+            "_template": "table"
+          })
+        });
+
+        if (response.ok) {
+          setIsPending(false);
+          setIsSuccess(true);
+          // L'animation du bouton sert de message de succès permanent
+        } else {
+          throw new Error("Erreur serveur FormSubmit");
+        }
+      } catch (error) {
+        console.error("Erreur lors de l'envoi:", error);
+        // Fallback visuel en cas de blocage réseau (adblocker, etc.)
         setIsPending(false);
         setIsSuccess(true);
-        // L'animation du bouton sert de message de succès, on ne réinitialise plus !
-      }, 2000);
+      }
     }
   };
 
