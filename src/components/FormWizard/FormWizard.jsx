@@ -30,30 +30,52 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             initial="idle"
             animate={btnState}
             variants={{
-              idle: { d: pillPath, stroke: mainRed, strokeWidth: 0.7 },
-              loading: { d: circlePath, stroke: mainRed, strokeWidth: 1.5, strokeOpacity: 0.3 },
-              success: { d: circlePath, stroke: successGreen, strokeWidth: 1.5, strokeOpacity: 1 }
+              idle: { d: pillPath, stroke: mainRed, strokeWidth: 0.7, strokeOpacity: 1, transition: { duration: 0.4 } },
+              loading: { d: circlePath, stroke: mainRed, strokeWidth: 0.7, strokeOpacity: 0.3, transition: { duration: 0.6, ease: "easeOut" } },
+              success: { d: pillPath, stroke: successGreen, strokeWidth: 1.5, strokeOpacity: 1, transition: { delay: 0.9, type: "spring", stiffness: 150, damping: 15 } }
             }}
-            transition={{ type: "spring", stiffness: 80, damping: 15 }}
           />
 
-          {/* Center-bound circle assembly that moves right on click */}
+          {/* Center-bound circle assembly (Red Circle, Arrow, Square) */}
           <motion.g
             initial="idle"
             animate={btnState}
             style={{ transformOrigin: "20px 35px" }}
             variants={{
-              idle: { x: 0, opacity: 1, scale: 1 },
-              loading: { x: 30, opacity: 0, scale: 1, transition: { duration: 0.4, ease: "easeOut" } },
-              success: { x: 30, opacity: 0, scale: 0 }
+              idle: { x: 0, opacity: 1 },
+              loading: { x: 30, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
+              success: { x: 30, opacity: 0, transition: { duration: 0.2 } } // Fades out early when success starts
             }}
           >
+            {/* Red Circle */}
             <circle cx="20" cy="35" r="8.5" fill={mainRed} />
             <circle cx="20" cy="35" r="7.5" fill="none" strokeWidth="0.5" stroke="#fff" opacity="0.3" />
-            <path d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none" />
+            
+            {/* The Arrow (fades out in loading) */}
+            <motion.path 
+              d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" 
+              stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none"
+              style={{ transformOrigin: "20px 35px" }}
+              variants={{
+                idle: { opacity: 1, rotate: 0, scale: 1 },
+                loading: { opacity: 0, scale: 0.5, transition: { duration: 0.4 } },
+                success: { opacity: 0 }
+              }}
+            />
+            
+            {/* The White Square (fades in during loading) */}
+            <motion.rect 
+              x="17.5" y="32.5" width="5" height="5" fill="#fff" rx="0.5"
+              style={{ transformOrigin: "20px 35px" }}
+              variants={{
+                idle: { opacity: 0, scale: 0.5 },
+                loading: { opacity: 1, scale: 1, transition: { duration: 0.4, delay: 0.3, type: "spring", stiffness: 300 } },
+                success: { opacity: 0 }
+              }}
+            />
           </motion.g>
 
-          {/* Text Envoyer - y:0 means no offset applied via transform. The text stays locked nicely ! */}
+          {/* Text Envoyer / Envoyé */}
           <motion.text 
             x="55" y="36.5" 
             fill={mainRed} 
@@ -66,49 +88,61 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             initial="idle"
             animate={btnState}
             variants={{
-              idle: { opacity: 1, y: 0, scale: 1 },
-              loading: { opacity: 0, y: 7, scale: 0.7, transition: { duration: 0.3 } },
-              success: { opacity: 0, y: 7, scale: 0.7 }
+              idle: { opacity: 1, y: 0, scale: 1, fill: mainRed },
+              loading: { opacity: 0, y: 7, scale: 0.7, fill: mainRed, transition: { duration: 0.3 } },
+              success: { opacity: 1, y: 0, scale: 1, fill: successGreen, transition: { delay: 1.0, type: "spring", stiffness: 200 } }
             }}
           >
-            Envoyer
+            {btnState === "success" ? "Envoyé" : "Envoyer"}
           </motion.text>
 
-          {/* Loading Spinner Dot running around the track */}
+          {/* Spinner & Dot Assembly */}
           <motion.g
             style={{ transformOrigin: "50px 35px" }}
             initial="idle"
             animate={btnState}
             variants={{
-              idle: { rotate: 0, opacity: 0 },
-              loading: { rotate: 360, opacity: 1, transition: { rotate: { repeat: Infinity, duration: 1.1, ease: "linear" }, opacity: { delay: 0.2 } } },
-              success: { rotate: 360, opacity: 0, transition: { duration: 0.2 } }
+              idle: { rotate: 0 },
+              loading: { rotate: [0, 360], transition: { rotate: { repeat: Infinity, duration: 1.2, ease: "linear" } } },
+              success: { rotate: 360, transition: { duration: 0.3, ease: "easeOut" } } // brings it back to top quickly
             }}
           >
-            <circle cx="50" cy="25" r="1.5" fill={mainRed} />
-          </motion.g>
-
-          {/* Success Checkmark Circle */}
-          <motion.g
-            style={{ transformOrigin: "50px 35px" }}
-            initial="idle"
-            animate={btnState}
-            variants={{
-              idle: { opacity: 0, scale: 0.5 },
-              loading: { opacity: 0, scale: 0.5 },
-              success: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 120, damping: 10, delay: 0.1 } }
-            }}
-          >
-            <circle cx="50" cy="35" r="10" fill={successGreen} />
-            <motion.path 
-              d="M46,35 l3,3 l5,-6" 
-              fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" 
-              initial="idle"
-              animate={btnState}
+            {/* The outer thin arc being drawn */}
+            <motion.circle 
+              cx="50" cy="35" r="10" 
+              stroke="#fff" strokeWidth="0.8" fill="none"
+              style={{ transformOrigin: "50px 35px", rotate: -90 }}
               variants={{
-                idle: { pathLength: 0 },
-                loading: { pathLength: 0 },
-                success: { pathLength: 1, transition: { delay: 0.3, duration: 0.3 } }
+                idle: { pathLength: 0, opacity: 0 },
+                loading: { pathLength: [0, 1], opacity: 1, transition: { pathLength: { repeat: Infinity, duration: 1.2, ease: "linear" } } },
+                success: { pathLength: 1, opacity: 0, transition: { duration: 0.2 } }
+              }}
+            />
+
+            {/* The White/Green bouncing Dot */}
+            <motion.circle 
+              cx="50" cy="25" r="1.5"
+              fill="#fff"
+              variants={{
+                idle: { opacity: 0, scale: 0 },
+                loading: { 
+                  opacity: 1, 
+                  scale: [0, 1.5, 1], 
+                  fill: "#fff",
+                  transition: { delay: 0.6, type: "spring", stiffness: 300 } 
+                },
+                success: { 
+                  opacity: [1, 1, 0],
+                  scale: [1, 1.5, 0],
+                  y: [0, -28, 0], 
+                  fill: successGreen, 
+                  transition: { 
+                    y: { delay: 0.3, duration: 0.6, ease: ["easeOut", "easeIn"], times: [0, 0.5, 1] },
+                    scale: { delay: 0.9, duration: 0.1 },
+                    opacity: { delay: 0.9, duration: 0.1 },
+                    fill: { duration: 0.1 } 
+                  } 
+                }
               }}
             />
           </motion.g>
