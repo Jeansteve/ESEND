@@ -49,3 +49,12 @@
 *   **Liquid Pulse** : Animation Framer Motion obligatoire sur les boutons de conversion (aura lumineuse organique).
 *   **Bicolore** : Hygiène en Bleu (`sky-400`), Nuisibles en Rouge (`red-600`).
 *   **Separateurs de Section** : Utiliser le composant `<SectionSeparator text="..." />` pour les transitions entre blocs majeurs. Bulle centrée, lignes rouges fines de 80px, animation de balayage.
+
+### [PSA-2026-04-20-A] : Animation SVG Séquentielle Complexe (Framer Motion)
+- **Le Contexte :** Remplacement d'une séquence complexe d'animation de formulaire (originellement en GSAP lourd) par une implémentation pure `framer-motion` via `<svg>`.
+- **Mécanique Morphing :**
+  1. Le `<path>` du bouton (`d`) rétrécit avec un timing fluide.
+  2. Les éléments intérieurs utilisent explicitement `transformOrigin: "Px Px"` pour éviter des translations erratiques dues au `scale`.
+  3. Chaque variante (`idle`, `loading`, `success`) gère ses propres temps d'exécution (`delay`, `duration`) via clé de variante pour permettre un morphing asynchrone parfait sans recourir à JS Timeline.
+- **Centrage Dynamique :** Si le texte perd un élément asymétrique à côté de lui, son `x` est modifié dynamiquement lors du changement de state pour préserver le centrage parfait. L'attribut `successGreen` a été fixé à `#16a34a` (Tailwind Green-600) pour un rendu professionnel sans être agressif visuellement.
+- **Maintien d'État UI :** Après la promesse d'envoi, l'état `isSuccess` est maintenu True indéfiniment. Le bouton devient l'unique accuser-réception (l'interface affiche le texte Vert "Envoyé") et la page ne bascule jamais grossièrement hors du formulaire.

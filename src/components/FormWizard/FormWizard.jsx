@@ -156,8 +156,8 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
 
 const FormWizard = () => {
   const [searchParams] = useSearchParams();
-  // DEBUG MODE: Commencer directement à l'étape 5 pour faciliter vos tests
-  const [currentStepIndex, setCurrentStepIndex] = useState(5);
+  // State for all steps
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState({ problem: '', pestType: '', otherPest: '', clientType: '', zipCode: '', city: '', name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -423,25 +423,6 @@ const FormWizard = () => {
                       <ErrorMsg error={errors.phone} />
                       <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
                       <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
-                      
-                      {/* BOUTON DEBUG MODE - A RETIRER EN PROD */}
-                      <div className="flex justify-center -mt-2 mb-4">
-                        <button 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setIsPending(true);
-                            setTimeout(() => {
-                              setIsPending(false);
-                              setIsSuccess(true);
-                              // Plus de réinitialisation automatique ! Ça reste sur "Envoyé"
-                            }, 2500);
-                          }} 
-                          className="text-xs px-3 py-1 text-slate-400 border border-slate-200 rounded-full hover:bg-slate-50 transition-colors"
-                        >
-                          🛠️ Tester l'animation seulement
-                        </button>
-                      </div>
-                      {/* FIN BOUTON DEBUG */}
                     </div>
                   )}
                 </motion.div>
