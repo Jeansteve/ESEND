@@ -3,56 +3,85 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan, Asterisk, Bird, Snail } from 'lucide-react';
 
-const LiquidSubmitButton = ({ onClick, isPending, isSuccess }) => {
+const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
+  const pillPath = "M50,25 h30 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s-30,0 -60,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h30";
+  const circlePath = "M50,25 h0 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s0,0 0,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h0";
+
   return (
-    <motion.button
-      layout
-      onClick={onClick}
-      disabled={isPending || isSuccess}
-      initial={false}
-      className={`relative mx-auto mt-4 text-white font-black uppercase flex items-center justify-center transition-all duration-500 shadow-xl ${
-        isPending || isSuccess ? "w-16 h-16 rounded-full p-0" : "w-full p-6 rounded-2xl hover:bg-black hover:scale-[1.02] active:scale-[0.98]"
-      }`}
-      style={{
-        backgroundColor: isSuccess ? "#15803d" : "#A72422"
-      }}
-    >
-      <AnimatePresence mode="wait">
-        {!isPending && !isSuccess ? (
-          <motion.span
-            key="text"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-          >
-            Envoyer
-          </motion.span>
-        ) : isPending ? (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            className="flex items-center justify-center"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-              className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full"
-            />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="success"
-            initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            className="flex items-center justify-center"
-          >
-            <Check className="w-8 h-8" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.button>
+    <div className="flex justify-center w-full mt-2 mb-4">
+      <button 
+        type="button" 
+        onClick={onClick}
+        disabled={isPending || isSuccess} 
+        className="relative flex items-center justify-center outline-none w-full max-w-[400px] h-[80px]"
+        style={{ cursor: isPending || isSuccess ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent' }}
+      >
+        <svg viewBox="0 10 100 50" className="w-full h-full overflow-visible">
+          {/* Main Pill / Circle Stroke */}
+          <motion.path
+            d={isPending || isSuccess ? circlePath : pillPath}
+            stroke="#00cffc" 
+            strokeWidth={isPending || isSuccess ? "0" : "0.7"}
+            fill="transparent"
+            initial={false}
+            animate={{ d: isPending || isSuccess ? circlePath : pillPath, strokeWidth: isPending || isSuccess ? 0 : 0.7 }}
+            transition={{ type: "spring", stiffness: 120, damping: 20 }}
+          />
+
+          <AnimatePresence mode="wait">
+            {!isPending && !isSuccess && (
+              <motion.g
+                key="idle-state"
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, x: 15 }}
+                transition={{ duration: 0.6, type: "spring" }}
+              >
+                {/* The Cyan circle on the left padding */}
+                <circle cx="20" cy="35" r="8.5" fill="#00cffc" />
+                {/* Inner smaller cyan ring like codepen */}
+                <circle cx="20" cy="35" r="8.05" stroke="#00afd3" strokeWidth="0.9" fill="transparent" />
+                {/* Arrow inside the circle */}
+                <path d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none" />
+                {/* Text Envoyer */}
+                <text x="55" y="36.5" fill="currentColor" className="text-slate-800" textAnchor="middle" fontSize="5.5" fontFamily="system-ui, sans-serif" fontWeight="500" letterSpacing="0.2">Envoyer</text>
+              </motion.g>
+            )}
+
+            {isPending && (
+              <motion.g
+                key="loading-state"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <motion.circle 
+                  cx="50" cy="35" r="10" 
+                  stroke="#00cffc" 
+                  strokeWidth="1.2" 
+                  fill="none" 
+                  strokeDasharray="40" 
+                  strokeLinecap="round"
+                  animate={{ strokeDashoffset: [40, 0], rotate: [0, 360] }}
+                  transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
+                  style={{ originX: "50px", originY: "35px" }}
+                />
+              </motion.g>
+            )}
+            
+            {isSuccess && (
+              <motion.g
+                key="success-state"
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <motion.circle cx="50" cy="35" r="12" fill="#02fc86" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', damping: 12 }} />
+                <motion.path d="M46,35 l3,3 l5,-6" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.1, duration: 0.3 }} />
+              </motion.g>
+            )}
+          </AnimatePresence>
+        </svg>
+      </button>
+    </div>
   );
 };
 
@@ -325,7 +354,7 @@ const FormWizard = () => {
                       <input type="email" placeholder="Email" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('email', e.target.value)} />
                       <ErrorMsg error={errors.phone} />
                       <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
-                      <LiquidSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
+                      <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
                     </div>
                   )}
                 </motion.div>
