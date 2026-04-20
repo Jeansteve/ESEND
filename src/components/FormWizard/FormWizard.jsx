@@ -7,78 +7,107 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
   const pillPath = "M50,25 h30 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s-30,0 -60,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h30";
   const circlePath = "M50,25 h0 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s0,0 0,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h0";
 
+  const mainRed = "#A72422";
+  const successGreen = "#02fc86";
+  const btnState = isSuccess ? "success" : (isPending ? "loading" : "idle");
+
   return (
     <div className="flex justify-center w-full mt-6 mb-8 px-4">
       <button 
         type="button" 
         onClick={onClick}
         disabled={isPending || isSuccess} 
-        className="relative flex items-center justify-center outline-none w-full max-w-[360px] mx-auto hover:!scale-105 active:!scale-95 transition-all duration-300"
+        className="relative flex items-center justify-center outline-none w-full max-w-[360px] mx-auto hover:!scale-[1.02] active:!scale-[0.98] transition-all duration-300"
         style={{ cursor: isPending || isSuccess ? 'default' : 'pointer', WebkitTapHighlightColor: 'transparent', height: 'auto' }}
       >
-        <svg viewBox="5 20 90 30" className="w-full h-auto overflow-visible drop-shadow-lg">
-          {/* Main Pill / Circle Stroke */}
+        <svg viewBox="5 15 90 40" className="w-full h-auto overflow-visible drop-shadow-md">
+          
+          {/* Main border path */}
           <motion.path
-            d={isPending || isSuccess ? circlePath : pillPath}
-            stroke="#00cffc" 
-            strokeWidth={isPending || isSuccess ? "0" : "0.7"}
+            d={pillPath}
+            stroke={mainRed}
             fill="transparent"
-            initial={false}
-            animate={{ d: isPending || isSuccess ? circlePath : pillPath, strokeWidth: isPending || isSuccess ? 0 : 0.7 }}
-            transition={{ type: "spring", stiffness: 120, damping: 20 }}
+            initial="idle"
+            animate={btnState}
+            variants={{
+              idle: { d: pillPath, stroke: mainRed, strokeWidth: 0.7 },
+              loading: { d: circlePath, stroke: mainRed, strokeWidth: 1.5, strokeOpacity: 0.3 },
+              success: { d: circlePath, stroke: successGreen, strokeWidth: 1.5, strokeOpacity: 1 }
+            }}
+            transition={{ type: "spring", stiffness: 80, damping: 15 }}
           />
 
-          <AnimatePresence mode="wait">
-            {!isPending && !isSuccess && (
-              <motion.g
-                key="idle-state"
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0, x: 15 }}
-                transition={{ duration: 0.6, type: "spring" }}
-              >
-                {/* The Cyan circle on the left padding */}
-                <circle cx="20" cy="35" r="8.5" fill="#00cffc" />
-                {/* Inner smaller cyan ring like codepen */}
-                <circle cx="20" cy="35" r="8.05" stroke="#00afd3" strokeWidth="0.9" fill="transparent" />
-                {/* Arrow inside the circle */}
-                <path d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none" />
-                {/* Text Envoyer */}
-                <text x="55" y="36.5" fill="currentColor" className="text-slate-800" textAnchor="middle" fontSize="5.5" fontFamily="system-ui, sans-serif" fontWeight="500" letterSpacing="0.2">Envoyer</text>
-              </motion.g>
-            )}
+          {/* Center-bound circle assembly that moves right on click */}
+          <motion.g
+            initial="idle"
+            animate={btnState}
+            variants={{
+              idle: { x: 0, opacity: 1, scale: 1 },
+              loading: { x: 30, opacity: 0, scale: 0.5, transition: { duration: 0.4, ease: "easeOut" } },
+              success: { x: 30, opacity: 0, scale: 0 }
+            }}
+          >
+            <circle cx="20" cy="35" r="8.5" fill={mainRed} />
+            <circle cx="20" cy="35" r="7.5" fill="none" strokeWidth="0.5" stroke="#fff" opacity="0.3" />
+            <path d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none" />
+          </motion.g>
 
-            {isPending && (
-              <motion.g
-                key="loading-state"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                <motion.circle 
-                  cx="50" cy="35" r="10" 
-                  stroke="#00cffc" 
-                  strokeWidth="1.2" 
-                  fill="none" 
-                  strokeDasharray="40" 
-                  strokeLinecap="round"
-                  animate={{ strokeDashoffset: [40, 0], rotate: [0, 360] }}
-                  transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
-                  style={{ originX: "50px", originY: "35px" }}
-                />
-              </motion.g>
-            )}
-            
-            {isSuccess && (
-              <motion.g
-                key="success-state"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-              >
-                <motion.circle cx="50" cy="35" r="12" fill="#02fc86" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', damping: 12 }} />
-                <motion.path d="M46,35 l3,3 l5,-6" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ delay: 0.1, duration: 0.3 }} />
-              </motion.g>
-            )}
-          </AnimatePresence>
+          {/* Text Envoyer */}
+          <motion.text 
+            x="55" y="36.5" 
+            fill={mainRed} 
+            textAnchor="middle" 
+            fontSize="5.5" 
+            fontFamily="system-ui, sans-serif" 
+            fontWeight="700" 
+            letterSpacing="0.2"
+            initial="idle"
+            animate={btnState}
+            variants={{
+              idle: { opacity: 1, y: 36.5, scale: 1 },
+              loading: { opacity: 0, y: 44, scale: 0.7, transition: { duration: 0.3 } },
+              success: { opacity: 0, y: 44, scale: 0.7 }
+            }}
+          >
+            Envoyer
+          </motion.text>
+
+          {/* Loading Spinner Dot running around the track */}
+          <motion.g
+            style={{ originX: "50px", originY: "35px" }}
+            initial="idle"
+            animate={btnState}
+            variants={{
+              idle: { rotate: 0, opacity: 0 },
+              loading: { rotate: 360, opacity: 1, transition: { rotate: { repeat: Infinity, duration: 1.1, ease: "linear" }, opacity: { delay: 0.2 } } },
+              success: { rotate: 0, opacity: 0 }
+            }}
+          >
+            <circle cx="50" cy="25" r="1.5" fill={mainRed} />
+          </motion.g>
+
+          {/* Success Checkmark Circle */}
+          <motion.g
+            initial="idle"
+            animate={btnState}
+            variants={{
+              idle: { opacity: 0, scale: 0.5 },
+              loading: { opacity: 0, scale: 0.5 },
+              success: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 120, damping: 10, delay: 0.1 } }
+            }}
+          >
+            <circle cx="50" cy="35" r="10" fill={successGreen} />
+            <motion.path 
+              d="M46,35 l3,3 l5,-6" 
+              fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" 
+              variants={{
+                idle: { pathLength: 0 },
+                loading: { pathLength: 0 },
+                success: { pathLength: 1, transition: { delay: 0.3, duration: 0.3 } }
+              }}
+            />
+          </motion.g>
+
         </svg>
       </button>
     </div>
