@@ -253,10 +253,11 @@ const FormWizard = () => {
     if (cleanVal.length === 5) {
       setIsSearchingCity(true);
       try {
-        const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${cleanVal}&postcode=${cleanVal}&type=municipality`);
+        const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${cleanVal}&postcode=${cleanVal}`);
         const data = await response.json();
         if (data.features && data.features.length > 0) {
-          const city = data.features[0].properties.city;
+          const props = data.features[0].properties;
+          const city = props.city || props.oldcity || props.name;
           setFormData(prev => ({ ...prev, city }));
         }
       } catch (error) {
