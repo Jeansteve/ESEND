@@ -9,6 +9,7 @@ const FormWizard = () => {
   const [formData, setFormData] = useState({ problem: '', pestType: '', otherPest: '', clientType: '', zipCode: '', city: '', name: '', email: '', phone: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     const devisPest = searchParams.get('devis');
@@ -122,6 +123,76 @@ const FormWizard = () => {
   const ErrorMsg = ({ error }) => error ? (
     <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-[#A72422] text-xs font-bold pt-1">{error}</motion.p>
   ) : null;
+
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleSubmit = () => {
+    if (validate()) {
+      setIsPending(true);
+      // Simulation d'envoi (2 secondes pour l'animation)
+      setTimeout(() => {
+        setIsPending(false);
+        setIsSuccess(true);
+        // On laisse la coche de succès visible 1 seconde
+        setTimeout(() => {
+          setIsSubmitted(true);
+        }, 1200);
+      }, 2000);
+    }
+  };
+
+  const LiquidSubmitButton = ({ onClick, isPending, isSuccess }) => {
+    return (
+      <motion.button
+        layout
+        onClick={onClick}
+        disabled={isPending || isSuccess}
+        initial={false}
+        className={`relative mx-auto mt-4 text-white font-black uppercase flex items-center justify-center transition-all duration-500 shadow-xl ${
+          isPending || isSuccess ? "w-16 h-16 rounded-full p-0" : "w-full p-6 rounded-2xl hover:bg-black hover:scale-[1.02] active:scale-[0.98]"
+        }`}
+        style={{
+          backgroundColor: isSuccess ? "#15803d" : "#A72422"
+        }}
+      >
+        <AnimatePresence mode="wait">
+          {!isPending && !isSuccess ? (
+            <motion.span
+              key="text"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              Envoyer
+            </motion.span>
+          ) : isPending ? (
+            <motion.div
+              key="loader"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              className="flex items-center justify-center"
+            >
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full"
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              className="flex items-center justify-center"
+            >
+              <Check className="w-8 h-8" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
+    );
+  };
 
   return (
     <section id="devis" className="py-32 px-6 bg-white transition-colors duration-500">
@@ -254,14 +325,22 @@ const FormWizard = () => {
                       <input type="email" placeholder="Email" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('email', e.target.value)} />
                       <ErrorMsg error={errors.phone} />
                       <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
-                      <button onClick={() => validate() && setIsSubmitted(true)} className="w-full mt-4 bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98]">Envoyer</button></div>
+                      <LiquidSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
+                    </div>
                   )}
                 </motion.div>
               </AnimatePresence>
             ) : (
               <motion.div className="text-center py-10 space-y-4">
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl">✓</div>
+                <motion.div 
+                  initial={{ scale: 0 }} 
+                  animate={{ scale: 1 }} 
+                  className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl"
+                >
+                  <Check className="w-10 h-10" />
+                </motion.div>
                 <h3 className="text-2xl font-black">Demande envoyée !</h3>
+                <p className="text-slate-500 italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
               </motion.div>
             )}
           </div>
