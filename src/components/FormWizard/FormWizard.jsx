@@ -465,34 +465,48 @@ const FormWizard = () => {
                          <div>
                             <label className="text-sm font-bold text-slate-700 mb-2 block">Plus de détails (Optionnel)</label>
                             <textarea 
-                               placeholder="Décrivez la situation, le degré d'infestation, la superficie concernée..." 
-                               className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:border-[#A72422] outline-none min-h-[100px] resize-none"
+                               placeholder={
+                                  formData.problem === 'Nuisibles' ? "Décrivez la situation, le degré d'infestation, la superficie concernée..." :
+                                  formData.problem === 'Nettoyage' ? "Décrivez la surface à nettoyer, le niveau de salissure, les pièces concernées..." :
+                                  formData.problem === 'Désinfection' ? "Décrivez les locaux à désinfecter, la cause ou le type de virus/bactérie suspecté..." :
+                                  "Ajoutez toutes les précisions utiles pour votre devis..."
+                               }
+                               className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:border-[#A72422] outline-none min-h-[140px] resize-none"
                                value={formData.message || ''}
                                onChange={(e) => updateData('message', e.target.value)}
                             ></textarea>
                          </div>
                          
                          <div className="pt-2 border-t border-slate-100">
-                          <label className="text-sm font-bold text-slate-700 flex items-center gap-2 mb-2">
-                             <Camera className="w-4 h-4 text-[#A72422]" /> Photos (Optionnel)
+                          <label className="text-sm font-bold text-slate-700 flex items-center justify-between mb-3">
+                             <span className="flex items-center gap-2"><Camera className="w-4 h-4 text-[#A72422]" /> Photos (Optionnel)</span>
                           </label>
-                          <div className="flex flex-wrap gap-4">
-                             {photos.map((p, i) => (
-                               <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm animate-in zoom-in duration-200">
-                                 <img src={URL.createObjectURL(p)} alt="preview" className="object-cover w-full h-full" />
-                                 <button type="button" onClick={() => removePhoto(i)} className="absolute top-1 right-1 bg-white/90 text-red-600 p-1.5 rounded-full shadow-sm hover:bg-red-50 transition-colors z-10"><X className="w-3 h-3 font-bold" /></button>
-                               </div>
-                             ))}
-                             {photos.length < 3 && (
-                               <label className="w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-[#A72422] transition-all flex-col group">
-                                  {isCompressing ? <div className="w-5 h-5 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
-                                    <Plus className="w-6 h-6 text-slate-400 group-hover:text-[#A72422] transition-colors" />
-                                    <span className="text-[10px] text-slate-400 group-hover:text-[#A72422] font-bold mt-1">Ajouter</span>
-                                  </>}
-                                  <input type="file" accept="image/jpeg, image/png, image/webp" multiple onChange={handleFileChange} className="hidden" disabled={isCompressing} />
-                               </label>
-                             )}
+                          <div className="flex justify-start gap-3 sm:gap-4">
+                             {[0, 1, 2].map((slotIndex) => {
+                               const p = photos[slotIndex];
+                               if (p) {
+                                 return (
+                                   <div key={slotIndex} className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm animate-in zoom-in duration-200 shrink-0">
+                                     <img src={URL.createObjectURL(p)} alt="preview" className="object-cover w-full h-full" />
+                                     <button type="button" onClick={() => removePhoto(slotIndex)} className="absolute top-1 right-1 bg-white/90 text-red-600 p-1 rounded-full shadow-sm hover:bg-red-50 transition-colors z-10"><X className="w-3 h-3 font-bold" /></button>
+                                   </div>
+                                 );
+                               }
+                               return (
+                                 <label key={slotIndex} className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-[#A72422] transition-all flex-col group shrink-0">
+                                    {isCompressing && photos.length === slotIndex ? <div className="w-5 h-5 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
+                                      <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400 group-hover:text-[#A72422] transition-colors" />
+                                      <span className="text-[9px] sm:text-[10px] text-slate-400 group-hover:text-[#A72422] font-bold mt-1">Ajouter</span>
+                                    </>}
+                                    <input type="file" accept="image/jpeg, image/png, image/webp" multiple onChange={handleFileChange} className="hidden" disabled={isCompressing} />
+                                 </label>
+                               );
+                             })}
                           </div>
+                          <p className="text-[10px] sm:text-xs text-slate-400 mt-3 flex justify-between">
+                            <span>Formats : JPG, PNG, WEBP</span>
+                            <span>{photos.length}/3 ajoutées</span>
+                          </p>
                         </div>
                       </div>
 
