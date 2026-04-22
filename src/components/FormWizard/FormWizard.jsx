@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan, Asterisk, Bird, Snail, Camera, Plus, X } from 'lucide-react';
 import imageCompression from 'browser-image-compression';
+import { api } from '../../lib/api';
 
 const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
   const pillPath = "M50,25 h30 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s-30,0 -60,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h30";
@@ -250,6 +251,21 @@ const FormWizard = () => {
   const [isSearchingCity, setIsSearchingCity] = useState(false);
   const [photos, setPhotos] = useState([]);
   const [isCompressing, setIsCompressing] = useState(false);
+  const [contactEmail, setContactEmail] = useState('contact@esendnuisibles.fr');
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const settings = await api.getSettings();
+        if (settings && settings.contact_email) {
+          setContactEmail(settings.contact_email);
+        }
+      } catch (e) {
+        console.error("Erreur chargement settings:", e);
+      }
+    };
+    fetchSettings();
+  }, []);
 
   const handleFileChange = async (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
@@ -347,7 +363,7 @@ const FormWizard = () => {
         }
 
         // Envoi réel des données via FormSubmit (multipart/form-data automatique)
-        const response = await fetch("https://formsubmit.co/ajax/contact@esendnuisibles.fr", {
+        const response = await fetch(`https://formsubmit.co/ajax/${contactEmail}`, {
           method: "POST",
           headers: { 
             "Accept": "application/json"
