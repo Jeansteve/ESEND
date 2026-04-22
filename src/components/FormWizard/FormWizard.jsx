@@ -211,9 +211,11 @@ const FormWizard = () => {
       { id: 'welcome', title: 'Bienvenue', icon: <Home className="w-5 h-5" /> },
       { id: 'service', title: 'Service', icon: <MessageSquare className="w-5 h-5" /> },
     ];
-    if (formData.problem === 'Nuisibles') {
-      s.push({ id: 'pest', title: 'Nuisible', icon: <Bug className="w-5 h-5" /> });
-    }
+    s.push({ 
+      id: 'details', 
+      title: formData.problem === 'Nuisibles' ? 'Nuisibles' : 'Détails', 
+      icon: formData.problem === 'Nuisibles' ? <Bug className="w-5 h-5" /> : <Asterisk className="w-5 h-5" /> 
+    });
     s.push(
       { id: 'client', title: 'Client', icon: <Building2 className="w-5 h-5" /> },
       { id: 'zone', title: 'Zone', icon: <MapPin className="w-5 h-5" /> },
@@ -242,7 +244,7 @@ const FormWizard = () => {
 
   const handlePestSelect = (pest) => {
     updateData('pestType', pest);
-    if (pest !== 'Autre') nextStep();
+    // On n'avance plus automatiquement pour laisser le client ajouter description et photos
   };
 
   const [isSearchingCity, setIsSearchingCity] = useState(false);
@@ -430,28 +432,79 @@ const FormWizard = () => {
                         ))}
                       </div></div>
                   )}
-                  {currentStepData.id === 'pest' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><Bug /> Quel nuisible ?</h3>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                        {[
-                          { n: 'Cafard', i: <Bug /> }, 
-                          { n: 'Fourmis', i: <Bug /> }, 
-                          { n: 'Puce', i: <Bug /> }, 
-                          { n: 'Souris', i: <Rat /> }, 
-                          { n: 'Rat', i: <Rat /> }, 
-                          { n: 'Guêpes & Frelons', i: <ShieldCheck /> }, 
-                          { n: 'Punaise de lit', i: <Snail /> }, 
-                          { n: 'Autre', i: <MessageSquare /> }
-                        ].map(s => (
-                          <motion.button key={s.n} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center justify-center gap-2 p-3 sm:p-4 border-2 rounded-2xl font-bold transition-all hover:shadow-md h-full ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-slate-100 bg-slate-50 text-slate-900 hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center px-1">{s.n}</span></motion.button>
-                        ))}
-                      </div>
-                      {formData.pestType === 'Autre' && (
-                        <div className="pt-4 space-y-4">
-                          <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none focus:ring-4 focus:ring-red-100 transition-all" />
-                          <button onClick={nextStep} disabled={!formData.otherPest} className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50 hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98]">Continuer</button>
+                  {currentStepData.id === 'details' && (
+                    <div className="space-y-6">
+                      <h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-4 text-slate-900">
+                        {formData.problem === 'Nuisibles' ? <><Bug /> Quel nuisible ?</> : <><Asterisk /> Détails du problème</>}
+                      </h3>
+                      
+                      {formData.problem === 'Nuisibles' && (
+                        <div>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-4">
+                            {[
+                              { n: 'Cafard', i: <Bug /> }, 
+                              { n: 'Fourmis', i: <Bug /> }, 
+                              { n: 'Puce', i: <Bug /> }, 
+                              { n: 'Souris', i: <Rat /> }, 
+                              { n: 'Rat', i: <Rat /> }, 
+                              { n: 'Guêpes & Frelons', i: <ShieldCheck /> }, 
+                              { n: 'Punaise de lit', i: <Snail /> }, 
+                              { n: 'Autre', i: <MessageSquare /> }
+                            ].map(s => (
+                              <motion.button key={s.n} type="button" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => handlePestSelect(s.n)} className={'flex flex-col items-center justify-center gap-2 p-3 sm:p-4 border-2 rounded-2xl font-bold transition-all hover:shadow-md h-full ' + (formData.pestType === s.n ? 'border-[#A72422] bg-red-50 text-[#A72422]' : 'border-slate-100 bg-slate-50 text-slate-900 hover:border-[#A72422]')}>{s.i}<span className="text-xs text-center px-1">{s.n}</span></motion.button>
+                            ))}
+                          </div>
+                          {formData.pestType === 'Autre' && (
+                            <input type="text" placeholder="Précisez le nuisible" value={formData.otherPest} onChange={(e) => updateData('otherPest', e.target.value)} className="w-full p-4 border-2 border-[#A72422] rounded-xl focus:outline-none focus:ring-4 focus:ring-red-100 transition-all mb-4" />
+                          )}
                         </div>
-                      )}</div>
+                      )}
+                      
+                      {/* Description and Photos Area */}
+                      <div className="bg-white p-4 rounded-2xl border-2 border-slate-100 shadow-sm space-y-4">
+                         <div>
+                            <label className="text-sm font-bold text-slate-700 mb-2 block">Plus de détails (Optionnel)</label>
+                            <textarea 
+                               placeholder="Décrivez la situation, le degré d'infestation, la superficie concernée..." 
+                               className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:border-[#A72422] outline-none min-h-[100px] resize-none"
+                               value={formData.message || ''}
+                               onChange={(e) => updateData('message', e.target.value)}
+                            ></textarea>
+                         </div>
+                         
+                         <div className="pt-2 border-t border-slate-100">
+                          <label className="text-sm font-bold text-slate-700 flex items-center gap-2 mb-2">
+                             <Camera className="w-4 h-4 text-[#A72422]" /> Photos (Optionnel)
+                          </label>
+                          <div className="flex flex-wrap gap-4">
+                             {photos.map((p, i) => (
+                               <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm animate-in zoom-in duration-200">
+                                 <img src={URL.createObjectURL(p)} alt="preview" className="object-cover w-full h-full" />
+                                 <button type="button" onClick={() => removePhoto(i)} className="absolute top-1 right-1 bg-white/90 text-red-600 p-1.5 rounded-full shadow-sm hover:bg-red-50 transition-colors z-10"><X className="w-3 h-3 font-bold" /></button>
+                               </div>
+                             ))}
+                             {photos.length < 3 && (
+                               <label className="w-20 h-20 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-[#A72422] transition-all flex-col group">
+                                  {isCompressing ? <div className="w-5 h-5 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
+                                    <Plus className="w-6 h-6 text-slate-400 group-hover:text-[#A72422] transition-colors" />
+                                    <span className="text-[10px] text-slate-400 group-hover:text-[#A72422] font-bold mt-1">Ajouter</span>
+                                  </>}
+                                  <input type="file" accept="image/jpeg, image/png, image/webp" multiple onChange={handleFileChange} className="hidden" disabled={isCompressing} />
+                               </label>
+                             )}
+                          </div>
+                        </div>
+                      </div>
+
+                      <button 
+                        type="button"
+                        onClick={nextStep} 
+                        disabled={formData.problem === 'Nuisibles' ? (!formData.pestType || (formData.pestType === 'Autre' && !formData.otherPest)) : false} 
+                        className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50 hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98] mt-2"
+                      >
+                        Continuer
+                      </button>
+                    </div>
                   )}
                   {currentStepData.id === 'client' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><Building2 /> Type de client</h3>
@@ -507,31 +560,6 @@ const FormWizard = () => {
                       <input type="email" placeholder="Email" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('email', e.target.value)} />
                       <ErrorMsg error={errors.phone} />
                       <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
-                      
-                      <div className="mt-8 border-t border-slate-100 pt-6">
-                        <label className="text-sm font-bold text-slate-700 flex items-center justify-center gap-2 mb-2">
-                           <Camera className="w-5 h-5 text-[#A72422]" /> Photos (Optionnel)
-                        </label>
-                        <p className="text-xs text-center text-slate-400 mb-6 px-4">Ajoutez jusqu'à 3 photos pour faciliter l'évaluation. Les images seront envoyées avec votre message.</p>
-                        <div className="flex flex-wrap justify-center gap-4 mb-4">
-                           {photos.map((p, i) => (
-                             <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm animate-in zoom-in duration-200">
-                               <img src={URL.createObjectURL(p)} alt="preview" className="object-cover w-full h-full" />
-                               <button onClick={() => removePhoto(i)} className="absolute top-1 right-1 bg-white/90 text-red-600 p-1.5 rounded-full shadow-sm hover:bg-red-50 transition-colors z-10"><X className="w-4 h-4 font-bold" /></button>
-                             </div>
-                           ))}
-                           {photos.length < 3 && (
-                             <label className="w-24 h-24 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-[#A72422] transition-all flex-col group">
-                                {isCompressing ? <div className="w-6 h-6 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
-                                  <Plus className="w-8 h-8 text-slate-400 group-hover:text-[#A72422] transition-colors" />
-                                  <span className="text-[11px] text-slate-400 group-hover:text-[#A72422] font-bold mt-1">Ajouter ({3 - photos.length})</span>
-                                </>}
-                                <input type="file" accept="image/jpeg, image/png, image/webp" multiple onChange={handleFileChange} className="hidden" disabled={isCompressing} />
-                             </label>
-                           )}
-                        </div>
-                      </div>
-
                       <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
                     </div>
                   )}
