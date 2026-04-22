@@ -202,7 +202,11 @@ const FormWizard = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = 'Le nom est requis';
     if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Email invalide';
-    if (!formData.phone) newErrors.phone = 'Le numéro est requis';
+    if (!formData.phone) {
+      newErrors.phone = 'Le numéro est requis';
+    } else if (!/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(formData.phone)) {
+      newErrors.phone = 'Numéro invalide (ex: 06 12 34 56 78)';
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -362,12 +366,9 @@ const FormWizard = () => {
           });
         }
 
-        // Envoi réel des données via FormSubmit (multipart/form-data automatique)
-        const response = await fetch(`https://formsubmit.co/ajax/${contactEmail}`, {
+        // Envoi des données (Ajax) via notre nouveau backend natif PHP qui supporte les pièces jointes
+        const response = await fetch(`/api/devis.php`, {
           method: "POST",
-          headers: { 
-            "Accept": "application/json"
-          },
           body: payload
         });
 
