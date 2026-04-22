@@ -79,8 +79,8 @@ try {
     $mail->SMTPAuth   = true;                     // Activer l'authentification SMTP
     $mail->Username   = 'contact@esendnuisibles.fr'; // Nom d'utilisateur SMTP
     $mail->Password   = 'gyZsom-7fupqa-dajtam';      // Mot de passe SMTP
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Chiffrement implicite TLS
-    $mail->Port       = 465;                      // Port TCP pour SMTPS
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Chiffrement TLS
+    $mail->Port       = 587;                      // Port TCP pour STARTTLS
 
     // Paramètres de l'expéditeur et du destinataire
     $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');
