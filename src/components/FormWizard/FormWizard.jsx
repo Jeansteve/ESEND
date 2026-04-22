@@ -53,8 +53,8 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             
             {/* The Arrow (fades out in loading) */}
             <motion.path 
-              d="M20,39 l3.5,-3.5 M20,39 l-3.5,-3.5 M20,39 l0,-7.5" 
-              stroke="#fff" strokeLinecap="round" strokeWidth="0.8" fill="none"
+              d="M17,32 L24,35 L17,38 L19,35 Z M19,35 L24,35" 
+              stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.8" fill="none"
               style={{ transformOrigin: "20px 35px" }}
               variants={{
                 idle: { opacity: 1, rotate: 0, scale: 1 },
