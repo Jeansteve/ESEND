@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan, Asterisk, Bird, Snail } from 'lucide-react';
+import { Bug, Rat, Home, Building2, MapPin, User, MessageSquare, Phone, Mail, Check, Star, Zap, Trash2, ShieldCheck, SprayCan, Asterisk, Bird, Snail, Camera, Plus, X } from 'lucide-react';
+import imageCompression from 'browser-image-compression';
 
 const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
   const pillPath = "M50,25 h30 a10,10 0 0,1 10,10 a10,10 0 0,1 -10,10 s-30,0 -60,0 a10,10 0 0,1 -10,-10 a10,10 0 0,1 10,-10 h30";
@@ -245,6 +246,47 @@ const FormWizard = () => {
   };
 
   const [isSearchingCity, setIsSearchingCity] = useState(false);
+  const [photos, setPhotos] = useState([]);
+  const [isCompressing, setIsCompressing] = useState(false);
+
+  const handleFileChange = async (e) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const files = Array.from(e.target.files);
+    const validFiles = files.filter(f => ['image/jpeg', 'image/png', 'image/webp'].includes(f.type));
+    if (validFiles.length + photos.length > 3) {
+      alert("Vous ne pouvez ajouter que 3 photos maximum.");
+      return;
+    }
+    
+    setIsCompressing(true);
+    const options = {
+      maxSizeMB: 0.5,
+      maxWidthOrHeight: 1200,
+      useWebWorker: true,
+      initialQuality: 0.8
+    };
+    
+    try {
+      const compressedPromises = validFiles.map((file) => imageCompression(file, options));
+      const compressedFiles = await Promise.all(compressedPromises);
+      
+      const newPhotos = compressedFiles.map((blob, idx) => {
+        const ext = blob.type.split('/')[1] === 'jpeg' ? 'jpg' : blob.type.split('/')[1];
+        return new File([blob], `photo_${Date.now()}_${idx}.${ext}`, { type: blob.type });
+      });
+      
+      setPhotos(prev => [...prev, ...newPhotos]);
+    } catch (err) {
+      console.error("Erreur compression: ", err);
+    } finally {
+      setIsCompressing(false);
+      e.target.value = null; // reset input
+    }
+  };
+
+  const removePhoto = (index) => {
+    setPhotos(prev => prev.filter((_, i) => i !== index));
+  };
 
   const handleZipChange = async (val) => {
     const cleanVal = val.replace(/\D/g, '').slice(0, 5);
@@ -282,26 +324,33 @@ const FormWizard = () => {
   const handleSubmit = async () => {
     if (validate()) {
       setIsPending(true);
-      
       try {
-        // Envoi réel des données via FormSubmit (Mode AJAX sans redirection)
+        const payload = new FormData();
+        payload.append("Sujet", "Nouvelle demande de devis - " + formData.problem);
+        payload.append("Nom", formData.name);
+        payload.append("Téléphone", formData.phone);
+        payload.append("Email", formData.email);
+        payload.append("Nuisible", formData.pestType || formData.otherPest || "Non spécifié");
+        payload.append("Type_Client", formData.clientType);
+        payload.append("Code_Postal", formData.zipCode);
+        payload.append("Ville", formData.city);
+        payload.append("Précision_Problème", formData.message || "Aucune précision");
+        payload.append("_subject", "Nouveau Devis ESEND");
+        payload.append("_template", "table");
+        
+        if (photos && photos.length > 0) {
+          photos.forEach((file, index) => {
+            payload.append(`Photo_jointe_${index + 1}`, file);
+          });
+        }
+
+        // Envoi réel des données via FormSubmit (multipart/form-data automatique)
         const response = await fetch("https://formsubmit.co/ajax/contact@esendnuisibles.fr", {
           method: "POST",
           headers: { 
-            "Content-Type": "application/json",
             "Accept": "application/json"
           },
-          body: JSON.stringify({
-            Sujet: "Nouvelle demande de devis - " + formData.problem,
-            Nom: formData.name,
-            Téléphone: formData.phone,
-            Email: formData.email,
-            Nuisible: formData.pestType || formData.otherPest || "Non spécifié",
-            Type_Client: formData.clientType,
-            Ville: `${formData.zipCode} ${formData.city}`,
-            "_subject": "Nouveau Devis ESEND",
-            "_template": "table"
-          })
+          body: payload
         });
 
         if (response.ok) {
@@ -458,6 +507,31 @@ const FormWizard = () => {
                       <input type="email" placeholder="Email" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg outline-none focus:border-[#A72422]" onChange={(e) => updateData('email', e.target.value)} />
                       <ErrorMsg error={errors.phone} />
                       <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-slate-100 bg-slate-50 text-slate-900 rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-zinc-100 transition-all outline-none" onChange={(e) => updateData('phone', e.target.value)} />
+                      
+                      <div className="mt-8 border-t border-slate-100 pt-6">
+                        <label className="text-sm font-bold text-slate-700 flex items-center justify-center gap-2 mb-2">
+                           <Camera className="w-5 h-5 text-[#A72422]" /> Photos (Optionnel)
+                        </label>
+                        <p className="text-xs text-center text-slate-400 mb-6 px-4">Ajoutez jusqu'à 3 photos pour faciliter l'évaluation. Les images seront envoyées avec votre message.</p>
+                        <div className="flex flex-wrap justify-center gap-4 mb-4">
+                           {photos.map((p, i) => (
+                             <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm animate-in zoom-in duration-200">
+                               <img src={URL.createObjectURL(p)} alt="preview" className="object-cover w-full h-full" />
+                               <button onClick={() => removePhoto(i)} className="absolute top-1 right-1 bg-white/90 text-red-600 p-1.5 rounded-full shadow-sm hover:bg-red-50 transition-colors z-10"><X className="w-4 h-4 font-bold" /></button>
+                             </div>
+                           ))}
+                           {photos.length < 3 && (
+                             <label className="w-24 h-24 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-[#A72422] transition-all flex-col group">
+                                {isCompressing ? <div className="w-6 h-6 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
+                                  <Plus className="w-8 h-8 text-slate-400 group-hover:text-[#A72422] transition-colors" />
+                                  <span className="text-[11px] text-slate-400 group-hover:text-[#A72422] font-bold mt-1">Ajouter ({3 - photos.length})</span>
+                                </>}
+                                <input type="file" accept="image/jpeg, image/png, image/webp" multiple onChange={handleFileChange} className="hidden" disabled={isCompressing} />
+                             </label>
+                           )}
+                        </div>
+                      </div>
+
                       <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
                     </div>
                   )}
