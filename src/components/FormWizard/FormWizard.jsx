@@ -352,6 +352,7 @@ const FormWizard = () => {
         payload.append("Nom", formData.name);
         payload.append("Téléphone", formData.phone);
         payload.append("Email", formData.email);
+        payload.append("Service", formData.problem);
         payload.append("Nuisible", formData.pestType || formData.otherPest || "Non spécifié");
         payload.append("Type_Client", formData.clientType);
         payload.append("Code_Postal", formData.zipCode);

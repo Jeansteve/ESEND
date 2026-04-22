@@ -30,6 +30,7 @@ $row = $stmt->fetch();
 $to = $row ? $row['setting_value'] : 'contact@esendnuisibles.fr';
 
 // Récupération des données métiers du formulaire
+$service = isset($_POST['Service']) ? $_POST['Service'] : 'Nuisibles';
 $problem = isset($_POST['Précision_Problème']) ? $_POST['Précision_Problème'] : '';
 $nom = isset($_POST['Nom']) ? $_POST['Nom'] : '';
 $tel = isset($_POST['Téléphone']) ? $_POST['Téléphone'] : '';
@@ -40,9 +41,34 @@ $cp = isset($_POST['Code_Postal']) ? $_POST['Code_Postal'] : '';
 $ville = isset($_POST['Ville']) ? trim($_POST['Ville']) : '';
 
 // Construction d'un objet (titre) d'email ultra-parlant
-$nuisible_titre = !empty($nuisible) ? $nuisible : "Intervention";
+if ($service === 'Nuisibles' || $service === 'Intervention') {
+    $titre_service = (!empty($nuisible) && $nuisible !== 'Non spécifié') ? $nuisible : "Intervention Nuisibles";
+    $icone = "🐛";
+    $label_detail = "Nuisible suspecté ou identifié :";
+    $valeur_detail = htmlspecialchars($nuisible);
+    $bordure_couleur = "#dd6b20";
+    $titre_couleur = "#9c4221";
+    $fond_couleur = "#fffaf0";
+} elseif ($service === 'Désinfection') {
+    $titre_service = "Désinfection";
+    $icone = "🛡️";
+    $label_detail = "Service demandé :";
+    $valeur_detail = "Désinfection complète";
+    $bordure_couleur = "#38a169";
+    $titre_couleur = "#22543d";
+    $fond_couleur = "#f0fff4";
+} else {
+    $titre_service = "Nettoyage";
+    $icone = "✨";
+    $label_detail = "Service demandé :";
+    $valeur_detail = "Nettoyage professionnel";
+    $bordure_couleur = "#805ad5";
+    $titre_couleur = "#44337a";
+    $fond_couleur = "#faf5ff";
+}
+
 $ville_titre = !empty($ville) ? " (" . mb_strimwidth($ville, 0, 20, "...") . ")" : "";
-$subject = "🚨 " . $nuisible_titre . " - Devis de " . $nom . $ville_titre;
+$subject = "🚨 " . $titre_service . " - Devis de " . $nom . $ville_titre;
 
 if(empty($nom) || empty($tel)) {
     echo json_encode(['success' => false, 'message' => 'Des champs obligatoires sont manquants']);
@@ -71,12 +97,13 @@ $htmlMessage = "
           <p style=\"margin-bottom: 0; color: #4a5568;\"><strong>Localisation :</strong> " . htmlspecialchars($cp . " " . $ville) . "</p>
       </div>
 
-      <div style=\"background-color: #fffaf0; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid #dd6b20;\">
-          <h3 style=\"margin-top: 0; color: #9c4221; font-size: 18px;\">🐛 Le Problème</h3>
-          <p style=\"margin-bottom: 12px; color: #4a5568;\"><strong>Nuisible suspecté ou identifié :</strong> " . htmlspecialchars($nuisible) . "</p>
+      <div style=\"background-color: " . $fond_couleur . "; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid " . $bordure_couleur . ";\">
+          <h3 style=\"margin-top: 0; color: " . $titre_couleur . "; font-size: 18px;\">" . $icone . " Qualification du besoin</h3>
+          <p style=\"margin-bottom: 12px; color: #4a5568;\"><strong>Catégorie principale :</strong> " . htmlspecialchars($service) . "</p>
+          <p style=\"margin-bottom: 12px; color: #4a5568;\"><strong>" . $label_detail . "</strong> " . $valeur_detail . "</p>
           <p style=\"margin-bottom: 5px; color: #4a5568;\"><strong>Détails laissés par le client :</strong></p>
           <div style=\"background-color: #ffffff; padding: 15px; border-radius: 4px; border: 1px dashed #cbd5e0; color: #2d3748; font-style: italic;\">
-            " . (empty($problem) ? "Aucune description supplémentaire fournie." : nl2br(htmlspecialchars($problem))) . "
+            " . (empty($problem) || $problem === 'Aucune précision' ? "Aucune description supplémentaire fournie." : nl2br(htmlspecialchars($problem))) . "
           </div>
       </div>
 
