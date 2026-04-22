@@ -415,7 +415,7 @@ const FormWizard = () => {
             {currentStepIndex > 0 && !isSubmitted && (
               <button
                 onClick={prevStep}
-                className="absolute top-6 left-6 text-[var(--text-dimmed)] hover:text-[var(--text-main)] flex items-center gap-2 font-bold text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10"
+                className="absolute top-6 left-6 text-slate-400 hover:text-[#A72422] flex items-center gap-2 font-bold text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10"
               >
                 ← Retour
               </button>
@@ -487,7 +487,7 @@ const FormWizard = () => {
                                   formData.problem === 'Désinfection' ? "Décrivez les locaux à désinfecter, la cause ou le type de virus/bactérie suspecté..." :
                                   "Ajoutez toutes les précisions utiles pour votre devis..."
                                }
-                               className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-lg focus:border-[#A72422] outline-none min-h-[140px] resize-none"
+                               className="w-full p-4 bg-slate-50 text-slate-900 border-2 border-slate-100 rounded-lg focus:border-[#A72422] outline-none min-h-[140px] resize-none"
                                value={formData.message || ''}
                                onChange={(e) => updateData('message', e.target.value)}
                             ></textarea>
