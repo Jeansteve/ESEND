@@ -1,6 +1,6 @@
 <?php
 /**
- * API Devis - ESEND
+ * API Devis - ESEND avec PHPMailer (SMTP Hostinger Authentifié)
  * Gestion de l'envoi des formulaires de demande de devis avec pièces jointes.
  */
 
@@ -9,6 +9,15 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 require_once 'config.php';
+
+// Import de PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+require 'src/Exception.php';
+require 'src/PHPMailer.php';
+require 'src/SMTP.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Method Not Allowed']);
@@ -48,7 +57,7 @@ $htmlMessage = "
   <table border='1' cellpadding='10' cellspacing='0' style='border-collapse: collapse; width: 100%; max-width: 600px;'>
     <tr><td style='background-color: #f8f9fa; font-weight: bold; width: 35%;'>Nom / Contact</td><td>" . htmlspecialchars($nom) . "</td></tr>
     <tr><td style='background-color: #f8f9fa; font-weight: bold;'>Téléphone</td><td><a href='tel:" . htmlspecialchars($tel) . "'>" . htmlspecialchars($tel) . "</a></td></tr>
-    <tr><td style='background-color: #f8f9fa; font-weight: bold;'>Email</td><td><a href='mailto:" . htmlspecialchars($email) . "'>" . htmlspecialchars($email) . "</a></td></tr>
+    <tr><td style='background-color: #f8f9fa; font-weight: bold;'>Email Client</td><td><a href='mailto:" . htmlspecialchars($email) . "'>" . htmlspecialchars($email) . "</a></td></tr>
     <tr><td style='background-color: #f8f9fa; font-weight: bold;'>Type de Client</td><td>" . htmlspecialchars($type_client) . "</td></tr>
     <tr><td style='background-color: #f8f9fa; font-weight: bold;'>Problème visé</td><td>" . htmlspecialchars($nuisible) . "</td></tr>
     <tr><td style='background-color: #f8f9fa; font-weight: bold;'>Localisation</td><td>" . htmlspecialchars($cp . " " . $ville) . "</td></tr>
@@ -60,38 +69,55 @@ $htmlMessage = "
 </html>
 ";
 
-$boundary = md5(time());
-$fromEmail = "noreply@esendnuisibles.fr";
+$mail = new PHPMailer(true);
 
-$headers = "From: ESEND Website <" . $fromEmail . ">\r\n";
-$headers .= "Reply-To: " . $email . "\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"" . $boundary . "\"\r\n";
+try {
+    // Configuration du serveur SMTP (Hostinger)
+    $mail->CharSet = 'UTF-8';
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.hostinger.com';     // Serveur SMTP Hostinger
+    $mail->SMTPAuth   = true;                     // Activer l'authentification SMTP
+    $mail->Username   = 'contact@esendnuisibles.fr'; // Nom d'utilisateur SMTP
+    $mail->Password   = 'gyZsom-7fupqa-dajtam';      // Mot de passe SMTP
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Chiffrement implicite TLS
+    $mail->Port       = 465;                      // Port TCP pour SMTPS
 
-$message = "--" . $boundary . "\r\n";
-$message .= "Content-Type: text/html; charset=UTF-8\r\n";
-$message .= "Content-Transfer-Encoding: 8bit\r\n\r\n";
-$message .= $htmlMessage . "\r\n";
-
-// Traitement dynamique de toutes les pièces jointes
-foreach ($_FILES as $key => $file) {
-    if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
-        $file_content = file_get_contents($file['tmp_name']);
-        $encoded_content = chunk_split(base64_encode($file_content));
-
-        $message .= "--" . $boundary . "\r\n";
-        $message .= "Content-Type: " . (!empty($file['type']) ? $file['type'] : 'application/octet-stream') . "; name=\"" . basename($file['name']) . "\"\r\n";
-        $message .= "Content-Disposition: attachment; filename=\"" . basename($file['name']) . "\"\r\n";
-        $message .= "Content-Transfer-Encoding: base64\r\n\r\n";
-        $message .= $encoded_content . "\r\n";
+    // Paramètres de l'expéditeur et du destinataire
+    $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');
+    if (!empty($email)) {
+        $mail->addReplyTo($email, $nom);
     }
-}
+    
+    // Le destinataire récupéré des paramètres
+    $mail->addAddress($to);
 
-$message .= "--" . $boundary . "--";
+    // Ajout des pièces jointes dynamiques (photos)
+    if (!empty($_FILES)) {
+        foreach ($_FILES as $key => $file) {
+            if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
+                // PHPMailer gère la pièce jointe de façon sécurisée
+                $mail->addAttachment($file['tmp_name'], basename($file['name']));
+            }
+        }
+    }
 
-// Envoi final via sendmail PHP
-if(mail($to, $subject, $message, $headers)) {
+    // Contenu de l'e-mail
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body    = $htmlMessage;
+    
+    // Version brute (Fallback) - facultatif mais recommandé
+    $mail->AltBody = "Nouveau Devis\nNom: $nom\nTéléphone: $tel\nEmail: $email\nProblème: $nuisible\nLieu: $cp $ville\nDétails: $problem";
+
+    // Envoi
+    $mail->send();
     echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'envoi du courriel par le serveur Hostinger.']);
+
+} catch (Exception $e) {
+    // En cas d'erreur de PHPMailer
+    echo json_encode([
+        'success' => false, 
+        'message' => 'L\'envoi du message a échoué. Erreur SMTP.',
+        'error_details' => $mail->ErrorInfo 
+    ]);
 }
