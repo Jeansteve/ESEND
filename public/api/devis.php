@@ -29,8 +29,6 @@ $stmt = $pdo->query("SELECT setting_value FROM esend_settings WHERE setting_key 
 $row = $stmt->fetch();
 $to = $row ? $row['setting_value'] : 'contact@esendnuisibles.fr';
 
-$subject = isset($_POST['_subject']) ? $_POST['_subject'] : 'Nouveau Devis ESEND';
-
 // Récupération des données métiers du formulaire
 $problem = isset($_POST['Précision_Problème']) ? $_POST['Précision_Problème'] : '';
 $nom = isset($_POST['Nom']) ? $_POST['Nom'] : '';
@@ -39,7 +37,12 @@ $email = isset($_POST['Email']) ? $_POST['Email'] : '';
 $nuisible = isset($_POST['Nuisible']) ? $_POST['Nuisible'] : '';
 $type_client = isset($_POST['Type_Client']) ? $_POST['Type_Client'] : '';
 $cp = isset($_POST['Code_Postal']) ? $_POST['Code_Postal'] : '';
-$ville = isset($_POST['Ville']) ? $_POST['Ville'] : '';
+$ville = isset($_POST['Ville']) ? trim($_POST['Ville']) : '';
+
+// Construction d'un objet (titre) d'email ultra-parlant
+$nuisible_titre = !empty($nuisible) ? $nuisible : "Intervention";
+$ville_titre = !empty($ville) ? " (" . mb_strimwidth($ville, 0, 20, "...") . ")" : "";
+$subject = "🚨 " . $nuisible_titre . " - Devis de " . $nom . $ville_titre;
 
 if(empty($nom) || empty($tel)) {
     echo json_encode(['success' => false, 'message' => 'Des champs obligatoires sont manquants']);
