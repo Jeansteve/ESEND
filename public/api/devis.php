@@ -68,7 +68,7 @@ if ($service === 'Nuisibles' || $service === 'Intervention') {
 }
 
 $ville_titre = !empty($ville) ? " (" . mb_strimwidth($ville, 0, 20, "...") . ")" : "";
-$subject = "🚨 " . $titre_service . " - Devis de " . $nom . $ville_titre;
+$subject = $icone . " " . $titre_service . " - Devis de " . $nom . $ville_titre;
 
 if(empty($nom) || empty($tel)) {
     echo json_encode(['success' => false, 'message' => 'Des champs obligatoires sont manquants']);
