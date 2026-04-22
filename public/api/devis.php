@@ -72,17 +72,10 @@ $htmlMessage = "
 $mail = new PHPMailer(true);
 
 try {
-    // Configuration du serveur SMTP (Hostinger)
+    // Configuration (utilisation de la fonction mail native de PHP, très fiable si l'expéditeur existe)
     $mail->CharSet = 'UTF-8';
-    $mail->isSMTP();
-    $mail->Host       = 'smtp.hostinger.com';     // Serveur SMTP Hostinger
-    $mail->SMTPAuth   = true;                     // Activer l'authentification SMTP
-    $mail->Username   = 'contact@esendnuisibles.fr'; // Nom d'utilisateur SMTP
-    $mail->Password   = 'gyZsom-7fupqa-dajtam';      // Mot de passe SMTP
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Chiffrement TLS
-    $mail->Port       = 587;                      // Port TCP pour STARTTLS
 
-    // Paramètres de l'expéditeur et du destinataire
+    // Paramètres de l'expéditeur (doit être l'adresse existante)
     $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');
     if (!empty($email)) {
         $mail->addReplyTo($email, $nom);
