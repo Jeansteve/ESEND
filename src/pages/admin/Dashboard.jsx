@@ -26,13 +26,15 @@ import {
   Save,
   Edit3,
   Trash2,
-  Calendar
+  Calendar,
+  Inbox
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
 import CreationStudio from '../../components/Admin/CreationStudio';
 import ProjectModal from '../../components/Admin/ProjectModal';
 import ArticleModal from '../../components/Admin/ArticleModal';
+import LeadManager from '../../components/Admin/LeadManager';
 import './AdminPanel.css';
 
 // ─── Portfolio Tab Component ───────────────────────────────────────────────
@@ -301,6 +303,12 @@ const Dashboard = () => {
             <Briefcase className="w-4 h-4" /> Réalisations
           </div>
           <div 
+            onClick={() => setActiveTab('leads')}
+            className={`nav-item ${activeTab === 'leads' ? 'active' : ''}`}
+          >
+            <Inbox className="w-4 h-4" /> Demandes
+          </div>
+          <div 
             onClick={() => setActiveTab('settings')}
             className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
           >
@@ -341,6 +349,7 @@ const Dashboard = () => {
               {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
               {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
               {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
+              {activeTab === 'leads' && "CRM simplifié — Suivi des demandes de devis"}
               {activeTab === 'settings' && "Configuration des services et IA"}
             </p>
           </div>
@@ -458,6 +467,10 @@ const Dashboard = () => {
             onDelete={(id) => setProjects(prev => prev.filter(p => p.id !== id))}
             onNew={() => { setEditingProject(null); setShowProjectModal(true); }}
           />
+        )}
+
+        {activeTab === 'leads' && (
+          <LeadManager />
         )}
 
         {activeTab === 'settings' && (
