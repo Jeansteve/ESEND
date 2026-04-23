@@ -61,7 +61,10 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Stockage Hybride (Phase 1 Pro)** : Les images sont désormais sauvegardées de manière structurée par métier (`/uploads/leads/[service]/[nuisible]/`).
 - **Lien BDD** : La table `esend_leads` stocke désormais le **chemin relatif complet**, facilitant une future migration cloud ou le tri manuel sur le serveur.
 - **Normalisation** : Fonction de sanitisation automatique des noms de dossiers (minuscules, sans accents, espaces gérés).
-- **Galerie Photo** : L'Admin affiche désormais des miniatures dans chaque fiche client, compatibles avec la structure dynamique.
+- **Identité Visuelle** : Verrouillage déterministe des thèmes.
+    - Site Public : Identité "Frozen Night" (Sombre) imposée.
+    - Admin : Identité "Morning Mist" (Clair) imposée pour le confort de gestion.
+    - Suppression des boutons `ThemeToggle` dans le Header public et l'espace Admin.
 
 ## ✅ Pilotage & Gouvernance IA
 - **Nouvelles règles** : Le brainstorming requiert une validation explicite de l'admin avant tout développement.

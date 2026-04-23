@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, ShieldCheck } from 'lucide-react';
 import { api } from '../../lib/api';
-import ThemeToggle from '../../components/UI/ThemeToggle';
+
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -32,10 +33,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-6 transition-colors duration-300">
-      {/* Sélecteur de Thème en haut à droite */}
-      <div className="absolute top-6 right-6">
-        <ThemeToggle />
-      </div>
+
+
 
       <div className="max-w-md w-full">
         {/* Logo Section */}

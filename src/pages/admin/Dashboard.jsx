@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import ThemeToggle from '../../components/UI/ThemeToggle';
+
+
 import {
   BarChart3,
   BookOpen,
@@ -355,7 +356,6 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-center gap-6">
-            <ThemeToggle />
             
             {activeTab !== 'settings' && (
               <div className="relative group">
