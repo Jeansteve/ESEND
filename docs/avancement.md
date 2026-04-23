@@ -55,6 +55,15 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Automatisation Zéro-Saisie** : Cliquer sur le bouton "Appeler" ou "E-mail" passe automatiquement le lead en statut `contacté`.
 - **Bouton "Classer Terminé"** : Archive le dossier en un clic.
 
+### 🟢 V5 : Gestion des Images & Galerie (Dernière Evolution)
+**Fichiers :** `devis.php`, `LeadManager.jsx`, `/uploads/leads/`
+
+- **Stockage Hybride (Phase 1)** : Les images sont désormais sauvegardées physiquement sur le serveur Hostinger dans `/public/uploads/leads/`.
+- **Lien BDD** : La table `esend_leads` possède une nouvelle colonne `images` (JSON) contenant les noms de fichiers.
+- **Galerie Photo** : L'Admin affiche désormais des miniatures dans chaque fiche client.
+- **Lightbox** : Cliquer sur une miniature ouvre la photo en plein écran directement dans l'interface.
+- **Sécurité** : Fichier `.htaccess` bloquant l'exécution de scripts dans le dossier des photos.
+
 ## ✅ Pilotage & Gouvernance IA
 - **Nouvelles règles** : Le brainstorming requiert une validation explicite de l'admin avant tout développement.
 - **Mémoire de Projet (`MEMORY.md`)** : Actualisée le 17 Avril 2026.

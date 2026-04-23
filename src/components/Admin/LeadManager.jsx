@@ -7,6 +7,7 @@ const LeadManager = () => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('inbox'); // 'inbox', 'archived'
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     loadLeads();
@@ -114,7 +115,9 @@ const LeadManager = () => {
               <p className="text-sm">Toutes les demandes ont été traitées.</p>
             </div>
           ) : (
-            filteredLeads.map(lead => (
+            filteredLeads.map(lead => {
+              const images = lead.images ? JSON.parse(lead.images) : [];
+              return (
               <motion.div 
                 key={lead.id} 
                 initial={{ opacity: 0, y: 10 }}
@@ -141,6 +144,22 @@ const LeadManager = () => {
                      <div className="bg-[var(--bg-primary)] p-3 rounded-xl border border-[var(--border-subtle)] text-sm italic mt-2 text-[var(--text-dimmed)]">
                        "{lead.problem_details}"
                      </div>
+                  )}
+
+                  {/* Galerie Photos */}
+                  {images.length > 0 && (
+                    <div className="flex gap-2 mt-4">
+                      {images.map((img, idx) => (
+                        <div 
+                          key={idx} 
+                          onClick={() => setSelectedImage(`/uploads/leads/${img}`)}
+                          className="w-16 h-16 rounded-lg overflow-hidden border border-[var(--border-subtle)] cursor-pointer group relative"
+                        >
+                          <img src={`/uploads/leads/${img}`} className="w-full h-full object-cover transition-transform group-hover:scale-110" alt={`Client photo ${idx + 1}`} />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
 
@@ -188,8 +207,24 @@ const LeadManager = () => {
                   )}
                 </div>
               </motion.div>
-            ))
+            )})
           )}
+        </div>
+      )}
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
+          onClick={() => setSelectedImage(null)}
+        >
+          <img src={selectedImage} className="max-w-full max-h-full rounded-xl shadow-2xl" alt="Agrandissement" />
+          <button 
+            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white"
+            onClick={() => setSelectedImage(null)}
+          >
+            <Trash2 className="w-6 h-6 rotate-45" /> {/* Symbole X détourné */}
+          </button>
         </div>
       )}
     </div>

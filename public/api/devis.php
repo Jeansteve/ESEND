@@ -75,9 +75,34 @@ $rowCount = $stmtCount->fetch();
 $nextNum = str_pad(($rowCount['total'] ?? 0) + 1, 3, '0', STR_PAD_LEFT);
 $trackingId = "ES-" . $yearMonth . "-" . $nextNum;
 
+// 1.2 Traitement des fichiers images pour stockage local
+$uploadedFiles = [];
+$uploadDir = __DIR__ . '/../uploads/leads/';
+
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+}
+
+if (!empty($_FILES)) {
+    $i = 1;
+    foreach ($_FILES as $file) {
+        if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $fileName = $trackingId . "_img_" . $i . "." . $extension;
+            $destination = $uploadDir . $fileName;
+            
+            if (move_uploaded_file($file['tmp_name'], $destination)) {
+                $uploadedFiles[] = $fileName;
+                $i++;
+            }
+        }
+    }
+}
+$imagesJson = !empty($uploadedFiles) ? json_encode($uploadedFiles) : null;
+
 // 2. Archive de la demande en Base de Données (Mini-CRM)
 try {
-    $stmtLead = $pdo->prepare("INSERT INTO esend_leads (tracking_id, service, nuisible, problem_details, client_name, client_phone, client_email, client_type, zip_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmtLead = $pdo->prepare("INSERT INTO esend_leads (tracking_id, service, nuisible, problem_details, client_name, client_phone, client_email, client_type, zip_code, city, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmtLead->execute([
         $trackingId, 
         $service, 
@@ -88,7 +113,8 @@ try {
         $email, 
         $type_client, 
         $cp, 
-        $ville
+        $ville,
+        $imagesJson
     ]);
 } catch (PDOException $e) {
     // On log l'erreur mais on continue pour ne pas bloquer l'envoi du mail
@@ -160,10 +186,18 @@ try {
     $mail->addAddress($to);
 
     // Ajout des pièces jointes dynamiques (photos)
-    if (!empty($_FILES)) {
+    // On utilise les fichiers déjà déplacés s'ils existent, sinon on fallback
+    if (!empty($uploadedFiles)) {
+        foreach ($uploadedFiles as $fileName) {
+            $filePath = $uploadDir . $fileName;
+            if (file_exists($filePath)) {
+                $mail->addAttachment($filePath, $fileName);
+            }
+        }
+    } elseif (!empty($_FILES)) {
+        // Fallback au cas où le move_uploaded_file aurait échoué mais PHP a encore les tmp files
         foreach ($_FILES as $key => $file) {
             if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
-                // PHPMailer gère la pièce jointe de façon sécurisée
                 $mail->addAttachment($file['tmp_name'], basename($file['name']));
             }
         }

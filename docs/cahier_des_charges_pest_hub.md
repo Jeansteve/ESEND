@@ -72,9 +72,10 @@ Le formulaire de devis est le cœur battant du site. Il est conçu pour être **
 - **Emailing** : PHPMailer avec fonction `mail()` native optimisée.
 - **Base de Données** : MySQL (PDO).
 
-### Logique de Suivi (Tracking)
-Chaque formulaire génère un **Tracking ID** unique : `ES-AAMM-NNN` (ex: `ES-2404-001`). 
-Cet ID est la clé de voûte de la classification.
+### Logique de Suivi & Stockage (Solution Hybride)
+Chaque formulaire génère un **Tracking ID** unique : `ES-AAMM-NNN`. Les médias associés suivent une stratégie hybride :
+- **Phase 1 (Actuelle)** : Stockage local sur le serveur `/public/uploads/leads/`. Les images sont compressées côté client avant l'envoi pour préserver l'espace disque.
+- **Phase 2 (Evolution)** : Architecture prête pour un déport vers **Cloudinary** sans changement de structure de base de données.
 
 ```mermaid
 graph TD
@@ -83,8 +84,9 @@ graph TD
     B -- Désinfection --> D[Template Mail 🛡️]
     B -- Nettoyage --> E[Template Mail ✨]
     C & D & E --> F[Génération ID unique]
-    F --> G[Archivage BDD esend_leads]
-    G --> H[Envoi Mail à Steve]
+    F --> G[Upload local sécurisé]
+    G --> H[Archivage BDD esend_leads + JSON images]
+    H --> I[Envoi Mail à Steve avec pièces jointes]
 ```
 
 ---
