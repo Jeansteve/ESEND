@@ -72,21 +72,22 @@ Le formulaire de devis est le cœur battant du site. Il est conçu pour être **
 - **Emailing** : PHPMailer avec fonction `mail()` native optimisée.
 - **Base de Données** : MySQL (PDO).
 
-### Logique de Suivi & Stockage (Solution Hybride)
-Chaque formulaire génère un **Tracking ID** unique : `ES-AAMM-NNN`. Les médias associés suivent une stratégie hybride :
-- **Phase 1 (Actuelle)** : Stockage local sur le serveur `/public/uploads/leads/`. Les images sont compressées côté client avant l'envoi pour préserver l'espace disque.
-- **Phase 2 (Evolution)** : Architecture prête pour un déport vers **Cloudinary** sans changement de structure de base de données.
+### Logique de Suivi & Stockage (Solution Hybride Pro)
+Chaque formulaire génère un **Tracking ID** unique : `ES-AAMM-NNN`. Les médias associés suivent une stratégie de classement intelligent :
+- **Organisation Physique** : Stockage local structuré par métier sur le serveur : `/public/uploads/leads/[service]/[nuisible]/`.
+- **Référencement BDD** : La base de données stocke le chemin relatif complet, permettant une migration transparente vers un Cloud (CDN) à l'avenir.
+- **Sanitisation** : Les noms de dossiers sont automatiquement nettoyés (minuscules, sans accents, espaces remplacés par des tirets).
 
 ```mermaid
 graph TD
     A[Client remplit le Wizard] --> B{Service ?}
-    B -- Nuisibles --> C[Template Mail 🐛]
-    B -- Désinfection --> D[Template Mail 🛡️]
-    B -- Nettoyage --> E[Template Mail ✨]
-    C & D & E --> F[Génération ID unique]
-    F --> G[Upload local sécurisé]
-    G --> H[Archivage BDD esend_leads + JSON images]
-    H --> I[Envoi Mail à Steve avec pièces jointes]
+    B -- Nuisibles --> C[Dossier /leads/nuisibles/nom-nuisible/]
+    B -- Désinfection --> D[Dossier /leads/desinfection/]
+    B -- Nettoyage --> E[Dossier /leads/nettoyage/]
+    C & D & E --> F[Génération ID unique & Sanitisation]
+    F --> G[Upload physique structuré]
+    G --> H[Archivage BDD + JSON des chemins relatifs]
+    H --> I[Envoi Mail avec photos rattachées]
 ```
 
 ---

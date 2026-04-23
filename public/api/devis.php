@@ -75,13 +75,30 @@ $rowCount = $stmtCount->fetch();
 $nextNum = str_pad(($rowCount['total'] ?? 0) + 1, 3, '0', STR_PAD_LEFT);
 $trackingId = "ES-" . $yearMonth . "-" . $nextNum;
 
-// 1.2 Traitement des fichiers images pour stockage local
-$uploadedFiles = [];
-$uploadDir = __DIR__ . '/../uploads/leads/';
+// --- NOUVEAU : Logique de classement intelligent par dossier ---
 
+// Fonction pour nettoyer les noms de dossiers (pas d'accents, espaces -> tirets)
+function sanitizeFolderName($str) {
+    if (!$str) return "divers";
+    $str = mb_strtolower($str, 'UTF-8');
+    $str = str_replace([' ', "'", 'à', 'á', 'â', 'ã', 'ä', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ç'], ['-', '-', 'a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'c'], $str);
+    return preg_replace('/[^a-z0-9\-]/', '', $str);
+}
+
+$serviceSlug = sanitizeFolderName($service);
+$subCategorySlug = ($service === 'Nuisibles' && $nuisible) ? sanitizeFolderName($nuisible) : $serviceSlug;
+
+// Chemin relatif : ex: nuisibles/cafards/
+$relPath = $serviceSlug . '/' . $subCategorySlug . '/';
+$uploadDir = __DIR__ . '/../uploads/leads/' . $relPath;
+
+// Création récursive du dossier si n'existe pas
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
+    // On s'assure qu'un .htaccess est présent à la racine de /uploads/leads/ (déjà fait normalement)
 }
+
+$uploadedFiles = [];
 
 if (!empty($_FILES)) {
     $i = 1;
@@ -92,7 +109,8 @@ if (!empty($_FILES)) {
             $destination = $uploadDir . $fileName;
             
             if (move_uploaded_file($file['tmp_name'], $destination)) {
-                $uploadedFiles[] = $fileName;
+                // IMPORTANT : On stocke le chemin RELATIF complet pour la BDD
+                $uploadedFiles[] = $relPath . $fileName;
                 $i++;
             }
         }
@@ -186,19 +204,12 @@ try {
     $mail->addAddress($to);
 
     // Ajout des pièces jointes dynamiques (photos)
-    // On utilise les fichiers déjà déplacés s'ils existent, sinon on fallback
     if (!empty($uploadedFiles)) {
-        foreach ($uploadedFiles as $fileName) {
-            $filePath = $uploadDir . $fileName;
+        $fullUploadPath = __DIR__ . '/../uploads/leads/';
+        foreach ($uploadedFiles as $relFilePath) {
+            $filePath = $fullUploadPath . $relFilePath;
             if (file_exists($filePath)) {
-                $mail->addAttachment($filePath, $fileName);
-            }
-        }
-    } elseif (!empty($_FILES)) {
-        // Fallback au cas où le move_uploaded_file aurait échoué mais PHP a encore les tmp files
-        foreach ($_FILES as $key => $file) {
-            if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
-                $mail->addAttachment($file['tmp_name'], basename($file['name']));
+                $mail->addAttachment($filePath, basename($relFilePath));
             }
         }
     }
