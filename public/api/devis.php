@@ -67,8 +67,36 @@ if ($service === 'Nuisibles' || $service === 'Intervention') {
     $fond_couleur = "#faf5ff";
 }
 
+// 1. Génération de l'ID de suivi (Tracking ID) type ES-2404-001
+$yearMonth = date('ym');
+$stmtCount = $pdo->prepare("SELECT COUNT(*) as total FROM esend_leads WHERE tracking_id LIKE ?");
+$stmtCount->execute(["ES-" . $yearMonth . "-%"]);
+$rowCount = $stmtCount->fetch();
+$nextNum = str_pad(($rowCount['total'] ?? 0) + 1, 3, '0', STR_PAD_LEFT);
+$trackingId = "ES-" . $yearMonth . "-" . $nextNum;
+
+// 2. Archive de la demande en Base de Données (Mini-CRM)
+try {
+    $stmtLead = $pdo->prepare("INSERT INTO esend_leads (tracking_id, service, nuisible, problem_details, client_name, client_phone, client_email, client_type, zip_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmtLead->execute([
+        $trackingId, 
+        $service, 
+        $nuisible, 
+        $problem, 
+        $nom, 
+        $tel, 
+        $email, 
+        $type_client, 
+        $cp, 
+        $ville
+    ]);
+} catch (PDOException $e) {
+    // On log l'erreur mais on continue pour ne pas bloquer l'envoi du mail
+    error_log("Erreur insertion lead : " . $e->getMessage());
+}
+
 $ville_titre = !empty($ville) ? " (" . mb_strimwidth($ville, 0, 20, "...") . ")" : "";
-$subject = $icone . " " . $titre_service . " - Devis de " . $nom . $ville_titre;
+$subject = $icone . " [" . $trackingId . "] " . $titre_service . " - Devis de " . $nom . $ville_titre;
 
 if(empty($nom) || empty($tel)) {
     echo json_encode(['success' => false, 'message' => 'Des champs obligatoires sont manquants']);
@@ -83,7 +111,7 @@ $htmlMessage = "
 </head>
 <body style='margin: 0; padding: 20px; background-color: #f4f7f6;'>
   <div style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);\">
-      <h2 style=\"color: #1a202c; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-top: 0;\">Nouvelle demande d'intervention ⚡️</h2>
+      <h2 style=\"color: #1a202c; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-top: 0;\">Demande Dossier n° " . $trackingId . " ⚡️</h2>
       
       <p style=\"font-size: 16px; color: #4a5568; line-height: 1.5;\">Bonjour l'équipe ESEND,</p>
       <p style=\"font-size: 15px; color: #4a5568; line-height: 1.5;\">Une nouvelle demande de devis vient d'être soumise de manière autonome sur votre site web. Voici les informations complètes :</p>
