@@ -606,8 +606,8 @@ const FormWizard = () => {
                 >
                   <Check className="w-10 h-10" />
                 </motion.div>
-                <h3 className="text-2xl font-black">Demande envoyée !</h3>
-                <p className="text-slate-500 italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
+                <h3 className="text-2xl font-black text-slate-900">Demande envoyée !</h3>
+                <p className="text-slate-600 font-medium italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
               </motion.div>
             )}
           </div>
