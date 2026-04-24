@@ -4,7 +4,7 @@ require_once __DIR__ . '/config.php';
 header('Content-Type: application/json');
 
 // Configuration
-$CACHE_FILE = __DIR__ . '/../data/market_trends_cache.json';
+$CACHE_FILE = __DIR__ . '/../data/market_trends_cache_v2.json';
 $CACHE_TTL = 3600; // 1 heure
 
 // Récupération sécurisée du token
