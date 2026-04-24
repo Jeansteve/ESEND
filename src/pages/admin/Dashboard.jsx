@@ -587,30 +587,45 @@ const Dashboard = () => {
                   </div>
                </div>
                
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
-                     <div className="flex items-center gap-2 mb-4">
-                        <TrendingUp className="w-4 h-4 text-green-500" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Opportunité Marché</span>
-                     </div>
-                     <p className="text-xs font-bold leading-relaxed">
-                        Les recherches <span className="text-red-500 italic">"Punaise de lit Menton"</span> ont bondi de <span className="text-green-500">42%</span> cette semaine. 
-                        C’est le moment de remonter vos dossiers d'expertise sur la page d'accueil.
-                     </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-indigo-200 transition-all group">
+                  <div className="flex items-center gap-2 mb-3">
+                    <TrendingUp className="w-5 h-5 text-indigo-600" />
+                    <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Opportunité Marché</h4>
                   </div>
-                  
-                  <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
-                     <div className="flex items-center gap-2 mb-4">
-                        <Calendar className="w-4 h-4 text-blue-500" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Anticipation Saisonnière</span>
-                     </div>
-                     <p className="text-xs font-bold leading-relaxed">
-                        Le pic de <span className="text-indigo-500 italic">Frelons / Guêpes</span> est prévu dans 15 jours. 
-                        L'IA suggère de programmer 2 publications sur ce sujet avant mardi.
-                     </p>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                    Les recherches <strong className="text-red-600">"Punaise de lit Menton"</strong> ont bondi de <span className="font-black text-indigo-600">42%</span> cette semaine. C'est le moment de remonter vos dossiers d'expertise.
+                  </p>
+                  <a 
+                    href="https://trends.google.fr/trends/explore?date=now%207-d&geo=FR&q=punaise%20de%20lit%20menton" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-600 text-white text-[10px] font-black rounded-lg hover:bg-slate-900 transition-all shadow-md shadow-indigo-200"
+                  >
+                    Vérifier la tendance <ArrowRight className="w-3 h-3" />
+                  </a>
+                </div>
+                
+                <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-amber-200 transition-all">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Calendar className="w-5 h-5 text-amber-600" />
+                    <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Anticipation Saisonnière</h4>
                   </div>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                    Le pic de <strong className="text-amber-600">Frelons / Guêpes</strong> est prévu dans 15 jours. L'IA suggère de programmer 2 publications sur ce sujet.
+                  </p>
+                  <a 
+                    href="https://trends.google.fr/trends/explore?date=now%201-m&geo=FR&q=frelon%20asiatique%20menton,gu%C3%AApe%20menton" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black rounded-lg hover:bg-amber-600 transition-all shadow-md"
+                  >
+                    Voir les stats <ArrowRight className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
 
-                  <div className="p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
+               <div className="mt-6 p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
                      <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] mb-4">Action suggérée</p>
                      <button onClick={() => setShowStudio('magique')} className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">
                         Lancer le Radar IA
