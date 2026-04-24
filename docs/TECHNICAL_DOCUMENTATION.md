@@ -25,7 +25,7 @@ ESEND est une application **Hybrid SPA** (Single Page Application) :
 ### Gestion du Thème (Deterministic Locking)
 Le système de thème est géré par le hook `src/hooks/useTheme.js`. Il impose un thème fixe selon l'URL :
 - **Public (`/`)** : Force la classe `.dark` (Thème "Frozen Night").
-- **Admin (`/#/admin/*`)** : Force la classe `.light` (Thème "Morning Mist").
+- **Admin (`/#/admin/*`)** : Force la classe `.light` (Thème "Morning Mist"). Comprend une **sidebar rétractable** (persistance localStorage) pour optimiser l'espace de gestion.
 *Note : Le changement manuel par l'utilisateur est désactivé pour préserver l'identité visuelle de chaque section.*
 
 ---

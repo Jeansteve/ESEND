@@ -14,6 +14,8 @@ import {
   Search,
   Sparkles,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   TrendingUp,
   Eye,
   FileText,
@@ -28,7 +30,8 @@ import {
   Edit3,
   Trash2,
   Calendar,
-  Inbox
+  Inbox,
+  Menu
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
@@ -151,6 +154,9 @@ const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
 
 // ─── Dashboard Component ────────────────────────────────────────────────────
 const Dashboard = () => {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    return localStorage.getItem('esend_sidebar_collapsed') === 'true';
+  });
   const [activeTab, setActiveTab] = useState('dashboard');
   const [articles, setArticles] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -277,51 +283,54 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="admin-container bg-[var(--bg-primary)]">
+    <div className={`admin-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} bg-[var(--bg-primary)]`}>
       {/* Sidebar */}
-      <aside className="admin-sidebar bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)]">
-        <div className="sidebar-logo text-[var(--text-main)]">
-          ESEND <span className="text-red-600 font-black">ADMIN</span>
+      <aside className={`admin-sidebar ${isSidebarCollapsed ? 'collapsed' : ''} bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] transition-all duration-300 relative`}>
+        {/* Toggle Button */}
+        <button 
+          onClick={() => {
+            const newState = !isSidebarCollapsed;
+            setIsSidebarCollapsed(newState);
+            localStorage.setItem('esend_sidebar_collapsed', newState);
+          }}
+          className="absolute -right-3 top-20 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all z-20 border-2 border-[var(--bg-primary)]"
+          title={isSidebarCollapsed ? "Déplier le menu" : "Replier le menu"}
+        >
+          {isSidebarCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
+        </button>
+
+        <div className="sidebar-logo text-[var(--text-main)] overflow-hidden flex items-center gap-2">
+          <span className="text-red-600 font-black shrink-0">E</span>
+          {!isSidebarCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-nowrap">SEND <span className="text-red-600 font-black">ADMIN</span></motion.span>}
         </div>
 
         <nav className="flex-grow space-y-2">
-          <div 
-            onClick={() => setActiveTab('dashboard')}
-            className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}
-          >
-            <BarChart3 className="w-4 h-4" /> Dashboard
-          </div>
-          <div 
-            onClick={() => setActiveTab('blog')}
-            className={`nav-item ${activeTab === 'blog' ? 'active' : ''}`}
-          >
-            <BookOpen className="w-4 h-4" /> Journal Expert
-          </div>
-          <div 
-            onClick={() => setActiveTab('portfolio')}
-            className={`nav-item ${activeTab === 'portfolio' ? 'active' : ''}`}
-          >
-            <Briefcase className="w-4 h-4" /> Réalisations
-          </div>
-          <div 
-            onClick={() => setActiveTab('leads')}
-            className={`nav-item ${activeTab === 'leads' ? 'active' : ''}`}
-          >
-            <Inbox className="w-4 h-4" /> Demandes
-          </div>
-          <div 
-            onClick={() => setActiveTab('settings')}
-            className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
-          >
-            <Settings className="w-4 h-4" /> Paramètres
-          </div>
+          {[
+            { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
+            { id: 'blog', icon: BookOpen, label: 'Journal Expert' },
+            { id: 'portfolio', icon: Briefcase, label: 'Réalisations' },
+            { id: 'leads', icon: Inbox, label: 'Demandes' },
+            { id: 'settings', icon: Settings, label: 'Paramètres' },
+          ].map(item => (
+            <div 
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`nav-item ${activeTab === item.id ? 'active' : ''} ${isSidebarCollapsed ? 'justify-center p-3 px-0' : ''}`}
+              title={isSidebarCollapsed ? item.label : ''}
+            >
+              <item.icon className="w-4 h-4 shrink-0" /> 
+              {!isSidebarCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-nowrap">{item.label}</motion.span>}
+            </div>
+          ))}
         </nav>
 
         <div 
           onClick={handleLogout}
-          className="nav-item text-zinc-500 hover:text-red-600 mt-auto border-t border-[var(--border-subtle)] pt-4"
+          className={`nav-item text-zinc-500 hover:text-red-600 mt-auto border-t border-[var(--border-subtle)] pt-4 ${isSidebarCollapsed ? 'justify-center p-3 px-0' : ''}`}
+          title={isSidebarCollapsed ? "Quitter" : ""}
         >
-          <LogOut className="w-4 h-4" /> Quitter
+          <LogOut className="w-4 h-4 shrink-0" /> 
+          {!isSidebarCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Quitter</motion.span>}
         </div>
       </aside>
 
@@ -650,7 +659,7 @@ const Dashboard = () => {
             </div>
 
             {/* STICKY GLOBAL SAVE BAR */}
-            <div className="fixed bottom-8 left-[300px] right-24 z-50 flex justify-center pointer-events-none">
+            <div className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ${isSidebarCollapsed ? 'pl-[80px]' : 'pl-[280px]'}`}>
               <motion.div 
                 initial={{ y: 100 }}
                 animate={{ y: 0 }}
