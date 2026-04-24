@@ -284,7 +284,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div className={`admin-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} bg-[var(--bg-primary)] h-[100dvh]`}>
+    <div className={`admin-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} bg-[var(--bg-primary)]`}>
       {/* Mobile Backdrop */}
       {isMobileMenuOpen && (
         <div 

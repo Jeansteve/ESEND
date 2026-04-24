@@ -159,6 +159,12 @@
 /* --- RESPONSIVE MOBILE / TABLET (< 1024px) ------------------------------- */
 /* ========================================================================= */
 @media (max-width: 1024px) {
+  .admin-container {
+    display: block;
+    overflow-y: auto;
+    width: 100%;
+  }
+
   .admin-sidebar {
     position: fixed;
     height: 100vh;
@@ -167,21 +173,25 @@
     z-index: 100;
     transform: translateX(-100%);
     width: 280px;
+    display: flex; /* Toujours besoin de flex pour son contenu interne */
   }
 
   .admin-sidebar.mobile-open {
     transform: translateX(0);
   }
 
-  /* Cache le boutton toggle desktop sur mobile pour utiliser le hamburger */
+  /* Cache le boutton toggle desktop sur mobile */
   .admin-sidebar > button.absolute {
     display: none;
   }
 
   .admin-main {
     padding: 1.5rem;
-    width: 100%;
+    width: 100% !important;
     margin-left: 0 !important;
+    flex: none; /* Désactive le comportement flex pour éviter les compressions */
+    height: auto;
+    min-height: 100vh;
   }
 
   .admin-search {
