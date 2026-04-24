@@ -33,37 +33,38 @@ $queries = [
 function fetchApifyData($token, $queries) {
     if (empty($token) || strlen($token) < 10) return null;
 
-    $actorId = 'apify/google-trends-scraper';
+    $actorId = 'apify~google-trends-scraper'; // Utilisation du tilde
     $searchTerms = array_column($queries, 'query');
     
     $input = [
         "searchTerms" => $searchTerms,
-        "geo" => "FR", // Scope France pour avoir de la Data réelle
+        "geo" => "FR",
         "timeRange" => "now 7-d"
     ];
 
-    $ch = curl_init("https://api.apify.com/v2/acts/$actorId/runs?token=$token&wait=20");
+    // Endpoint synchrone pour tout faire en un seul appel
+    $url = "https://api.apify.com/v2/acts/$actorId/run-sync-get-dataset-items?token=$token&timeout=60";
+    
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($input));
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 25);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($httpCode >= 400) return null;
-
-    $runData = json_decode($response, true);
-    $datasetId = $runData['data']['defaultDatasetId'] ?? null;
-    if (!$datasetId) return null;
-
-    // Récupération via cURL
-    $ch = curl_init("https://api.apify.com/v2/datasets/$datasetId/items?token=$token");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 65);
+    
     $itemsJson = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
+
+    // Debug stocké
+    $GLOBALS['apify_debug'] = [
+        "http_code" => $httpCode,
+        "curl_error" => $curlError,
+        "preview" => substr($itemsJson, 0, 100)
+    ];
+
+    if ($httpCode >= 400 || empty($itemsJson)) return null;
 
     $items = json_decode($itemsJson, true);
     if (empty($items)) return null;
