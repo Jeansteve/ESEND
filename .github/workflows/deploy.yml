@@ -25,6 +25,9 @@ jobs:
         env:
           VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
 
+      - name: Force Copy API files to dist (Vite fix)
+        run: mkdir -p dist/api && cp -r public/api/* dist/api/
+
       - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
