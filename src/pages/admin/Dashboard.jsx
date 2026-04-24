@@ -506,7 +506,7 @@ const Dashboard = () => {
                                  transition={{ repeat: Infinity, duration: 2 }}
                                  className="bg-red-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.4)]"
                                >
-                                 LITIGE / URGENT
+                                 URGENT ⚡
                                </motion.span>
                              )}
                           </div>
