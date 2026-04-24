@@ -173,7 +173,7 @@
   /* Sidebar mobile : Cachée totalement du flux par défaut */
   .admin-sidebar {
     display: none !important;
-    position: fixed;
+    position: fixed !important;
     height: 100vh !important;
     left: 0;
     top: 0;
