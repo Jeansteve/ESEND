@@ -8,14 +8,23 @@ import { useState, useEffect } from 'react';
 export const useTheme = () => {
     // Calcul déterministe du thème (Verrouillage ESEND)
     // Public = Dark (Frozen Night) | Admin = Light (Morning Mist)
-    const getTargetTheme = () => window.location.hash.includes('/admin') ? 'light' : 'dark';
+    const getTargetTheme = () => {
+        const hash = window.location.hash;
+        const isAdmin = hash.includes('/admin');
+        console.log("[useTheme] Path detected:", hash, "| isAdmin:", isAdmin);
+        const target = isAdmin ? 'light' : 'dark';
+        console.log("[useTheme] Target theme determined:", target);
+        return target;
+    };
 
     const [theme, setTheme] = useState(getTargetTheme());
 
     // Écouteur de changement de route pour appliquer le thème immédiatement lors de la navigation
     useEffect(() => {
         const handleHashChange = () => {
-            setTheme(getTargetTheme());
+            const newTheme = getTargetTheme();
+            console.log("[useTheme] Hash changed, new theme:", newTheme);
+            setTheme(newTheme);
         };
 
         window.addEventListener('hashchange', handleHashChange);

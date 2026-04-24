@@ -25,21 +25,21 @@
 
 /* --- MODE JOUR (MORNING MIST / LIGHT) --- */
 .light {
-  --bg-primary: #fdfdfd;
-  --bg-secondary: #f4f7f9;
-  --bg-card: rgba(255, 255, 255, 0.8);
-  --bg-input: rgba(255, 255, 255, 0.9);
-  --bg-overlay: rgba(244, 247, 249, 0.95);
-  --text-main: #0f172a;
-  --text-dimmed: #64748b;
-  --border-subtle: rgba(15, 23, 42, 0.05);
-  --border-strong: rgba(15, 23, 42, 0.1);
-  --accent-red: #dc2626;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(99, 102, 241, 0.1);
-  --selection-bg: #ef4444;
-  --shadow-subtle: 0 10px 50px -20px rgba(99, 102, 241, 0.1);
-  --card-glow: 0 0 40px -10px rgba(99, 102, 241, 0.1);
+  --bg-primary: #fdfdfd !important;
+  --bg-secondary: #f4f7f9 !important;
+  --bg-card: rgba(255, 255, 255, 0.8) !important;
+  --bg-input: rgba(255, 255, 255, 0.9) !important;
+  --bg-overlay: rgba(244, 247, 249, 0.95) !important;
+  --text-main: #0f172a !important;
+  --text-dimmed: #64748b !important;
+  --border-subtle: rgba(15, 23, 42, 0.05) !important;
+  --border-strong: rgba(15, 23, 42, 0.1) !important;
+  --accent-red: #dc2626 !important;
+  --glass-bg: rgba(255, 255, 255, 0.7) !important;
+  --glass-border: rgba(99, 102, 241, 0.1) !important;
+  --selection-bg: #ef4444 !important;
+  --shadow-subtle: 0 10px 50px -20px rgba(99, 102, 241, 0.1) !important;
+  --card-glow: 0 0 40px -10px rgba(99, 102, 241, 0.1) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

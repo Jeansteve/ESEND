@@ -28,33 +28,41 @@ const LeadManager = () => {
   };
 
   const updateStatus = async (id, newStatus) => {
+    console.log("[LeadManager] Updating status for ID:", id, "to:", newStatus);
     // Optimistic update : On utilise prevLeads pour garantir qu'on travaille sur le dernier état
-    setLeads(prevLeads => prevLeads.map(l => l.id === id ? { ...l, status: newStatus } : l));
+    setLeads(prevLeads => prevLeads.map(l => l.id == id ? { ...l, status: newStatus } : l));
     
     try {
-      await fetch('/api/leads.php', {
+      const response = await fetch('/api/leads.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, status: newStatus })
       });
+      const data = await response.json();
+      console.log("[LeadManager] Status update result:", data);
     } catch (e) {
-      console.error('Erreur MAJ lead', e);
+      console.error('[LeadManager] Erreur MAJ lead', e);
       loadLeads();
     }
   };
 
-  const handleActionClick = (lead, type) => {
+  const handleActionClick = async (lead, type) => {
+    console.log("[LeadManager] Action click:", type, "on lead:", lead.tracking_id, "current status:", lead.status);
     // Changement de statut automatique
     if (lead.status === 'nouveau') {
-      updateStatus(lead.id, 'contacté');
+      console.log("[LeadManager] Status is 'nouveau', triggering updateStatus...");
+      await updateStatus(lead.id, 'contacté');
     }
 
     // Déclenchement de l'action native (tel ou mail)
-    if (type === 'phone') {
-      window.location.href = `tel:${lead.client_phone}`;
-    } else if (type === 'email') {
-      window.location.href = `mailto:${lead.client_email}?subject=ESEND : Demande d'intervention ${lead.tracking_id}`;
-    }
+    // On ajoute un léger délai pour s'assurer que le changement d'état React a été initié
+    setTimeout(() => {
+      if (type === 'phone') {
+        window.location.href = `tel:${lead.client_phone}`;
+      } else if (type === 'email') {
+        window.location.href = `mailto:${lead.client_email}?subject=ESEND : Demande d'intervention ${lead.tracking_id}`;
+      }
+    }, 50);
   };
 
   const filteredLeads = leads.filter(l => {
