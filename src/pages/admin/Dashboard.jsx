@@ -451,70 +451,83 @@ const Dashboard = () => {
                 <div className="space-y-6">
                   {leads
                     .sort((a, b) => {
-                      // 1. Urgence déclarée par le client en premier
                       const aUrgent = a.is_urgent == 1 || a.is_urgent === true;
                       const bUrgent = b.is_urgent == 1 || b.is_urgent === true;
                       if (aUrgent && !bUrgent) return -1;
                       if (!aUrgent && bUrgent) return 1;
-                      
-                      // 2. Puis statut nouveau (non traité)
                       const aNew = a.status === 'nouveau';
                       const bNew = b.status === 'nouveau';
                       if (aNew && !bNew) return -1;
                       if (!aNew && bNew) return 1;
-                      
-                      // 3. Pour les non-traités, les plus anciens d'abord (anti-attente)
                       if (aNew && bNew) return new Date(a.created_at) - new Date(b.created_at);
-                      
-                      // 4. Pour le reste, par date récente
                       return new Date(b.created_at) - new Date(a.created_at);
                     })
                     .slice(0, 5).map((lead, i) => {
                       const isUrgent = lead.is_urgent == 1 || lead.is_urgent === true;
                       const isNew = lead.status === 'nouveau';
-                      const isHighlight = isUrgent || isNew;
+                      
                       return (
-                    <div 
-                      key={i} 
+                    <motion.div 
+                      key={lead.id || i}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
                       onClick={() => setActiveTab('leads')}
-                      className={`flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0 transition-all ${isHighlight ? 'hover:pl-2' : ''}`}
+                      className={`relative flex justify-between items-center p-4 rounded-2xl cursor-pointer transition-all duration-300 group mb-3 last:mb-0 ${
+                        isUrgent ? 'bg-red-500/5 border border-red-500/20 hover:bg-red-500/10' : 
+                        isNew ? 'bg-white border border-slate-100 hover:border-slate-300 shadow-sm' :
+                        'bg-slate-50/50 border border-transparent hover:bg-slate-50'
+                      }`}
                     >
+                      {isUrgent && (
+                        <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-12 bg-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.5)]" />
+                      )}
+
                       <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center border transition-all ${
-                          isUrgent ? 'border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]' :
-                          isNew ? 'border-red-600/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 
-                          'border-[var(--border-subtle)]'
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${
+                          isUrgent ? 'bg-red-600 text-white shadow-lg shadow-red-600/30 rotate-3 group-hover:rotate-0' :
+                          isNew ? 'bg-slate-900 text-white' : 
+                          'bg-slate-100 text-slate-400'
                         }`}>
-                           {lead.service === 'Nuisibles' ? <Bug className={`w-5 h-5 ${isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-orange-600'}`} /> : 
-                            lead.service === 'Nettoyage' ? <Zap className="w-5 h-5 text-indigo-600" /> :
-                            <ShieldCheck className="w-5 h-5 text-green-600" />}
+                           {lead.service === 'Nuisibles' ? <Bug className="w-6 h-6" /> : 
+                            lead.service === 'Nettoyage' ? <Zap className="w-6 h-6" /> :
+                            <ShieldCheck className="w-6 h-6" />}
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                             <p className={`text-[10px] uppercase font-black tracking-widest ${
-                               isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-[var(--text-dimmed)]'
-                             }`}>
+                        
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-3">
+                             <span className={`text-[10px] font-black uppercase tracking-widest ${isUrgent ? 'text-red-600' : 'text-slate-500'}`}>
                                {lead.service} {lead.nuisible && `• ${lead.nuisible}`}
-                             </p>
-                             {isUrgent && <span className="text-[8px] font-black bg-amber-500/10 text-amber-500 border border-amber-500/30 px-1.5 py-0.5 rounded-full">⚡ URGENT</span>}
-                             {!isUrgent && isNew && <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />}
+                             </span>
+                             {isUrgent && (
+                               <motion.span 
+                                 animate={{ opacity: [1, 0.5, 1] }}
+                                 transition={{ repeat: Infinity, duration: 2 }}
+                                 className="bg-red-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.4)]"
+                               >
+                                 LITIGE / URGENT
+                               </motion.span>
+                             )}
                           </div>
-                          <h5 className={`text-[11px] font-bold transition-colors ${
-                            isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-[var(--text-main)]'
-                          }`}>{lead.client_name}</h5>
+                          <h5 className={`text-sm font-black tracking-tight flex items-center gap-2 ${isUrgent ? 'text-red-900' : 'text-slate-900'}`}>
+                            {lead.client_name}
+                            {isNew && !isUrgent && <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />}
+                          </h5>
                         </div>
                       </div>
-                      <div className="flex flex-col items-end gap-1">
-                        <span className={`text-[9px] font-black uppercase tracking-widest ${
-                          isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-[var(--text-dimmed)]'
+
+                      <div className="text-right space-y-1">
+                        <div className={`text-[10px] font-black uppercase tracking-widest ${
+                          isUrgent ? 'text-red-600' : isNew ? 'text-slate-900' : 'text-slate-400'
                         }`}>
-                          {isNew ? 'Non traité' : 'Contacté'}
-                        </span>
-                        <span className="text-[8px] font-medium text-[var(--text-dimmed)]">
-                          {new Date(lead.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                        </span>
+                          {isUrgent ? 'Priorité S+++' : isNew ? 'Fil d\'attente' : 'Terminé'}
+                        </div>
+                        <div className="text-[10px] font-bold text-slate-400 flex items-center justify-end gap-1">
+                          <Clock className="w-3 h-3" />
+                          {new Date(lead.created_at).toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                        </div>
                       </div>
-                    </div>
+                    </motion.div>
                   );})}
                 </div>
               </div>
