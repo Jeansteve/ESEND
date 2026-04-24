@@ -154,3 +154,41 @@
   border-color: rgba(220, 38, 38, 0.5);
   width: 350px;
 }
+
+/* ========================================================================= */
+/* --- RESPONSIVE MOBILE / TABLET (< 1024px) ------------------------------- */
+/* ========================================================================= */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    width: 280px;
+  }
+
+  .admin-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* Cache le boutton toggle desktop sur mobile pour utiliser le hamburger */
+  .admin-sidebar > button.absolute {
+    display: none;
+  }
+
+  .admin-main {
+    padding: 1.5rem;
+    width: 100%;
+    margin-left: 0 !important;
+  }
+
+  .admin-search {
+    width: 100%;
+  }
+
+  .admin-search:focus {
+    width: 100%;
+  }
+}

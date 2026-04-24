@@ -157,6 +157,7 @@ const Dashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
     return localStorage.getItem('esend_sidebar_collapsed') === 'true';
   });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [articles, setArticles] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -283,9 +284,17 @@ const Dashboard = () => {
   );
 
   return (
-    <div className={`admin-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} bg-[var(--bg-primary)]`}>
+    <div className={`admin-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} bg-[var(--bg-primary)] h-[100dvh]`}>
+      {/* Mobile Backdrop */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className={`admin-sidebar ${isSidebarCollapsed ? 'collapsed' : ''} bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] transition-all duration-300 relative`}>
+      <aside className={`admin-sidebar ${isSidebarCollapsed ? 'collapsed' : ''} ${isMobileMenuOpen ? 'mobile-open' : ''} bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] transition-all duration-300 relative`}>
         {/* Toggle Button */}
         <button 
           onClick={() => {
@@ -299,21 +308,15 @@ const Dashboard = () => {
           {isSidebarCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
         </button>
 
-        <div className={`sidebar-logo text-[var(--text-main)] overflow-hidden flex ${isSidebarCollapsed ? 'justify-center mb-6 pt-2' : 'flex-col gap-4 mb-10'}`}>
+        <div className={`sidebar-logo text-[var(--text-main)] overflow-hidden flex ${isSidebarCollapsed ? 'lg:justify-center mb-6 pt-2' : 'flex-col gap-4 mb-10'}`}>
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1 shadow-2xl border border-[var(--border-subtle)] group-hover:scale-105 transition-transform shrink-0 overflow-hidden">
               <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain" />
             </div>
-            {!isSidebarCollapsed && (
-              <motion.div 
-                initial={{ opacity: 0, x: -10 }} 
-                animate={{ opacity: 1, x: 0 }} 
-                className="flex flex-col leading-none"
-              >
-                <span className="text-xl font-black italic tracking-tighter text-[var(--text-main)]">ESEND</span>
-                <span className="text-[10px] font-bold text-red-600 tracking-[0.25em] uppercase mt-1">Admin</span>
-              </motion.div>
-            )}
+            <div className={`flex flex-col leading-none ${isSidebarCollapsed ? 'lg:hidden' : ''}`}>
+              <span className="text-xl font-black italic tracking-tighter text-[var(--text-main)]">ESEND</span>
+              <span className="text-[10px] font-bold text-red-600 tracking-[0.25em] uppercase mt-1">Admin</span>
+            </div>
           </div>
         </div>
 
@@ -327,23 +330,23 @@ const Dashboard = () => {
           ].map(item => (
             <div 
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              className={`nav-item ${activeTab === item.id ? 'active' : ''} ${isSidebarCollapsed ? 'justify-center p-3 px-0' : ''}`}
+              onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }}
+              className={`nav-item ${activeTab === item.id ? 'active' : ''} ${isSidebarCollapsed ? 'lg:justify-center lg:p-3 lg:px-0' : ''}`}
               title={isSidebarCollapsed ? item.label : ''}
             >
               <item.icon className="w-4 h-4 shrink-0" /> 
-              {!isSidebarCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-nowrap">{item.label}</motion.span>}
+              <span className={`${isSidebarCollapsed ? 'lg:hidden' : ''} whitespace-nowrap`}>{item.label}</span>
             </div>
           ))}
         </nav>
 
         <div 
           onClick={handleLogout}
-          className={`nav-item text-zinc-500 hover:text-red-600 mt-auto border-t border-[var(--border-subtle)] pt-4 ${isSidebarCollapsed ? 'justify-center p-3 px-0' : ''}`}
+          className={`nav-item text-zinc-500 hover:text-red-600 mt-auto border-t border-[var(--border-subtle)] pt-4 ${isSidebarCollapsed ? 'lg:justify-center lg:p-3 lg:px-0' : ''}`}
           title={isSidebarCollapsed ? "Quitter" : ""}
         >
           <LogOut className="w-4 h-4 shrink-0" /> 
-          {!isSidebarCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>Quitter</motion.span>}
+          <span className={`${isSidebarCollapsed ? 'lg:hidden' : ''}`}>Quitter</span>
         </div>
       </aside>
 
@@ -363,31 +366,39 @@ const Dashboard = () => {
         ) : (
           <>
             {/* Header */}
-            <header className="flex justify-between items-center mb-16">
-          <div>
-            <h2 className="text-4xl font-black tracking-tighter uppercase mb-2 text-[var(--text-main)]">
-              Statut <span className="text-red-600 italic">Opérationnel</span>
-            </h2>
-            <p className="text-[var(--text-dimmed)] font-medium text-xs italic tracking-widest uppercase border-l border-red-600 pl-4">
-              {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
-              {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
-              {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
-              {activeTab === 'leads' && "CRM simplifié — Suivi des demandes de devis"}
-              {activeTab === 'settings' && "Configuration des services et IA"}
-            </p>
+            <header className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-6 mb-8 lg:mb-16">
+          <div className="flex items-center gap-4 w-full lg:w-auto">
+            <button 
+              className="lg:hidden p-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-main)] shadow-lg active:scale-95 hover:border-red-600/50 transition-all shrink-0"
+              onClick={() => setIsMobileMenuOpen(true)}
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <div>
+              <h2 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase mb-1 sm:mb-2 text-[var(--text-main)]">
+                Statut <span className="text-red-600 italic">Opérationnel</span>
+              </h2>
+              <p className="hidden sm:block text-[var(--text-dimmed)] font-medium text-[10px] sm:text-xs italic tracking-widest uppercase border-l border-red-600 pl-3 sm:pl-4">
+                {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
+                {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
+                {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
+                {activeTab === 'leads' && "CRM simplifié — Suivi des demandes de devis"}
+                {activeTab === 'settings' && "Configuration des services et IA"}
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full lg:w-auto">
             
             {activeTab !== 'settings' && (
-              <div className="relative group">
+              <div className="relative group w-full sm:w-auto">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
                 <input 
                   type="text" 
                   placeholder="Rechercher..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="admin-search bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
+                  className="admin-search w-full bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
                 />
               </div>
             )}
@@ -395,7 +406,7 @@ const Dashboard = () => {
             {activeTab === 'blog' && (
               <button
                 onClick={() => setShowStudio(true)}
-                className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
+                className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
               >
                 <Plus className="w-4 h-4" /> Nouvel Article
               </button>
@@ -404,9 +415,9 @@ const Dashboard = () => {
             {activeTab === 'portfolio' && (
               <button
                 onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
-                className="flex items-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
+                className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
               >
-                <Plus className="w-4 h-4" /> Nouvelle Réalisation
+                <Plus className="w-4 h-4" /> Nouvelle Réa
               </button>
             )}
           </div>
@@ -672,15 +683,15 @@ const Dashboard = () => {
             </div>
 
             {/* STICKY GLOBAL SAVE BAR */}
-            <div className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ${isSidebarCollapsed ? 'pl-[80px]' : 'pl-[280px]'}`}>
+            <div className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 max-lg:px-4 max-lg:pl-0 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'}`}>
               <motion.div 
                 initial={{ y: 100 }}
                 animate={{ y: 0 }}
-                className="pointer-events-auto"
+                className="pointer-events-auto w-full sm:w-auto"
               >
                 <button 
                    onClick={handleUpdateSettings}
-                   className="flex items-center gap-4 bg-red-600 text-white px-12 py-5 rounded-full font-black uppercase tracking-widest text-[11px] hover:bg-red-700 transition-all shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_25px_60px_rgba(220,38,38,0.4)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
+                   className="flex items-center justify-center gap-4 bg-red-600 text-white px-8 sm:px-12 py-5 w-full sm:w-auto rounded-xl sm:rounded-full font-black uppercase tracking-widest text-[10px] sm:text-[11px] hover:bg-red-700 transition-all shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_25px_60px_rgba(220,38,38,0.4)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
                    disabled={loading}
                 >
                    {loading ? (
