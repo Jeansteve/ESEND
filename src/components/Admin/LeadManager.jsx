@@ -28,8 +28,9 @@ const LeadManager = () => {
   };
 
   const updateStatus = async (id, newStatus) => {
-    // Optimistic update
-    setLeads(leads.map(l => l.id === id ? { ...l, status: newStatus } : l));
+    // Optimistic update : On utilise prevLeads pour garantir qu'on travaille sur le dernier état
+    setLeads(prevLeads => prevLeads.map(l => l.id === id ? { ...l, status: newStatus } : l));
+    
     try {
       await fetch('/api/leads.php', {
         method: 'POST',
@@ -38,14 +39,21 @@ const LeadManager = () => {
       });
     } catch (e) {
       console.error('Erreur MAJ lead', e);
-      loadLeads(); // Reload to restore correct state on error
+      loadLeads();
     }
   };
 
   const handleActionClick = (lead, type) => {
-    // Si c'est un nouveau lead, on le passe en "contacté" automatiquement lors d'un clic sur Action (tel ou mail)
+    // Changement de statut automatique
     if (lead.status === 'nouveau') {
       updateStatus(lead.id, 'contacté');
+    }
+
+    // Déclenchement de l'action native (tel ou mail)
+    if (type === 'phone') {
+      window.location.href = `tel:${lead.client_phone}`;
+    } else if (type === 'email') {
+      window.location.href = `mailto:${lead.client_email}?subject=ESEND : Demande d'intervention ${lead.tracking_id}`;
     }
   };
 
@@ -167,20 +175,18 @@ const LeadManager = () => {
                 <div className="flex md:flex-col gap-2 justify-end md:w-48 shrink-0">
                   {filter === 'inbox' ? (
                     <>
-                      <a 
-                        href={`tel:${lead.client_phone}`} 
+                      <button 
                         onClick={() => handleActionClick(lead, 'phone')}
                         className="flex-1 flex justify-center items-center gap-2 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-600/20 text-blue-500 p-3 rounded-xl transition-all font-bold text-sm"
                       >
                         <Phone className="w-4 h-4" /> Appeler
-                      </a>
-                      <a 
-                        href={`mailto:${lead.client_email}?subject=ESEND : Demande d'intervention ${lead.tracking_id}`} 
+                      </button>
+                      <button 
                         onClick={() => handleActionClick(lead, 'email')}
                         className="flex-1 flex justify-center items-center gap-2 bg-[var(--bg-input)] hover:border-[var(--text-main)]/30 border border-[var(--border-subtle)] text-[var(--text-main)] p-3 rounded-xl transition-all font-bold text-sm"
                       >
                         <Mail className="w-4 h-4" /> E-mail
-                      </a>
+                      </button>
                       <button 
                          onClick={() => updateStatus(lead.id, 'terminé')}
                          className="flex-1 flex justify-center items-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-500 p-3 rounded-xl transition-all font-bold text-sm mt-auto"

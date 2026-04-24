@@ -11,8 +11,11 @@ import PortfolioPage from './pages/PortfolioPage'
 import BlogPage from './pages/BlogPage'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
+import { useTheme } from './hooks/useTheme'
 
 function App() {
+  useTheme(); // Gère le thème global (Admin vs Public)
+  
   return (
     <HashRouter>
       <div className="min-h-screen text-[var(--text-main)] transition-colors duration-400">
