@@ -299,9 +299,22 @@ const Dashboard = () => {
           {isSidebarCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
         </button>
 
-        <div className="sidebar-logo text-[var(--text-main)] overflow-hidden flex items-center gap-2">
-          <span className="text-red-600 font-black shrink-0">E</span>
-          {!isSidebarCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="whitespace-nowrap">SEND <span className="text-red-600 font-black">ADMIN</span></motion.span>}
+        <div className={`sidebar-logo text-[var(--text-main)] overflow-hidden flex ${isSidebarCollapsed ? 'justify-center mb-6' : 'flex-col gap-1 mb-8'}`}>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white font-black italic shadow-lg shadow-red-600/20 shrink-0">
+              E
+            </div>
+            {!isSidebarCollapsed && (
+              <motion.div 
+                initial={{ opacity: 0, x: -10 }} 
+                animate={{ opacity: 1, x: 0 }} 
+                className="flex flex-col leading-none"
+              >
+                <span className="text-sm font-black italic tracking-tighter">ESEND</span>
+                <span className="text-[10px] font-bold text-red-600 tracking-[0.2em] uppercase">Admin</span>
+              </motion.div>
+            )}
+          </div>
         </div>
 
         <nav className="flex-grow space-y-2">
