@@ -1,7 +1,8 @@
 # 📖 Master Cahier des Charges : Plateforme ESEND V4
 > **Version :** 4.0 (Avril 2026)  
 > **Statut :** Document de Référence de l'Ecosystème  
-> **Acteurs :** Steve (Owner), Antigravity (IA Architect)
+> **Acteurs :** Steve (Owner), Antigravity (IA Architect)  
+> **Tech Doc :** [TECHNICAL_DOCUMENTATION.md](TECHNICAL_DOCUMENTATION.md)
 
 ---
 
