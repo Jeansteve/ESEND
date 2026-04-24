@@ -23,63 +23,74 @@ if (!$forceRefresh && file_exists($CACHE_FILE) && (time() - filemtime($CACHE_FIL
     exit;
 }
 
-// Mots-clés Nationaux pour garantir du volume Google Trends
+// Mots-clés Sectoriels (Riviera & Monaco)
 $queries = [
-    ["query" => "punaise de lit", "label" => "Punaise de lit (Menton)"],
-    ["query" => "frelon asiatique", "label" => "Frelon Asiatique (Menton)"],
-    ["query" => "cafard", "label" => "Cafard / Blatte (Menton)"]
+    ["query" => "punaise de lit", "label" => "Punaise de lit (Riviera & Monaco)"],
+    ["query" => "frelon asiatique", "label" => "Frelon Asiatique (Riviera & Monaco)"],
+    ["query" => "cafard", "label" => "Cafard / Blatte (Riviera & Monaco)"]
 ];
 
 function fetchApifyData($token, $queries) {
     if (empty($token) || strlen($token) < 10) return null;
 
-    $actorId = 'apify~google-trends-scraper'; // Utilisation du tilde
+    $actorId = 'apify~google-trends-scraper';
     $searchTerms = array_column($queries, 'query');
     
     $input = [
         "searchTerms" => $searchTerms,
-        "geo" => "FR",
+        "geo" => "FR-U", // Région PACA pour couvrir tout le périmètre ESEND (06/Riviera)
         "timeRange" => "now 7-d"
     ];
 
-    // Endpoint synchrone limité à 10s pour l'UX
-    $url = "https://api.apify.com/v2/acts/$actorId/run-sync-get-dataset-items?token=$token&timeout=10";
+    $url = "https://api.apify.com/v2/acts/$actorId/run-sync-get-dataset-items?token=$token&timeout=25";
     
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($input));
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     
     $itemsJson = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $curlError = curl_error($ch);
     curl_close($ch);
-
-    // Debug stocké
-    $GLOBALS['apify_debug'] = [
-        "http_code" => $httpCode,
-        "curl_error" => $curlError,
-        "preview" => substr($itemsJson, 0, 100)
-    ];
 
     if ($httpCode >= 400 || empty($itemsJson)) return null;
 
     $items = json_decode($itemsJson, true);
-    if (empty($items)) return null;
+    if (empty($items) || !is_array($items)) return null;
 
-    // Analyse simplifiée des tendances
+    // Analyse REELLE des points de données
     $final = [];
     foreach ($queries as $idx => $q) {
-        $val = rand(15, 65); // On base sur la réalité France
+        $trendVal = 0;
+        $isRising = false;
+        
+        // Extraction de la timeline pour ce terme
+        // Apify renvoie souvent les résultats fusionnés ou par terme
+        foreach ($items as $item) {
+            $timeline = $item['interestOverTime_timelineData'] ?? null;
+            if ($timeline && count($timeline) >= 2) {
+                $last = end($timeline)['value'][$idx] ?? 0;
+                $prev = prev($timeline)['value'][$idx] ?? 0;
+                
+                if ($prev > 0) {
+                    $trendVal = round((($last - $prev) / $prev) * 100);
+                } else {
+                    $trendVal = $last > 0 ? 100 : 0;
+                }
+                $isRising = $trendVal > 0;
+                break;
+            }
+        }
+
         $final[] = [
             "label" => $q['label'],
             "searchTerm" => $q['query'],
-            "trendChange" => "+$val%",
-            "isRising" => true,
-            "color" => $idx === 1 ? 'amber' : 'indigo',
-            "url" => "https://trends.google.fr/trends/explore?date=now%207-d&geo=FR&q=" . urlencode($q['query'])
+            "trendChange" => ($trendVal >= 0 ? "+" : "") . $trendVal . "%",
+            "isRising" => $isRising,
+            "color" => $idx === 1 ? 'amber' : ($trendVal > 30 ? 'red' : 'indigo'),
+            "url" => "https://trends.google.fr/trends/explore?date=now%207-d&geo=FR-U&q=" . urlencode($q['query'])
         ];
     }
     return $final;
@@ -89,11 +100,9 @@ $data = fetchApifyData($apifyToken, $queries);
 $source = $data ? "apify_live" : "simulation_fallback";
 
 if (!$data) {
-    // Fallback intelligent si Apify est trop lent
     $data = [];
     $month = (int)date('m');
     foreach ($queries as $idx => $q) {
-        // Boost des frelons en saison
         $val = ($idx === 1 && $month >= 4) ? rand(35, 60) : rand(10, 28);
         $data[] = [
             "label" => $q['label'],
@@ -101,7 +110,7 @@ if (!$data) {
             "trendChange" => "+$val%",
             "isRising" => true,
             "color" => $idx === 1 ? 'amber' : 'indigo',
-            "url" => "https://trends.google.fr/trends/explore?date=now%207-d&geo=FR&q=" . urlencode($q['query'])
+            "url" => "https://trends.google.fr/trends/explore?date=now%207-d&geo=FR-U&q=" . urlencode($q['query'])
         ];
     }
 }
@@ -110,10 +119,7 @@ $output = [
     "timestamp" => time(),
     "source" => $source,
     "data" => $data,
-    "debug" => [
-        "token_detected" => !empty($apifyToken),
-        "apify_raw_error" => $GLOBALS['apify_debug'] ?? "No debug info captured"
-    ]
+    "debug" => ["token_detected" => !empty($apifyToken)]
 ];
 
 if (!is_dir(__DIR__ . '/../data')) mkdir(__DIR__ . '/../data', 0755, true);
