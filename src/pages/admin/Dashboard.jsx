@@ -504,9 +504,9 @@ const Dashboard = () => {
                                <motion.span 
                                  animate={{ opacity: [1, 0.5, 1] }}
                                  transition={{ repeat: Infinity, duration: 2 }}
-                                 className="bg-red-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.4)]"
+                                 className="bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.4)] flex items-center gap-1"
                                >
-                                 URGENT ⚡
+                                 ⚡ URGENT
                                </motion.span>
                              )}
                           </div>
@@ -518,11 +518,6 @@ const Dashboard = () => {
                       </div>
 
                       <div className="text-right space-y-1">
-                        <div className={`text-[10px] font-black uppercase tracking-widest ${
-                          isUrgent ? 'text-red-600' : isNew ? 'text-slate-900' : 'text-slate-400'
-                        }`}>
-                          {isUrgent ? 'Priorité S+++' : isNew ? 'Fil d\'attente' : 'Terminé'}
-                        </div>
                         <div className="text-[10px] font-bold text-slate-400 flex items-center justify-end gap-1">
                           <Clock className="w-3 h-3" />
                           {new Date(lead.created_at).toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
