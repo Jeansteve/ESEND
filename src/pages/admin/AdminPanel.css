@@ -160,23 +160,26 @@
 /* ========================================================================= */
 @media (max-width: 1024px) {
   .admin-container {
-    display: block;
-    overflow-y: auto;
-    width: 100%;
+    display: block !important;
+    overflow-x: hidden;
+    width: 100% !important;
   }
 
+  /* Sidebar mobile : Cachée totalement du flux par défaut */
   .admin-sidebar {
+    display: none !important;
     position: fixed;
     height: 100vh;
     left: 0;
     top: 0;
-    z-index: 100;
-    transform: translateX(-100%);
+    z-index: 1000;
     width: 280px;
-    display: flex; /* Toujours besoin de flex pour son contenu interne */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
   }
 
   .admin-sidebar.mobile-open {
+    display: flex !important;
     transform: translateX(0);
   }
 
@@ -186,19 +189,21 @@
   }
 
   .admin-main {
-    padding: 1.5rem;
+    padding: 1rem;
     width: 100% !important;
+    min-width: 100% !important;
     margin-left: 0 !important;
-    flex: none; /* Désactive le comportement flex pour éviter les compressions */
+    flex: none !important;
     height: auto;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   .admin-search {
-    width: 100%;
+    width: 100% !important;
   }
 
   .admin-search:focus {
-    width: 100%;
+    width: 100% !important;
   }
 }
