@@ -23,11 +23,12 @@ if (!$forceRefresh && file_exists($CACHE_FILE) && (time() - filemtime($CACHE_FIL
     exit;
 }
 
-// Mots-clés Sectoriels (Riviera & Monaco)
+// Configuration du Radar Hyper-Local (Priorité Menton First)
 $queries = [
-    ["query" => "punaise de lit", "label" => "Punaise de lit (Riviera & Monaco)"],
-    ["query" => "frelon asiatique", "label" => "Frelon Asiatique (Riviera & Monaco)"],
-    ["query" => "cafard", "label" => "Cafard / Blatte (Riviera & Monaco)"]
+    ["query" => "punaise de lit Menton", "label" => "Vigilance : Menton (Punaises)"],
+    ["query" => "frelon asiatique 06", "label" => "06 : Riviera (Frelons)"],
+    ["query" => "cafard Menton", "label" => "Menton : Cafards & Blattes"],
+    ["query" => "dératisation Menton", "label" => "Menton : Rats & Souris"]
 ];
 
 function fetchApifyData($token, $queries) {
@@ -38,7 +39,7 @@ function fetchApifyData($token, $queries) {
     
     $input = [
         "searchTerms" => $searchTerms,
-        "geo" => "FR-U", // Région PACA pour couvrir tout le périmètre ESEND (06/Riviera)
+        "geo" => "FR-U", // Région PACA pour assurer un volume de data suffisant
         "timeRange" => "now 7-d"
     ];
 

@@ -74,9 +74,19 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Nouvelles règles** : Le brainstorming requiert une validation explicite de l'admin avant tout développement.
 - **Mémoire de Projet (`MEMORY.md`)** : Actualisée le 17 Avril 2026.
 
-## 🚀 Prochaines Étapes Suggérées
-1. **Exécuter le SQL** `add_leads_v4.sql` dans phpMyAdmin pour activer l'archivage des leads.
+## 🚀 V6 : Business Intelligence & Market Strategy Advisor (Live)
+**Fichiers :** `market_trends.php`, `Dashboard.jsx`, `api.js`
+
+- **Intégration Apify Real-Time** : Connexion directe au scraper Google Trends pour extraire les intentions de recherche réelles sur le bassin azuréen.
+- **Priorité Hyper-Locale (Menton First)** :
+    - Algorithme de détection focalisé sur **Menton** et sa périphérie immédiate (06).
+    - Calcul mathématique automatique des tendances (+42%, etc.) basé sur les données brutes extraites, sans simulation.
+- **Market Strategy Advisor IA** : Module prédictif qui analyse les hausses de recherches (ex: Punaises de lit à Menton) pour suggérer des campagnes SEO ou des actions d'expertise immédiates.
+- **Cache Intelligent V2** : Mise en place d'un système de cache performant (`market_trends_cache_v2.json`) pour garantir la fluidité du Dashboard tout en économisant les quotas d'API.
+
+## 🚀 Prochaines Étapes
+1. **Priorité Menton Continue** : Affiner les mots-clés hyper-locaux dans le radar de tendances.
 2. **Hub Débarrassage** : Création d'un hub dédié pour structurer l'offre de débarras.
-3. **SEO Local** : Articles ciblant "Menton", "Roquebrune", "Monaco" pour chaque service.
+3. **SEO Local Auto-Généré** : Utiliser les pics de tendances BI pour proposer des brouillons d'articles de blog ciblés "Menton/06".
 4. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande.
 

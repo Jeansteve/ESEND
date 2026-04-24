@@ -591,7 +591,7 @@ const Dashboard = () => {
                   </div>
                   <div>
                      <h3 className="text-xl font-black uppercase tracking-tighter">Market Strategy Advisor <span className="text-amber-600">IA</span></h3>
-                     <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Analyse prédictive basée sur Google Trends & Leads BDD</p>
+                     <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Analyse Hyper-Locale (Menton & 06) basée sur Google Trends & BDD</p>
                   </div>
                </div>
                

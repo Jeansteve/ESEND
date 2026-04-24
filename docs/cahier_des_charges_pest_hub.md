@@ -112,4 +112,14 @@ L'administration permet un pilotage total sans connaissances techniques.
 
 ---
 
+## 8. Business Intelligence & IA Strategy
+Le Dashboard ESEND intègre un moteur de **Market Intelligence** pour transformer les données web en opportunités commerciales.
+
+### Composants Clés :
+- **Market Strategy Advisor** : Analyseur de tendances en temps réel (via Apify) focalisé sur le bassin de Menton et de la Riviera (06).
+- **Priorisation Hyper-Locale** : Les données de Menton sont traitées en priorité 1 pour les alertes sanitaires (nuisibles) et les opportunités SEO.
+- **Aide à la Décision IA** : Utilisation de modèles de langage (LLM) pour transformer les pics de recherche Google Trends en recommandations concrètes (ex: *"Hausse des fourmis à Menton : Préparez une campagne de prévention Facebook"*).
+
+---
+
 > **Note de l'IA Architect :** Ce document doit être la base de toute future itération. Il garantit la cohérence entre le design frontal et la puissance du backend.
