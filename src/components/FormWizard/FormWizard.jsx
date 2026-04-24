@@ -160,7 +160,7 @@ const FormWizard = () => {
   const [searchParams] = useSearchParams();
   // State for all steps
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [formData, setFormData] = useState({ problem: '', pestType: '', otherPest: '', clientType: '', zipCode: '', city: '', name: '', email: '', phone: '' });
+  const [formData, setFormData] = useState({ problem: '', pestType: '', otherPest: '', isUrgent: false, clientType: '', zipCode: '', city: '', name: '', email: '', phone: '', message: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -221,6 +221,7 @@ const FormWizard = () => {
       title: formData.problem === 'Nuisibles' ? 'Nuisibles' : 'Détails', 
       icon: formData.problem === 'Nuisibles' ? <Bug className="w-5 h-5" /> : <Asterisk className="w-5 h-5" /> 
     });
+    s.push({ id: 'urgency', title: 'Urgence', icon: <Zap className="w-5 h-5" /> });
     s.push(
       { id: 'client', title: 'Client', icon: <Building2 className="w-5 h-5" /> },
       { id: 'zone', title: 'Zone', icon: <MapPin className="w-5 h-5" /> },
@@ -354,10 +355,12 @@ const FormWizard = () => {
         payload.append("Email", formData.email);
         payload.append("Service", formData.problem);
         payload.append("Nuisible", formData.pestType || formData.otherPest || "Non spécifié");
+        payload.append("Urgence", formData.isUrgent ? "OUI - Intervention urgente" : "Non");
         payload.append("Type_Client", formData.clientType);
         payload.append("Code_Postal", formData.zipCode);
         payload.append("Ville", formData.city);
         payload.append("Précision_Problème", formData.message || "Aucune précision");
+        payload.append("is_urgent", formData.isUrgent ? "1" : "0");
         payload.append("_subject", "Nouveau Devis ESEND");
         payload.append("_template", "table");
         
@@ -538,6 +541,55 @@ const FormWizard = () => {
                       </button>
                     </div>
                   )}
+                  {currentStepData.id === 'urgency' && (
+                    <div className="space-y-6">
+                      <div className="text-center">
+                        <Zap className="w-12 h-12 text-[#A72422] mx-auto mb-4" />
+                        <h3 className="text-xl font-black text-slate-900 mb-2">Niveau d'urgence</h3>
+                        <p className="text-sm text-slate-500 font-medium">Avez-vous besoin d'une intervention rapide ?</p>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() => { updateData('isUrgent', false); nextStep(); }}
+                          className={`flex flex-col items-center gap-3 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ${
+                            formData.isUrgent === false && formData.isUrgent !== ''
+                              ? 'border-slate-800 bg-slate-800 text-white'
+                              : 'border-slate-100 bg-slate-50 text-slate-900 hover:border-slate-800'
+                          }`}
+                        >
+                          <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-2xl">📅</div>
+                          <div>
+                            <div className="text-base font-black">Intervention Standard</div>
+                            <div className="text-xs text-slate-500 font-medium mt-1">Sous 48-72h · Tarif habituel</div>
+                          </div>
+                        </motion.button>
+
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.97 }}
+                          onClick={() => { updateData('isUrgent', true); nextStep(); }}
+                          className={`flex flex-col items-center gap-3 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ${
+                            formData.isUrgent === true
+                              ? 'border-[#A72422] bg-red-50 text-[#A72422]'
+                              : 'border-red-100 bg-red-50 text-slate-900 hover:border-[#A72422]'
+                          }`}
+                        >
+                          <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl">⚡</div>
+                          <div>
+                            <div className="text-base font-black text-[#A72422]">Intervention Urgente</div>
+                            <div className="text-xs text-slate-500 font-medium mt-1">Sous 24h · Majoration tarifaire</div>
+                          </div>
+                        </motion.button>
+                      </div>
+                      <p className="text-center text-[10px] text-slate-400 font-medium">
+                        ⚡ Une intervention urgente implique une majoration de tarif. Notre équipe vous communiquera le devis adapté.
+                      </p>
+                    </div>
+                  )}
                   {currentStepData.id === 'client' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><Building2 /> Type de client</h3>
                       <div className="grid grid-cols-2 gap-4">
@@ -607,7 +659,14 @@ const FormWizard = () => {
                   <Check className="w-10 h-10" />
                 </motion.div>
                 <h3 className="text-2xl font-black text-slate-900">Demande envoyée !</h3>
-                <p className="text-slate-600 font-medium italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
+                {formData.isUrgent ? (
+                  <div className="bg-red-50 border border-red-100 rounded-2xl p-4 mx-auto max-w-sm">
+                    <p className="text-[#A72422] font-black text-sm">⚡ Demande urgente enregistrée</p>
+                    <p className="text-slate-600 font-medium text-xs mt-1">Notre équipe vous contactera dans les <strong>2h</strong> avec un devis adapté à l'urgence.</p>
+                  </div>
+                ) : (
+                  <p className="text-slate-600 font-medium italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
+                )}
               </motion.div>
             )}
           </div>

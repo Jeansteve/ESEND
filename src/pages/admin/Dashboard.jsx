@@ -451,50 +451,71 @@ const Dashboard = () => {
                 <div className="space-y-6">
                   {leads
                     .sort((a, b) => {
-                      // 1. Priorité au statut 'nouveau'
-                      if (a.status === 'nouveau' && b.status !== 'nouveau') return -1;
-                      if (a.status !== 'nouveau' && b.status === 'nouveau') return 1;
+                      // 1. Urgence déclarée par le client en premier
+                      const aUrgent = a.is_urgent == 1 || a.is_urgent === true;
+                      const bUrgent = b.is_urgent == 1 || b.is_urgent === true;
+                      if (aUrgent && !bUrgent) return -1;
+                      if (!aUrgent && bUrgent) return 1;
                       
-                      // 2. Pour les 'nouveau', tri par date la plus ancienne (pour ne pas faire attendre)
-                      if (a.status === 'nouveau' && b.status === 'nouveau') {
-                        return new Date(a.created_at) - new Date(b.created_at);
-                      }
+                      // 2. Puis statut nouveau (non traité)
+                      const aNew = a.status === 'nouveau';
+                      const bNew = b.status === 'nouveau';
+                      if (aNew && !bNew) return -1;
+                      if (!aNew && bNew) return 1;
                       
-                      // 3. Pour le reste, par date la plus récente
+                      // 3. Pour les non-traités, les plus anciens d'abord (anti-attente)
+                      if (aNew && bNew) return new Date(a.created_at) - new Date(b.created_at);
+                      
+                      // 4. Pour le reste, par date récente
                       return new Date(b.created_at) - new Date(a.created_at);
                     })
-                    .slice(0, 5).map((lead, i) => (
+                    .slice(0, 5).map((lead, i) => {
+                      const isUrgent = lead.is_urgent == 1 || lead.is_urgent === true;
+                      const isNew = lead.status === 'nouveau';
+                      const isHighlight = isUrgent || isNew;
+                      return (
                     <div 
                       key={i} 
                       onClick={() => setActiveTab('leads')}
-                      className={`flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0 transition-all ${lead.status === 'nouveau' ? 'hover:pl-2' : ''}`}
+                      className={`flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0 transition-all ${isHighlight ? 'hover:pl-2' : ''}`}
                     >
                       <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center border transition-all ${lead.status === 'nouveau' ? 'border-red-600/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 'border-[var(--border-subtle)]'}`}>
-                           {lead.service === 'Nuisibles' ? <Bug className={`w-5 h-5 ${lead.status === 'nouveau' ? 'text-red-600' : 'text-orange-600'}`} /> : 
+                        <div className={`w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center border transition-all ${
+                          isUrgent ? 'border-amber-500/60 shadow-[0_0_15px_rgba(245,158,11,0.15)]' :
+                          isNew ? 'border-red-600/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 
+                          'border-[var(--border-subtle)]'
+                        }`}>
+                           {lead.service === 'Nuisibles' ? <Bug className={`w-5 h-5 ${isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-orange-600'}`} /> : 
                             lead.service === 'Nettoyage' ? <Zap className="w-5 h-5 text-indigo-600" /> :
                             <ShieldCheck className="w-5 h-5 text-green-600" />}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                             <p className={`text-[10px] uppercase font-black tracking-widest ${lead.status === 'nouveau' ? 'text-red-600' : 'text-[var(--text-dimmed)]'}`}>
+                             <p className={`text-[10px] uppercase font-black tracking-widest ${
+                               isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-[var(--text-dimmed)]'
+                             }`}>
                                {lead.service} {lead.nuisible && `• ${lead.nuisible}`}
                              </p>
-                             {lead.status === 'nouveau' && <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />}
+                             {isUrgent && <span className="text-[8px] font-black bg-amber-500/10 text-amber-500 border border-amber-500/30 px-1.5 py-0.5 rounded-full">⚡ URGENT</span>}
+                             {!isUrgent && isNew && <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />}
                           </div>
-                          <h5 className={`text-[11px] font-bold transition-colors ${lead.status === 'nouveau' ? 'text-red-600' : 'text-[var(--text-main)]'}`}>{lead.client_name}</h5>
+                          <h5 className={`text-[11px] font-bold transition-colors ${
+                            isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-[var(--text-main)]'
+                          }`}>{lead.client_name}</h5>
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-1">
-                        <span className={`text-[9px] font-black uppercase tracking-widest ${lead.status === 'nouveau' ? 'text-red-600' : 'text-[var(--text-dimmed)]'}`}>
-                          {lead.status === 'nouveau' ? 'URGENT' : 'CONTACTÉ'}
+                        <span className={`text-[9px] font-black uppercase tracking-widest ${
+                          isUrgent ? 'text-amber-500' : isNew ? 'text-red-600' : 'text-[var(--text-dimmed)]'
+                        }`}>
+                          {isNew ? 'Non traité' : 'Contacté'}
                         </span>
                         <span className="text-[8px] font-medium text-[var(--text-dimmed)]">
                           {new Date(lead.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
                     </div>
-                  ))}
+                  );})}
                 </div>
               </div>
 
