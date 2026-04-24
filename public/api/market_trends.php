@@ -1,12 +1,11 @@
-<?php
 // /public/api/market_trends.php
+require_once __DIR__ . '/config.php';
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
 
 // Configuration
 $CACHE_FILE = __DIR__ . '/../data/market_trends_cache.json';
 $CACHE_TTL = 86400; // 24 heures
-$APIFY_TOKEN = getenv('APIFY_TOKEN') ?: ''; // Remplacer par la vraie clé si présente
+$apifyToken = defined('APIFY_TOKEN') ? APIFY_TOKEN : '';
 
 // Mots-clés locaux à surveiller
 $queries = [
