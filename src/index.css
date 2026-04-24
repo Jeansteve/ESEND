@@ -57,6 +57,13 @@ html, body, #root {
               color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@media (max-width: 1024px) {
+  html, body, #root {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+}
+
 ::selection {
   background-color: var(--selection-bg);
   color: white;
