@@ -63,7 +63,15 @@ function fetchRealTrendsFromApify($apifyToken, $queries) {
     
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
+
+    // Debug technique stocké dans une globale temporaire
+    $GLOBALS['apify_debug'] = [
+        "http_code" => $httpCode,
+        "curl_error" => $curlError,
+        "response_preview" => substr($response, 0, 100)
+    ];
 
     if ($httpCode !== 201 && $httpCode !== 200) {
         return null; // Erreur API
@@ -138,6 +146,7 @@ if (!is_dir(__DIR__ . '/../data')) {
 // 3. Sauvegarder le cache et retourner
 $responseData['debug_info'] = [
     "token_detected" => $tokenExists,
+    "apify_error" => $GLOBALS['apify_debug'] ?? null,
     "last_run" => date('Y-m-d H:i:s')
 ];
 
