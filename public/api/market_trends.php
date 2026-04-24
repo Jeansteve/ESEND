@@ -106,7 +106,10 @@ $output = [
     "timestamp" => time(),
     "source" => $source,
     "data" => $data,
-    "debug" => ["token_detected" => !empty($apifyToken)]
+    "debug" => [
+        "token_detected" => !empty($apifyToken),
+        "apify_raw_error" => $GLOBALS['apify_debug'] ?? "No debug info captured"
+    ]
 ];
 
 if (!is_dir(__DIR__ . '/../data')) mkdir(__DIR__ . '/../data', 0755, true);
