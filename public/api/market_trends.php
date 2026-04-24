@@ -23,8 +23,10 @@ $queries = [
     ["query" => "cafard menton", "label" => "Cafards / Blattes (Menton)"]
 ];
 
-// 1. Check if cache exists and is valid
-if (file_exists($CACHE_FILE) && (time() - filemtime($CACHE_FILE)) < $CACHE_TTL) {
+// 1. Check if cache exists and is valid (support ?refresh=1)
+$forceRefresh = isset($_GET['refresh']) && $_GET['refresh'] == '1';
+
+if (!$forceRefresh && file_exists($CACHE_FILE) && (time() - filemtime($CACHE_FILE)) < $CACHE_TTL) {
     echo file_get_contents($CACHE_FILE);
     exit;
 }
