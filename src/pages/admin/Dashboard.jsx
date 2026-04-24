@@ -594,10 +594,10 @@ const Dashboard = () => {
                     <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Opportunité Marché</h4>
                   </div>
                   <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                    Les recherches <strong className="text-red-600">"Punaise de lit Menton"</strong> ont bondi de <span className="font-black text-indigo-600">42%</span> cette semaine. C'est le moment de remonter vos dossiers d'expertise.
+                    Les recherches <strong className="text-amber-600">"Frelon Asiatique Menton"</strong> entrent dans leur phase de pic saisonnier. C'est le moment d'activer vos campagnes de prévention et piégeage.
                   </p>
                   <a 
-                    href="https://trends.google.fr/trends/explore?date=now%207-d&geo=FR&q=punaise%20de%20lit%20menton" 
+                    href="https://trends.google.fr/trends/explore?date=now%207-d&geo=FR&q=frelon%20asiatique%20menton" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-600 text-white text-[10px] font-black rounded-lg hover:bg-slate-900 transition-all shadow-md shadow-indigo-200"
@@ -608,14 +608,14 @@ const Dashboard = () => {
                 
                 <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-amber-200 transition-all">
                   <div className="flex items-center gap-2 mb-3">
-                    <Calendar className="w-5 h-5 text-amber-600" />
-                    <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Anticipation Saisonnière</h4>
+                    <Sparkles className="w-5 h-5 text-amber-600" />
+                    <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Conseil Stratégique IA</h4>
                   </div>
                   <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                    Le pic de <strong className="text-amber-600">Frelons / Guêpes</strong> est prévu dans 15 jours. L'IA suggère de programmer 2 publications sur ce sujet.
+                    Hausse détectée sur les recherches <strong className="text-slate-900">"Cafards / Blattes"</strong> avec la remontée des températures. Pensez à proposer un forfait de traitement préventif.
                   </p>
                   <a 
-                    href="https://trends.google.fr/trends/explore?date=now%201-m&geo=FR&q=frelon%20asiatique%20menton,gu%C3%AApe%20menton" 
+                    href="https://trends.google.fr/trends/explore?date=now%201-m&geo=FR&q=cafard%20menton,blatte%20menton" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black rounded-lg hover:bg-amber-600 transition-all shadow-md"
