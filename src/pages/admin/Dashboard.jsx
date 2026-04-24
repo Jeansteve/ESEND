@@ -299,10 +299,10 @@ const Dashboard = () => {
           {isSidebarCollapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronLeft className="w-3 h-3" />}
         </button>
 
-        <div className={`sidebar-logo text-[var(--text-main)] overflow-hidden flex ${isSidebarCollapsed ? 'justify-center mb-6' : 'flex-col gap-1 mb-8'}`}>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white font-black italic shadow-lg shadow-red-600/20 shrink-0">
-              E
+        <div className={`sidebar-logo text-[var(--text-main)] overflow-hidden flex ${isSidebarCollapsed ? 'justify-center mb-6 pt-2' : 'flex-col gap-4 mb-10'}`}>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center p-1 shadow-2xl border border-[var(--border-subtle)] group-hover:scale-105 transition-transform shrink-0 overflow-hidden">
+              <img src="./logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain" />
             </div>
             {!isSidebarCollapsed && (
               <motion.div 
@@ -310,8 +310,8 @@ const Dashboard = () => {
                 animate={{ opacity: 1, x: 0 }} 
                 className="flex flex-col leading-none"
               >
-                <span className="text-sm font-black italic tracking-tighter">ESEND</span>
-                <span className="text-[10px] font-bold text-red-600 tracking-[0.2em] uppercase">Admin</span>
+                <span className="text-xl font-black italic tracking-tighter text-[var(--text-main)]">ESEND</span>
+                <span className="text-[10px] font-bold text-red-600 tracking-[0.25em] uppercase mt-1">Admin</span>
               </motion.div>
             )}
           </div>
