@@ -92,6 +92,12 @@ const realApi = {
         return data.success ? data.data : [];
     },
 
+    // --- Market Trends (Apify) ---
+    getMarketTrends: async () => {
+        const res = await fetch(`${API_BASE}/market_trends.php`);
+        return res.json();
+    },
+
     // --- Assets (Upload) ---
     uploadImage: async (file) => {
         const formData = new FormData();

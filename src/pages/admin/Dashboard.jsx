@@ -170,6 +170,8 @@ const Dashboard = () => {
    const [saveStatus, setSaveStatus] = useState({ id: null, type: '' }); // { id: 'coordination', type: 'success' }
    const [searchQuery, setSearchQuery] = useState('');
    const [loading, setLoading] = useState(true);
+   const [trendsData, setTrendsData] = useState(null);
+   const [isLoadingTrends, setIsLoadingTrends] = useState(true);
   
   // Modals state
   const [showStudio, setShowStudio] = useState(false);
@@ -191,18 +193,24 @@ const Dashboard = () => {
 
   const loadData = async () => {
     setLoading(true);
-    const [arts, projs, sets, leadsData] = await Promise.all([
+    setIsLoadingTrends(true);
+    const [arts, projs, sets, leadsData, trendsRes] = await Promise.all([
       api.getArticles(),
       api.getProjects(),
       api.getSettings(),
-      api.getLeads()
+      api.getLeads(),
+      api.getMarketTrends().catch(() => null)
     ]);
     setArticles(arts);
     setProjects(projs);
     setSettings(sets);
     setLocalSettings(sets);
     setLeads(leadsData || []);
+    if (trendsRes && trendsRes.data) {
+        setTrendsData(trendsRes.data);
+    }
     setLoading(false);
+    setIsLoadingTrends(false);
   };
 
   const handleUpdateSettings = async () => {
@@ -588,41 +596,43 @@ const Dashboard = () => {
                </div>
                
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-indigo-200 transition-all group">
-                  <div className="flex items-center gap-2 mb-3">
-                    <TrendingUp className="w-5 h-5 text-indigo-600" />
-                    <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Opportunité Marché</h4>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                    Les recherches <strong className="text-amber-600">"Frelon Asiatique Menton"</strong> entrent dans leur phase de pic saisonnier. C'est le moment d'activer vos campagnes de prévention et piégeage.
-                  </p>
-                  <a 
-                    href="https://trends.google.fr/trends/explore?date=now%207-d&geo=FR&q=frelon%20asiatique%20menton" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-indigo-600 text-white text-[10px] font-black rounded-lg hover:bg-slate-900 transition-all shadow-md shadow-indigo-200"
-                  >
-                    Vérifier la tendance <ArrowRight className="w-3 h-3" />
-                  </a>
-                </div>
-                
-                <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-amber-200 transition-all">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-5 h-5 text-amber-600" />
-                    <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">Conseil Stratégique IA</h4>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                    Hausse détectée sur les recherches <strong className="text-slate-900">"Cafards / Blattes"</strong> avec la remontée des températures. Pensez à proposer un forfait de traitement préventif.
-                  </p>
-                  <a 
-                    href="https://trends.google.fr/trends/explore?date=now%201-m&geo=FR&q=cafard%20menton,blatte%20menton" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-black rounded-lg hover:bg-amber-600 transition-all shadow-md"
-                  >
-                    Voir les stats <ArrowRight className="w-3 h-3" />
-                  </a>
-                </div>
+                {isLoadingTrends ? (
+                  <>
+                    <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 animate-pulse h-40">
+                       <div className="w-1/2 h-4 bg-slate-200 rounded mb-4"></div>
+                       <div className="w-full h-8 bg-slate-200 rounded mb-4"></div>
+                       <div className="w-1/3 h-6 bg-slate-200 rounded"></div>
+                    </div>
+                    <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 animate-pulse h-40">
+                       <div className="w-1/2 h-4 bg-slate-200 rounded mb-4"></div>
+                       <div className="w-full h-8 bg-slate-200 rounded mb-4"></div>
+                       <div className="w-1/3 h-6 bg-slate-200 rounded"></div>
+                    </div>
+                  </>
+                ) : (
+                  trendsData?.slice(0, 2).map((trend, index) => (
+                    <div key={index} className={`bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-${trend.color}-200 transition-all group`}>
+                      <div className="flex items-center gap-2 mb-3">
+                        {index === 0 ? <TrendingUp className={`w-5 h-5 ${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`} /> : <Sparkles className={`w-5 h-5 ${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`} />}
+                        <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">
+                          {index === 0 ? "Opportunité Marché" : "Conseil IA"}
+                        </h4>
+                      </div>
+                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                        Évolution <strong className={`${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`}>{trend.isRising ? 'en hausse' : 'stable'}</strong> ({trend.trendChange}) pour <strong className="text-slate-900">"{trend.label}"</strong>. 
+                        {trend.isRising && " C'est le moment d'activer vos communications !"}
+                      </p>
+                      <a 
+                        href={trend.url}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 ${index === 0 ? trend.color === 'amber' ? 'bg-amber-600' : trend.color === 'slate' ? 'bg-slate-600' : 'bg-indigo-600' : 'bg-slate-900'} text-white text-[10px] font-black rounded-lg hover:scale-105 transition-all shadow-md`}
+                      >
+                        Voir sur Google Trends <ArrowRight className="w-3 h-3" />
+                      </a>
+                    </div>
+                  ))
+                )}
               </div>
 
                <div className="mt-6 p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
