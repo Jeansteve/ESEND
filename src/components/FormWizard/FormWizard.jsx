@@ -563,7 +563,7 @@ const FormWizard = () => {
                           <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-2xl">📅</div>
                           <div>
                             <div className="text-base font-black">Intervention Standard</div>
-                            <div className="text-xs text-slate-500 font-medium mt-1">Sous 48-72h · Tarif habituel</div>
+                            <div className="text-xs text-slate-500 font-medium mt-1">Prise en charge selon disponibilités · Tarif habituel</div>
                           </div>
                         </motion.button>
 
@@ -581,7 +581,7 @@ const FormWizard = () => {
                           <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl">⚡</div>
                           <div>
                             <div className="text-base font-black text-[#A72422]">Intervention Urgente</div>
-                            <div className="text-xs text-slate-500 font-medium mt-1">Sous 24h · Majoration tarifaire</div>
+                            <div className="text-xs text-slate-500 font-medium mt-1">Prise en charge prioritaire · Majoration tarifaire</div>
                           </div>
                         </motion.button>
                       </div>
@@ -662,7 +662,7 @@ const FormWizard = () => {
                 {formData.isUrgent ? (
                   <div className="bg-red-50 border border-red-100 rounded-2xl p-4 mx-auto max-w-sm">
                     <p className="text-[#A72422] font-black text-sm">⚡ Demande urgente enregistrée</p>
-                    <p className="text-slate-600 font-medium text-xs mt-1">Notre équipe vous contactera dans les <strong>2h</strong> avec un devis adapté à l'urgence.</p>
+                    <p className="text-slate-600 font-medium text-xs mt-1">Notre équipe reviendra vers vous rapidement avec un devis adapté à votre situation.</p>
                   </div>
                 ) : (
                   <p className="text-slate-600 font-medium italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
