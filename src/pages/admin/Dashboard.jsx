@@ -449,29 +449,49 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="space-y-6">
-                  {leads.slice(0, 5).map((lead, i) => (
+                  {leads
+                    .sort((a, b) => {
+                      // 1. Priorité au statut 'nouveau'
+                      if (a.status === 'nouveau' && b.status !== 'nouveau') return -1;
+                      if (a.status !== 'nouveau' && b.status === 'nouveau') return 1;
+                      
+                      // 2. Pour les 'nouveau', tri par date la plus ancienne (pour ne pas faire attendre)
+                      if (a.status === 'nouveau' && b.status === 'nouveau') {
+                        return new Date(a.created_at) - new Date(b.created_at);
+                      }
+                      
+                      // 3. Pour le reste, par date la plus récente
+                      return new Date(b.created_at) - new Date(a.created_at);
+                    })
+                    .slice(0, 5).map((lead, i) => (
                     <div 
                       key={i} 
                       onClick={() => setActiveTab('leads')}
-                      className="flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0"
+                      className={`flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0 transition-all ${lead.status === 'nouveau' ? 'hover:pl-2' : ''}`}
                     >
                       <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center border border-[var(--border-subtle)] shadow-inner`}>
-                           {lead.service === 'Nuisibles' ? <Bug className="w-5 h-5 text-orange-600" /> : 
+                        <div className={`w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center border transition-all ${lead.status === 'nouveau' ? 'border-red-600/50 shadow-[0_0_15px_rgba(220,38,38,0.1)]' : 'border-[var(--border-subtle)]'}`}>
+                           {lead.service === 'Nuisibles' ? <Bug className={`w-5 h-5 ${lead.status === 'nouveau' ? 'text-red-600' : 'text-orange-600'}`} /> : 
                             lead.service === 'Nettoyage' ? <Zap className="w-5 h-5 text-indigo-600" /> :
                             <ShieldCheck className="w-5 h-5 text-green-600" />}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                             <p className="text-[10px] text-[var(--text-dimmed)] uppercase font-black tracking-widest">{lead.service}</p>
-                             {lead.status === 'nouveau' && <span className="w-1.5 h-1.5 rounded-full bg-red-600" />}
+                             <p className={`text-[10px] uppercase font-black tracking-widest ${lead.status === 'nouveau' ? 'text-red-600' : 'text-[var(--text-dimmed)]'}`}>
+                               {lead.service} {lead.nuisible && `• ${lead.nuisible}`}
+                             </p>
+                             {lead.status === 'nouveau' && <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />}
                           </div>
-                          <h5 className="text-[11px] font-bold text-[var(--text-main)]">{lead.client_name}</h5>
+                          <h5 className={`text-[11px] font-bold transition-colors ${lead.status === 'nouveau' ? 'text-red-600' : 'text-[var(--text-main)]'}`}>{lead.client_name}</h5>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)]">
-                        {lead.status === 'nouveau' ? 'À l\'instant' : 'Contacté'}
-                        <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                      <div className="flex flex-col items-end gap-1">
+                        <span className={`text-[9px] font-black uppercase tracking-widest ${lead.status === 'nouveau' ? 'text-red-600' : 'text-[var(--text-dimmed)]'}`}>
+                          {lead.status === 'nouveau' ? 'URGENT' : 'CONTACTÉ'}
+                        </span>
+                        <span className="text-[8px] font-medium text-[var(--text-dimmed)]">
+                          {new Date(lead.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                        </span>
                       </div>
                     </div>
                   ))}
