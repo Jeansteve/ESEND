@@ -31,7 +31,9 @@ import {
   Trash2,
   Calendar,
   Inbox,
-  Menu
+  Menu,
+  Bug,
+  ShieldCheck
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
