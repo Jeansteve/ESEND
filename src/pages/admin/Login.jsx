@@ -104,7 +104,7 @@ const Login = () => {
 
         {/* Footer */}
         <p className="text-center text-[var(--text-dimmed)] text-[9px] font-medium mt-8 uppercase tracking-widest">
-          © 2026 ESEND MENTON — SYSTÈME DE GESTION IA v1.4
+          © 2026 ESEND MENTON — SYSTÈME DE GESTION IA v2.0
         </p>
       </div>
     </div>

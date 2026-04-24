@@ -85,6 +85,13 @@ const realApi = {
         return res.json();
     },
 
+    // --- Leads ---
+    getLeads: async () => {
+        const res = await fetch(`${API_BASE}/leads.php`);
+        const data = await res.json();
+        return data.success ? data.data : [];
+    },
+
     // --- Assets (Upload) ---
     uploadImage: async (file) => {
         const formData = new FormData();

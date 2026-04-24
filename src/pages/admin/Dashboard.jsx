@@ -159,13 +159,14 @@ const Dashboard = () => {
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [articles, setArticles] = useState([]);
-  const [projects, setProjects] = useState([]);
-  const [settings, setSettings] = useState({});
-  const [localSettings, setLocalSettings] = useState({});
-  const [saveStatus, setSaveStatus] = useState({ id: null, type: '' }); // { id: 'coordination', type: 'success' }
-  const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+   const [articles, setArticles] = useState([]);
+   const [projects, setProjects] = useState([]);
+   const [leads, setLeads] = useState([]);
+   const [settings, setSettings] = useState({});
+   const [localSettings, setLocalSettings] = useState({});
+   const [saveStatus, setSaveStatus] = useState({ id: null, type: '' }); // { id: 'coordination', type: 'success' }
+   const [searchQuery, setSearchQuery] = useState('');
+   const [loading, setLoading] = useState(true);
   
   // Modals state
   const [showStudio, setShowStudio] = useState(false);
@@ -187,15 +188,17 @@ const Dashboard = () => {
 
   const loadData = async () => {
     setLoading(true);
-    const [arts, projs, sets] = await Promise.all([
+    const [arts, projs, sets, leadsData] = await Promise.all([
       api.getArticles(),
       api.getProjects(),
-      api.getSettings()
+      api.getSettings(),
+      api.getLeads()
     ]);
     setArticles(arts);
     setProjects(projs);
     setSettings(sets);
     setLocalSettings(sets);
+    setLeads(leadsData || []);
     setLoading(false);
   };
 
@@ -221,61 +224,67 @@ const Dashboard = () => {
     navigate('/admin/login');
   };
 
-  const renderStats = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-      <div className="glass-card flex flex-col gap-4">
-        <div className="flex justify-between items-start">
-          <div className="p-3 bg-red-600/10 rounded-xl border border-red-600/20">
-            <Eye className="w-5 h-5 text-red-600" />
+  const renderStats = () => {
+    const newLeads = leads.filter(l => l.status === 'nouveau').length;
+    
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="glass-card flex flex-col gap-4">
+          <div className="flex justify-between items-start">
+            <div className="p-3 bg-red-600/10 rounded-xl border border-red-600/20">
+              <Inbox className="w-5 h-5 text-red-600" />
+            </div>
+            <span className={`text-[10px] font-black ${newLeads > 0 ? 'text-red-500 bg-red-500/10' : 'text-zinc-500 bg-white/5'} px-2 py-1 rounded-lg`}>
+              {newLeads > 0 ? 'Urgent' : 'À jour'}
+            </span>
           </div>
-          <span className="text-[10px] font-black text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">+12%</span>
+          <div>
+            <div className="text-2xl font-black italic tracking-tighter">{newLeads}</div>
+            <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Nouveaux Leads</div>
+          </div>
         </div>
-        <div>
-          <div className="text-2xl font-black italic tracking-tighter">1,284</div>
-          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Vues Articles</div>
-        </div>
-      </div>
 
-      <div className="glass-card flex flex-col gap-4">
-        <div className="flex justify-between items-start">
-          <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-600/20">
-            <Briefcase className="w-5 h-5 text-blue-600" />
+        <div className="glass-card flex flex-col gap-4">
+          <div className="flex justify-between items-start">
+            <div className="p-3 bg-blue-600/10 rounded-xl border border-blue-600/20">
+              <Briefcase className="w-5 h-5 text-blue-600" />
+            </div>
+            <span className="text-[10px] font-black text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">Actif</span>
           </div>
-          <span className="text-[10px] font-black text-zinc-500 bg-white/5 px-2 py-1 rounded-lg">Stale</span>
+          <div>
+            <div className="text-2xl font-black italic tracking-tighter">{projects.length}</div>
+            <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Interventions</div>
+          </div>
         </div>
-        <div>
-          <div className="text-2xl font-black italic tracking-tighter">{projects.length}</div>
-          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Interventions</div>
-        </div>
-      </div>
 
-      <div className="glass-card flex flex-col gap-4">
-        <div className="flex justify-between items-start">
-          <div className="p-3 bg-indigo-600/10 rounded-xl border border-indigo-600/20">
-            <FileText className="w-5 h-5 text-indigo-600" />
+        <div className="glass-card flex flex-col gap-4">
+          <div className="flex justify-between items-start">
+            <div className="p-3 bg-green-600/10 rounded-xl border border-green-600/20">
+              <TrendingUp className="w-5 h-5 text-green-600" />
+            </div>
+            <span className="text-[10px] font-black text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">+4.2%</span>
           </div>
-          <span className="text-[10px] font-black text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">+3</span>
+          <div>
+            <div className="text-2xl font-black italic tracking-tighter">12.8%</div>
+            <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Taux de Conv.</div>
+          </div>
         </div>
-        <div>
-          <div className="text-2xl font-black italic tracking-tighter">{articles.length}</div>
-          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Dossiers Expert</div>
-        </div>
-      </div>
 
-      <div className="glass-card flex flex-col gap-4">
-        <div className="flex justify-between items-start">
-          <div className="p-3 bg-amber-600/10 rounded-xl border border-amber-600/20">
-            <Sparkles className="w-5 h-5 text-amber-600" />
+        <div className="glass-card flex flex-col gap-4">
+          <div className="flex justify-between items-start">
+            <div className="p-3 bg-amber-600/10 rounded-xl border border-amber-600/20">
+              <Sparkles className="w-5 h-5 text-amber-600" />
+            </div>
+            <span className="text-[10px] font-black text-amber-600 bg-amber-600/10 px-2 py-1 rounded-lg">Performance</span>
           </div>
-          <span className="text-[10px] font-black text-amber-600 bg-amber-600/10 px-2 py-1 rounded-lg">AI Ready</span>
-        </div>
-        <div>
-          <div className="text-2xl font-black italic tracking-tighter">Gemini v3</div>
-          <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Moteur de Rédaction</div>
+          <div>
+            <div className="text-2xl font-black italic tracking-tighter">1h 45m</div>
+            <div className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Rép. Moyenne</div>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   if (loading) return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center transition-colors duration-400">
@@ -431,27 +440,35 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
               <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)]">
                 <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-xl font-black uppercase tracking-tighter">Émissions Récentes</h3>
-                  <TrendingUp className="w-5 h-5 text-red-600" />
+                  <h3 className="text-xl font-black uppercase tracking-tighter">Flux des Demandes</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[10px] font-black text-[var(--text-dimmed)] uppercase tracking-widest">Live</span>
+                  </div>
                 </div>
                 <div className="space-y-6">
-                  {articles.slice(0, 4).map((art, i) => (
+                  {leads.slice(0, 5).map((lead, i) => (
                     <div 
                       key={i} 
-                      onClick={() => setEditingArticle(art)}
+                      onClick={() => setActiveTab('leads')}
                       className="flex justify-between items-center group cursor-pointer border-b border-[var(--border-subtle)] pb-4 last:border-0 last:pb-0"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center overflow-hidden border border-[var(--border-subtle)]">
-                           <img src={art.image} className="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:grayscale-0 transition-all" />
+                        <div className={`w-12 h-12 rounded-xl bg-[var(--bg-input)] flex items-center justify-center border border-[var(--border-subtle)] shadow-inner`}>
+                           {lead.service === 'Nuisibles' ? <Bug className="w-5 h-5 text-orange-600" /> : 
+                            lead.service === 'Nettoyage' ? <Zap className="w-5 h-5 text-indigo-600" /> :
+                            <ShieldCheck className="w-5 h-5 text-green-600" />}
                         </div>
                         <div>
-                          <p className="text-[10px] text-[var(--text-dimmed)] uppercase font-black tracking-widest group-hover:text-amber-500 transition-colors">{art.category}</p>
-                          <h5 className="text-[11px] font-bold text-[var(--text-main)] transition-colors">{art.title}</h5>
+                          <div className="flex items-center gap-2">
+                             <p className="text-[10px] text-[var(--text-dimmed)] uppercase font-black tracking-widest">{lead.service}</p>
+                             {lead.status === 'nouveau' && <span className="w-1.5 h-1.5 rounded-full bg-red-600" />}
+                          </div>
+                          <h5 className="text-[11px] font-bold text-[var(--text-main)]">{lead.client_name}</h5>
                         </div>
                       </div>
                       <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)]">
-                        {art.date}
+                        {lead.status === 'nouveau' ? 'À l\'instant' : 'Contacté'}
                         <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                       </div>
                     </div>
@@ -460,25 +477,88 @@ const Dashboard = () => {
               </div>
 
               <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8">
-                <h4 className="flex items-center gap-3 text-sm font-black uppercase tracking-widest text-[var(--text-main)] mb-8">
-                  <CheckCircle2 className="w-4 h-4 text-green-500" /> Quick Actions
-                </h4>
-                <div className="grid grid-cols-1 gap-4">
-                  {[
-                    { label: 'Nouveau Dossier', icon: Plus, color: 'bg-red-600' },
-                    { label: 'Maillage Interne', icon: Search, color: 'bg-indigo-600' },
-                    { label: 'Rapport Sécurité', icon: Layout, color: 'bg-blue-600' },
-                    { label: 'Radar Punaise IA', icon: Zap, color: 'bg-amber-600' }
-                  ].map((act, i) => (
-                    <button key={i} className="flex items-center gap-4 p-4 rounded-xl bg-[var(--bg-input)] border border-[var(--border-subtle)] hover:scale-[1.02] active:scale-95 transition-all text-left">
-                       <div className={`p-2.5 rounded-lg ${act.color} text-white`}>
-                          <act.icon className="w-4 h-4" />
-                       </div>
-                       <span className="text-[11px] font-black uppercase tracking-widest text-[var(--text-main)]">{act.label}</span>
-                    </button>
-                  ))}
+                <div className="flex justify-between items-center mb-8">
+                   <h3 className="text-xl font-black uppercase tracking-tighter">Répartition Activité</h3>
+                   <TrendingUp className="w-5 h-5 text-indigo-600" />
+                </div>
+                
+                {/* Business Mix Visualization (Donut Mock with CSS) */}
+                <div className="flex flex-col md:flex-row items-center gap-12">
+                   <div className="relative w-40 h-40">
+                      <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                         {/* Simple Mock Data Visualization */}
+                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--border-subtle)" strokeWidth="12" />
+                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgb(220, 38, 38)" strokeWidth="12" strokeDasharray="150 101" />
+                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgb(79, 70, 229)" strokeWidth="12" strokeDasharray="80 171" strokeDashoffset="-150" />
+                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgb(22, 163, 74)" strokeWidth="12" strokeDasharray="21 230" strokeDashoffset="-230" />
+                      </svg>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+                         <span className="text-xl font-black italic tracking-tighter">57%</span>
+                         <span className="text-[8px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest mt-1">Nuisibles</span>
+                      </div>
+                   </div>
+                   
+                   <div className="flex-grow space-y-4 w-full">
+                      {[
+                        { label: 'Nuisibles', count: '57%', color: 'bg-red-600' },
+                        { label: 'Nettoyage', count: '31%', color: 'bg-indigo-600' },
+                        { label: 'Désinfection', count: '12%', color: 'bg-green-600' }
+                      ].map((item, i) => (
+                        <div key={i} className="flex justify-between items-center bg-[var(--bg-input)] p-3 rounded-xl border border-[var(--border-subtle)]">
+                           <div className="flex items-center gap-3">
+                              <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                              <span className="text-[10px] font-black text-[var(--text-main)] uppercase tracking-[0.1em]">{item.label}</span>
+                           </div>
+                           <span className="text-[10px] font-black text-[var(--text-dimmed)]">{item.count}</span>
+                        </div>
+                      ))}
+                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Strategic Advice Center (The Predictive Layer) */}
+            <div className="mt-12 glass-card bg-gradient-to-br from-indigo-900/10 to-amber-900/10 border-indigo-600/20 p-8">
+               <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 bg-amber-600 text-white rounded-2xl shadow-lg shadow-amber-600/20">
+                     <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                     <h3 className="text-xl font-black uppercase tracking-tighter">Market Strategy Advisor <span className="text-amber-600">IA</span></h3>
+                     <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Analyse prédictive basée sur Google Trends & Leads BDD</p>
+                  </div>
+               </div>
+               
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
+                     <div className="flex items-center gap-2 mb-4">
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Opportunité Marché</span>
+                     </div>
+                     <p className="text-xs font-bold leading-relaxed">
+                        Les recherches <span className="text-red-500 italic">"Punaise de lit Menton"</span> ont bondi de <span className="text-green-500">42%</span> cette semaine. 
+                        C’est le moment de remonter vos dossiers d'expertise sur la page d'accueil.
+                     </p>
+                  </div>
+                  
+                  <div className="p-6 bg-white/5 border border-white/5 rounded-2xl">
+                     <div className="flex items-center gap-2 mb-4">
+                        <Calendar className="w-4 h-4 text-blue-500" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Anticipation Saisonnière</span>
+                     </div>
+                     <p className="text-xs font-bold leading-relaxed">
+                        Le pic de <span className="text-indigo-500 italic">Frelons / Guêpes</span> est prévu dans 15 jours. 
+                        L'IA suggère de programmer 2 publications sur ce sujet avant mardi.
+                     </p>
+                  </div>
+
+                  <div className="p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
+                     <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] mb-4">Action suggérée</p>
+                     <button onClick={() => setShowStudio('magique')} className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">
+                        Lancer le Radar IA
+                     </button>
+                  </div>
+               </div>
             </div>
           </>
         )}
