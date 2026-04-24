@@ -9,11 +9,13 @@ $CACHE_TTL = 86400; // 24 heures
 
 // Récupération du token depuis les réglages en BDD
 $apifyToken = '';
+$tokenExists = false;
 $stmt = $pdo->prepare("SELECT setting_value FROM esend_settings WHERE setting_key = 'apify_token' LIMIT 1");
 $stmt->execute();
 $row = $stmt->fetch();
-if ($row) {
+if ($row && !empty($row['setting_value'])) {
     $apifyToken = $row['setting_value'];
+    $tokenExists = true;
 }
 
 // Mots-clés locaux à surveiller
@@ -134,6 +136,11 @@ if (!is_dir(__DIR__ . '/../data')) {
 }
 
 // 3. Sauvegarder le cache et retourner
+$responseData['debug_info'] = [
+    "token_detected" => $tokenExists,
+    "last_run" => date('Y-m-d H:i:s')
+];
+
 file_put_contents($CACHE_FILE, json_encode($responseData));
 echo json_encode($responseData);
 ?>
