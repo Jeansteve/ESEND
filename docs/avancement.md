@@ -65,6 +65,10 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Site Public : Identité "Frozen Night" (Sombre) imposée.
     - Admin : Identité "Morning Mist" (Clair) imposée pour le confort de gestion.
     - Suppression des boutons `ThemeToggle` dans le Header public et l'espace Admin.
+- **Réactivité Mobile Admin** : 
+    - Résolution du blocage de défilement (`overflow: hidden`) sur mobile.
+    - Correction de la largeur forcée (614px) en imposant `width: 100% !important`.
+    - Sidebar totalement isolée du flux pour un affichage plein écran sur smartphone.
 
 ## ✅ Pilotage & Gouvernance IA
 - **Nouvelles règles** : Le brainstorming requiert une validation explicite de l'admin avant tout développement.

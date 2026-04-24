@@ -25,7 +25,12 @@ ESEND est une application **Hybrid SPA** (Single Page Application) :
 ### Gestion du Thème (Deterministic Locking)
 Le système de thème est géré par le hook `src/hooks/useTheme.js`. Il impose un thème fixe selon l'URL :
 - **Public (`/`)** : Force la classe `.dark` (Thème "Frozen Night").
-- **Admin (`/#/admin/*`)** : Force la classe `.light` (Thème "Morning Mist"). Comprend une **sidebar rétractable** (persistance localStorage) pour optimiser l'espace de gestion.
+- **Admin (`/#/admin/*`)** : Force la classe `.light` (Thème "Morning Mist"). Comprend une **sidebar rétractable** (persistance localStorage).
+### 📱 Optimisation Mobile (Critical Fixes)
+L'interface admin a été spécifiquement corrigée pour les appareils mobiles :
+- **Scrolling** : Le défilement vertical est garanti par `height: auto` et `overflow-y: auto` sur `.admin-container` (media query < 1024px).
+- **Largeur** : Suppression des contraintes de largeur fixes (forçage à `100% !important`) pour éviter le décalage horizontal typique des conteneurs Flexbox compressés.
+- **Sidebars** : Isolation totale (`display: none`) de la sidebar desktop sur mobile pour libérer 100% de l'espace au contenu principal.
 *Note : Le changement manuel par l'utilisateur est désactivé pour préserver l'identité visuelle de chaque section.*
 
 ---
