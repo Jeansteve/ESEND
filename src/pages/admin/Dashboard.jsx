@@ -504,23 +504,29 @@ const Dashboard = () => {
                                <motion.span 
                                  animate={{ opacity: [1, 0.5, 1] }}
                                  transition={{ repeat: Infinity, duration: 2 }}
-                                 className="bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.4)] flex items-center gap-1"
+                                 className="bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full shadow-[0_0_12px_rgba(220,38,38,0.4)] flex items-center gap-1.5 whitespace-nowrap"
                                >
-                                 ⚡ URGENT
+                                 <Zap className="w-3 h-3 fill-current" /> URGENT
                                </motion.span>
                              )}
                           </div>
-                          <h5 className={`text-sm font-black tracking-tight flex items-center gap-2 ${isUrgent ? 'text-red-900' : 'text-slate-900'}`}>
+                          <h5 className={`text-base font-black tracking-tight flex items-center gap-2 ${isUrgent ? 'text-red-900' : 'text-slate-900'}`}>
                             {lead.client_name}
                             {isNew && !isUrgent && <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />}
                           </h5>
                         </div>
                       </div>
 
-                      <div className="text-right space-y-1">
-                        <div className="text-[10px] font-bold text-slate-400 flex items-center justify-end gap-1">
-                          <Clock className="w-3 h-3" />
-                          {new Date(lead.created_at).toLocaleDateString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                      <div className="flex flex-col items-end gap-1 min-w-[100px]">
+                        <div className={`text-[10px] font-black px-2 py-0.5 rounded ${isUrgent ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                          {isUrgent ? 'PRIORITAIRE' : isNew ? 'NOUVEAU' : 'ARCHIVÉ'}
+                        </div>
+                        <div className="flex flex-col items-end text-[10px] font-bold text-slate-400">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {new Date(lead.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                          </span>
+                          <span>{new Date(lead.created_at).toLocaleDateString('fr-FR')}</span>
                         </div>
                       </div>
                     </motion.div>
