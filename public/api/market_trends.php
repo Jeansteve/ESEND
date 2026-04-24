@@ -5,7 +5,15 @@ header('Content-Type: application/json');
 // Configuration
 $CACHE_FILE = __DIR__ . '/../data/market_trends_cache.json';
 $CACHE_TTL = 86400; // 24 heures
-$apifyToken = defined('APIFY_TOKEN') ? APIFY_TOKEN : '';
+
+// Récupération du token depuis les réglages en BDD
+$apifyToken = '';
+$stmt = $pdo->prepare("SELECT setting_value FROM esend_settings WHERE setting_key = 'apify_token' LIMIT 1");
+$stmt->execute();
+$row = $stmt->fetch();
+if ($row) {
+    $apifyToken = $row['setting_value'];
+}
 
 // Mots-clés locaux à surveiller
 $queries = [

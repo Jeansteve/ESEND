@@ -752,15 +752,27 @@ const Dashboard = () => {
                   color: 'text-indigo-600',
                   bg: 'bg-indigo-600/10',
                   content: (
-                    <div className="max-w-md space-y-3">
-                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
-                      <input 
-                         type="password" 
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
-                         placeholder="••••••••••••••••"
-                         value={localSettings.gemini_api_key || ''}
-                         onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
-                      />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
+                        <input 
+                           type="password" 
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                           placeholder="••••••••••••••••"
+                           value={localSettings.gemini_api_key || ''}
+                           onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Token API Apify (Live Trends)</label>
+                        <input 
+                           type="password" 
+                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                           placeholder="apify_api_..."
+                           value={localSettings.apify_token || ''}
+                           onChange={(e) => setLocalSettings({ ...localSettings, apify_token: e.target.value })}
+                        />
+                      </div>
                     </div>
                   )
                 }

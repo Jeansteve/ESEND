@@ -14,7 +14,6 @@ define('DB_HOST', 'localhost'); // Souvent localhost sur Hostinger
 define('DB_NAME', 'u387599421_esend'); // Exemple
 define('DB_USER', 'u387599421_admin'); // Exemple
 define('DB_PASS', '&haQ*;Q+4mW'); // Exemple
-define('APIFY_TOKEN', 'TA_CLE_ICI'); // Token à récupérer sur Apify.com
 
 // Configuration PDO
 $options = [
