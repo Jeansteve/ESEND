@@ -39,6 +39,7 @@ $nuisible = isset($_POST['Nuisible']) ? $_POST['Nuisible'] : '';
 $type_client = isset($_POST['Type_Client']) ? $_POST['Type_Client'] : '';
 $cp = isset($_POST['Code_Postal']) ? $_POST['Code_Postal'] : '';
 $ville = isset($_POST['Ville']) ? trim($_POST['Ville']) : '';
+$is_urgent = isset($_POST['is_urgent']) ? (int)$_POST['is_urgent'] : 0;
 
 // Construction d'un objet (titre) d'email ultra-parlant
 if ($service === 'Nuisibles' || $service === 'Intervention') {
@@ -120,12 +121,13 @@ $imagesJson = !empty($uploadedFiles) ? json_encode($uploadedFiles) : null;
 
 // 2. Archive de la demande en Base de Données (Mini-CRM)
 try {
-    $stmtLead = $pdo->prepare("INSERT INTO esend_leads (tracking_id, service, nuisible, problem_details, client_name, client_phone, client_email, client_type, zip_code, city, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmtLead = $pdo->prepare("INSERT INTO esend_leads (tracking_id, service, nuisible, problem_details, is_urgent, client_name, client_phone, client_email, client_type, zip_code, city, images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmtLead->execute([
         $trackingId, 
         $service, 
         $nuisible, 
         $problem, 
+        $is_urgent,
         $nom, 
         $tel, 
         $email, 
@@ -140,7 +142,8 @@ try {
 }
 
 $ville_titre = !empty($ville) ? " (" . mb_strimwidth($ville, 0, 20, "...") . ")" : "";
-$subject = $icone . " [" . $trackingId . "] " . $titre_service . " - Devis de " . $nom . $ville_titre;
+$prefix_urgent = ($is_urgent === 1) ? "🔥 [URGENT] " : "";
+$subject = $prefix_urgent . $icone . " [" . $trackingId . "] " . $titre_service . " - Devis de " . $nom . $ville_titre;
 
 if(empty($nom) || empty($tel)) {
     echo json_encode(['success' => false, 'message' => 'Des champs obligatoires sont manquants']);
@@ -157,6 +160,13 @@ $htmlMessage = "
   <div style=\"font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);\">
       <h2 style=\"color: #1a202c; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-top: 0;\">Demande Dossier n° " . $trackingId . " ⚡️</h2>
       
+      " . ($is_urgent === 1 ? "
+      <div style=\"background-color: #fff5f5; border: 2px solid #e53e3e; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center;\">
+          <h1 style=\"color: #e53e3e; margin: 0; font-size: 24px; text-transform: uppercase;\">⚡️ INTERVENTION URGENTE ⚡️</h1>
+          <p style=\"color: #c53030; margin: 5px 0 0 0; font-weight: bold;\">Le client a demandé une prise en charge prioritaire (sous 24h).</p>
+      </div>
+      " : "") . "
+
       <p style=\"font-size: 16px; color: #4a5568; line-height: 1.5;\">Bonjour l'équipe ESEND,</p>
       <p style=\"font-size: 15px; color: #4a5568; line-height: 1.5;\">Une nouvelle demande de devis vient d'être soumise de manière autonome sur votre site web. Voici les informations complètes :</p>
 

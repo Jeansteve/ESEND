@@ -144,6 +144,7 @@ const LeadManager = () => {
                 <div className="flex-1 space-y-2">
                   <div className="flex items-center gap-2">
                     <span className="text-[10px] bg-[var(--bg-input)] px-2 py-1 rounded font-bold text-[var(--text-dimmed)]">{lead.tracking_id}</span>
+                    {(lead.is_urgent == 1 || lead.is_urgent === true) && <span className="bg-amber-500 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full flex items-center gap-1">⚡ Urgent</span>}
                     {lead.status === 'nouveau' && <span className="bg-red-500 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-full flex items-center gap-1"><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Nouveau</span>}
                     {lead.status === 'contacté' && <span className="bg-amber-500/10 text-amber-500 border border-amber-500/30 text-[9px] font-black uppercase px-2 py-0.5 rounded-full">En cours</span>}
                   </div>
