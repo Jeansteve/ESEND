@@ -33,7 +33,7 @@ const QuotaTracker = {
 };
 
 export const AIService = {
-    
+
     getQuota() {
         const q = QuotaTracker.get();
         return {
@@ -82,7 +82,9 @@ export const AIService = {
 
         // Cascade de modèles (v1 et v1beta) pour éviter les 404 (Not Found)
         const endpointsToTry = [
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
@@ -93,11 +95,12 @@ export const AIService = {
 
         for (const endpoint of endpointsToTry) {
             try {
-                // gemini-pro (v1.0) ne supporte pas responseSchema de la même manière
+                // gemini-pro (v1.0) ne supporte pas responseSchema ni responseMimeType
                 const isLegacy = endpoint.includes('gemini-pro:');
                 let requestBody = { ...body };
-                if (isLegacy && requestBody.generationConfig?.responseSchema) {
+                if (isLegacy && requestBody.generationConfig) {
                     delete requestBody.generationConfig.responseSchema;
+                    delete requestBody.generationConfig.responseMimeType;
                 }
 
                 const response = await fetch(`${endpoint}?key=${key}`, {
@@ -127,8 +130,8 @@ export const AIService = {
      */
     async searchLatestNews(targetServiceId = null) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        
-        const serviceConstraint = targetServiceId 
+
+        const serviceConstraint = targetServiceId
             ? `\nFOCUS : Uniquement des sujets liés au service_id ${targetServiceId}.`
             : '';
 
@@ -164,10 +167,10 @@ Réponse en JSON uniquement (tableau de 3 objets) :
             }
         };
 
-        const response = await this._callLLM({ 
+        const response = await this._callLLM({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { 
-                temperature: 0.7, 
+            generationConfig: {
+                temperature: 0.7,
                 responseMimeType: "application/json",
                 responseSchema: schema
             },
@@ -179,24 +182,24 @@ Réponse en JSON uniquement (tableau de 3 objets) :
             ]
         });
         const data = await response.json();
-        
+
         // Sécurité : Vérifier si l'IA a été bloquée avant de lire le texte
         if (data.candidates[0].finishReason !== 'STOP') {
-             console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
-             if(data.candidates[0].finishReason === 'SAFETY') {
-                 throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
-             }
+            console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
+            if (data.candidates[0].finishReason === 'SAFETY') {
+                throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
+            }
         }
-        
+
         const text = data.candidates[0].content?.parts[0]?.text;
         if (!text) {
-             throw new Error("L'IA n'a retourné aucun texte valide.");
+            throw new Error("L'IA n'a retourné aucun texte valide.");
         }
-        
+
         let clean = text.replace(/```json|```/g, '').trim();
         // Éliminer les caractères de contrôle littéraux
         clean = clean.replace(/[\n\r\t]/g, ' ');
-        
+
         const parsedData = JSON.parse(clean);
         QuotaTracker.increment('topics');
         return parsedData;
@@ -207,7 +210,7 @@ Réponse en JSON uniquement (tableau de 3 objets) :
      */
     async draftArticle(title) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        
+
         const prompt = `Tu es l'Expert Senior d'ESEND (Menton), spécialisé en hygiène et lutte anti-nuisibles sur la Riviera.
 Rédige un article d'expertise COMPLET et RÉEL sur : "${title}".
 
@@ -256,11 +259,11 @@ FORMAT RÉPONSE (JSON uniquement) :
             required: ["title", "category", "excerpt", "content_html", "meta_title", "meta_description", "service_id"]
         };
 
-        const response = await this._callLLM({ 
+        const response = await this._callLLM({
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { 
-                temperature: 0.7, 
-                maxOutputTokens: 8192, 
+            generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 8192,
                 responseMimeType: "application/json",
                 responseSchema: schema
             },
@@ -272,19 +275,19 @@ FORMAT RÉPONSE (JSON uniquement) :
             ]
         });
         const data = await response.json();
-        
+
         if (data.candidates?.[0]?.finishReason && data.candidates[0].finishReason !== 'STOP') {
-             console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
-             if(data.candidates[0].finishReason === 'SAFETY') {
-                 throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
-             }
+            console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
+            if (data.candidates[0].finishReason === 'SAFETY') {
+                throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
+            }
         }
 
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) {
-             throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée).");
+            throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée).");
         }
-        
+
         // STRATÉGIE : Parser de façon robuste sans casser le HTML
         // 1. Supprimer uniquement les delimiteurs markdown si présents
         let clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
@@ -329,40 +332,11 @@ Requirements:
 - Language: English (for the AI generator).
 - Response: A single paragraph, detailed, describing the scene, textures, and lighting. NO PREAMBLE.`;
 
-        const response = await this._callLLM({ 
+        const response = await this._callLLM({
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
         });
         const data = await response.json();
         return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
-    },
-
-    /**
-     * Retourne les prompts système pour l'Assistant Manuel
-     */
-    getPrompts(topic = '') {
-        const month = new Date().toLocaleDateString('fr-FR', { month: 'long' });
-        const year = new Date().getFullYear();
-        return {
-            findNews: `Expert en hygiène et nuisibles (ESEND, Riviera). Propose 3 sujets d'articles d'actualité pour le Journal de l'Expert.
-CONTEXTE : Nous sommes en ${month} ${year}. 
-ZONE : Menton, Monaco, Roquebrune, Nice (Côte d'Azur).
-
-Réponse en JSON uniquement (tableau de 3 objets) :
-[{"title":"Titre impactant","description":"Résumé en 2 phrases","trend":5,"service_id":X}]`,
-            articleGeneration: `Tu es l'Expert Senior d'ESEND (Menton), spécialisé en hygiène et lutte anti-nuisibles sur la Riviera.
-Rédige un article d'expertise COMPLET sur : "${topic}".
-
-STRUCTURE OBLIGATOIRE (en HTML) :
-1. Introduction : Analyse du problème actuel et contexte spécifique à la Riviera.
-2. Les Causes : Facteurs locaux.
-3. Chiffre Clé : <blockquote>.
-4. Notre Solution ESEND : Protocole certifié.
-5. Les Résultats : Garanties.
-6. Prévention : Liste <ul>.
-
-CONTRAINTE : Minimum 1000 mots, titres <h2> et <h3> uniquement.
-Réponse en JSON : {"title": "...", "content_html": "...", "excerpt": "...", "meta_title": "...", "meta_description": "..."}`
-        };
     }
 };

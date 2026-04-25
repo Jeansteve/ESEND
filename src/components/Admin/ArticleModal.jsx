@@ -95,8 +95,8 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
     excerpt: article?.excerpt || '',
     content_html: article?.content_html || EXPERT_TEMPLATE,
     cover_image: article?.cover_image || article?.image || '', // Jamais de valeur par défaut — force la zone d'upload
-    meta_title: article?.meta_title || '',
-    meta_description: article?.meta_description || '',
+    meta_title: article?.meta_title || article?.seo_title || '',
+    meta_description: article?.meta_description || article?.seo_description || '',
     service_id: article?.service_id || 1,
     is_published: article?.is_published || 0,
     image_prompt: '', // Suggestion image de l'IA (non stocké en DB)
