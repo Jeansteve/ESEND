@@ -359,6 +359,4 @@ Requirements:
         return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
     }
 };
-return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
-    }
-};
+
