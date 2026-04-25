@@ -548,97 +548,97 @@ const Dashboard = () => {
                    <TrendingUp className="w-5 h-5 text-indigo-600" />
                 </div>
                 
-                {/* Business Heartbeat (Modern Activity Distribution) */}
-                <div className="flex flex-col lg:flex-row items-center justify-between gap-12 p-2">
-                   <div className="relative group">
+                {/* Business Heartbeat (Corrected Premium UI) */}
+                <div className="flex flex-col xl:flex-row items-center justify-between gap-8 p-4">
+                   <div className="relative group flex-shrink-0">
                       {/* Glow Effect Background */}
-                      <div className="absolute inset-0 bg-red-500/20 blur-3xl rounded-full scale-75 group-hover:scale-110 transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-red-500/10 blur-3xl rounded-full scale-90 group-hover:scale-110 transition-transform duration-700" />
                       
-                      <div className="relative w-56 h-56">
-                         <svg className="w-full h-full -rotate-90 drop-shadow-[0_0_15px_rgba(220,38,38,0.15)]" viewBox="0 0 100 100">
-                            {/* Segment Nuisibles (Rouge) - 57% */}
+                      <div className="relative w-64 h-64">
+                         <svg className="w-full h-full -rotate-90 drop-shadow-[0_10px_20px_rgba(0,0,0,0.05)]" viewBox="0 0 100 100">
+                            {/* Segment Nuisibles (57%) */}
                             <circle 
-                               cx="50" cy="50" r="42" 
+                               cx="50" cy="50" r="40" 
                                fill="transparent" 
                                stroke="url(#gradient-red)" 
-                               strokeWidth="8" 
-                               strokeDasharray="150.4 263.8" 
+                               strokeWidth="10" 
+                               strokeDasharray="143 251.3" 
+                               strokeDashoffset="0"
                                strokeLinecap="round"
-                               className="transition-all duration-1000 hover:stroke-[10px] cursor-pointer"
+                               className="transition-all duration-1000"
                             />
-                            {/* Segment Nettoyage (Indigo) - 31% */}
+                            {/* Segment Nettoyage (31%) */}
                             <circle 
-                               cx="50" cy="50" r="42" 
+                               cx="50" cy="50" r="40" 
                                fill="transparent" 
                                stroke="url(#gradient-indigo)" 
-                               strokeWidth="6" 
-                               strokeDasharray="81.8 263.8" 
-                               strokeDashoffset="-158.4"
+                               strokeWidth="10" 
+                               strokeDasharray="77.9 251.3" 
+                               strokeDashoffset="-148"
                                strokeLinecap="round"
-                               className="opacity-80 hover:opacity-100 transition-all duration-500"
+                               className="transition-all duration-1000"
                             />
-                            {/* Segment Désinfection (Emeraude) - 12% */}
+                            {/* Segment Désinfection (12%) */}
                             <circle 
-                               cx="50" cy="50" r="42" 
+                               cx="50" cy="50" r="40" 
                                fill="transparent" 
                                stroke="url(#gradient-green)" 
-                               strokeWidth="6" 
-                               strokeDasharray="31.6 263.8" 
-                               strokeDashoffset="-248.2"
+                               strokeWidth="10" 
+                               strokeDasharray="30 251.3" 
+                               strokeDashoffset="-231"
                                strokeLinecap="round"
-                               className="opacity-80 hover:opacity-100 transition-all duration-500"
+                               className="transition-all duration-1000"
                             />
                             
-                            {/* Gradients Definitions */}
                             <defs>
                                <linearGradient id="gradient-red" x1="0%" y1="0%" x2="100%" y2="100%">
-                                  <stop offset="0%" stopColor="#ef4444" />
+                                  <stop offset="0%" stopColor="#dc2626" />
                                   <stop offset="100%" stopColor="#991b1b" />
-                                </linearGradient>
-                                <linearGradient id="gradient-indigo" x1="0%" y1="0%" x2="100%" y2="100%">
-                                  <stop offset="0%" stopColor="#6366f1" />
+                               </linearGradient>
+                               <linearGradient id="gradient-indigo" x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <stop offset="0%" stopColor="#4f46e5" />
                                   <stop offset="100%" stopColor="#3730a3" />
-                                </linearGradient>
-                                <linearGradient id="gradient-green" x1="0%" y1="0%" x2="100%" y2="100%">
+                               </linearGradient>
+                               <linearGradient id="gradient-green" x1="0%" y1="0%" x2="100%" y2="100%">
                                   <stop offset="0%" stopColor="#10b981" />
                                   <stop offset="100%" stopColor="#065f46" />
-                                </linearGradient>
+                               </linearGradient>
                             </defs>
                          </svg>
                          
-                         {/* Center Label */}
+                         {/* Center Info */}
                          <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <div className="text-4xl font-black italic tracking-tighter text-slate-900 leading-none">57<span className="text-red-600 text-xl">%</span></div>
-                            <div className="text-[9px] font-black uppercase text-slate-400 tracking-[0.2em] mt-2 bg-slate-100 px-2 py-0.5 rounded-full">Dominance</div>
+                            <div className="text-5xl font-black italic tracking-tighter text-slate-900 leading-none">57<span className="text-red-600 text-2xl">%</span></div>
+                            <div className="text-[10px] font-black uppercase text-indigo-600 tracking-[0.25em] mt-3 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">Dominance</div>
                          </div>
                       </div>
                    </div>
                    
-                   <div className="flex-grow grid grid-cols-1 gap-3 w-full max-w-md">
+                   <div className="flex-grow grid grid-cols-1 gap-4 w-full">
                       {[
-                        { label: 'Nuisibles', count: '57%', color: 'text-red-600', bg: 'bg-red-50', trend: '+12%', icon: '🐛' },
-                        { label: 'Nettoyage', count: '31%', color: 'text-indigo-600', bg: 'bg-indigo-50', trend: '-2%', icon: '✨' },
-                        { label: 'Désinfection', count: '12%', color: 'text-emerald-600', bg: 'bg-emerald-50', trend: '+5%', icon: '🛡️' }
+                        { label: 'Nuisibles', count: '57%', color: 'text-red-600', border: 'border-red-600', bg: 'bg-red-50', trend: '+12%', icon: '🐛' },
+                        { label: 'Nettoyage', count: '31%', color: 'text-indigo-600', border: 'border-indigo-600', bg: 'bg-indigo-50', trend: '-2%', icon: '✨' },
+                        { label: 'Désinfection', count: '12%', color: 'text-emerald-600', border: 'border-emerald-600', bg: 'bg-emerald-50', trend: '+5%', icon: '🛡️' }
                       ].map((item, i) => (
-                        <div key={i} className="group relative overflow-hidden flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-100 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300">
-                           {/* Highlight line */}
-                           <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 group-hover:w-2 ${item.color.replace('text', 'bg')}`} />
-                           
-                           <div className="flex items-center gap-4 pl-2">
-                              <div className={`w-10 h-10 flex items-center justify-center rounded-xl ${item.bg} text-xl group-hover:scale-110 transition-transform`}>
+                        <div key={i} className="group flex justify-between items-center bg-white p-5 rounded-3xl border border-slate-100 hover:border-slate-300 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500">
+                           <div className="flex items-center gap-5">
+                              <div className={`w-12 h-12 flex items-center justify-center rounded-2xl ${item.bg} text-2xl shadow-inner`}>
                                  {item.icon}
                               </div>
                               <div className="flex flex-col">
-                                 <span className="text-[11px] font-black text-slate-900 uppercase tracking-wider">{item.label}</span>
-                                 <span className={`text-[9px] font-bold ${item.trend.startsWith('+') ? 'text-green-600' : 'text-slate-400'}`}>
-                                    {item.trend} vs mois dernier
-                                 </span>
+                                 <span className="text-xs font-black text-slate-900 uppercase tracking-widest">{item.label}</span>
+                                 <div className="flex items-center gap-2 mt-1">
+                                    <span className={`text-[10px] font-bold ${item.trend.startsWith('+') ? 'text-green-600' : 'text-slate-400'}`}>
+                                       {item.trend}
+                                    </span>
+                                    <span className="text-[10px] font-medium text-slate-400 uppercase tracking-tighter">vs mois dernier</span>
+                                 </div>
                               </div>
                            </div>
                            
-                           <div className="text-right">
-                              <div className={`text-xl font-black ${item.color} italic`}>{item.count}</div>
-                              <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Volume</div>
+                           <div className="text-right min-w-[80px]">
+                              <div className={`text-2xl font-black ${item.color} italic leading-none`}>{item.count}</div>
+                              <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Volume</div>
                            </div>
                         </div>
                       ))}
