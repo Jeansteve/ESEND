@@ -548,34 +548,98 @@ const Dashboard = () => {
                    <TrendingUp className="w-5 h-5 text-indigo-600" />
                 </div>
                 
-                {/* Business Mix Visualization (Donut Mock with CSS) */}
-                <div className="flex flex-col md:flex-row items-center gap-12">
-                   <div className="relative w-40 h-40">
-                      <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                         {/* Simple Mock Data Visualization */}
-                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--border-subtle)" strokeWidth="12" />
-                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgb(220, 38, 38)" strokeWidth="12" strokeDasharray="150 101" />
-                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgb(79, 70, 229)" strokeWidth="12" strokeDasharray="80 171" strokeDashoffset="-150" />
-                         <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgb(22, 163, 74)" strokeWidth="12" strokeDasharray="21 230" strokeDashoffset="-230" />
-                      </svg>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
-                         <span className="text-xl font-black italic tracking-tighter">57%</span>
-                         <span className="text-[8px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest mt-1">Nuisibles</span>
+                {/* Business Heartbeat (Modern Activity Distribution) */}
+                <div className="flex flex-col lg:flex-row items-center justify-between gap-12 p-2">
+                   <div className="relative group">
+                      {/* Glow Effect Background */}
+                      <div className="absolute inset-0 bg-red-500/20 blur-3xl rounded-full scale-75 group-hover:scale-110 transition-transform duration-700" />
+                      
+                      <div className="relative w-56 h-56">
+                         <svg className="w-full h-full -rotate-90 drop-shadow-[0_0_15px_rgba(220,38,38,0.15)]" viewBox="0 0 100 100">
+                            {/* Segment Nuisibles (Rouge) - 57% */}
+                            <circle 
+                               cx="50" cy="50" r="42" 
+                               fill="transparent" 
+                               stroke="url(#gradient-red)" 
+                               strokeWidth="8" 
+                               strokeDasharray="150.4 263.8" 
+                               strokeLinecap="round"
+                               className="transition-all duration-1000 hover:stroke-[10px] cursor-pointer"
+                            />
+                            {/* Segment Nettoyage (Indigo) - 31% */}
+                            <circle 
+                               cx="50" cy="50" r="42" 
+                               fill="transparent" 
+                               stroke="url(#gradient-indigo)" 
+                               strokeWidth="6" 
+                               strokeDasharray="81.8 263.8" 
+                               strokeDashoffset="-158.4"
+                               strokeLinecap="round"
+                               className="opacity-80 hover:opacity-100 transition-all duration-500"
+                            />
+                            {/* Segment Désinfection (Emeraude) - 12% */}
+                            <circle 
+                               cx="50" cy="50" r="42" 
+                               fill="transparent" 
+                               stroke="url(#gradient-green)" 
+                               strokeWidth="6" 
+                               strokeDasharray="31.6 263.8" 
+                               strokeDashoffset="-248.2"
+                               strokeLinecap="round"
+                               className="opacity-80 hover:opacity-100 transition-all duration-500"
+                            />
+                            
+                            {/* Gradients Definitions */}
+                            <defs>
+                               <linearGradient id="gradient-red" x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <stop offset="0%" stopColor="#ef4444" />
+                                  <stop offset="100%" stopColor="#991b1b" />
+                                </linearGradient>
+                                <linearGradient id="gradient-indigo" x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <stop offset="0%" stopColor="#6366f1" />
+                                  <stop offset="100%" stopColor="#3730a3" />
+                                </linearGradient>
+                                <linearGradient id="gradient-green" x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <stop offset="0%" stopColor="#10b981" />
+                                  <stop offset="100%" stopColor="#065f46" />
+                                </linearGradient>
+                            </defs>
+                         </svg>
+                         
+                         {/* Center Label */}
+                         <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <div className="text-4xl font-black italic tracking-tighter text-slate-900 leading-none">57<span className="text-red-600 text-xl">%</span></div>
+                            <div className="text-[9px] font-black uppercase text-slate-400 tracking-[0.2em] mt-2 bg-slate-100 px-2 py-0.5 rounded-full">Dominance</div>
+                         </div>
                       </div>
                    </div>
                    
-                   <div className="flex-grow space-y-4 w-full">
+                   <div className="flex-grow grid grid-cols-1 gap-3 w-full max-w-md">
                       {[
-                        { label: 'Nuisibles', count: '57%', color: 'bg-red-600' },
-                        { label: 'Nettoyage', count: '31%', color: 'bg-indigo-600' },
-                        { label: 'Désinfection', count: '12%', color: 'bg-green-600' }
+                        { label: 'Nuisibles', count: '57%', color: 'text-red-600', bg: 'bg-red-50', trend: '+12%', icon: '🐛' },
+                        { label: 'Nettoyage', count: '31%', color: 'text-indigo-600', bg: 'bg-indigo-50', trend: '-2%', icon: '✨' },
+                        { label: 'Désinfection', count: '12%', color: 'text-emerald-600', bg: 'bg-emerald-50', trend: '+5%', icon: '🛡️' }
                       ].map((item, i) => (
-                        <div key={i} className="flex justify-between items-center bg-[var(--bg-input)] p-3 rounded-xl border border-[var(--border-subtle)]">
-                           <div className="flex items-center gap-3">
-                              <div className={`w-2 h-2 rounded-full ${item.color}`} />
-                              <span className="text-[10px] font-black text-[var(--text-main)] uppercase tracking-[0.1em]">{item.label}</span>
+                        <div key={i} className="group relative overflow-hidden flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-100 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300">
+                           {/* Highlight line */}
+                           <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 group-hover:w-2 ${item.color.replace('text', 'bg')}`} />
+                           
+                           <div className="flex items-center gap-4 pl-2">
+                              <div className={`w-10 h-10 flex items-center justify-center rounded-xl ${item.bg} text-xl group-hover:scale-110 transition-transform`}>
+                                 {item.icon}
+                              </div>
+                              <div className="flex flex-col">
+                                 <span className="text-[11px] font-black text-slate-900 uppercase tracking-wider">{item.label}</span>
+                                 <span className={`text-[9px] font-bold ${item.trend.startsWith('+') ? 'text-green-600' : 'text-slate-400'}`}>
+                                    {item.trend} vs mois dernier
+                                 </span>
+                              </div>
                            </div>
-                           <span className="text-[10px] font-black text-[var(--text-dimmed)]">{item.count}</span>
+                           
+                           <div className="text-right">
+                              <div className={`text-xl font-black ${item.color} italic`}>{item.count}</div>
+                              <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Volume</div>
+                           </div>
                         </div>
                       ))}
                    </div>
