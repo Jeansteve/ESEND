@@ -285,29 +285,32 @@ FORMAT RÉPONSE (JSON uniquement) :
 
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) {
-            throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée).");
+            throw new Error("L'IA n'a retourné aucun texte valide.");
         }
-
-        // STRATÉGIE : Parser de façon robuste sans casser le HTML
-        // 1. Supprimer uniquement les delimiteurs markdown si présents
-        let clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
 
         let parsedArticle;
         try {
-            // Tentative directe (idéal si responseSchema retourne du JSON propre)
-            parsedArticle = JSON.parse(clean);
-        } catch (firstErr) {
-            // Fallback: extraire uniquement le JSON entre { et } (dernier recours)
-            const jsonMatch = clean.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) throw new Error("Impossible d'extraire le JSON de la réponse IA.");
+            // Extraction robuste : on prend tout ce qu'il y a entre le premier '{' et le dernier '}'
+            const firstBrace = text.indexOf('{');
+            const lastBrace = text.lastIndexOf('}');
+            
+            if (firstBrace === -1 || lastBrace === -1) {
+                console.error("Réponse IA sans JSON:", text);
+                throw new Error("Impossible d'extraire le JSON de la réponse IA.");
+            }
+
+            const jsonString = text.substring(firstBrace, lastBrace + 1);
+            
             try {
-                parsedArticle = JSON.parse(jsonMatch[0]);
-            } catch (secondErr) {
-                // Dernier recours : nettoyer les caractères problématiques SAUF dans content_html
-                // On remplace uniquement les caractères de contrôle hors d'une string JSON
-                const sanitized = clean.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+                parsedArticle = JSON.parse(jsonString);
+            } catch (parseErr) {
+                // Tentative de nettoyage des caractères de contrôle invisibles (courant dans les longs textes HTML)
+                const sanitized = jsonString.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
                 parsedArticle = JSON.parse(sanitized);
             }
+        } catch (err) {
+            console.error("Échec définitif du parsing JSON:", err);
+            throw new Error("L'IA a généré un article malformé. Veuillez réessayer.");
         }
 
         QuotaTracker.increment('articles');
