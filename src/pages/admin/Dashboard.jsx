@@ -942,8 +942,21 @@ const Dashboard = () => {
         <ArticleModal
           article={editingArticle?.id ? editingArticle : null}
           onClose={() => setEditingArticle(null)}
-          onSave={async () => {
-            await loadData();
+          onSave={(savedArticle) => {
+            // Mise à jour optimiste — évite un rechargement complet
+            if (savedArticle?.id) {
+              setArticles(prev => {
+                const idx = prev.findIndex(a => a.id === savedArticle.id);
+                if (idx >= 0) {
+                  const next = [...prev];
+                  next[idx] = { ...prev[idx], ...savedArticle };
+                  return next;
+                }
+                return [savedArticle, ...prev];
+              });
+            } else {
+              loadData(); // Nouvel article : rechargement nécessaire pour récupérer l'ID
+            }
             setEditingArticle(null);
           }}
           onDelete={(id) => {
