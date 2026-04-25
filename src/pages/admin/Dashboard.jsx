@@ -350,7 +350,7 @@ const Dashboard = () => {
           ].map(item => (
             <div 
               key={item.id}
-              onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); }}
+              onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); setShowStudio(false); }}
               className={`nav-item ${activeTab === item.id ? 'active' : ''} ${isSidebarCollapsed ? 'lg:justify-center lg:p-3 lg:px-0' : ''}`}
               title={isSidebarCollapsed ? item.label : ''}
             >
@@ -375,6 +375,7 @@ const Dashboard = () => {
         {showStudio ? (
           <div className="h-[calc(100vh-64px)] w-full overflow-y-auto pb-20">
             <CreationStudio 
+              initialStep={showStudio === 'magique' ? 'TOPIC_CHOICE' : 'CHOICE'}
               onClose={() => setShowStudio(false)} 
               onSuccess={(newArt) => {
                 setArticles([newArt, ...articles]);

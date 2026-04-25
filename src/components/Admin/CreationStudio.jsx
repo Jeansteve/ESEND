@@ -121,8 +121,8 @@ const MOCK_ARTICLE_JSON = `{
   ]
 }`;
 
-const CreationStudio = ({ onClose, services, onSave, articles = [] }) => {
-    const [step, setStep] = useState('CHOICE');
+const CreationStudio = ({ onClose, services, onSave, articles = [], initialStep = 'CHOICE' }) => {
+    const [step, setStep] = useState(initialStep);
     const [manualSubStep, setManualSubStep] = useState(1);
     const [foundNews, setNews] = useState([]);
     const [aiError, setAiError] = useState(null);
@@ -532,7 +532,7 @@ const CreationStudio = ({ onClose, services, onSave, articles = [] }) => {
             const generate = async () => {
                 setAiError(null);
                 try {
-                    const article = await AIService.generateFullArticle(selectedTopic.title);
+                    const article = await AIService.draftArticle(selectedTopic.title);
                     const bestServiceId = AIService.getBestServiceId(article.title, selectedTopic?.service_id || 1, (article.excerpt || '') + ' ' + (article.content_html || ''));
 
                     // Image de couverture : laissée vide, l'utilisateur la génère à la demande dans l'éditeur
