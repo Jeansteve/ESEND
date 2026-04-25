@@ -537,7 +537,7 @@ const CreationStudio = ({ onClose, services, onSave, articles = [], initialStep 
 
                     // Image de couverture : laissée vide, l'utilisateur la génère à la demande dans l'éditeur
                     // Prompt pré-généré instantanément par l'IA lors de la rédaction finale de l'article (ou un fallback local)
-                    const coverPrompt = article.cover_prompt || AIService.buildCoverPrompt(article.title, bestServiceId);
+                    const coverPrompt = article.cover_prompt || await AIService.generateVisualPrompt(article.title, bestServiceId, article.excerpt);
                     const fullDraft = {
                         ...article,
                         service_id: bestServiceId,
