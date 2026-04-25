@@ -107,6 +107,25 @@ const realApi = {
             body: formData
         });
         return res.json();
+    },
+
+    // --- AI Radar (Topics) ---
+    getAiTopics: async () => {
+        const res = await fetch(`${API_BASE}/topics.php`);
+        return res.json();
+    },
+    saveAiTopics: async (topics) => {
+        const res = await fetch(`${API_BASE}/topics.php`, {
+            method: 'POST',
+            body: JSON.stringify(topics)
+        });
+        return res.json();
+    },
+    discardAiTopic: async (id) => {
+        const res = await fetch(`${API_BASE}/topics.php?id=${id}`, {
+            method: 'DELETE'
+        });
+        return res.json();
     }
 };
 

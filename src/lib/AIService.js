@@ -102,10 +102,9 @@ export const AIService = {
 
         // Cascade de modèles (v1 et v1beta) pour éviter les 404 (Not Found)
         const endpointsToTry = [
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
-            'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
         ];
@@ -114,11 +113,11 @@ export const AIService = {
 
         for (const endpoint of endpointsToTry) {
             try {
-                // gemini-pro (v1.0) ne supporte pas responseSchema de la même manière
                 const isLegacy = endpoint.includes('gemini-pro:');
                 let requestBody = { ...body };
-                if (isLegacy && requestBody.generationConfig?.responseSchema) {
+                if (isLegacy && requestBody.generationConfig) {
                     delete requestBody.generationConfig.responseSchema;
+                    delete requestBody.generationConfig.responseMimeType;
                 }
 
                 const response = await fetch(`${endpoint}?key=${key}`, {
@@ -201,15 +200,20 @@ Réponse en JSON uniquement (tableau de 3 objets) :
         });
         const data = await response.json();
 
-        // Sécurité : Vérifier si l'IA a été bloquée avant de lire le texte
-        if (data.candidates[0].finishReason !== 'STOP') {
-            console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
-            if (data.candidates[0].finishReason === 'SAFETY') {
+        // Sécurité : Vérifier si l'IA a été bloquée
+        const firstCandidate = data.candidates?.[0];
+        if (!firstCandidate) {
+            throw new Error("L'IA n'a retourné aucun candidat (réponse vide).");
+        }
+
+        if (firstCandidate.finishReason && firstCandidate.finishReason !== 'STOP') {
+            console.error("Gemini FinishReason:", firstCandidate.finishReason, data);
+            if (firstCandidate.finishReason === 'SAFETY') {
                 throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
             }
         }
 
-        const text = data.candidates[0].content?.parts[0]?.text;
+        const text = firstCandidate.content?.parts?.[0]?.text;
         if (!text) {
             throw new Error("L'IA n'a retourné aucun texte valide.");
         }
