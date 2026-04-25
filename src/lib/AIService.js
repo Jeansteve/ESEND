@@ -82,11 +82,10 @@ export const AIService = {
 
         // Cascade de modèles (v1 et v1beta) pour éviter les 404 (Not Found)
         const endpointsToTry = [
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
         ];
 
@@ -336,5 +335,34 @@ Requirements:
         });
         const data = await response.json();
         return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
+    },
+
+    /**
+     * Retourne les prompts système pour l'Assistant Manuel
+     */
+    getPrompts(topic = '') {
+        const month = new Date().toLocaleDateString('fr-FR', { month: 'long' });
+        const year = new Date().getFullYear();
+        return {
+            findNews: `Expert en hygiène et nuisibles (ESEND, Riviera). Propose 3 sujets d'articles d'actualité pour le Journal de l'Expert.
+CONTEXTE : Nous sommes en ${month} ${year}. 
+ZONE : Menton, Monaco, Roquebrune, Nice (Côte d'Azur).
+
+Réponse en JSON uniquement (tableau de 3 objets) :
+[{"title":"Titre impactant","description":"Résumé en 2 phrases","trend":5,"service_id":X}]`,
+            articleGeneration: `Tu es l'Expert Senior d'ESEND (Menton), spécialisé en hygiène et lutte anti-nuisibles sur la Riviera.
+Rédige un article d'expertise COMPLET sur : "${topic}".
+
+STRUCTURE OBLIGATOIRE (en HTML) :
+1. Introduction : Analyse du problème actuel et contexte spécifique à la Riviera.
+2. Les Causes : Facteurs locaux.
+3. Chiffre Clé : <blockquote>.
+4. Notre Solution ESEND : Protocole certifié.
+5. Les Résultats : Garanties.
+6. Prévention : Liste <ul>.
+
+CONTRAINTE : Minimum 1000 mots, titres <h2> et <h3> uniquement.
+Réponse en JSON : {"title": "...", "content_html": "...", "excerpt": "...", "meta_title": "...", "meta_description": "..."}`
+        };
     }
 };
