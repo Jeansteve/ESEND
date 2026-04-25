@@ -534,7 +534,15 @@ const Dashboard = () => {
                             <Clock className="w-3 h-3" />
                             {new Date(lead.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                           </span>
-                       <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8">
+                          <span>{new Date(lead.created_at).toLocaleDateString('fr-FR')}</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );})}
+                </div>
+              </div>
+
+              <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8">
                 <div className="flex justify-between items-center mb-8">
                    <h3 className="text-xl font-black uppercase tracking-tighter">Répartition Activité</h3>
                    <TrendingUp className="w-5 h-5 text-indigo-600" />
