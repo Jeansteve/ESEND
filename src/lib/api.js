@@ -111,21 +111,28 @@ const realApi = {
 
     // --- AI Radar (Topics) ---
     getAiTopics: async () => {
-        const res = await fetch(`${API_BASE}/topics.php`);
-        return res.json();
+        try {
+            const res = await fetch(`${API_BASE}/topics.php`);
+            if (!res.ok) return [];
+            return await res.json();
+        } catch { return []; }
     },
     saveAiTopics: async (topics) => {
-        const res = await fetch(`${API_BASE}/topics.php`, {
-            method: 'POST',
-            body: JSON.stringify(topics)
-        });
-        return res.json();
+        try {
+            const res = await fetch(`${API_BASE}/topics.php`, {
+                method: 'POST',
+                body: JSON.stringify(topics)
+            });
+            return await res.json();
+        } catch { return { success: false }; }
     },
     discardAiTopic: async (id) => {
-        const res = await fetch(`${API_BASE}/topics.php?id=${id}`, {
-            method: 'DELETE'
-        });
-        return res.json();
+        try {
+            const res = await fetch(`${API_BASE}/topics.php?id=${id}`, {
+                method: 'DELETE'
+            });
+            return await res.json();
+        } catch { return { success: false }; }
     }
 };
 
