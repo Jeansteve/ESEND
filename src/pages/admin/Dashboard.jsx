@@ -34,7 +34,8 @@ import {
   Menu,
   Bug,
   ShieldCheck,
-  Clock
+  Clock,
+  Building2
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import BlogManager from '../../components/Admin/BlogManager';
@@ -74,7 +75,7 @@ const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
     return matchCat && (p.title?.toLowerCase().includes(q) || p.location?.toLowerCase().includes(q) || p.tag?.toLowerCase().includes(q));
   });
 
-  const formatD = (s) => { try { return new Date(s).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' }); } catch { return s || '—'; } };
+  const formatD = (s) => { try { return new Date(s).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' }); } catch { return s || '—'; } };
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -91,11 +92,10 @@ const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${
-              activeCategory === cat.id
+            className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border ${activeCategory === cat.id
                 ? 'bg-[var(--text-main)] text-[var(--bg-primary)] border-transparent'
                 : 'bg-[var(--bg-secondary)] text-[var(--text-dimmed)] border-[var(--border-subtle)] hover:border-[var(--text-main)]/30'
-            }`}
+              }`}
           >
             {cat.label} <span className="opacity-60">({projects.filter(p => cat.id === 'all' || p.category === cat.id).length})</span>
           </button>
@@ -115,9 +115,8 @@ const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
                 <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[9px] font-black uppercase tracking-widest border border-white/10 group-hover:bg-red-600 group-hover:border-red-600 transition-colors">
                   {proj.tag}
                 </div>
-                <div className={`absolute top-3 right-3 flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-lg border ${
-                  isVisible ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
-                }`}>
+                <div className={`absolute top-3 right-3 flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-lg border ${isVisible ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                  }`}>
                   {isVisible ? <Globe className="w-2.5 h-2.5" /> : <Eye className="w-2.5 h-2.5" />}
                   {isVisible ? 'Visible' : 'Masquée'}
                 </div>
@@ -162,17 +161,17 @@ const Dashboard = () => {
   });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
-   const [articles, setArticles] = useState([]);
-   const [projects, setProjects] = useState([]);
-   const [leads, setLeads] = useState([]);
-   const [settings, setSettings] = useState({});
-   const [localSettings, setLocalSettings] = useState({});
-   const [saveStatus, setSaveStatus] = useState({ id: null, type: '' }); // { id: 'coordination', type: 'success' }
-   const [searchQuery, setSearchQuery] = useState('');
-   const [loading, setLoading] = useState(true);
-   const [trendsData, setTrendsData] = useState(null);
-   const [isLoadingTrends, setIsLoadingTrends] = useState(true);
-  
+  const [articles, setArticles] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [leads, setLeads] = useState([]);
+  const [settings, setSettings] = useState({});
+  const [localSettings, setLocalSettings] = useState({});
+  const [saveStatus, setSaveStatus] = useState({ id: null, type: '' }); // { id: 'coordination', type: 'success' }
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [trendsData, setTrendsData] = useState(null);
+  const [isLoadingTrends, setIsLoadingTrends] = useState(true);
+
   // Modals state
   const [showStudio, setShowStudio] = useState(false);
   const [editingArticle, setEditingArticle] = useState(null);
@@ -207,7 +206,7 @@ const Dashboard = () => {
     setLocalSettings(sets);
     setLeads(leadsData || []);
     if (trendsRes && trendsRes.data) {
-        setTrendsData(trendsRes.data);
+      setTrendsData(trendsRes.data);
     }
     setLoading(false);
     setIsLoadingTrends(false);
@@ -237,7 +236,7 @@ const Dashboard = () => {
 
   const renderStats = () => {
     const newLeads = leads.filter(l => l.status === 'nouveau').length;
-    
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         <div className="glass-card flex flex-col gap-4">
@@ -299,7 +298,7 @@ const Dashboard = () => {
 
   if (loading) return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center transition-colors duration-400">
-       <div className="w-12 h-12 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+      <div className="w-12 h-12 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 
@@ -307,7 +306,7 @@ const Dashboard = () => {
     <div className={`admin-container ${isSidebarCollapsed ? 'sidebar-collapsed' : ''} bg-[var(--bg-primary)]`}>
       {/* Mobile Backdrop */}
       {isMobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] lg:hidden"
           onClick={() => setIsMobileMenuOpen(false)}
         />
@@ -316,7 +315,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <aside className={`admin-sidebar ${isSidebarCollapsed ? 'collapsed' : ''} ${isMobileMenuOpen ? 'mobile-open' : ''} bg-[var(--bg-secondary)] border-r border-[var(--border-subtle)] transition-all duration-300 relative`}>
         {/* Toggle Button */}
-        <button 
+        <button
           onClick={() => {
             const newState = !isSidebarCollapsed;
             setIsSidebarCollapsed(newState);
@@ -348,24 +347,24 @@ const Dashboard = () => {
             { id: 'leads', icon: Inbox, label: 'Demandes' },
             { id: 'settings', icon: Settings, label: 'Paramètres' },
           ].map(item => (
-            <div 
+            <div
               key={item.id}
               onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); setShowStudio(false); }}
               className={`nav-item ${activeTab === item.id ? 'active' : ''} ${isSidebarCollapsed ? 'lg:justify-center lg:p-3 lg:px-0' : ''}`}
               title={isSidebarCollapsed ? item.label : ''}
             >
-              <item.icon className="w-4 h-4 shrink-0" /> 
+              <item.icon className="w-4 h-4 shrink-0" />
               <span className={`${isSidebarCollapsed ? 'lg:hidden' : ''} whitespace-nowrap`}>{item.label}</span>
             </div>
           ))}
         </nav>
 
-        <div 
+        <div
           onClick={handleLogout}
           className={`nav-item text-zinc-500 hover:text-red-600 mt-auto border-t border-[var(--border-subtle)] pt-4 ${isSidebarCollapsed ? 'lg:justify-center lg:p-3 lg:px-0' : ''}`}
           title={isSidebarCollapsed ? "Quitter" : ""}
         >
-          <LogOut className="w-4 h-4 shrink-0" /> 
+          <LogOut className="w-4 h-4 shrink-0" />
           <span className={`${isSidebarCollapsed ? 'lg:hidden' : ''}`}>Quitter</span>
         </div>
       </aside>
@@ -374,9 +373,9 @@ const Dashboard = () => {
       <main className="admin-main bg-[var(--bg-primary)]">
         {showStudio ? (
           <div className="h-[calc(100vh-64px)] w-full overflow-y-auto pb-20">
-            <CreationStudio 
+            <CreationStudio
               initialStep={showStudio === 'magique' ? 'TOPIC_CHOICE' : 'CHOICE'}
-              onClose={() => setShowStudio(false)} 
+              onClose={() => setShowStudio(false)}
               onSuccess={(newArt) => {
                 setArticles([newArt, ...articles]);
                 setEditingArticle(newArt);
@@ -388,509 +387,553 @@ const Dashboard = () => {
           <>
             {/* Header */}
             <header className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-6 mb-8 lg:mb-16">
-          <div className="flex items-center gap-4 w-full lg:w-auto">
-            <button 
-              className="lg:hidden p-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-main)] shadow-lg active:scale-95 hover:border-red-600/50 transition-all shrink-0"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <Menu className="w-5 h-5" />
-            </button>
-            <div>
-              <h2 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase mb-1 sm:mb-2 text-[var(--text-main)]">
-                Statut <span className="text-red-600 italic">Opérationnel</span>
-              </h2>
-              <p className="hidden sm:block text-[var(--text-dimmed)] font-medium text-[10px] sm:text-xs italic tracking-widest uppercase border-l border-red-600 pl-3 sm:pl-4">
-                {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
-                {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
-                {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
-                {activeTab === 'leads' && "CRM simplifié — Suivi des demandes de devis"}
-                {activeTab === 'settings' && "Configuration des services et IA"}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full lg:w-auto">
-            
-            {activeTab !== 'settings' && (
-              <div className="relative group w-full sm:w-auto">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
-                <input 
-                  type="text" 
-                  placeholder="Rechercher..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="admin-search w-full bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
-                />
+              <div className="flex items-center gap-4 w-full lg:w-auto">
+                <button
+                  className="lg:hidden p-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-main)] shadow-lg active:scale-95 hover:border-red-600/50 transition-all shrink-0"
+                  onClick={() => setIsMobileMenuOpen(true)}
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
+                <div>
+                  <h2 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase mb-1 sm:mb-2 text-[var(--text-main)]">
+                    Statut <span className="text-red-600 italic">Opérationnel</span>
+                  </h2>
+                  <p className="hidden sm:block text-[var(--text-dimmed)] font-medium text-[10px] sm:text-xs italic tracking-widest uppercase border-l border-red-600 pl-3 sm:pl-4">
+                    {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
+                    {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
+                    {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
+                    {activeTab === 'leads' && "CRM simplifié — Suivi des demandes de devis"}
+                    {activeTab === 'settings' && "Configuration des services et IA"}
+                  </p>
+                </div>
               </div>
+
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full lg:w-auto">
+
+                {activeTab !== 'settings' && (
+                  <div className="relative group w-full sm:w-auto">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
+                    <input
+                      type="text"
+                      placeholder="Rechercher..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="admin-search w-full bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
+                    />
+                  </div>
+                )}
+
+                {activeTab === 'blog' && (
+                  <button
+                    onClick={() => setShowStudio(true)}
+                    className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
+                  >
+                    <Plus className="w-4 h-4" /> Nouvel Article
+                  </button>
+                )}
+
+                {activeTab === 'portfolio' && (
+                  <button
+                    onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
+                    className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
+                  >
+                    <Plus className="w-4 h-4" /> Nouvelle Réa
+                  </button>
+                )}
+              </div>
+            </header>
+
+            {/* Content Area */}
+            {activeTab === 'dashboard' && (
+              <>
+                {renderStats()}
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
+                  <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)]">
+                    <div className="flex justify-between items-center mb-8">
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Flux des Demandes</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                        <span className="text-[10px] font-black text-[var(--text-dimmed)] uppercase tracking-widest">Live</span>
+                      </div>
+                    </div>
+                    <div className="space-y-6">
+                      {leads
+                        .sort((a, b) => {
+                          const aUrgent = a.is_urgent == 1 || a.is_urgent === true;
+                          const bUrgent = b.is_urgent == 1 || b.is_urgent === true;
+                          if (aUrgent && !bUrgent) return -1;
+                          if (!aUrgent && bUrgent) return 1;
+                          const aNew = a.status === 'nouveau';
+                          const bNew = b.status === 'nouveau';
+                          if (aNew && !bNew) return -1;
+                          if (!aNew && bNew) return 1;
+                          if (aNew && bNew) return new Date(a.created_at) - new Date(b.created_at);
+                          return new Date(b.created_at) - new Date(a.created_at);
+                        })
+                        .slice(0, 5).map((lead, i) => {
+                          const isUrgent = lead.is_urgent == 1 || lead.is_urgent === true;
+                          const isNew = lead.status === 'nouveau';
+
+                          return (
+                            <motion.div
+                              key={lead.id || i}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.1 }}
+                              onClick={() => setActiveTab('leads')}
+                              className={`relative flex justify-between items-center p-4 rounded-2xl cursor-pointer transition-all duration-300 group mb-3 last:mb-0 ${isUrgent ? 'bg-red-500/5 border border-red-500/20 hover:bg-red-500/10' :
+                                  isNew ? 'bg-white border border-slate-100 hover:border-slate-300 shadow-sm' :
+                                    'bg-slate-50/50 border border-transparent hover:bg-slate-50'
+                                }`}
+                            >
+                              {isUrgent && (
+                                <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-12 bg-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.5)]" />
+                              )}
+
+                              <div className="flex items-center gap-4">
+                                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${isUrgent ? 'bg-red-600 text-white shadow-lg shadow-red-600/30 rotate-3 group-hover:rotate-0' :
+                                    isNew ? 'bg-slate-900 text-white' :
+                                      'bg-slate-100 text-slate-400'
+                                  }`}>
+                                  {lead.service === 'Nuisibles' ? <Bug className="w-6 h-6" /> :
+                                    lead.service === 'Nettoyage' ? <Zap className="w-6 h-6" /> :
+                                      <ShieldCheck className="w-6 h-6" />}
+                                </div>
+
+                                <div className="space-y-1">
+                                  <div className="flex items-center gap-3">
+                                    <span className={`text-[10px] font-black uppercase tracking-widest ${isUrgent ? 'text-red-600' : 'text-slate-500'}`}>
+                                      {lead.service} {lead.nuisible && `• ${lead.nuisible}`}
+                                    </span>
+                                    {isUrgent && (
+                                      <motion.span
+                                        animate={{ opacity: [1, 0.5, 1] }}
+                                        transition={{ repeat: Infinity, duration: 2 }}
+                                        className="bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full shadow-[0_0_12px_rgba(220,38,38,0.4)] flex items-center gap-1.5 whitespace-nowrap"
+                                      >
+                                        <Zap className="w-3 h-3 fill-current" /> URGENT
+                                      </motion.span>
+                                    )}
+                                  </div>
+                                  <h5 className={`text-base font-black tracking-tight flex items-center gap-2 ${isUrgent ? 'text-red-900' : 'text-slate-900'}`}>
+                                    {lead.client_name}
+                                    {isNew && !isUrgent && <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />}
+                                  </h5>
+                                </div>
+                              </div>
+
+                              <div className="flex flex-col items-end gap-1 min-w-[100px]">
+                                <div className={`text-[10px] font-black px-2 py-0.5 rounded ${isUrgent ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                                  {isUrgent ? 'PRIORITAIRE' : isNew ? 'NOUVEAU' : 'ARCHIVÉ'}
+                                </div>
+                                <div className="flex flex-col items-end text-[10px] font-bold text-slate-400">
+                                  <span className="flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    {new Date(lead.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                                  </span>
+                                  <span>{new Date(lead.created_at).toLocaleDateString('fr-FR')}</span>
+                                </div>
+                              </div>
+                            </motion.div>
+                          );
+                        })}
+                    </div>
+                  </div>
+
+                  <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8">
+                    <div className="flex justify-between items-center mb-8">
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Répartition Activité</h3>
+                      <TrendingUp className="w-5 h-5 text-indigo-600" />
+                    </div>
+
+                    {/* Ultra-Modern Linear Distribution (SaaS Style) */}
+                    <div className="space-y-8">
+
+                      {/* Stacked Progress Bar */}
+                      <div className="relative h-3 w-full rounded-full overflow-hidden flex bg-slate-100 shadow-inner">
+                        <div className="h-full bg-gradient-to-r from-red-500 to-red-600 w-[57%] transition-all duration-1000 relative group">
+                          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 w-[31%] transition-all duration-1000 border-l border-white/30 relative group">
+                          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 w-[12%] transition-all duration-1000 border-l border-white/30 relative group">
+                          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                      </div>
+
+                      {/* Bento Cards Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {[
+                          { label: 'Nuisibles', count: '57%', color: 'text-red-600', dot: 'bg-red-500', trend: '+12%', icon: Bug },
+                          { label: 'Nettoyage', count: '31%', color: 'text-indigo-600', dot: 'bg-indigo-500', trend: '-2%', icon: Sparkles },
+                          { label: 'Désinfection', count: '12%', color: 'text-emerald-600', dot: 'bg-emerald-500', trend: '+5%', icon: ShieldCheck }
+                        ].map((item, i) => (
+                          <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[120px]">
+                            <div className="flex justify-between items-start mb-4">
+                              <div className="flex items-center gap-2">
+                                <div className={`w-2.5 h-2.5 rounded-full ${item.dot} shadow-sm`} />
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.label}</span>
+                              </div>
+                              <item.icon className={`w-4 h-4 ${item.color} opacity-50`} />
+                            </div>
+
+                            <div className="flex items-end justify-between mt-auto">
+                              <div className={`text-3xl font-black ${item.color} leading-none tracking-tighter`}>{item.count}</div>
+                              <div className={`text-[9px] font-bold ${item.trend.startsWith('+') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500 bg-slate-50'} px-2 py-1 rounded-md border ${item.trend.startsWith('+') ? 'border-emerald-100' : 'border-slate-100'}`}>
+                                {item.trend}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                {/* Strategic Advice Center (The Predictive Layer) */}
+                <div className="mt-12 glass-card bg-gradient-to-br from-indigo-900/10 to-amber-900/10 border-indigo-600/20 p-8">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-amber-600 text-white rounded-2xl shadow-lg shadow-amber-600/20">
+                      <Sparkles className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black uppercase tracking-tighter">Market Strategy Advisor <span className="text-amber-600">IA</span></h3>
+                      <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Analyse Hyper-Locale (Menton & 06) basée sur Google Trends & BDD</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {isLoadingTrends ? (
+                      <>
+                        <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 animate-pulse h-40">
+                          <div className="w-1/2 h-4 bg-slate-200 rounded mb-4"></div>
+                          <div className="w-full h-8 bg-slate-200 rounded mb-4"></div>
+                          <div className="w-1/3 h-6 bg-slate-200 rounded"></div>
+                        </div>
+                        <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 animate-pulse h-40">
+                          <div className="w-1/2 h-4 bg-slate-200 rounded mb-4"></div>
+                          <div className="w-full h-8 bg-slate-200 rounded mb-4"></div>
+                          <div className="w-1/3 h-6 bg-slate-200 rounded"></div>
+                        </div>
+                      </>
+                    ) : (
+                      trendsData?.slice(0, 2).map((trend, index) => (
+                        <div key={index} className={`bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-${trend.color}-200 transition-all group`}>
+                          <div className="flex items-center gap-2 mb-3">
+                            {index === 0 ? <TrendingUp className={`w-5 h-5 ${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`} /> : <Sparkles className={`w-5 h-5 ${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`} />}
+                            <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">
+                              {index === 0 ? "Opportunité Marché" : "Conseil IA"}
+                            </h4>
+                          </div>
+                          <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                            Évolution <strong className={`${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`}>{trend.isRising ? 'en hausse' : 'stable'}</strong> ({trend.trendChange}) pour <strong className="text-slate-900">"{trend.label}"</strong>.
+                            {trend.isRising && " C'est le moment d'activer vos communications !"}
+                          </p>
+                          <a
+                            href={trend.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`inline-flex items-center gap-2 px-3 py-1.5 ${index === 0 ? trend.color === 'amber' ? 'bg-amber-600' : trend.color === 'slate' ? 'bg-slate-600' : 'bg-indigo-600' : 'bg-slate-900'} text-white text-[10px] font-black rounded-lg hover:scale-105 transition-all shadow-md`}
+                          >
+                            Voir sur Google Trends <ArrowRight className="w-3 h-3" />
+                          </a>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="mt-6 p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] mb-4">Action suggérée</p>
+                    <button onClick={() => setShowStudio('magique')} className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">
+                      Lancer le Radar IA
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
 
             {activeTab === 'blog' && (
-              <button
-                onClick={() => setShowStudio(true)}
-                className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
-              >
-                <Plus className="w-4 h-4" /> Nouvel Article
-              </button>
+              <BlogManager
+                onOpenStudio={(mode) => setShowStudio(mode || true)}
+                onEditArticle={(art) => setEditingArticle(art)}
+                onNewArticle={(defaults) => { setEditingArticle(defaults || {}); }}
+                searchQuery={searchQuery}
+              />
             )}
 
             {activeTab === 'portfolio' && (
-              <button
-                onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
-                className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
-              >
-                <Plus className="w-4 h-4" /> Nouvelle Réa
-              </button>
+              <PortfolioTab
+                projects={projects}
+                searchQuery={searchQuery}
+                onEdit={(proj) => { setEditingProject(proj); setShowProjectModal(true); }}
+                onDelete={(id) => setProjects(prev => prev.filter(p => p.id !== id))}
+                onNew={() => { setEditingProject(null); setShowProjectModal(true); }}
+              />
             )}
-          </div>
-        </header>
 
-        {/* Content Area */}
-        {activeTab === 'dashboard' && (
-          <>
-            {renderStats()}
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
-              <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)]">
-                <div className="flex justify-between items-center mb-8">
-                  <h3 className="text-xl font-black uppercase tracking-tighter">Flux des Demandes</h3>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[10px] font-black text-[var(--text-dimmed)] uppercase tracking-widest">Live</span>
+            {activeTab === 'leads' && (
+              <LeadManager />
+            )}
+
+            {activeTab === 'settings' && (
+              <div className="max-w-4xl mx-auto pb-40">
+                <div className="flex justify-between items-center mb-10 p-6 glass-card bg-white/5 border-white/5">
+                  <div>
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Configuration Système</h3>
+                    <p className="text-[var(--text-dimmed)] text-[11px] font-bold uppercase tracking-widest mt-1 italic">Gestion centralisée des paramètres ESEND</p>
                   </div>
+                  <AnimatePresence>
+                    {saveStatus.id === 'global' && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9, x: 20 }}
+                        animate={{ opacity: 1, scale: 1, x: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, x: 20 }}
+                        className="flex items-center gap-3 px-5 py-2 bg-green-500/10 border border-green-500/20 rounded-full"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-green-500" />
+                        <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Réglages enregistrés</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <div className="space-y-6">
-                  {leads
-                    .sort((a, b) => {
-                      const aUrgent = a.is_urgent == 1 || a.is_urgent === true;
-                      const bUrgent = b.is_urgent == 1 || b.is_urgent === true;
-                      if (aUrgent && !bUrgent) return -1;
-                      if (!aUrgent && bUrgent) return 1;
-                      const aNew = a.status === 'nouveau';
-                      const bNew = b.status === 'nouveau';
-                      if (aNew && !bNew) return -1;
-                      if (!aNew && bNew) return 1;
-                      if (aNew && bNew) return new Date(a.created_at) - new Date(b.created_at);
-                      return new Date(b.created_at) - new Date(a.created_at);
-                    })
-                    .slice(0, 5).map((lead, i) => {
-                      const isUrgent = lead.is_urgent == 1 || lead.is_urgent === true;
-                      const isNew = lead.status === 'nouveau';
-                      
-                      return (
-                    <motion.div 
-                      key={lead.id || i}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      onClick={() => setActiveTab('leads')}
-                      className={`relative flex justify-between items-center p-4 rounded-2xl cursor-pointer transition-all duration-300 group mb-3 last:mb-0 ${
-                        isUrgent ? 'bg-red-500/5 border border-red-500/20 hover:bg-red-500/10' : 
-                        isNew ? 'bg-white border border-slate-100 hover:border-slate-300 shadow-sm' :
-                        'bg-slate-50/50 border border-transparent hover:bg-slate-50'
-                      }`}
-                    >
-                      {isUrgent && (
-                        <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-12 bg-red-600 rounded-full shadow-[0_0_10px_rgba(220,38,38,0.5)]" />
-                      )}
 
-                      <div className="flex items-center gap-4">
-                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${
-                          isUrgent ? 'bg-red-600 text-white shadow-lg shadow-red-600/30 rotate-3 group-hover:rotate-0' :
-                          isNew ? 'bg-slate-900 text-white' : 
-                          'bg-slate-100 text-slate-400'
-                        }`}>
-                           {lead.service === 'Nuisibles' ? <Bug className="w-6 h-6" /> : 
-                            lead.service === 'Nettoyage' ? <Zap className="w-6 h-6" /> :
-                            <ShieldCheck className="w-6 h-6" />}
-                        </div>
-                        
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-3">
-                             <span className={`text-[10px] font-black uppercase tracking-widest ${isUrgent ? 'text-red-600' : 'text-slate-500'}`}>
-                               {lead.service} {lead.nuisible && `• ${lead.nuisible}`}
-                             </span>
-                             {isUrgent && (
-                               <motion.span 
-                                 animate={{ opacity: [1, 0.5, 1] }}
-                                 transition={{ repeat: Infinity, duration: 2 }}
-                                 className="bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full shadow-[0_0_12px_rgba(220,38,38,0.4)] flex items-center gap-1.5 whitespace-nowrap"
-                               >
-                                 <Zap className="w-3 h-3 fill-current" /> URGENT
-                               </motion.span>
-                             )}
+                <div className="space-y-12">
+                  {/* SECTIONS WRAPPED WITH MOTION */}
+                  {[
+                    {
+                      id: 'coordination',
+                      icon: Mail,
+                      title: '1. Coordination & Contact',
+                      color: 'text-red-600',
+                      bg: 'bg-red-600/10',
+                      content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div className="space-y-3">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">E-mail de réception des devis</label>
+                            <input
+                              type="email"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              value={localSettings.contact_email || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
+                              placeholder="contact@esendnuisibles.fr"
+                            />
                           </div>
-                          <h5 className={`text-base font-black tracking-tight flex items-center gap-2 ${isUrgent ? 'text-red-900' : 'text-slate-900'}`}>
-                            {lead.client_name}
-                            {isNew && !isUrgent && <span className="w-2 h-2 rounded-full bg-red-600 animate-ping" />}
-                          </h5>
                         </div>
+                      )
+                    },
+                    {
+                      id: 'visibility',
+                      icon: Globe,
+                      title: '2. Visibilité & Analytics',
+                      color: 'text-blue-600',
+                      bg: 'bg-blue-600/10',
+                      content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div className="space-y-3">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
+                            <input
+                              type="text"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              placeholder="Ex: ChIJ..."
+                              value={localSettings.google_reviews_id || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
+                            />
+                          </div>
+                          <div className="space-y-3">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
+                            <input
+                              type="text"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              placeholder="G-XXXXXXXXXX"
+                              value={localSettings.ga_id || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
+                            />
+                          </div>
+                        </div>
+                      )
+                    },
+                    {
+                      id: 'ai',
+                      icon: Sparkles,
+                      title: '3. Moteur IA (Gemini Pro)',
+                      color: 'text-indigo-600',
+                      bg: 'bg-indigo-600/10',
+                      content: (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          <div className="space-y-3">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
+                            <input
+                              type="password"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              placeholder="••••••••••••••••"
+                              value={localSettings.gemini_api_key || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
+                            />
+                          </div>
+                          <div className="space-y-3">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Token API Apify (Live Trends)</label>
+                            <input
+                              type="password"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              placeholder="apify_api_..."
+                              value={localSettings.apify_token || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, apify_token: e.target.value })}
+                            />
+                          </div>
+                        </div>
+                      )
+                    },
+                    {
+                      id: 'company_profile',
+                      icon: Building2,
+                      title: '4. Profil & ADN ESEND',
+                      color: 'text-emerald-600',
+                      bg: 'bg-emerald-600/10',
+                      content: (
+                        <div className="space-y-6">
+                          <div className="flex items-center gap-2 px-4 py-3 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl text-[10px] font-black text-emerald-500 uppercase tracking-widest">
+                            <Sparkles className="w-3.5 h-3.5" />
+                            Ces infos sont utilisées par l'IA lors de la rédaction — jamais inventées, toujours factuelles.
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Nom officiel</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: ESEND Nuisibles" value={localSettings.company_name || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_name: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Gérant / Fondateur</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: Jean Dupont" value={localSettings.company_manager || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_manager: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Année de création</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: 2018" value={localSettings.company_founded || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_founded: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Certifications</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: Certibiocide, QUALIBAT" value={localSettings.company_certifications || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_certifications: e.target.value })} />
+                            </div>
+                            <div className="space-y-2 md:col-span-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Zones d'intervention</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: Menton, Monaco, Roquebrune, Nice, Côte d'Azur" value={localSettings.company_zones || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_zones: e.target.value })} />
+                            </div>
+                            <div className="space-y-2 md:col-span-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Points forts (différenciateurs)</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: Intervention 24h, discrétion, méthodes biologiques" value={localSettings.company_strengths || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_strengths: e.target.value })} />
+                            </div>
+                            <div className="space-y-2 md:col-span-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Bio / Pitch éditorial (ce que l'IA peut mentionner)</label>
+                              <textarea rows={5} className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner resize-none" placeholder="Décrivez librement ESEND : histoire, valeurs, approche, clients types, anecdotes... L'IA s'en servira de façon naturelle et appropriée." value={localSettings.company_bio || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_bio: e.target.value })} />
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    }
+                  ].map((section, idx) => (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      key={section.id}
+                      className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8 hover:border-[var(--border-strong)] transition-all"
+                    >
+                      <div className={`flex items-center gap-4 ${section.color} font-black uppercase text-[12px] mb-8 tracking-wider`}>
+                        <div className={`p-2.5 ${section.bg} rounded-xl shadow-lg`}><section.icon className="w-5 h-5" /></div>
+                        {section.title}
                       </div>
-
-                      <div className="flex flex-col items-end gap-1 min-w-[100px]">
-                        <div className={`text-[10px] font-black px-2 py-0.5 rounded ${isUrgent ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-500'}`}>
-                          {isUrgent ? 'PRIORITAIRE' : isNew ? 'NOUVEAU' : 'ARCHIVÉ'}
-                        </div>
-                        <div className="flex flex-col items-end text-[10px] font-bold text-slate-400">
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {new Date(lead.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
-                          </span>
-                          <span>{new Date(lead.created_at).toLocaleDateString('fr-FR')}</span>
-                        </div>
+                      <div className="pl-0 md:pl-14">
+                        {section.content}
                       </div>
                     </motion.div>
-                  );})}
-                </div>
-              </div>
+                  ))}
 
-              <div className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8">
-                <div className="flex justify-between items-center mb-8">
-                   <h3 className="text-xl font-black uppercase tracking-tighter">Répartition Activité</h3>
-                   <TrendingUp className="w-5 h-5 text-indigo-600" />
-                </div>
-                
-                {/* Ultra-Modern Linear Distribution (SaaS Style) */}
-                <div className="space-y-8">
-                   
-                   {/* Stacked Progress Bar */}
-                   <div className="relative h-3 w-full rounded-full overflow-hidden flex bg-slate-100 shadow-inner">
-                      <div className="h-full bg-gradient-to-r from-red-500 to-red-600 w-[57%] transition-all duration-1000 relative group">
-                         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <div className="h-full bg-gradient-to-r from-indigo-500 to-indigo-600 w-[31%] transition-all duration-1000 border-l border-white/30 relative group">
-                         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                      <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 w-[12%] transition-all duration-1000 border-l border-white/30 relative group">
-                         <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                   </div>
-
-                   {/* Bento Cards Grid */}
-                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      {[
-                        { label: 'Nuisibles', count: '57%', color: 'text-red-600', dot: 'bg-red-500', trend: '+12%', icon: Bug },
-                        { label: 'Nettoyage', count: '31%', color: 'text-indigo-600', dot: 'bg-indigo-500', trend: '-2%', icon: Sparkles },
-                        { label: 'Désinfection', count: '12%', color: 'text-emerald-600', dot: 'bg-emerald-500', trend: '+5%', icon: ShieldCheck }
-                      ].map((item, i) => (
-                        <div key={i} className="bg-white p-5 rounded-2xl border border-slate-100 hover:border-slate-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[120px]">
-                           <div className="flex justify-between items-start mb-4">
-                              <div className="flex items-center gap-2">
-                                 <div className={`w-2.5 h-2.5 rounded-full ${item.dot} shadow-sm`} />
-                                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{item.label}</span>
-                              </div>
-                              <item.icon className={`w-4 h-4 ${item.color} opacity-50`} />
-                           </div>
-                           
-                           <div className="flex items-end justify-between mt-auto">
-                              <div className={`text-3xl font-black ${item.color} leading-none tracking-tighter`}>{item.count}</div>
-                              <div className={`text-[9px] font-bold ${item.trend.startsWith('+') ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500 bg-slate-50'} px-2 py-1 rounded-md border ${item.trend.startsWith('+') ? 'border-emerald-100' : 'border-slate-100'}`}>
-                                 {item.trend}
-                              </div>
-                           </div>
-                        </div>
-                      ))}
-                   </div>
-
-                </div>
-              </div>
-            </div>
-
-            {/* Strategic Advice Center (The Predictive Layer) */}
-            <div className="mt-12 glass-card bg-gradient-to-br from-indigo-900/10 to-amber-900/10 border-indigo-600/20 p-8">
-               <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 bg-amber-600 text-white rounded-2xl shadow-lg shadow-amber-600/20">
-                     <Sparkles className="w-6 h-6" />
-                  </div>
-                  <div>
-                     <h3 className="text-xl font-black uppercase tracking-tighter">Market Strategy Advisor <span className="text-amber-600">IA</span></h3>
-                     <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">Analyse Hyper-Locale (Menton & 06) basée sur Google Trends & BDD</p>
-                  </div>
-               </div>
-               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {isLoadingTrends ? (
-                  <>
-                    <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 animate-pulse h-40">
-                       <div className="w-1/2 h-4 bg-slate-200 rounded mb-4"></div>
-                       <div className="w-full h-8 bg-slate-200 rounded mb-4"></div>
-                       <div className="w-1/3 h-6 bg-slate-200 rounded"></div>
-                    </div>
-                    <div className="bg-white/50 p-5 rounded-2xl border border-slate-100 animate-pulse h-40">
-                       <div className="w-1/2 h-4 bg-slate-200 rounded mb-4"></div>
-                       <div className="w-full h-8 bg-slate-200 rounded mb-4"></div>
-                       <div className="w-1/3 h-6 bg-slate-200 rounded"></div>
-                    </div>
-                  </>
-                ) : (
-                  trendsData?.slice(0, 2).map((trend, index) => (
-                    <div key={index} className={`bg-white/50 p-5 rounded-2xl border border-slate-100 hover:border-${trend.color}-200 transition-all group`}>
-                      <div className="flex items-center gap-2 mb-3">
-                        {index === 0 ? <TrendingUp className={`w-5 h-5 ${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`} /> : <Sparkles className={`w-5 h-5 ${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`} />}
-                        <h4 className="font-black text-slate-900 uppercase tracking-tighter text-sm">
-                          {index === 0 ? "Opportunité Marché" : "Conseil IA"}
-                        </h4>
-                      </div>
-                      <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                        Évolution <strong className={`${trend.color === 'amber' ? 'text-amber-600' : trend.color === 'slate' ? 'text-slate-600' : 'text-indigo-600'}`}>{trend.isRising ? 'en hausse' : 'stable'}</strong> ({trend.trendChange}) pour <strong className="text-slate-900">"{trend.label}"</strong>. 
-                        {trend.isRising && " C'est le moment d'activer vos communications !"}
-                      </p>
-                      <a 
-                        href={trend.url}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={`inline-flex items-center gap-2 px-3 py-1.5 ${index === 0 ? trend.color === 'amber' ? 'bg-amber-600' : trend.color === 'slate' ? 'bg-slate-600' : 'bg-indigo-600' : 'bg-slate-900'} text-white text-[10px] font-black rounded-lg hover:scale-105 transition-all shadow-md`}
-                      >
-                        Voir sur Google Trends <ArrowRight className="w-3 h-3" />
-                      </a>
-                    </div>
-                  ))
-                )}
-              </div>
-
-               <div className="mt-6 p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] mb-4">Action suggérée</p>
-                     <button onClick={() => setShowStudio('magique')} className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">
-                        Lancer le Radar IA
-                     </button>
-                  </div>
-               </div>
-          </>
-        )}
-
-        {activeTab === 'blog' && (
-          <BlogManager
-            onOpenStudio={(mode) => setShowStudio(mode || true)}
-            onEditArticle={(art) => setEditingArticle(art)}
-            onNewArticle={(defaults) => { setEditingArticle(defaults || {}); }}
-            searchQuery={searchQuery}
-          />
-        )}
-
-        {activeTab === 'portfolio' && (
-          <PortfolioTab
-            projects={projects}
-            searchQuery={searchQuery}
-            onEdit={(proj) => { setEditingProject(proj); setShowProjectModal(true); }}
-            onDelete={(id) => setProjects(prev => prev.filter(p => p.id !== id))}
-            onNew={() => { setEditingProject(null); setShowProjectModal(true); }}
-          />
-        )}
-
-        {activeTab === 'leads' && (
-          <LeadManager />
-        )}
-
-        {activeTab === 'settings' && (
-          <div className="max-w-4xl mx-auto pb-40">
-            <div className="flex justify-between items-center mb-10 p-6 glass-card bg-white/5 border-white/5">
-              <div>
-                <h3 className="text-2xl font-black uppercase tracking-tighter">Configuration Système</h3>
-                <p className="text-[var(--text-dimmed)] text-[11px] font-bold uppercase tracking-widest mt-1 italic">Gestion centralisée des paramètres ESEND</p>
-              </div>
-              <AnimatePresence>
-                {saveStatus.id === 'global' && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9, x: 20 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, x: 20 }}
-                    className="flex items-center gap-3 px-5 py-2 bg-green-500/10 border border-green-500/20 rounded-full"
+                  {/* SECURITY SECTION */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="glass-card bg-zinc-600/5 border-zinc-600/10 p-10 group hover:border-zinc-500/30 transition-all duration-500"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-green-500" />
-                    <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Réglages enregistrés</span>
+                    <div className="flex items-center gap-4 text-zinc-500 font-black uppercase text-[12px] mb-10 tracking-wider">
+                      <div className="p-2.5 bg-zinc-600/10 rounded-xl group-hover:scale-110 transition-transform"><Key className="w-5 h-5" /></div>
+                      Sécurité : Accès Admin
+                    </div>
+
+                    <form onSubmit={async (e) => {
+                      e.preventDefault();
+                      const res = await api.changePassword(e.target.current.value, e.target.next.value);
+                      if (res.success) {
+                        setSaveStatus({ id: 'admin', type: 'success' });
+                        setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
+                        e.target.reset();
+                      } else {
+                        alert(res.message);
+                      }
+                    }} className="space-y-8 pl-0 md:pl-14">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Ancien mot de passe</label>
+                          <input
+                            name="current"
+                            type="password"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
+                          />
+                        </div>
+                        <div className="hidden md:block" />
+                        <div className="space-y-2">
+                          <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Nouveau mot de passe</label>
+                          <input
+                            name="next"
+                            type="password"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Confirmer le nouveau</label>
+                          <input
+                            name="confirm"
+                            type="password"
+                            className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <button className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-zinc-200 transition-all active:scale-95 shadow-xl">
+                          <Key className="w-4 h-4" /> Mettre à jour l'accès
+                        </button>
+                        {saveStatus.id === 'admin' && (
+                          <p className="text-[10px] font-black text-green-500 uppercase tracking-widest animate-pulse">Succès !</p>
+                        )}
+                      </div>
+                    </form>
                   </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="space-y-12">
-              {/* SECTIONS WRAPPED WITH MOTION */}
-              {[
-                {
-                  id: 'coordination',
-                  icon: Mail,
-                  title: '1. Coordination & Contact',
-                  color: 'text-red-600',
-                  bg: 'bg-red-600/10',
-                  content: (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                       <div className="space-y-3">
-                          <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">E-mail de réception des devis</label>
-                          <input 
-                             type="email" 
-                             className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
-                             value={localSettings.contact_email || ''}
-                             onChange={(e) => setLocalSettings({ ...localSettings, contact_email: e.target.value })}
-                             placeholder="contact@esendnuisibles.fr"
-                          />
-                       </div>
-                    </div>
-                  )
-                },
-                {
-                  id: 'visibility',
-                  icon: Globe,
-                  title: '2. Visibilité & Analytics',
-                  color: 'text-blue-600',
-                  bg: 'bg-blue-600/10',
-                  content: (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                       <div className="space-y-3">
-                          <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">⭐ ID Avis Google (Automatiques)</label>
-                          <input 
-                             type="text" 
-                             className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
-                             placeholder="Ex: ChIJ..."
-                             value={localSettings.google_reviews_id || ''}
-                             onChange={(e) => setLocalSettings({ ...localSettings, google_reviews_id: e.target.value })}
-                          />
-                       </div>
-                       <div className="space-y-3">
-                          <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Google Analytics (Measurement ID)</label>
-                          <input 
-                             type="text" 
-                             className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-blue-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
-                             placeholder="G-XXXXXXXXXX"
-                             value={localSettings.ga_id || ''}
-                             onChange={(e) => setLocalSettings({ ...localSettings, ga_id: e.target.value })}
-                          />
-                       </div>
-                    </div>
-                  )
-                },
-                {
-                  id: 'ai',
-                  icon: Sparkles,
-                  title: '3. Moteur IA (Gemini Pro)',
-                  color: 'text-indigo-600',
-                  bg: 'bg-indigo-600/10',
-                  content: (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="space-y-3">
-                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Clé d'API Google AI Studio</label>
-                        <input 
-                           type="password" 
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
-                           placeholder="••••••••••••••••"
-                           value={localSettings.gemini_api_key || ''}
-                           onChange={(e) => setLocalSettings({ ...localSettings, gemini_api_key: e.target.value })}
-                        />
-                      </div>
-                      <div className="space-y-3">
-                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">Token API Apify (Live Trends)</label>
-                        <input 
-                           type="password" 
-                           className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm font-mono focus:border-indigo-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
-                           placeholder="apify_api_..."
-                           value={localSettings.apify_token || ''}
-                           onChange={(e) => setLocalSettings({ ...localSettings, apify_token: e.target.value })}
-                        />
-                      </div>
-                    </div>
-                  )
-                }
-              ].map((section, idx) => (
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  key={section.id} 
-                  className="glass-card bg-[var(--bg-secondary)] border-[var(--border-subtle)] p-8 hover:border-[var(--border-strong)] transition-all"
-                >
-                  <div className={`flex items-center gap-4 ${section.color} font-black uppercase text-[12px] mb-8 tracking-wider`}>
-                    <div className={`p-2.5 ${section.bg} rounded-xl shadow-lg`}><section.icon className="w-5 h-5" /></div> 
-                    {section.title}
-                  </div>
-                  <div className="pl-0 md:pl-14">
-                    {section.content}
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* SECURITY SECTION */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="glass-card bg-zinc-600/5 border-zinc-600/10 p-10 group hover:border-zinc-500/30 transition-all duration-500"
-              >
-                <div className="flex items-center gap-4 text-zinc-500 font-black uppercase text-[12px] mb-10 tracking-wider">
-                  <div className="p-2.5 bg-zinc-600/10 rounded-xl group-hover:scale-110 transition-transform"><Key className="w-5 h-5" /></div> 
-                  Sécurité : Accès Admin
                 </div>
-                
-                <form onSubmit={async (e) => {
-                   e.preventDefault();
-                   const res = await api.changePassword(e.target.current.value, e.target.next.value);
-                   if (res.success) {
-                      setSaveStatus({ id: 'admin', type: 'success' });
-                      setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
-                      e.target.reset();
-                   } else {
-                      alert(res.message);
-                   }
-                }} className="space-y-8 pl-0 md:pl-14">
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                     <div className="space-y-2">
-                       <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Ancien mot de passe</label>
-                       <input 
-                         name="current"
-                         type="password" 
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
-                       />
-                     </div>
-                     <div className="hidden md:block" />
-                     <div className="space-y-2">
-                       <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Nouveau mot de passe</label>
-                       <input 
-                         name="next"
-                         type="password" 
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
-                       />
-                     </div>
-                     <div className="space-y-2">
-                       <label className="block text-[10px] font-bold uppercase text-[var(--text-dimmed)] tracking-widest pl-2">Confirmer le nouveau</label>
-                       <input 
-                         name="confirm"
-                         type="password" 
-                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-sm outline-none focus:border-red-600/50 transition-all text-[var(--text-main)]"
-                       />
-                     </div>
-                   </div>
-                   <div className="flex items-center gap-6">
-                     <button className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-zinc-200 transition-all active:scale-95 shadow-xl">
-                        <Key className="w-4 h-4" /> Mettre à jour l'accès
-                     </button>
-                     {saveStatus.id === 'admin' && (
-                       <p className="text-[10px] font-black text-green-500 uppercase tracking-widest animate-pulse">Succès !</p>
-                     )}
-                   </div>
-                </form>
-              </motion.div>
-            </div>
 
-            {/* STICKY GLOBAL SAVE BAR */}
-            <div className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 max-lg:px-4 max-lg:pl-0 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'}`}>
-              <motion.div 
-                initial={{ y: 100 }}
-                animate={{ y: 0 }}
-                className="pointer-events-auto w-full sm:w-auto"
-              >
-                <button 
-                   onClick={handleUpdateSettings}
-                   className="flex items-center justify-center gap-4 bg-red-600 text-white px-8 sm:px-12 py-5 w-full sm:w-auto rounded-xl sm:rounded-full font-black uppercase tracking-widest text-[10px] sm:text-[11px] hover:bg-red-700 transition-all shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_25px_60px_rgba(220,38,38,0.4)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
-                   disabled={loading}
-                >
-                   {loading ? (
-                     <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
-                   ) : (
-                     <Save className="w-5 h-5" />
-                   )}
-                   {loading ? "Traitement..." : "Sauvegarder tout les réglages"}
-                </button>
-              </motion.div>
-            </div>
-          </div>
-        )}
+                {/* STICKY GLOBAL SAVE BAR */}
+                <div className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 max-lg:px-4 max-lg:pl-0 ${isSidebarCollapsed ? 'lg:pl-[80px]' : 'lg:pl-[280px]'}`}>
+                  <motion.div
+                    initial={{ y: 100 }}
+                    animate={{ y: 0 }}
+                    className="pointer-events-auto w-full sm:w-auto"
+                  >
+                    <button
+                      onClick={handleUpdateSettings}
+                      className="flex items-center justify-center gap-4 bg-red-600 text-white px-8 sm:px-12 py-5 w-full sm:w-auto rounded-xl sm:rounded-full font-black uppercase tracking-widest text-[10px] sm:text-[11px] hover:bg-red-700 transition-all shadow-[0_20px_50px_rgba(220,38,38,0.3)] hover:shadow-[0_25px_60px_rgba(220,38,38,0.4)] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin" />
+                      ) : (
+                        <Save className="w-5 h-5" />
+                      )}
+                      {loading ? "Traitement..." : "Sauvegarder tout les réglages"}
+                    </button>
+                  </motion.div>
+                </div>
+              </div>
+            )}
           </>
         )}
       </main>

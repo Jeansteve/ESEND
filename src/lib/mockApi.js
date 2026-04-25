@@ -133,7 +133,15 @@ export const mockApi = {
             contact_email: 'contact@esendnuisibles.fr',
             google_reviews_id: '',
             ga_id: '',
-            admin_password: 'admin'
+            admin_password: 'admin',
+            // Profil ESEND pour l'IA
+            company_name: 'ESEND Nuisibles',
+            company_manager: '',
+            company_founded: '',
+            company_certifications: 'Certibiocide',
+            company_zones: 'Menton, Monaco, Roquebrune-Cap-Martin, Nice, Côte d\'Azur',
+            company_strengths: '',
+            company_bio: ''
         });
     },
 

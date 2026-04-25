@@ -56,6 +56,26 @@ export const AIService = {
         return settings.gemini_api_key || '';
     },
 
+    /**
+     * Construit le bloc de contexte ESEND à injecter dans les prompts.
+     * Ne contient QUE les infos que l'admin a explicitement renseignées.
+     */
+    async _getCompanyContext() {
+        const s = await api.getSettings();
+        const lines = [];
+        if (s.company_name)           lines.push(`- Nom officiel : ${s.company_name}`);
+        if (s.company_manager)        lines.push(`- Gérant / Fondateur : ${s.company_manager}`);
+        if (s.company_founded)        lines.push(`- Créée en : ${s.company_founded}`);
+        if (s.company_certifications) lines.push(`- Certifications : ${s.company_certifications}`);
+        if (s.company_zones)          lines.push(`- Zone d'intervention : ${s.company_zones}`);
+        if (s.company_strengths)      lines.push(`- Points forts : ${s.company_strengths}`);
+        if (s.company_bio)            lines.push(`- À propos : ${s.company_bio}`);
+
+        if (lines.length === 0) return '';
+
+        return `\n\n📌 CONTEXTE ESEND (utilise ces infos UNIQUEMENT si pertinent et de façon naturelle — ne jamais inventer ni supposer d'autres infos sur ESEND) :\n${lines.join('\n')}\n⚠️ NE mentionne JAMAIS d'informations sur ESEND qui ne figurent PAS dans ce bloc.`;
+    },
+
     async hasFalKey() {
         const settings = await api.getSettings();
         return !!settings.fal_api_key;
@@ -82,12 +102,11 @@ export const AIService = {
 
         // Cascade de modèles (v1 et v1beta) pour éviter les 404 (Not Found)
         const endpointsToTry = [
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
             'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
         ];
 
@@ -95,12 +114,11 @@ export const AIService = {
 
         for (const endpoint of endpointsToTry) {
             try {
-                // gemini-pro (v1.0) ne supporte pas responseSchema ni responseMimeType
+                // gemini-pro (v1.0) ne supporte pas responseSchema de la même manière
                 const isLegacy = endpoint.includes('gemini-pro:');
                 let requestBody = { ...body };
-                if (isLegacy && requestBody.generationConfig) {
+                if (isLegacy && requestBody.generationConfig?.responseSchema) {
                     delete requestBody.generationConfig.responseSchema;
-                    delete requestBody.generationConfig.responseMimeType;
                 }
 
                 const response = await fetch(`${endpoint}?key=${key}`, {
@@ -210,17 +228,18 @@ Réponse en JSON uniquement (tableau de 3 objets) :
      */
     async draftArticle(title) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const companyContext = await this._getCompanyContext();
 
-        const prompt = `Tu es l'Expert Senior d'ESEND (Menton), spécialisé en hygiène et lutte anti-nuisibles sur la Riviera.
+        const prompt = `Tu es un rédacteur expert en hygiène et lutte anti-nuisibles sur la Riviera française.
 Rédige un article d'expertise COMPLET et RÉEL sur : "${title}".
 
-⚠️ RÈGLE D'OR : NE GÉNÈRE JAMAIS de texte d'instruction (ex: "Présentez ici..."). Rédige uniquement le contenu final prêt à être publié.
+⚠️ RÈGLE D'OR ABSOLUE : Tu ne dois JAMAIS inventer ni supposer d'informations sur la société ESEND. Utilise UNIQUEMENT les faits fournis dans le bloc CONTEXTE ESEND ci-dessous (si présent). Si aucun contexte n'est fourni, parle d'ESEND uniquement en termes génériques ("votre expert local", "notre équipe", etc.).
 
 STRUCTURE OBLIGATOIRE (en HTML) :
 1. Introduction : Analyse du problème actuel et contexte spécifique à la Riviera (Menton, Monaco, villas côtières).
 2. Les Causes : Facteurs locaux favorisant ce nuisible (climat, bâti ancien, flux touristiques).
 3. Chiffre Clé : Une statistique ou un fait scientifique marquant dans un <blockquote>.
-4. Notre Solution ESEND : Détail de notre protocole certifié Certibiocide, matériel utilisé et supériorité technique.
+4. Notre Solution : Détail du protocole d'intervention, matériel utilisé et supériorité technique.
 5. Les Résultats : Garanties offertes, impact environnemental maîtrisé et témoignages types.
 6. Prévention — Nos Conseils : Liste <ul><li> de conseils d'expert pour éviter la récidive.
 
@@ -230,7 +249,7 @@ Insère des balises de suggestion d'images comme suit : [ILLUSTRATION : Descript
 CONTRAINTE SEO :
 - Titres <h2> et <h3> uniquement.
 - Minimum 1000 mots de prose réelle et experte.
-- Ton : Très professionnel, rassurant, technique mais accessible.
+- Ton : Très professionnel, rassurant, technique mais accessible.${companyContext}
 
 FORMAT RÉPONSE (JSON uniquement) :
 {
@@ -285,32 +304,29 @@ FORMAT RÉPONSE (JSON uniquement) :
 
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) {
-            throw new Error("L'IA n'a retourné aucun texte valide.");
+            throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée).");
         }
+
+        // STRATÉGIE : Parser de façon robuste sans casser le HTML
+        // 1. Supprimer uniquement les delimiteurs markdown si présents
+        let clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
 
         let parsedArticle;
         try {
-            // Extraction robuste : on prend tout ce qu'il y a entre le premier '{' et le dernier '}'
-            const firstBrace = text.indexOf('{');
-            const lastBrace = text.lastIndexOf('}');
-            
-            if (firstBrace === -1 || lastBrace === -1) {
-                console.error("Réponse IA sans JSON:", text);
-                throw new Error("Impossible d'extraire le JSON de la réponse IA.");
-            }
-
-            const jsonString = text.substring(firstBrace, lastBrace + 1);
-            
+            // Tentative directe (idéal si responseSchema retourne du JSON propre)
+            parsedArticle = JSON.parse(clean);
+        } catch (firstErr) {
+            // Fallback: extraire uniquement le JSON entre { et } (dernier recours)
+            const jsonMatch = clean.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) throw new Error("Impossible d'extraire le JSON de la réponse IA.");
             try {
-                parsedArticle = JSON.parse(jsonString);
-            } catch (parseErr) {
-                // Tentative de nettoyage des caractères de contrôle invisibles (courant dans les longs textes HTML)
-                const sanitized = jsonString.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+                parsedArticle = JSON.parse(jsonMatch[0]);
+            } catch (secondErr) {
+                // Dernier recours : nettoyer les caractères problématiques SAUF dans content_html
+                // On remplace uniquement les caractères de contrôle hors d'une string JSON
+                const sanitized = clean.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
                 parsedArticle = JSON.parse(sanitized);
             }
-        } catch (err) {
-            console.error("Échec définitif du parsing JSON:", err);
-            throw new Error("L'IA a généré un article malformé. Veuillez réessayer.");
         }
 
         QuotaTracker.increment('articles');
@@ -341,5 +357,8 @@ Requirements:
         });
         const data = await response.json();
         return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
+    }
+};
+return data.candidates?.[0]?.content?.parts?.[0]?.text || "A professional pest control technician inspecting a luxury villa in Menton, cinematic lighting, 8k resolution.";
     }
 };
