@@ -230,7 +230,9 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
         setFormData(prev => ({ ...prev, is_published }));
         setLastSaved(new Date());
         toast(is_published ? 'Article publié ✓' : 'Brouillon enregistré ✓');
-        onSave({ ...payload, id: res.id || article?.id, uuid: res.uuid || article?.uuid });
+        if (typeof onSave === 'function') {
+          onSave({ ...payload, id: res.id || article?.id, uuid: res.uuid || article?.uuid });
+        }
       } else {
         throw new Error(res?.error || 'Erreur de sauvegarde');
       }

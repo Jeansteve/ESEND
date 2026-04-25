@@ -21,7 +21,9 @@ const load = (key, initial) => {
             localStorage.setItem(key, JSON.stringify(initial));
             return initial;
         }
-        return JSON.parse(data);
+        const parsed = JSON.parse(data);
+        // On fusionne pour s'assurer que les nouvelles clés (comme company_*) apparaissent même si l'user a déjà des data
+        return { ...initial, ...parsed };
     } catch { return initial; }
 };
 

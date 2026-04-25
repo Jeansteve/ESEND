@@ -376,11 +376,18 @@ const Dashboard = () => {
             <CreationStudio
               initialStep={showStudio === 'magique' ? 'TOPIC_CHOICE' : 'CHOICE'}
               onClose={() => setShowStudio(false)}
-              onSuccess={(newArt) => {
-                setArticles([newArt, ...articles]);
+              onSave={(newArt) => {
+                // Mise à jour de la liste
+                setArticles(prev => {
+                  const exists = prev.find(a => a.id === newArt.id);
+                  if (exists) return prev.map(a => a.id === newArt.id ? newArt : a);
+                  return [newArt, ...prev];
+                });
                 setEditingArticle(newArt);
                 setShowStudio(false);
               }}
+              articles={articles}
+              services={services}
             />
           </div>
         ) : (
