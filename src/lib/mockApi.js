@@ -136,20 +136,27 @@ export const mockApi = {
     // --- Settings ---
     getSettings: async () => {
         return load(STORAGE_KEYS.SETTINGS, {
-            gemini_api_key: '',
-            gemini_enabled: true,
+            // ── 1. Coordination & Contact ──
             contact_email: 'contact@esendnuisibles.fr',
+            company_phone: '',              // à renseigner par l'admin
+            company_address: 'Menton, Alpes-Maritimes (06)',
+            // ── 2. Visibilité & Analytics ──
             google_reviews_id: '',
             ga_id: '',
-            admin_password: 'admin',
-            // Profil ESEND pour l'IA
+            // ── 3. Moteur IA ──
+            gemini_api_key: '',
+            gemini_enabled: true,
+            apify_token: '',
+            // ── 4. Profil & ADN ESEND ──
             company_name: 'ESEND Nuisibles',
             company_manager: '',
             company_founded: '',
             company_certifications: 'Certibiocide',
-            company_zones: 'Menton, Monaco, Roquebrune-Cap-Martin, Cap-d\'Ail, Beausoleil, Nice, Côte d\'Azur (06)',
-            company_strengths: 'Intervention discrète et rapide, expertise en milieu haut de gamme (villas, copropriétés de prestige, hôtellerie), protocoles certifiés Certibiocide, solutions écologiques et respectueuses de l\'environnement',
-            company_bio: 'ESEND est une société spécialisée en hygiène et lutte anti-nuisibles implantée sur la Côte d\'Azur. Nous intervenons principalement à Menton, Monaco, Roquebrune et dans le département des Alpes-Maritimes (06). Notre équipe certifiée Certibiocide utilise des produits professionnels biocides et des méthodes de lutte raisonnée pour éradiquer durablement les nuisibles (rongeurs, insectes rampants et volants, punaises de lit, frelons asiatiques). Nous accompagnons une clientèle de particuliers, de syndics, de restaurateurs et de professionnels de l\'hôtellerie avec discrétion et efficacité.'
+            company_zones: "Menton, Monaco, Roquebrune-Cap-Martin, Cap-d'Ail, Beausoleil, Nice, Côte d'Azur (06)",
+            company_strengths: "Intervention discrète et rapide, expertise en milieu haut de gamme (villas, copropriétés de prestige, hôtellerie), protocoles certifiés Certibiocide, solutions écologiques et respectueuses de l'environnement",
+            company_bio: "ESEND est une société spécialisée en hygiène et lutte anti-nuisibles implantée sur la Côte d'Azur. Nous intervenons principalement à Menton, Monaco, Roquebrune et dans le département des Alpes-Maritimes (06). Notre équipe certifiée Certibiocide utilise des produits professionnels biocides et des méthodes de lutte raisonnée pour éradiquer durablement les nuisibles (rongeurs, insectes rampants et volants, punaises de lit, frelons asiatiques). Nous accompagnons une clientèle de particuliers, de syndics, de restaurateurs et de professionnels de l'hôtellerie avec discrétion et efficacité.",
+            // ── Securité ──
+            admin_password: 'admin',
         });
     },
 

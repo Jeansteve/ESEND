@@ -751,6 +751,26 @@ const Dashboard = () => {
                               placeholder="contact@esendnuisibles.fr"
                             />
                           </div>
+                          <div className="space-y-3">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">📞 Numéro de téléphone</label>
+                            <input
+                              type="tel"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              value={localSettings.company_phone || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, company_phone: e.target.value })}
+                              placeholder="Ex: +33 6 XX XX XX XX"
+                            />
+                          </div>
+                          <div className="space-y-3 md:col-span-2">
+                            <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest text-left opacity-70">📍 Adresse / Siège social</label>
+                            <input
+                              type="text"
+                              className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-red-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner"
+                              value={localSettings.company_address || ''}
+                              onChange={(e) => setLocalSettings({ ...localSettings, company_address: e.target.value })}
+                              placeholder="Ex: 12 Avenue de la Riviera, 06500 Menton"
+                            />
+                          </div>
                         </div>
                       )
                     },

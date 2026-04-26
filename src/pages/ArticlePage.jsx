@@ -26,6 +26,12 @@ const ArticlePage = () => {
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [siteSettings, setSiteSettings] = useState({});
+
+  // Charge les settings pour le numéro de téléphone dans le CTA
+  useEffect(() => {
+    api.getSettings().then(s => setSiteSettings(s || {})).catch(() => {});
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -78,6 +84,7 @@ const ArticlePage = () => {
 
     loadArticle();
   }, [slug]);
+
 
   // ── SEO dynamique : title, meta description, Schema JSON-LD ──────────────
   useEffect(() => {
@@ -269,12 +276,14 @@ const ArticlePage = () => {
             >
               Demander un devis gratuit
             </a>
-            <a
-              href="tel:+33XXXXXXXXX"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-[var(--border-strong)] text-[var(--text-main)] font-black uppercase tracking-widest text-[11px] rounded-full hover:border-red-600/50 hover:text-red-500 transition-all"
-            >
-              Appeler directement
-            </a>
+            {siteSettings.company_phone && (
+              <a
+                href={`tel:${siteSettings.company_phone.replace(/\s/g, '')}`}
+                className="inline-flex items-center gap-2 px-8 py-4 border border-[var(--border-strong)] text-[var(--text-main)] font-black uppercase tracking-widest text-[11px] rounded-full hover:border-red-600/50 hover:text-red-500 transition-all"
+              >
+                📞 {siteSettings.company_phone}
+              </a>
+            )}
           </div>
         </motion.div>
       </div>
