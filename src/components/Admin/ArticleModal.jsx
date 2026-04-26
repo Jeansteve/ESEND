@@ -81,7 +81,7 @@ const Toast = ({ show, message = 'Article enregistré ✓' }) => (
 );
 
 // ─── ArticleModal ─────────────────────────────────────────────────────────────
-const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
+const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => {
   const isNew = !article?.id;
   const fileInputRef = useRef(null);
 
@@ -482,7 +482,10 @@ const ArticleModal = ({ article, onClose, onSave, onDelete }) => {
                         onChange={e => update('nuisible_tag', e.target.value)}
                         className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
                       >
-                        {NUISIBLE_TAGS.map(c => <option key={c.id} value={c.id}>{c.label}</option>)}
+                        {services.length > 0 
+                          ? services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)
+                          : NUISIBLE_TAGS.map(c => <option key={c.id} value={c.id}>{c.label}</option>)
+                        }
                       </select>
                       <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
                     </div>

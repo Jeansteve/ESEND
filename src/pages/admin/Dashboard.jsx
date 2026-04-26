@@ -45,6 +45,17 @@ import ArticleModal from '../../components/Admin/ArticleModal';
 import LeadManager from '../../components/Admin/LeadManager';
 import './AdminPanel.css';
 
+// ─── Constants ─────────────────────────────────────────────────────────────
+const SERVICES = [
+  { id: 1, name: 'Rats & Rongeurs', icon: '🐀' },
+  { id: 2, name: 'Guêpes & Frelons', icon: '🐝' },
+  { id: 3, name: 'Punaises de Lit', icon: '🪲' },
+  { id: 4, name: 'Cafards & Blattes', icon: '🪳' },
+  { id: 5, name: 'Fourmis', icon: '🐜' },
+  { id: 6, name: 'Désinfection', icon: '🧼' },
+  { id: 7, name: 'Nettoyage & Vitres', icon: '🪟' }
+];
+
 // ─── Portfolio Tab Component ───────────────────────────────────────────────
 const PROJECT_CATS = [
   { id: 'all', label: 'Tous' },
@@ -387,7 +398,7 @@ const Dashboard = () => {
                 setShowStudio(false);
               }}
               articles={articles}
-              services={services}
+              services={SERVICES}
             />
           </div>
         ) : (
@@ -970,6 +981,7 @@ const Dashboard = () => {
             setArticles(prev => prev.filter(a => a.id !== id));
             setEditingArticle(null);
           }}
+          services={SERVICES}
         />
       )}
 
