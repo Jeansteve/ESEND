@@ -104,9 +104,7 @@ export const AIService = {
         const endpointsToTry = [
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent',
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent'
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
         ];
 
         let lastError = null;
