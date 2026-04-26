@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
-import { useNavigate, useLocation } from 'react-router-dom';
+
 
 /**
  * Nettoie le contenu HTML généré par l'IA avant affichage public.
