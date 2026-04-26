@@ -121,7 +121,7 @@ const MOCK_ARTICLE_JSON = `{
   ]
 }`;
 
-const CreationStudio = ({ onClose, services = [], onSave, articles = [], initialStep = 'CHOICE' }) => {
+const CreationStudio = ({ onClose, services = [], onSave, articles = [], initialStep = 'CHOICE', autoStartConfig = null }) => {
     const [step, setStep] = useState(initialStep);
     const [manualSubStep, setManualSubStep] = useState(1);
     const [foundNews, setNews] = useState([]);
@@ -349,7 +349,19 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
 
     const TopicChoiceScreen = ({ services = [] }) => {
         const [loadingMore, setLoadingMore] = useState(false);
-        const [targetServiceId, setTargetServiceId] = useState('');
+        const [targetServiceId, setTargetServiceId] = useState(autoStartConfig?.targetServiceId || '');
+
+        useEffect(() => {
+            // Force select box value from config
+            if (autoStartConfig?.targetServiceId) {
+                setTargetServiceId(String(autoStartConfig.targetServiceId));
+            }
+            
+            // Only auto-start once the DB load is complete and if no news are found
+            if (autoStartConfig?.autoStart && !loadingFromDb && foundNews.length === 0 && !loadingMore) {
+                handleLoadMore();
+            }
+        }, [autoStartConfig, loadingFromDb]);
 
         const handleTopicSelect = (topic) => {
             setSelectedTopic(topic);

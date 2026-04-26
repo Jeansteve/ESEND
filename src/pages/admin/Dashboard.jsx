@@ -385,7 +385,8 @@ const Dashboard = () => {
         {showStudio ? (
           <div className="h-[calc(100vh-64px)] w-full overflow-y-auto pb-20">
             <CreationStudio
-              initialStep={showStudio === 'magique' ? 'TOPIC_CHOICE' : 'CHOICE'}
+              initialStep={showStudio === 'magique' || showStudio?.mode === 'magique' ? 'TOPIC_CHOICE' : 'CHOICE'}
+              autoStartConfig={typeof showStudio === 'object' ? showStudio : null}
               onClose={() => setShowStudio(false)}
               onSave={(newArt) => {
                 // Mise à jour de la liste
@@ -665,8 +666,19 @@ const Dashboard = () => {
 
                   <div className="mt-6 p-6 bg-[var(--bg-primary)] border border-red-600/20 rounded-2xl flex flex-col justify-between">
                     <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] mb-4">Action suggérée</p>
-                    <button onClick={() => setShowStudio('magique')} className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">
-                      Lancer le Radar IA
+                    <button onClick={() => {
+                      let targetServiceId = '';
+                      if (trendsData && trendsData.length > 0) {
+                          const label = trendsData[0].label.toLowerCase();
+                          if (label.includes('punaise')) targetServiceId = '3';
+                          else if (label.includes('frelon') || label.includes('guêpe')) targetServiceId = '2';
+                          else if (label.includes('rat') || label.includes('souris') || label.includes('rongeur')) targetServiceId = '1';
+                          else if (label.includes('cafard') || label.includes('blatte')) targetServiceId = '4';
+                          else if (label.includes('fourmi')) targetServiceId = '5';
+                      }
+                      setShowStudio({ mode: 'magique', autoStart: true, targetServiceId });
+                    }} className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all">
+                      Lancer le Radar IA Automatisé
                     </button>
                   </div>
                 </div>
