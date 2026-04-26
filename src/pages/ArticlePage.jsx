@@ -5,6 +5,16 @@ import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
 
 /**
+ * Nettoie le contenu HTML généré par l'IA avant affichage public.
+ * Supprime les balises [ILLUSTRATION : ...] laissées par le prompt.
+ */
+const sanitizeContent = (html = '') => {
+  if (!html) return '';
+  // Supprime toutes les variantes : [ILLUSTRATION : ...] [Illustration : ...] etc.
+  return html.replace(/\[ILLUSTRATION\s*:.*?\]/gi, '').trim();
+};
+
+/**
  * ArticlePage — Page dédiée à la lecture d'un article du Journal de l'Expert.
  * URL: /#/journal/:slug  (slug = id de l'article ou son titre slugifié)
  */
@@ -185,7 +195,7 @@ const ArticlePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="article-reader-content"
-          dangerouslySetInnerHTML={{ __html: article.content_html || '<p>Contenu indisponible.</p>' }}
+          dangerouslySetInnerHTML={{ __html: sanitizeContent(article.content_html) || '<p>Contenu indisponible.</p>' }}
         />
       </div>
 

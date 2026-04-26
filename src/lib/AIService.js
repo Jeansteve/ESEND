@@ -265,11 +265,9 @@ ${companyContext ? companyContext + '\n\n' : ''}⚠️ RÈGLE ABSOLUE : N'invent
 5. **Les Résultats** : Garanties et impact environnemental.
 6. **Prévention** : Liste <ul><li> de conseils d'expert.
 
-### ILLUSTRATIONS
-- Insère exactement deux balises au format : [ILLUSTRATION : Description précise de la photo en anglais pour IA] à des endroits pertinents.
-
 ### CONTRAINTES
 - Uniquement des balises HTML structurelles (<h2>, <h3>, <ul>, <blockquote>, <p>, <strong>).
+- NE PAS inclure de balises ou annotations de type [ILLUSTRATION], [IMAGE], [PHOTO] dans le texte.
 - Longueur experte et détaillée.
 - Ton : Professionnel, rassurant et très technique.`;
 
