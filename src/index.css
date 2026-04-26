@@ -284,3 +284,123 @@ html, body, #root {
 .animate-sweep {
   animation: sweep 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* ─── Article Reader Content — Page dédiée (thème sombre ESEND) ─────────── */
+/* Utilisé dans ArticlePage via .article-reader-content                       */
+
+.article-reader-content {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: var(--text-dimmed);
+}
+
+.article-reader-content h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.875rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--text-main);
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.article-reader-content h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.article-reader-content p {
+  margin-bottom: 1.5rem;
+  color: var(--text-dimmed);
+}
+
+.article-reader-content strong,
+.article-reader-content b {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.article-reader-content ul,
+.article-reader-content ol {
+  margin: 1.5rem 0;
+  padding-left: 1.75rem;
+}
+
+.article-reader-content ul {
+  list-style-type: disc;
+}
+
+.article-reader-content ol {
+  list-style-type: decimal;
+}
+
+.article-reader-content li {
+  margin-bottom: 0.625rem;
+  color: var(--text-dimmed);
+  line-height: 1.75;
+}
+
+.article-reader-content li::marker {
+  color: #dc2626;
+  font-weight: 900;
+}
+
+.article-reader-content blockquote {
+  border-left: 4px solid #dc2626;
+  background: rgba(220, 38, 38, 0.07);
+  padding: 1.5rem 2rem;
+  margin: 2.5rem 0;
+  border-radius: 0 1rem 1rem 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fca5a5;
+  font-style: italic;
+}
+
+.article-reader-content blockquote p {
+  margin: 0;
+  color: inherit;
+}
+
+.article-reader-content a {
+  color: #ef4444;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.article-reader-content a:hover {
+  color: #dc2626;
+}
+
+.article-reader-content img {
+  width: 100%;
+  border-radius: 1rem;
+  margin: 2rem 0;
+  box-shadow: 0 20px 60px -15px rgba(0,0,0,0.5);
+}
+
+.article-reader-content hr {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin: 3rem 0;
+}
+
+.article-reader-content code {
+  background: rgba(220, 38, 38, 0.1);
+  color: #fca5a5;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: 'Menlo', 'Consolas', monospace;
+}
+

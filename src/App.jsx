@@ -9,6 +9,7 @@ import DisinfectionPage from './pages/DisinfectionPage'
 import CleaningPage from './pages/CleaningPage'
 import PortfolioPage from './pages/PortfolioPage'
 import BlogPage from './pages/BlogPage'
+import ArticlePage from './pages/ArticlePage'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import { useTheme } from './hooks/useTheme'
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/services/nettoyage" element={<CleaningPage />} />
                     <Route path="/realisations" element={<PortfolioPage />} />
                     <Route path="/journal" element={<BlogPage />} />
+                    <Route path="/journal/:slug" element={<ArticlePage />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </main>
