@@ -57,10 +57,18 @@ CREATE TABLE IF NOT EXISTS `esend_settings` (
 INSERT INTO `esend_settings` (`setting_key`, `setting_value`) VALUES
 ('gemini_api_key', ''),
 ('gemini_enabled', 'true'),
+('apify_token', ''),
 ('contact_email', 'contact@esendnuisibles.fr'),
+('company_phone', ''),
+('company_address', 'Menton, Alpes-Maritimes (06)'),
+('company_siret', ''),
+('company_name', 'ESEND Nuisibles'),
+('company_certifications', 'Certibiocide'),
+('company_zones', 'Menton, Monaco, Roquebrune-Cap-Martin, Cap-d\'Ail, Beausoleil, Nice, Côte d\'Azur (06)'),
+('company_strengths', 'Intervention discrète et rapide, expertise en milieu haut de gamme, protocoles certifiés Certibiocide'),
 ('google_reviews_id', ''),
 ('ga_id', '')
-ON DUPLICATE KEY UPDATE `setting_value` = `setting_value`;
+ON DUPLICATE KEY UPDATE `setting_value` = VALUES(`setting_value`);
 
 -- Création de l'utilisateur admin par défaut
 INSERT INTO `esend_users` (`email`, `password`, `name`) VALUES

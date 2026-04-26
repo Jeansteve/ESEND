@@ -86,9 +86,27 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Automatisation du Radar IA (Nouveau)** : Connexion directe entre le Market Advisor et le Studio de Création. Un simple clic depuis l'alerte tendance pré-sélectionne le bon nuisible et lance automatiquement la génération de sujets Gemini.
 - **Persistance Locale Sécurisée (Nouveau)** : Remplacement des appels réseau obsolètes (`topics.php`) par un stockage `localStorage` robuste, éliminant les erreurs 404 et garantissant un affichage instantané des sujets sauvegardés.
 
+## ✅ V7 : Excellence Éditoriale & SEO (Live)
+**Fichiers :** `ArticlePage.jsx`, `AIService.js`, `Dashboard.jsx`, `settings.php`
+
+- **SEO Technique Automatisé** :
+    - Génération dynamique des balises `<title>` et `<meta name="description">` sur chaque article.
+    - Injection automatique du **Schema JSON-LD Article** pour améliorer le référencement Google.
+    - URL structurelle propre et maillage interne renforcé.
+- **Conversion (CTA)** :
+    - Ajout d'un bloc de conversion "Expert" en fin d'article.
+    - Bouton d'appel dynamique utilisant le numéro configuré dans l'admin.
+- **Optimisation IA (Prompt Hardening)** :
+    - Interdiction stricte des fausses statistiques et témoignages inventés.
+    - Longueur minimum de 1200 mots pour une profondeur experte.
+    - Accroches percutantes basées sur des faits réels ou scientifiques.
+- **Réglages Entreprise Centralisés** :
+    - Ajout des champs **Téléphone**, **Adresse** et **SIRET** dans les paramètres.
+    - Ces informations alimentent automatiquement le moteur IA et les CTA du site.
+    - Système de sauvegarde dynamique "Key-Value" en base de données.
+
 ## 🚀 Prochaines Étapes
 1. **Priorité Menton Continue** : Affiner les mots-clés hyper-locaux dans le radar de tendances.
-2. **Hub Débarrassage** : Création d'un hub dédié pour structurer l'offre de débarras.
-3. **SEO Local Auto-Généré** : Utiliser les pics de tendances BI pour proposer des brouillons d'articles de blog ciblés "Menton/06".
-4. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande.
+2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande.
+3. **Optimisation Vitesse** : Mise en place de lazy-loading sur les images de couverture d'articles.
 

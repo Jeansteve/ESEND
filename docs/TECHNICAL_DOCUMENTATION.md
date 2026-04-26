@@ -92,6 +92,23 @@ Le projet utilise **GitHub Actions**.
 
 ---
 
-## 💡 8. Notes pour les évolutions futures
+### 📂 3. Backend & API
+[...]
+5. **`settings.php`** : Système de configuration dynamique (Key-Value).
+    - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
+    - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
+
+---
+
+## 📈 9. Optimisation SEO & Conversion
+ESEND intègre des mécanismes d'automatisation SEO avancés sur ses pages dynamiques :
+- **Meta-tags Dynamiques** : Chaque article génère ses propres balises `title` et `description`.
+- **Structured Data** : Injection de Schema `Article` JSON-LD pour les Rich Snippets.
+- **CTA Contextuels** : Blocs de conversion en fin d'article avec tracking et numéros dynamiques.
+- **Prompt Hardening** : Les articles générés par IA sont bridés pour garantir une longueur de 1200+ mots, l'absence de fausses statistiques et une accroche percutante.
+
+---
+
+## 💡 10. Notes pour les évolutions futures
 - **Migration Cloud** : La structure `images` en JSON est prête pour accueillir des URLs Cloudinary/S3.
-- **SEO** : Le système de blog (`Journal`) génère des pages dynamiques optimisées. Chaque nouvelle réalisation doit être taguée par ville pour le SEO local.
+- **Auto-Réponse** : Envisager l'intégration d'un webhook pour notifier les clients après un dépôt de devis.
