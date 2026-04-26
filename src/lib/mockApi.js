@@ -41,6 +41,12 @@ export const mockApi = {
     getArticles: async () => {
         return load(STORAGE_KEYS.ARTICLES, initialArticles);
     },
+
+    getArticle: async (id) => {
+        // Charge un article complet par son ID depuis le localStorage
+        const articles = load(STORAGE_KEYS.ARTICLES, initialArticles);
+        return articles.find(a => String(a.id) === String(id)) || null;
+    },
     
     createArticle: async (articleData) => {
         const articles = await mockApi.getArticles();

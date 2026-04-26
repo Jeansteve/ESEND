@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Clock, Calendar, X } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Clock, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../lib/api';
 
 const KnowledgeHub = () => {
   const [articles, setArticles] = React.useState([]);
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     api.getArticles().then(data => {
@@ -16,10 +17,19 @@ const KnowledgeHub = () => {
     });
   }, []);
 
+  const handleArticleClick = (article) => {
+    navigate(`/journal/${article.id}`);
+  };
+
+  const handleViewAll = () => {
+    navigate('/journal');
+  };
+
   return (
     <section id="encyclopedie" className="py-32 px-6 bg-white text-slate-900 relative transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
-        {/* ... Header remains same ... */}
+
+        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl text-left">
             <motion.div
@@ -41,13 +51,17 @@ const KnowledgeHub = () => {
             viewport={{ once: true }}
             className="flex-shrink-0"
           >
-            <button className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-[10px] rounded-full hover:bg-red-600 transition-all flex items-center gap-3 group shadow-lg border border-white/5">
+            <button
+              onClick={handleViewAll}
+              className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-[10px] rounded-full hover:bg-red-600 transition-all flex items-center gap-3 group shadow-lg border border-white/5"
+            >
               Explorer le Journal expert
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
             </button>
           </motion.div>
         </div>
 
+        {/* Grille d'articles */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.slice(0, 3).map((article, index) => (
             <motion.article
@@ -56,7 +70,7 @@ const KnowledgeHub = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              onClick={() => setSelectedArticle(article)}
+              onClick={() => handleArticleClick(article)}
               className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
             >
               <div className="relative h-64 overflow-hidden">
@@ -85,54 +99,19 @@ const KnowledgeHub = () => {
                   {article.excerpt}
                 </p>
 
-                <div className="mt-auto flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-xs">
-                  Lire l'article
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <div className="mt-auto flex items-center gap-3 text-red-600 font-black uppercase tracking-widest text-xs group/btn">
+                  <span>Lire l'article</span>
+                  <div className="w-7 h-7 rounded-full bg-red-600/10 flex items-center justify-center group-hover/btn:bg-red-600 group-hover/btn:text-white transition-all">
+                    <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                  </div>
                 </div>
               </div>
             </motion.article>
           ))}
         </div>
       </div>
-
-      {/* Article Detail Modal (Simple Full Screen Magazine) */}
-      <AnimatePresence>
-        {selectedArticle && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[110] flex items-center justify-center p-4"
-          >
-            <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-3xl" onClick={() => setSelectedArticle(null)} />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl border border-black/5 overflow-hidden flex flex-col shadow-2xl text-slate-900 selection:bg-red-100"
-            >
-              <button
-                onClick={() => setSelectedArticle(null)}
-                className="absolute top-6 right-6 z-50 p-2 rounded-full bg-white/80 backdrop-blur-md text-slate-900 hover:bg-red-600 hover:text-white border border-black/10 shadow-lg transition-all"
-              >
-                <X className="w-6 h-6" />
-              </button>
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-10 md:p-16 text-left">
-                <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-red-600">
-                  Journal / {selectedArticle.category}
-                </div>
-                <h2 className="text-4xl md:text-5xl font-black uppercase mb-10 leading-tight text-slate-950">{selectedArticle.title}</h2>
-                <div className="aspect-video rounded-2xl overflow-hidden mb-12">
-                  <img src={selectedArticle.image || 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?w=1000'} className="w-full h-full object-cover" alt="Article" />
-                </div>
-                <div
-                  className="article-preview-content prose prose-red max-w-none prose-headings:text-slate-950 prose-p:text-slate-700 prose-strong:text-slate-950"
-                  dangerouslySetInnerHTML={{ __html: selectedArticle.content_html || selectedArticle.excerpt }}
-                />
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 };
 
 export default KnowledgeHub;
-

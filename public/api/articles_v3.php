@@ -14,6 +14,23 @@ switch ($method) {
     case 'GET':
         $filter = $_GET['status'] ?? null;
         $nuisibleTag = $_GET['nuisible_tag'] ?? null;
+        $id = $_GET['id'] ?? null;
+
+        // --- Chargement d'un article unique par ID (pour la page de lecture) ---
+        if ($id) {
+            $stmt = $pdo->prepare("SELECT * FROM esend_articles WHERE id = ? LIMIT 1");
+            $stmt->execute([$id]);
+            $article = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($article) {
+                // Mapper 'content' (DB) -> 'content_html' (frontend)
+                $article['content_html'] = $article['content'] ?? '';
+                echo json_encode($article);
+            } else {
+                http_response_code(404);
+                echo json_encode(['error' => 'Article not found']);
+            }
+            break;
+        }
 
         $sql = "SELECT * FROM esend_articles";
         $conditions = [];
@@ -50,6 +67,13 @@ switch ($method) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Mapper 'content' (DB) -> 'content_html' (frontend) pour tous les articles
+        $articles = array_map(function($a) {
+            $a['content_html'] = $a['content'] ?? '';
+            return $a;
+        }, $articles);
+
         echo json_encode($articles);
         break;
 

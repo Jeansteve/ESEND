@@ -25,6 +25,11 @@ const realApi = {
       const res = await fetch(`${API_BASE}/articles_v3.php`);
       return res.json();
     },
+    getArticle: async (id) => {
+      // Charge un article complet (avec content_html) par son ID
+      const res = await fetch(`${API_BASE}/articles_v3.php?id=${encodeURIComponent(id)}`);
+      return res.json();
+    },
     createArticle: async (data) => {
       const res = await fetch(`${API_BASE}/articles_v3.php`, {
         method: 'POST',

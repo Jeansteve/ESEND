@@ -18,29 +18,54 @@ const ArticlePage = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
+    setLoading(true);
+    setNotFound(false);
 
-    api.getArticles().then(data => {
-      const published = (data || []).filter(a => a.is_published == 1 || a.is_published === true);
+    const loadArticle = async () => {
+      try {
+        // 1. Tentative de chargement direct de l'article complet par ID
+        if (api.getArticle) {
+          const full = await api.getArticle(slug);
+          if (full && full.id) {
+            setArticle(full);
+            // Articles liés : on charge la liste pour les suggestions
+            const allData = await api.getArticles();
+            const published = (allData || []).filter(a => a.is_published == 1 || a.is_published === true);
+            const others = published
+              .filter(a => String(a.id) !== String(full.id) && a.service_id === full.service_id)
+              .slice(0, 3);
+            setRelated(others.length > 0 ? others : published.filter(a => String(a.id) !== String(full.id)).slice(0, 3));
+            setLoading(false);
+            return;
+          }
+        }
 
-      // Cherche par ID d'abord, puis par slug (titre slugifié)
-      const found = published.find(a => {
-        const id = String(a.id);
-        const titleSlug = slugify(a.title);
-        return id === slug || titleSlug === slug;
-      });
+        // 2. Fallback : cherche dans la liste complète
+        const data = await api.getArticles();
+        const published = (data || []).filter(a => a.is_published == 1 || a.is_published === true);
+        const found = published.find(a => {
+          const id = String(a.id);
+          const titleSlug = slugify(a.title);
+          return id === slug || titleSlug === slug;
+        });
 
-      if (found) {
-        setArticle(found);
-        // Articles liés (même service, mais pas l'article en cours)
-        const others = published
-          .filter(a => a.id !== found.id && a.service_id === found.service_id)
-          .slice(0, 3);
-        setRelated(others.length > 0 ? others : published.filter(a => a.id !== found.id).slice(0, 3));
-      } else {
+        if (found) {
+          setArticle(found);
+          const others = published
+            .filter(a => a.id !== found.id && a.service_id === found.service_id)
+            .slice(0, 3);
+          setRelated(others.length > 0 ? others : published.filter(a => a.id !== found.id).slice(0, 3));
+        } else {
+          setNotFound(true);
+        }
+      } catch (err) {
+        console.error('Erreur chargement article:', err);
         setNotFound(true);
       }
       setLoading(false);
-    });
+    };
+
+    loadArticle();
   }, [slug]);
 
   if (loading) {
