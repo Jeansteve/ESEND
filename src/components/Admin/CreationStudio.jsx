@@ -121,7 +121,7 @@ const MOCK_ARTICLE_JSON = `{
   ]
 }`;
 
-const CreationStudio = ({ onClose, services, onSave, articles = [], initialStep = 'CHOICE' }) => {
+const CreationStudio = ({ onClose, services = [], onSave, articles = [], initialStep = 'CHOICE' }) => {
     const [step, setStep] = useState(initialStep);
     const [manualSubStep, setManualSubStep] = useState(1);
     const [foundNews, setNews] = useState([]);
@@ -347,7 +347,7 @@ const CreationStudio = ({ onClose, services, onSave, articles = [], initialStep 
     // --- MAGIE TOTALE SCREENS ---
     // SearchingScreen removed: click on Magie Totale goes directly to TOPIC_CHOICE with empty list
 
-    const TopicChoiceScreen = () => {
+    const TopicChoiceScreen = ({ services = [] }) => {
         const [loadingMore, setLoadingMore] = useState(false);
         const [targetServiceId, setTargetServiceId] = useState('');
 
@@ -586,7 +586,7 @@ const CreationStudio = ({ onClose, services, onSave, articles = [], initialStep 
         <div className="creation-studio-integrated">
             <AnimatePresence mode="wait">
                 {step === 'CHOICE' && <ChoiceScreen key="choice" />}
-                {step === 'TOPIC_CHOICE' && <TopicChoiceScreen key="topic_choice" />}
+                {step === 'TOPIC_CHOICE' && <TopicChoiceScreen key="topic_choice" services={services} />}
                 {step === 'GENERATING' && <GeneratingScreen key="generating" />}
                 {step === 'MANUAL_PROMPT' && <ManualPromptScreen key="manual" />}
                 {step === 'EDITOR' && (

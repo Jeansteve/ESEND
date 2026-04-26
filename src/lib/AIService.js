@@ -145,7 +145,17 @@ export const AIService = {
     /**
      * Recherche de sujets d'articles d'actualité pour la Riviera
      */
+    /**
+     * Recherche de sujets d'articles d'actualité pour la Riviera (Alias pour generateArticleTopics)
+     */
     async searchLatestNews(targetServiceId = null) {
+        return this.generateArticleTopics([], targetServiceId);
+    },
+
+    /**
+     * Génère des sujets d'articles basés sur l'actualité et le contexte
+     */
+    async generateArticleTopics(existingTitles = [], targetServiceId = null) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
         const serviceConstraint = targetServiceId
