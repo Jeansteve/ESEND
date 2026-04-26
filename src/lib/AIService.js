@@ -103,8 +103,8 @@ export const AIService = {
         // Cascade de modèles (uniquement v1beta pour supporter le JSON et éviter les 404 de la v1)
         const endpointsToTry = [
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent'
         ];
 
         let lastError = null;
