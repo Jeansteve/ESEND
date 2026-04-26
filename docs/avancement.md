@@ -83,6 +83,8 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Calcul mathématique automatique des tendances (+42%, etc.) basé sur les données brutes extraites, sans simulation.
 - **Market Strategy Advisor IA** : Module prédictif qui analyse les hausses de recherches (ex: Punaises de lit à Menton) pour suggérer des campagnes SEO ou des actions d'expertise immédiates.
 - **Cache Intelligent V2** : Mise en place d'un système de cache performant (`market_trends_cache_v2.json`) pour garantir la fluidité du Dashboard tout en économisant les quotas d'API.
+- **Automatisation du Radar IA (Nouveau)** : Connexion directe entre le Market Advisor et le Studio de Création. Un simple clic depuis l'alerte tendance pré-sélectionne le bon nuisible et lance automatiquement la génération de sujets Gemini.
+- **Persistance Locale Sécurisée (Nouveau)** : Remplacement des appels réseau obsolètes (`topics.php`) par un stockage `localStorage` robuste, éliminant les erreurs 404 et garantissant un affichage instantané des sujets sauvegardés.
 
 ## 🚀 Prochaines Étapes
 1. **Priorité Menton Continue** : Affiner les mots-clés hyper-locaux dans le radar de tendances.
