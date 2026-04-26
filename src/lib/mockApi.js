@@ -149,6 +149,7 @@ export const mockApi = {
             apify_token: '',
             // ── 4. Profil & ADN ESEND ──
             company_name: 'ESEND Nuisibles',
+            company_siret: '',
             company_manager: '',
             company_founded: '',
             company_certifications: 'Certibiocide',

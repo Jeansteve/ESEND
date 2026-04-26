@@ -854,6 +854,10 @@ const Dashboard = () => {
                               <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: ESEND Nuisibles" value={localSettings.company_name || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_name: e.target.value })} />
                             </div>
                             <div className="space-y-2">
+                              <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">SIRET</label>
+                              <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: 123 456 789 00012" value={localSettings.company_siret || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_siret: e.target.value })} />
+                            </div>
+                            <div className="space-y-2">
                               <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest opacity-70">Gérant / Fondateur</label>
                               <input type="text" className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-2xl px-5 py-4 text-sm focus:border-emerald-600/50 outline-none transition-all text-[var(--text-main)] shadow-inner" placeholder="Ex: Jean Dupont" value={localSettings.company_manager || ''} onChange={(e) => setLocalSettings({ ...localSettings, company_manager: e.target.value })} />
                             </div>
