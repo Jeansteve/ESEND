@@ -103,21 +103,25 @@ export const AIService = {
         // Cascade de modèles (v1 et v1beta) pour éviter les 404 (Not Found)
         const endpointsToTry = [
             'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite-preview-02-05:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent',
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent',
-            'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
+            'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
+            'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
+            'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
+            'https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent'
         ];
 
         let lastError = null;
 
         for (const endpoint of endpointsToTry) {
             try {
-                const isLegacy = endpoint.includes('gemini-pro:');
+                const isLegacy = endpoint.includes('gemini-1.0-pro') || endpoint.includes('v1/models/gemini-pro');
                 let requestBody = { ...body };
                 if (isLegacy && requestBody.generationConfig) {
-                    delete requestBody.generationConfig.responseSchema;
-                    delete requestBody.generationConfig.responseMimeType;
+                    // Les anciens modèles ne supportent pas le mode JSON forcé via mimeType
+                    const newConfig = { ...requestBody.generationConfig };
+                    delete newConfig.responseMimeType;
+                    delete newConfig.responseSchema;
+                    requestBody.generationConfig = newConfig;
                 }
 
                 const response = await fetch(`${endpoint}?key=${key}`, {
