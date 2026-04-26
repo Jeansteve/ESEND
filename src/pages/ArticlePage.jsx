@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight } from 'lucide-react';
 import { api } from '../lib/api';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 /**
  * Nettoie le contenu HTML généré par l'IA avant affichage public.
@@ -77,6 +78,55 @@ const ArticlePage = () => {
 
     loadArticle();
   }, [slug]);
+
+  // ── SEO dynamique : title, meta description, Schema JSON-LD ──────────────
+  useEffect(() => {
+    if (!article) return;
+
+    // 1. Title tag
+    const prevTitle = document.title;
+    document.title = article.meta_title || `${article.title} | ESEND Nuisibles`;
+
+    // 2. Meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    const prevDesc = metaDesc.getAttribute('content');
+    metaDesc.setAttribute('content', article.meta_description || article.excerpt || '');
+
+    // 3. Schema JSON-LD Article
+    const schemaId = 'esend-article-schema';
+    let existing = document.getElementById(schemaId);
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.id = schemaId;
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: article.title,
+      description: article.excerpt || '',
+      image: article.image || '',
+      datePublished: article.date || '',
+      publisher: {
+        '@type': 'LocalBusiness',
+        name: 'ESEND Nuisibles',
+        url: 'https://esendnuisibles.fr'
+      }
+    });
+    document.head.appendChild(script);
+
+    // Nettoyage au démontage
+    return () => {
+      document.title = prevTitle;
+      if (metaDesc) metaDesc.setAttribute('content', prevDesc || '');
+      const s = document.getElementById(schemaId);
+      if (s) s.remove();
+    };
+  }, [article]);
 
   if (loading) {
     return (
@@ -197,6 +247,36 @@ const ArticlePage = () => {
           className="article-reader-content"
           dangerouslySetInnerHTML={{ __html: sanitizeContent(article.content_html) || '<p>Contenu indisponible.</p>' }}
         />
+
+        {/* ─── CTA de conversion ───────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-16 rounded-2xl overflow-hidden border border-red-600/20 bg-gradient-to-br from-red-950/40 to-[var(--bg-secondary)] p-10 text-center"
+        >
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-500 mb-4">Besoin d'une intervention ?</p>
+          <h2 className="text-2xl md:text-3xl font-black uppercase text-[var(--text-main)] mb-4 tracking-tight leading-tight">
+            Protégez votre propriété dès maintenant
+          </h2>
+          <p className="text-[var(--text-dimmed)] max-w-lg mx-auto mb-8 text-sm leading-relaxed">
+            Nos experts certifiés Certibiocide interviennent à Menton, Monaco, Nice et toute la Côte d'Azur. Diagnostic gratuit, résultat garanti.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="/#/#contact"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 text-white font-black uppercase tracking-widest text-[11px] rounded-full hover:bg-red-700 active:scale-95 transition-all shadow-lg shadow-red-600/30"
+            >
+              Demander un devis gratuit
+            </a>
+            <a
+              href="tel:+33XXXXXXXXX"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-[var(--border-strong)] text-[var(--text-main)] font-black uppercase tracking-widest text-[11px] rounded-full hover:border-red-600/50 hover:text-red-500 transition-all"
+            >
+              Appeler directement
+            </a>
+          </div>
+        </motion.div>
       </div>
 
       {/* ─── Articles Similaires ─────────────────────────────────── */}

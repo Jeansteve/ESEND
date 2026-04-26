@@ -251,25 +251,39 @@ ${servicesContext}`;
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const companyContext = await this._getCompanyContext();
 
-        const systemInstruction = `Tu es un rédacteur web SEO senior et expert technique en hygiène et lutte anti-nuisibles sur la Riviera française.`;
+        const systemInstruction = `Tu es un rédacteur web SEO senior, expert en hygiène urbaine, lutte anti-nuisibles et biosécurité sur la Riviera française (Menton, Monaco, Nice, Côte d'Azur). Tu rédiges pour ESEND, une entreprise certifiée Certibiocide, discrète et haut de gamme. Ton style est direct, expert, rassurant — jamais générique.`;
 
-        const prompt = `Rédige un article d'expertise COMPLET et RÉEL sur le sujet suivant : "${title}".
+        const prompt = `Rédige un article d'expertise COMPLET sur le sujet suivant : "${title}".
 
-${companyContext ? companyContext + '\n\n' : ''}⚠️ RÈGLE ABSOLUE : N'invente AUCUNE information sur l'entreprise ESEND au-delà du contexte fourni. Si aucun contexte n'est donné, utilise des termes génériques ("notre équipe locale", "nos experts").
+${companyContext ? companyContext + '\n\n' : ''}
+### RÈGLES ABSOLUES
+1. **AUCUNE STATISTIQUE INVENTÉE** : N'inclus aucun pourcentage, chiffre ou donnée qui ne soit pas une vérité scientifique établie (ex: biologie, comportement animal). Si tu veux appuyer un propos, utilise des formulations qualitatives vérifiables ("Les études entomologiques montrent que...", "Selon les observatoires de la biodiversité...").
+2. **AUCUN TÉMOIGNAGE FICTIF** : N'invente pas de citations clients ("M. Dupont", "Hôtel X"). Supprime toute section témoignages.
+3. **LONGUEUR MINIMUM** : L'article doit faire au minimum 1200 mots. Développe chaque section avec profondeur.
+4. **AUCUNE ANNOTATION** : Pas de balises [ILLUSTRATION], [IMAGE], [PHOTO], [NB] dans le texte.
+5. **ACCROCHE OBLIGATOIRE** : Le 1er paragraphe doit accrocher en 2 phrases max — commence par un fait surprenant, un risque concret, ou une question rhétorique percutante. PAS de phrase d'introduction générique ("L'arrivée du printemps...").
 
-### STRUCTURE REQUISE (Format HTML)
-1. **Introduction** : Analyse du problème et contexte spécifique à la Riviera.
-2. **Les Causes** : Facteurs favorisant ce nuisible localement.
-3. **Chiffre Clé** : Une statistique marquante encapsulée dans un <blockquote>.
-4. **Notre Solution** : Détail du protocole d'intervention technique.
-5. **Les Résultats** : Garanties et impact environnemental.
-6. **Prévention** : Liste <ul><li> de conseils d'expert.
+### STRUCTURE REQUISE (HTML uniquement)
+1. **Introduction** (accroche percutante + problème concret sur la Riviera)
+2. **Identification / Causes** (biologie, facteurs locaux, signaux d'alerte)
+3. **Pourquoi c'est un risque sérieux** (impacts sanitaires, structurels, légaux selon le cas — avec blockquote pour un fait marquant)
+4. **Notre Protocole d'Intervention** (méthode technique ESEND : inspection → traitement → suivi)
+5. **Résultats & Garanties** (sans faux chiffres : protocoles certifiés, engagement qualité, délais d'intervention)
+6. **Conseils de Prévention** (liste <ul><li> de 6 à 8 conseils pratiques et actionnables, spécifiques à la Riviera)
 
-### CONTRAINTES
-- Uniquement des balises HTML structurelles (<h2>, <h3>, <ul>, <blockquote>, <p>, <strong>).
-- NE PAS inclure de balises ou annotations de type [ILLUSTRATION], [IMAGE], [PHOTO] dans le texte.
-- Longueur experte et détaillée.
-- Ton : Professionnel, rassurant et très technique.`;
+### CONTRAINTES HTML
+- Balises autorisées : <h2>, <h3>, <ul>, <ol>, <li>, <blockquote>, <p>, <strong>, <em>
+- Chaque section H2 doit avoir un titre informatif et accrocheur (pas "Introduction", "Résultats" — ex: "Pourquoi les frelons asiatiques prolifèrent à Monaco au printemps")
+- NE PAS inclure de <html>, <body>, <div>, ni de balises de style inline.
+
+### TITRE
+Génère un titre qui : (a) contient le mot-clé principal, (b) inclut une zone géographique (Menton, Monaco, Côte d'Azur, Riviera), (c) fait une promesse concrète ou pose une question. Ex: "Frelon asiatique à Menton : 5 signes d'un nid à ne jamais ignorer"
+
+### TON
+- Direct, expert, sans flatterie.
+- Vouvoie le lecteur ("votre propriété", "votre famille").
+- Professionnel et rassurant, jamais alarmiste.`;
+
 
         const schema = {
             type: "OBJECT",
