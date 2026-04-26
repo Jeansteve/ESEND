@@ -112,10 +112,10 @@ export const AIService = {
 
         for (const endpoint of endpointsToTry) {
             try {
-                const isLegacy = endpoint.includes('gemini-1.0-pro') || endpoint.includes('v1/models/gemini-pro');
+                const isLegacy = endpoint.includes('/v1/models/');
                 let requestBody = { ...body };
                 if (isLegacy && requestBody.generationConfig) {
-                    // Les anciens modèles ne supportent pas le mode JSON forcé via mimeType
+                    // Les modèles v1 ne supportent pas toujours le mode JSON forcé via mimeType
                     const newConfig = { ...requestBody.generationConfig };
                     delete newConfig.responseMimeType;
                     delete newConfig.responseSchema;
