@@ -159,27 +159,32 @@ export const AIService = {
     async generateArticleTopics(existingTitles = [], targetServiceId = null) {
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-        const serviceConstraint = targetServiceId
-            ? `\nFOCUS : Uniquement des sujets liés au service_id ${targetServiceId}.`
-            : '';
+        const systemInstruction = "Expert en hygiène et lutte anti-nuisibles (ESEND) opérant sur la Riviera française (Menton, Monaco, Nice).";
 
-        const prompt = `Expert en hygiène et nuisibles (ESEND, Riviera). Propose 3 sujets d'articles d'actualité pour le Journal de l'Expert.
-CONTEXTE : Nous sommes le ${fullDate}. 
-ZONE : Menton, Monaco, Roquebrune, Nice (Côte d'Azur).
+        let servicesContext = "";
+        if (targetServiceId) {
+            const serviceMap = {
+                1: "Rats, Souris, Rongeurs (Interventions urbaines, assainissement)",
+                2: "Frelons & Guêpes (Saisonnalité, nids en hauteur)",
+                3: "Punaises de lit (Protocoles hôteliers, retours de voyages)",
+                4: "Cafards & Blattes (Cuisines, copropriétés)",
+                5: "Fourmis (Invasions estivales jardins)",
+                6: "Désinfection (Protocoles bio-sécurité, virus)",
+                7: "Nettoyage de prestige & Vitres (Eau pure, entretien de villas)"
+            };
+            servicesContext = `- ID ${targetServiceId} : ${serviceMap[targetServiceId] || "Ciblé sur ce nuisible spécifique"}`;
+        } else {
+            servicesContext = `- ID 1: Rats, Souris\n- ID 2: Frelons & Guêpes\n- ID 3: Punaises de lit\n- ID 4: Cafards\n- ID 5: Fourmis\n- ID 6: Désinfection\n- ID 7: Nettoyage de prestige`;
+        }
 
-SUJETS RECHERCHÉS :
-- ID 1 : Rats, Souris, Rongeurs (Interventions urbaines, assainissement).
-- ID 2 : Frelons & Guêpes (Saisonnalité, nids en hauteur).
-- ID 3 : Punaises de lit (Protocoles hôteliers, retours de voyages).
-- ID 4 : Cafards & Blattes (Cuisines, copropriétés).
-- ID 5 : Fourmis (Invasions estivales jardins).
-- ID 6 : Désinfection (Protocoles bio-sécurité, virus).
-- ID 7 : Nettoyage de prestige & Vitres (Eau pure, entretien de villas).
+        const prompt = `Propose 3 sujets d'articles d'actualité captivants pour notre 'Journal de l'Expert'.
 
-${serviceConstraint}
+CONTEXTE:
+- Date actuelle: ${fullDate}
+- Zone cible: Menton, Monaco, Roquebrune, Nice (Côte d'Azur)
 
-Réponse en JSON uniquement (tableau de 3 objets) :
-[{"title":"Titre impactant","description":"Résumé en 2 phrases","trend":5,"service_id":X}]`;
+SERVICES CIBLÉS:
+${servicesContext}`;
 
         const schema = {
             type: "ARRAY",
@@ -196,6 +201,7 @@ Réponse en JSON uniquement (tableau de 3 objets) :
         };
 
         const response = await this._callLLM({
+            systemInstruction: { parts: [{ text: systemInstruction }] },
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
                 temperature: 0.7,
@@ -245,38 +251,27 @@ Réponse en JSON uniquement (tableau de 3 objets) :
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const companyContext = await this._getCompanyContext();
 
-        const prompt = `Tu es un rédacteur expert en hygiène et lutte anti-nuisibles sur la Riviera française.
-Rédige un article d'expertise COMPLET et RÉEL sur : "${title}".
+        const systemInstruction = `Tu es un rédacteur web SEO senior et expert technique en hygiène et lutte anti-nuisibles sur la Riviera française.`;
 
-⚠️ RÈGLE D'OR ABSOLUE : Tu ne dois JAMAIS inventer ni supposer d'informations sur la société ESEND. Utilise UNIQUEMENT les faits fournis dans le bloc CONTEXTE ESEND ci-dessous (si présent). Si aucun contexte n'est fourni, parle d'ESEND uniquement en termes génériques ("votre expert local", "notre équipe", etc.).
+        const prompt = `Rédige un article d'expertise COMPLET et RÉEL sur le sujet suivant : "${title}".
 
-STRUCTURE OBLIGATOIRE (en HTML) :
-1. Introduction : Analyse du problème actuel et contexte spécifique à la Riviera (Menton, Monaco, villas côtières).
-2. Les Causes : Facteurs locaux favorisant ce nuisible (climat, bâti ancien, flux touristiques).
-3. Chiffre Clé : Une statistique ou un fait scientifique marquant dans un <blockquote>.
-4. Notre Solution : Détail du protocole d'intervention, matériel utilisé et supériorité technique.
-5. Les Résultats : Garanties offertes, impact environnemental maîtrisé et témoignages types.
-6. Prévention — Nos Conseils : Liste <ul><li> de conseils d'expert pour éviter la récidive.
+${companyContext ? companyContext + '\n\n' : ''}⚠️ RÈGLE ABSOLUE : N'invente AUCUNE information sur l'entreprise ESEND au-delà du contexte fourni. Si aucun contexte n'est donné, utilise des termes génériques ("notre équipe locale", "nos experts").
 
-ILLUSTRATIONS :
-Insère des balises de suggestion d'images comme suit : [ILLUSTRATION : Description précise de la photo à insérer ici] à au moins 2 endroits stratégiques.
+### STRUCTURE REQUISE (Format HTML)
+1. **Introduction** : Analyse du problème et contexte spécifique à la Riviera.
+2. **Les Causes** : Facteurs favorisant ce nuisible localement.
+3. **Chiffre Clé** : Une statistique marquante encapsulée dans un <blockquote>.
+4. **Notre Solution** : Détail du protocole d'intervention technique.
+5. **Les Résultats** : Garanties et impact environnemental.
+6. **Prévention** : Liste <ul><li> de conseils d'expert.
 
-CONTRAINTE SEO :
-- Titres <h2> et <h3> uniquement.
-- Minimum 1000 mots de prose réelle et experte.
-- Ton : Très professionnel, rassurant, technique mais accessible.${companyContext}
+### ILLUSTRATIONS
+- Insère exactement deux balises au format : [ILLUSTRATION : Description précise de la photo en anglais pour IA] à des endroits pertinents.
 
-FORMAT RÉPONSE (JSON uniquement) :
-{
-  "title": "Titre SEO définitif",
-  "category": "Expertise",
-  "excerpt": "Introduction accrocheuse (2 phrases) pour le listing",
-  "content_html": "Le corps de l'article complet structuré en HTML",
-  "meta_title": "SEO Title < 60 car incluant Menton ou Riviera",
-  "meta_description": "SEO Desc < 160 car avec Menton/Monaco + appel à l'action",
-  "image_prompt": "Prompt anglais pour l'image de couverture",
-  "service_id": X
-}`;
+### CONTRAINTES
+- Uniquement des balises HTML structurelles (<h2>, <h3>, <ul>, <blockquote>, <p>, <strong>).
+- Longueur experte et détaillée.
+- Ton : Professionnel, rassurant et très technique.`;
 
         const schema = {
             type: "OBJECT",
@@ -294,6 +289,7 @@ FORMAT RÉPONSE (JSON uniquement) :
         };
 
         const response = await this._callLLM({
+            systemInstruction: { parts: [{ text: systemInstruction }] },
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
                 temperature: 0.7,
@@ -352,6 +348,7 @@ FORMAT RÉPONSE (JSON uniquement) :
      * Génération d'un prompt visuel pour Fal.ai
      */
     async generateVisualPrompt(title, serviceId, content = '') {
+        const systemInstruction = "Expert in AI prompt engineering for professional photographic generation.";
         const prompt = `Task: Create a professional photographic prompt for an AI image generator (Stable Diffusion/Flux style).
 Subject: ${title}
 Context: High-end Pest Control service in the French Riviera (ESEND).
@@ -367,6 +364,7 @@ Requirements:
 - Response: A single paragraph, detailed, describing the scene, textures, and lighting. NO PREAMBLE.`;
 
         const response = await this._callLLM({
+            systemInstruction: { parts: [{ text: systemInstruction }] },
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
         });

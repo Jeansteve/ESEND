@@ -459,7 +459,7 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
                                     cursor: 'pointer'
                                 }}
                             >
-                                <option value="">Tous les nuisibles (Surprenez-moi)</option>
+                                <option value="">✨ Tous nos services (Carte Blanche)</option>
                                 {services?.map(s => (
                                     <option key={s.id} value={s.id}>{s.name}</option>
                                 ))}
