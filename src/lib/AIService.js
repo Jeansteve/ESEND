@@ -259,7 +259,7 @@ ${companyContext ? companyContext + '\n\n' : ''}
 ### RÈGLES ABSOLUES
 1. **AUCUNE STATISTIQUE INVENTÉE** : N'inclus aucun pourcentage, chiffre ou donnée qui ne soit pas une vérité scientifique établie (ex: biologie, comportement animal). Si tu veux appuyer un propos, utilise des formulations qualitatives vérifiables ("Les études entomologiques montrent que...", "Selon les observatoires de la biodiversité...").
 2. **AUCUN TÉMOIGNAGE FICTIF** : N'invente pas de citations clients ("M. Dupont", "Hôtel X"). Supprime toute section témoignages.
-3. **LONGUEUR MINIMUM** : L'article doit faire au minimum 1200 mots. Développe chaque section avec profondeur.
+3. **LONGUEUR MINIMUM** : L'article doit faire au minimum 1000 mots. Développe chaque section avec une grande profondeur technique.
 4. **AUCUNE ANNOTATION** : Pas de balises [ILLUSTRATION], [IMAGE], [PHOTO], [NB] dans le texte.
 5. **ACCROCHE OBLIGATOIRE** : Le 1er paragraphe doit accrocher en 2 phrases max — commence par un fait surprenant, un risque concret, ou une question rhétorique percutante. PAS de phrase d'introduction générique ("L'arrivée du printemps...").
 
@@ -320,35 +320,42 @@ Génère un titre qui : (a) contient le mot-clé principal, (b) inclut une zone 
 
         if (data.candidates?.[0]?.finishReason && data.candidates[0].finishReason !== 'STOP') {
             console.error("Gemini FinishReason:", data.candidates[0].finishReason, data);
-            if (data.candidates[0].finishReason === 'SAFETY') {
-                throw new Error("Génération bloquée par le filtre de sécurité (SAFETY).");
-            }
         }
 
         const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (!text) {
-            throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée).");
+            throw new Error("L'IA n'a retourné aucun texte valide (ou a été bloquée par le filtre de sécurité).");
         }
 
         // STRATÉGIE : Parser de façon robuste sans casser le HTML
-        // 1. Supprimer uniquement les delimiteurs markdown si présents
-        let clean = text.replace(/^```json\s*/i, '').replace(/\s*```$/i, '').trim();
+        let clean = text.trim();
+        
+        // Si la réponse est entourée de ```json ... ```, on extrait l'intérieur
+        if (clean.includes('```')) {
+            const match = clean.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+            if (match) clean = match[1];
+        }
 
         let parsedArticle;
         try {
-            // Tentative directe (idéal si responseSchema retourne du JSON propre)
             parsedArticle = JSON.parse(clean);
         } catch (firstErr) {
-            // Fallback: extraire uniquement le JSON entre { et } (dernier recours)
-            const jsonMatch = clean.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) throw new Error("Impossible d'extraire le JSON de la réponse IA.");
-            try {
-                parsedArticle = JSON.parse(jsonMatch[0]);
-            } catch (secondErr) {
-                // Dernier recours : nettoyer les caractères problématiques SAUF dans content_html
-                // On remplace uniquement les caractères de contrôle hors d'une string JSON
-                const sanitized = clean.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
-                parsedArticle = JSON.parse(sanitized);
+            console.warn("Échec parsing JSON direct, tentative d'extraction par accolades...", firstErr);
+            // Fallback: extraire tout ce qui est entre le premier { et le dernier }
+            const startIdx = clean.indexOf('{');
+            const endIdx = clean.lastIndexOf('}');
+            
+            if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+                const jsonString = clean.substring(startIdx, endIdx + 1);
+                try {
+                    parsedArticle = JSON.parse(jsonString);
+                } catch (secondErr) {
+                    console.error("Réponse brute problématique:", text);
+                    throw new Error("Impossible d'extraire le JSON de la réponse IA (format malformé).");
+                }
+            } else {
+                console.error("Réponse brute sans accolades:", text);
+                throw new Error("L'IA n'a pas retourné de bloc JSON valide.");
             }
         }
 
