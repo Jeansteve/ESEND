@@ -109,29 +109,31 @@ const realApi = {
         return res.json();
     },
 
-    // --- AI Radar (Topics) ---
+    // --- AI Radar (Topics) - Persistance locale (LocalStorage) ---
     getAiTopics: async () => {
         try {
-            const res = await fetch(`${API_BASE}/topics.php`);
-            if (!res.ok) return [];
-            return await res.json();
+            const data = localStorage.getItem('esend_ai_topics_v1');
+            return data ? JSON.parse(data) : [];
         } catch { return []; }
     },
     saveAiTopics: async (topics) => {
         try {
-            const res = await fetch(`${API_BASE}/topics.php`, {
-                method: 'POST',
-                body: JSON.stringify(topics)
-            });
-            return await res.json();
+            const data = localStorage.getItem('esend_ai_topics_v1');
+            const existing = data ? JSON.parse(data) : [];
+            const newTopics = topics.filter(t => !existing.some(e => e.title === t.title));
+            const merged = [...newTopics.map(t => ({ ...t, id: `topic-${Math.random()}`, status: 'pending' })), ...existing];
+            localStorage.setItem('esend_ai_topics_v1', JSON.stringify(merged));
+            return { success: true };
         } catch { return { success: false }; }
     },
     discardAiTopic: async (id) => {
         try {
-            const res = await fetch(`${API_BASE}/topics.php?id=${id}`, {
-                method: 'DELETE'
-            });
-            return await res.json();
+            const data = localStorage.getItem('esend_ai_topics_v1');
+            if (!data) return { success: true };
+            const topics = JSON.parse(data);
+            const filtered = topics.filter(t => t.id !== id);
+            localStorage.setItem('esend_ai_topics_v1', JSON.stringify(filtered));
+            return { success: true };
         } catch { return { success: false }; }
     }
 };
