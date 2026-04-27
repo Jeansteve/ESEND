@@ -40,21 +40,8 @@ import { api } from '../../lib/api';
 import ArticleEditor from './ArticleModal';
 import './BlogAdmin.css';
 
-// Local mock service to substitute TNERI's backend AiTopics logic using localStorage (as ESEND originally did)
-const mockBlogService = {
-  getAiTopics: async () => JSON.parse(localStorage.getItem('esend_ai_radar_topics') || '[]'),
-  saveAiTopics: async (topics) => {
-    const existing = JSON.parse(localStorage.getItem('esend_ai_radar_topics') || '[]');
-    const merged = [...existing, ...topics];
-    localStorage.setItem('esend_ai_radar_topics', JSON.stringify(merged));
-    return true;
-  },
-  discardAiTopic: async (id) => {
-    const existing = JSON.parse(localStorage.getItem('esend_ai_radar_topics') || '[]');
-    localStorage.setItem('esend_ai_radar_topics', JSON.stringify(existing.filter(t => t.id !== id)));
-    return true;
-  }
-};
+// On utilise désormais exclusivement l'objet 'api' importé de ../../lib/api
+
 
 // --- Composant Jauge de Quota IA ---
 const QuotaGauge = ({ quota, compact = false }) => {
@@ -161,38 +148,29 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
         };
         checkKey();
         refreshQuota();
-    }, []);
 
-    // Charger les sujets sauvegardés depuis la DB quand on entre dans TOPIC_CHOICE
-    const [topicsLoaded, setTopicsLoaded] = useState(false);
-    useEffect(() => {
-        if (step !== 'TOPIC_CHOICE' || topicsLoaded) return;
-        const loadSaved = async () => {
+        // Chargement initial des sujets sauvegardés (Radar IA)
+        const loadInitialTopics = async () => {
             setLoadingFromDb(true);
             try {
-                const savedTopics = await (api.getAiTopics || mockBlogService.getAiTopics)();
+                const savedTopics = await api.getAiTopics();
                 if (savedTopics && savedTopics.length > 0) {
-                    // We extract titles from existing articles (both drafted and published)
                     const publishedTitles = new Set(articles.map(a => a.title.toLowerCase()));
-
-                    setNews(prev => {
-                        const existingTitles = new Set(prev.map(t => t.title.toLowerCase()));
-                        const fresh = savedTopics.filter(t =>
-                            !existingTitles.has(t.title.toLowerCase()) &&
-                            !publishedTitles.has(t.title.toLowerCase())
-                        );
-                        return fresh.length > 0 ? [...prev, ...fresh] : prev;
-                    });
+                    const valid = savedTopics.filter(t => !publishedTitles.has(t.title.toLowerCase()));
+                    setNews(valid);
                 }
             } catch (e) {
-                console.warn('[Studio] Could not load saved topics:', e);
+                console.warn('[Studio] Échec chargement initial sujets:', e);
             } finally {
                 setLoadingFromDb(false);
                 setTopicsLoaded(true);
             }
         };
-        loadSaved();
-    }, [step, topicsLoaded]);
+        loadInitialTopics();
+    }, [articles]);
+
+    // Suppression de l'ancien useEffect de chargement conditionnel (déjà fait au montage)
+
 
     // Validation Logic
     const isStep1Valid = useMemo(() => {
@@ -385,12 +363,11 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
                 );
                 if (newTopics && newTopics.length > 0) {
                     try {
-                        // 1. Sauvegarder les nouveaux sujets en BDD pour générer leurs IDs
-                        await (api.saveAiTopics || mockBlogService.saveAiTopics)(newTopics);
+                        // 1. Sauvegarder les nouveaux sujets
+                        await api.saveAiTopics(newTopics);
 
-                        // 2. Recharger imméditament depuis la BDD pour récupérer les vrais 'id'
-                        // Cela est vital pour que le bouton "Générer l'article" puisse ensuite disacrter le sujet via son ID.
-                        const savedTopics = await (api.getAiTopics || mockBlogService.getAiTopics)();
+                        // 2. Recharger imméditament pour récupérer les vrais 'id'
+                        const savedTopics = await api.getAiTopics();
                         const publishedTitles = new Set(articles.map(a => a.title.toLowerCase()));
 
                         const validTopics = savedTopics.filter(t => !publishedTitles.has(t.title.toLowerCase()));
@@ -398,8 +375,7 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
 
                         refreshQuota();
                     } catch (e) {
-                        console.warn('[TopicChoice] Could not save or fetch topics to DB:', e);
-                        // Fallback UI (qui n'aura pas d'ID, mais évite de bloquer l'écran)
+                        console.warn('[TopicChoice] Could not save or fetch topics:', e);
                         setNews(prev => [...prev, ...newTopics]);
                         refreshQuota();
                     }
@@ -419,7 +395,7 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
             // Persist en DB
             if (topicToDiscard.id) {
                 try {
-                    await (api.discardAiTopic || mockBlogService.discardAiTopic)(topicToDiscard.id);
+                    await api.discardAiTopic(topicToDiscard.id);
                 } catch (e) {
                     console.warn('[TopicChoice] Could not discard topic:', e);
                 }
@@ -567,7 +543,7 @@ const CreationStudio = ({ onClose, services = [], onSave, articles = [], initial
                     refreshQuota();
                     if (selectedTopic?.id) {
                         try {
-                            await (api.discardAiTopic || mockBlogService.discardAiTopic)(selectedTopic.id);
+                            await api.discardAiTopic(selectedTopic.id);
                             setNews(prev => prev.filter(t => t.title !== selectedTopic.title));
                         } catch { /* non bloquant */ }
                     }

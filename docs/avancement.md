@@ -96,17 +96,26 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Conversion (CTA)** :
     - Ajout d'un bloc de conversion "Expert" en fin d'article.
     - Bouton d'appel dynamique utilisant le numéro configuré dans l'admin.
-- **Optimisation IA (Prompt Hardening)** :
-    - Interdiction stricte des fausses statistiques et témoignages inventés.
-    - Longueur minimum de 1200 mots pour une profondeur experte.
-    - Accroches percutantes basées sur des faits réels ou scientifiques.
 - **Réglages Entreprise Centralisés** :
     - Ajout des champs **Téléphone**, **Adresse** et **SIRET** dans les paramètres.
-    - Ces informations alimentent automatiquement le moteur IA et les CTA du site.
     - Système de sauvegarde dynamique "Key-Value" en base de données.
 
+## ✅ V8 : IA Consulting & Illustration Studio (Live)
+**Fichiers :** `AIService.js`, `ArticleModal.jsx`, `CreationStudio.jsx`
+
+- **IA Senior Consultant** : Refonte du prompt pour adopter une posture d'expert pédagogue.
+    - Interdiction du verbiage marketing creux (*seamless*, *innovant*).
+    - Priorité à l'enseignement et à la valeur ajoutée pour le lecteur.
+- **Studio d'Illustration IA** :
+    - L'IA suggère désormais 2 à 3 visuels par article avec des prompts Midjourney/Fal.ai optimisés.
+    - Emplacements conseillés intégrés dans les suggestions pour faciliter la mise en page.
+    - Nouvel onglet "Illustrations" dans le modal d'édition d'article.
+- **Maillage Interne Contextuel** : 
+    - L'IA utilise une liste blanche d'URLs de services pour renvoyer le lecteur vers les pages expertes au lieu de répéter les protocoles techniques.
+- **Persistance Radar IA** : Unification des clés de stockage pour un affichage immédiat des sujets suggérés.
+
 ## 🚀 Prochaines Étapes
-1. **Priorité Menton Continue** : Affiner les mots-clés hyper-locaux dans le radar de tendances.
-2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande.
+1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
+2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.
 3. **Optimisation Vitesse** : Mise en place de lazy-loading sur les images de couverture d'articles.
 

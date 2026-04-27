@@ -102,10 +102,8 @@ Le projet utilise **GitHub Actions**.
 
 ## 📈 9. Optimisation SEO & Conversion
 ESEND intègre des mécanismes d'automatisation SEO avancés sur ses pages dynamiques :
-- **Meta-tags Dynamiques** : Chaque article génère ses propres balises `title` et `description`.
-- **Structured Data** : Injection de Schema `Article` JSON-LD pour les Rich Snippets.
-- **CTA Contextuels** : Blocs de conversion en fin d'article avec tracking et numéros dynamiques.
-- **Prompt Hardening** : Les articles générés par IA sont bridés pour garantir une longueur de 1200+ mots, l'absence de fausses statistiques et une accroche percutante.
+- **Prompt Hardening v2** : Les articles générés par IA sont bridés pour garantir une posture d'expert consultant, l'absence de fausses statistiques, une valeur pédagogique forte et l'insertion de liens de maillage interne vers les services.
+- **Illustration Logic** : L'IA suggère des prompts visuels complexes et leurs emplacements via un champ `illustrations` structuré (JSON).
 
 ---
 
