@@ -24,6 +24,7 @@ function App() {
           {/* --- ADMIN ROUTES --- */}
           <Route path="/admin/login" element={<Login />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/dashboard/:tab" element={<Dashboard />} />
 
           {/* --- PUBLIC ROUTES (with Header/Footer) --- */}
           <Route 

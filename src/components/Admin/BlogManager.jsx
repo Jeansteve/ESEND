@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Plus, Trash2, Edit3, Eye, Sparkles, ExternalLink,
-  Calendar, Globe, EyeOff, Clock
+  Calendar, Globe, EyeOff, Clock, Camera
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import ModeSelector from './ModeSelector';

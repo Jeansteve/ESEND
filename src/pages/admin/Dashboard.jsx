@@ -1,7 +1,7 @@
 // src/pages/admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 import {
@@ -190,6 +190,7 @@ const Dashboard = () => {
   const [showProjectModal, setShowProjectModal] = useState(false);
 
   const navigate = useNavigate();
+  const { tab } = useParams();
 
   useEffect(() => {
     // Vérification auth (Simulation)
@@ -200,6 +201,23 @@ const Dashboard = () => {
     }
     loadData();
   }, [navigate]);
+
+  // Sync activeTab with URL parameter
+  useEffect(() => {
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab);
+    } else if (!tab && activeTab !== 'dashboard') {
+      // Si on est sur /admin/dashboard sans tab, on s'assure que l'état interne est 'dashboard'
+      setActiveTab('dashboard');
+    }
+  }, [tab]);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    navigate(`/admin/dashboard/${tabId}`);
+    setIsMobileMenuOpen(false);
+    setShowStudio(false);
+  };
 
   const loadData = async () => {
     setLoading(true);
@@ -360,7 +378,7 @@ const Dashboard = () => {
           ].map(item => (
             <div
               key={item.id}
-              onClick={() => { setActiveTab(item.id); setIsMobileMenuOpen(false); setShowStudio(false); }}
+              onClick={() => handleTabChange(item.id)}
               className={`nav-item ${activeTab === item.id ? 'active' : ''} ${isSidebarCollapsed ? 'lg:justify-center lg:p-3 lg:px-0' : ''}`}
               title={isSidebarCollapsed ? item.label : ''}
             >
@@ -500,7 +518,7 @@ const Dashboard = () => {
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: i * 0.1 }}
-                              onClick={() => setActiveTab('leads')}
+                              onClick={() => handleTabChange('leads')}
                               className={`relative flex justify-between items-center p-4 rounded-2xl cursor-pointer transition-all duration-300 group mb-3 last:mb-0 ${isUrgent ? 'bg-red-500/5 border border-red-500/20 hover:bg-red-500/10' :
                                   isNew ? 'bg-white border border-slate-100 hover:border-slate-300 shadow-sm' :
                                     'bg-slate-50/50 border border-transparent hover:bg-slate-50'
