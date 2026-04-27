@@ -2,28 +2,47 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../../lib/api';
+import { dataService } from '../../lib/DataService';
 
 const KnowledgeHub = () => {
   const [articles, setArticles] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    api.getArticles().then(data => {
+    setLoading(true);
+    dataService.getArticles().then(data => {
       const publishedArticles = (data || []).filter(article =>
         article.is_published == 1 || article.is_published === true
       );
       setArticles(publishedArticles);
-    });
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
 
   const handleArticleClick = (article) => {
     navigate(`/journal/${article.id}`);
   };
 
+  const handleMouseEnter = (article) => {
+    dataService.prefetchArticle(article.id);
+  };
+
   const handleViewAll = () => {
     navigate('/journal');
   };
+
+  const SkeletonItem = () => (
+    <div className="flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl animate-pulse">
+      <div className="relative h-64 skeleton" />
+      <div className="p-8 flex flex-col flex-grow space-y-4">
+        <div className="h-3 w-1/3 skeleton rounded-full" />
+        <div className="h-8 w-full skeleton rounded-xl" />
+        <div className="h-4 w-full skeleton rounded-full" />
+        <div className="mt-auto h-4 w-24 skeleton rounded-full" />
+      </div>
+    </div>
+  );
 
   return (
     <section id="encyclopedie" className="py-32 px-6 bg-white text-slate-900 relative transition-colors duration-500">
@@ -47,7 +66,7 @@ const KnowledgeHub = () => {
           </div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="flex-shrink-0"
           >
@@ -61,9 +80,11 @@ const KnowledgeHub = () => {
           </motion.div>
         </div>
 
-        {/* Grille d'articles */}
+        {/* Grille d'articles ou Skeletons */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.slice(0, 3).map((article, index) => (
+          {loading ? (
+            [1, 2, 3].map(i => <SkeletonItem key={i} />)
+          ) : articles.slice(0, 3).map((article, index) => (
             <motion.article
               key={article.id || index}
               initial={{ opacity: 0, y: 20 }}
@@ -71,6 +92,7 @@ const KnowledgeHub = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
               onClick={() => handleArticleClick(article)}
+              onMouseEnter={() => handleMouseEnter(article)}
               className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
             >
               <div className="relative h-64 overflow-hidden">

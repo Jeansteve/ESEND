@@ -2,25 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../lib/api';
+import { dataService } from '../lib/DataService';
+
+const SkeletonCard = () => (
+  <div className="flex flex-col h-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-3xl overflow-hidden shadow-xl animate-pulse">
+    <div className="relative h-64 skeleton" />
+    <div className="p-8 flex flex-col flex-grow space-y-4">
+      <div className="flex gap-4">
+        <div className="h-3 w-20 skeleton rounded-full" />
+        <div className="h-3 w-16 skeleton rounded-full" />
+      </div>
+      <div className="h-8 w-full skeleton rounded-xl" />
+      <div className="h-8 w-2/3 skeleton rounded-xl" />
+      <div className="space-y-2 mt-4">
+        <div className="h-3 w-full skeleton rounded-full" />
+        <div className="h-3 w-full skeleton rounded-full" />
+        <div className="h-3 w-4/5 skeleton rounded-full" />
+      </div>
+      <div className="mt-auto h-4 w-24 skeleton rounded-full" />
+    </div>
+  </div>
+);
 
 const BlogPage = () => {
   const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    api.getArticles().then(data => {
+    setLoading(true);
+    dataService.getArticles().then(data => {
       const publishedArticles = (data || []).filter(article =>
         article.is_published == 1 || article.is_published === true
       );
       setArticles(publishedArticles);
-    });
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
 
   const handleArticleClick = (article) => {
-    // Navigue vers la page dédiée de l'article avec son ID comme slug
     navigate(`/journal/${article.id}`);
+  };
+
+  const handleMouseEnter = (article) => {
+    dataService.prefetchArticle(article.id);
   };
 
   return (
@@ -42,7 +68,7 @@ const BlogPage = () => {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6 leading-none text-[var(--text-main)]"
           >
-            Actualités &amp; <span className="text-red-600 italic">Expertise</span>
+            Actualités & <span className="text-red-600 italic">Expertise</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -54,8 +80,12 @@ const BlogPage = () => {
           </motion.p>
         </div>
 
-        {/* Grille de tous les articles */}
-        {articles.length > 0 ? (
+        {/* Grille d'articles ou Skeletons */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
+          </div>
+        ) : articles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {articles.map((article, index) => (
               <motion.article
@@ -65,6 +95,7 @@ const BlogPage = () => {
                 viewport={{ once: true }}
                 transition={{ delay: (index % 3) * 0.1 }}
                 onClick={() => handleArticleClick(article)}
+                onMouseEnter={() => handleMouseEnter(article)}
                 className="group cursor-pointer flex flex-col h-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
               >
                 <div className="relative h-64 overflow-hidden bg-black/5">

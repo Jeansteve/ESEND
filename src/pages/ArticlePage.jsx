@@ -2,23 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight } from 'lucide-react';
+import { dataService } from '../lib/DataService';
 import { api } from '../lib/api';
-
 
 /**
  * Nettoie le contenu HTML généré par l'IA avant affichage public.
- * Supprime les balises [ILLUSTRATION : ...] laissées par le prompt.
  */
 const sanitizeContent = (html = '') => {
   if (!html) return '';
-  // Supprime toutes les variantes : [ILLUSTRATION : ...] [Illustration : ...] etc.
   return html.replace(/\[ILLUSTRATION\s*:.*?\]/gi, '').trim();
 };
 
-/**
- * ArticlePage — Page dédiée à la lecture d'un article du Journal de l'Expert.
- * URL: /#/journal/:slug  (slug = id de l'article ou son titre slugifié)
- */
+const ArticleSkeleton = () => (
+  <div className="min-h-screen bg-[var(--bg-primary)] pt-28 pb-24 animate-pulse">
+    <div className="w-full h-[55vh] min-h-[380px] skeleton mb-16" />
+    <div className="max-w-4xl mx-auto px-6 space-y-8">
+      <div className="h-4 w-32 skeleton rounded-full" />
+      <div className="h-16 w-full skeleton rounded-2xl" />
+      <div className="flex gap-6">
+        <div className="h-4 w-24 skeleton rounded-full" />
+        <div className="h-4 w-24 skeleton rounded-full" />
+      </div>
+      <div className="h-40 w-full skeleton rounded-2xl mt-12" />
+      <div className="space-y-4 pt-12">
+        <div className="h-4 w-full skeleton rounded-full" />
+        <div className="h-4 w-full skeleton rounded-full" />
+        <div className="h-4 w-3/4 skeleton rounded-full" />
+      </div>
+    </div>
+  </div>
+);
+
 const ArticlePage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -28,7 +42,6 @@ const ArticlePage = () => {
   const [notFound, setNotFound] = useState(false);
   const [siteSettings, setSiteSettings] = useState({});
 
-  // Charge les settings pour le numéro de téléphone dans le CTA
   useEffect(() => {
     api.getSettings().then(s => setSiteSettings(s || {})).catch(() => {});
   }, []);
@@ -38,63 +51,45 @@ const ArticlePage = () => {
     setLoading(true);
     setNotFound(false);
 
-    const loadArticle = async () => {
+    const loadArticleData = async () => {
       try {
-        // 1. Tentative de chargement direct de l'article complet par ID
-        if (api.getArticle) {
-          const full = await api.getArticle(slug);
-          if (full && full.id) {
-            setArticle(full);
-            // Articles liés : on charge la liste pour les suggestions
-            const allData = await api.getArticles();
-            const published = (allData || []).filter(a => a.is_published == 1 || a.is_published === true);
-            const others = published
-              .filter(a => String(a.id) !== String(full.id) && a.service_id === full.service_id)
-              .slice(0, 3);
-            setRelated(others.length > 0 ? others : published.filter(a => String(a.id) !== String(full.id)).slice(0, 3));
-            setLoading(false);
-            return;
-          }
-        }
-
-        // 2. Fallback : cherche dans la liste complète
-        const data = await api.getArticles();
-        const published = (data || []).filter(a => a.is_published == 1 || a.is_published === true);
-        const found = published.find(a => {
-          const id = String(a.id);
-          const titleSlug = slugify(a.title);
-          return id === slug || titleSlug === slug;
-        });
-
-        if (found) {
-          setArticle(found);
+        // Chargement via le cache du DataService
+        const fullArticle = await dataService.getArticleById(slug);
+        
+        if (fullArticle && fullArticle.id) {
+          setArticle(fullArticle);
+          
+          // Articles liés (on peut utiliser le cache ici aussi)
+          const allArticles = await dataService.getArticles();
+          const published = (allArticles || []).filter(a => a.is_published == 1 || a.is_published === true);
           const others = published
-            .filter(a => a.id !== found.id && a.service_id === found.service_id)
+            .filter(a => String(a.id) !== String(fullArticle.id) && a.service_id === fullArticle.service_id)
             .slice(0, 3);
-          setRelated(others.length > 0 ? others : published.filter(a => a.id !== found.id).slice(0, 3));
+          
+          setRelated(others.length > 0 ? others : published.filter(a => String(a.id) !== String(fullArticle.id)).slice(0, 3));
         } else {
           setNotFound(true);
         }
       } catch (err) {
         console.error('Erreur chargement article:', err);
         setNotFound(true);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    loadArticle();
+    loadArticleData();
   }, [slug]);
+
 
 
   // ── SEO dynamique : title, meta description, Schema JSON-LD ──────────────
   useEffect(() => {
     if (!article) return;
 
-    // 1. Title tag
     const prevTitle = document.title;
     document.title = article.meta_title || `${article.title} | ESEND Nuisibles`;
 
-    // 2. Meta description
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
@@ -104,7 +99,6 @@ const ArticlePage = () => {
     const prevDesc = metaDesc.getAttribute('content');
     metaDesc.setAttribute('content', article.meta_description || article.excerpt || '');
 
-    // 3. Schema JSON-LD Article
     const schemaId = 'esend-article-schema';
     let existing = document.getElementById(schemaId);
     if (existing) existing.remove();
@@ -126,7 +120,6 @@ const ArticlePage = () => {
     });
     document.head.appendChild(script);
 
-    // Nettoyage au démontage
     return () => {
       document.title = prevTitle;
       if (metaDesc) metaDesc.setAttribute('content', prevDesc || '');
@@ -135,17 +128,7 @@ const ArticlePage = () => {
     };
   }, [article]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--bg-primary)]">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-          className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full"
-        />
-      </div>
-    );
-  }
+  if (loading) return <ArticleSkeleton />;
 
   if (notFound || !article) {
     return (

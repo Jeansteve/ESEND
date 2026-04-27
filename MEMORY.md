@@ -58,3 +58,12 @@
   3. Chaque variante (`idle`, `loading`, `success`) gère ses propres temps d'exécution (`delay`, `duration`) via clé de variante pour permettre un morphing asynchrone parfait sans recourir à JS Timeline.
 - **Centrage Dynamique :** Si le texte perd un élément asymétrique à côté de lui, son `x` est modifié dynamiquement lors du changement de state pour préserver le centrage parfait. L'attribut `successGreen` a été fixé à `#16a34a` (Tailwind Green-600) pour un rendu professionnel sans être agressif visuellement.
 - **Maintien d'État UI & Finalisation Spectaculaire :** Après l'envoi back-end (FormSubmit), l'état `isSuccess` est maintenu pendant 1.5 seconde. Cela donne à l'utilisateur le frisson visuel de voir le bouton se transformer, valider, rougir (ou verdir), et s'épanouir. Ensuite SEULEMENT, `isSubmitted` passe à `true` et le formulaire cède sa place au bel écran "Demande Envoyée" ! Un vrai parcours sans friction.
+
+### [PSA-2026-04-26-A] : Stabilisation du Radar IA (Local Storage & Race Condition)
+- **Le Problème 1 (Sujets invisibles) :** Le générateur IA fonctionnait, mais les sujets disparaissaient car `api.js` tentait de les sauvegarder sur `topics.php` (inexistant sur le serveur Hostinger), provoquant une erreur 404 bloquante.
+- **La Solution 1 :** Remplacement de la persistance serveur par du `localStorage` (`esend_ai_topics_v1`) pour les idées générées. Plus d'erreur réseau, affichage instantané.
+- **Le Problème 2 (Auto-Start cassé) :** Le clic depuis le Market Advisor ouvrait le Studio, mais la sélection se remettait à zéro sans lancer la recherche.
+- **Cause Racine :** Un "Race Condition". Le `useEffect` de l'auto-start s'exécutait *pendant* que le Studio chargeait la base locale. Dès que le chargement se terminait, React détruisait et recréait le composant `TopicChoiceScreen` (perte d'état).
+- **La Solution 2 :** 
+  1. Forcer la valeur du `<select>` en `String` pour assurer le matching React.
+  2. Ajouter `!loadingFromDb` dans les conditions du `useEffect` pour s'assurer que le composant est stable et la DB locale chargée *avant* de lancer la génération IA.
