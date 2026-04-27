@@ -251,39 +251,35 @@ ${servicesContext}`;
         const fullDate = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         const companyContext = await this._getCompanyContext();
 
-        const systemInstruction = `Tu es un rédacteur web SEO senior, expert en hygiène urbaine, lutte anti-nuisibles et biosécurité sur la Riviera française (Menton, Monaco, Nice, Côte d'Azur). Tu rédiges pour ESEND, une entreprise certifiée Certibiocide, discrète et haut de gamme. Ton style est direct, expert, rassurant — jamais générique.`;
+        const systemInstruction = `Tu es un Consultant Expert en biosécurité et hygiène urbaine sur la Riviera (ESEND). Ton ton est celui d'un expert senior qui explique un problème complexe à un client exigeant : précis, direct, informatif et un peu opinionné. Tu bannis le langage "corporate" (pas de 'best-in-class', 'leader', 'innovant', 'seamless', 'ravi de vous annoncer'). Tu privilégies les faits et la valeur ajoutée immédiate pour le lecteur.`;
 
-        const prompt = `Rédige un article d'expertise COMPLET sur le sujet suivant : "${title}".
+        const prompt = `Rédige un article d'expertise de HAUTE VALEUR AJOUTÉE sur le sujet : "${title}".
 
 ${companyContext ? companyContext + '\n\n' : ''}
-### RÈGLES ABSOLUES
-1. **AUCUNE STATISTIQUE INVENTÉE** : N'inclus aucun pourcentage, chiffre ou donnée qui ne soit pas une vérité scientifique établie (ex: biologie, comportement animal). Si tu veux appuyer un propos, utilise des formulations qualitatives vérifiables ("Les études entomologiques montrent que...", "Selon les observatoires de la biodiversité...").
-2. **AUCUN TÉMOIGNAGE FICTIF** : N'invente pas de citations clients ("M. Dupont", "Hôtel X"). Supprime toute section témoignages.
-3. **LONGUEUR MINIMUM** : L'article doit faire au minimum 1000 mots. Développe chaque section avec une grande profondeur technique.
-4. **AUCUNE ANNOTATION** : Pas de balises [ILLUSTRATION], [IMAGE], [PHOTO], [NB] dans le texte.
-5. **ACCROCHE OBLIGATOIRE** : Le 1er paragraphe doit accrocher en 2 phrases max — commence par un fait surprenant, un risque concret, ou une question rhétorique percutante. PAS de phrase d'introduction générique ("L'arrivée du printemps...").
 
-### STRUCTURE REQUISE (HTML uniquement)
-1. **Introduction** (accroche percutante + problème concret sur la Riviera)
-2. **Identification / Causes** (biologie, facteurs locaux, signaux d'alerte)
-3. **Pourquoi c'est un risque sérieux** (impacts sanitaires, structurels, légaux selon le cas — avec blockquote pour un fait marquant)
-4. **Notre Protocole d'Intervention** (méthode technique ESEND : inspection → traitement → suivi)
-5. **Résultats & Garanties** (sans faux chiffres : protocoles certifiés, engagement qualité, délais d'intervention)
-6. **Conseils de Prévention** (liste <ul><li> de 6 à 8 conseils pratiques et actionnables, spécifiques à la Riviera)
+### RÈGLES ÉDITORIALES (QUALITÉ "SENIOR EXPERT")
+1. **VALEUR AVANT PROMOTION** : L'article doit enseigner quelque chose au lecteur. Ne mets pas ESEND en avant toutes les deux lignes. ESEND n'intervient qu'en fin d'article comme la solution experte.
+2. **BRIÈVETÉ TECHNIQUE & LIENS** : Ne réexplique pas en détail tous nos protocoles (vapeur, froid, etc.) s'ils sont déjà connus. Sois concis sur la technique et utilise des liens HTML vers nos pages services pour les détails. 
+   - URLs de services autorisées : /services/deratisation, /services/punaises-de-lit, /services/frelons-guepes, /services/cafards-blattes, /services/desinfection.
+3. **TON & VOCABULAIRE** : 
+   - Pas de superlatifs inutiles.
+   - Pas de "Nous sommes ravis", "Nous croyons".
+   - Utilise des chiffres ou des faits biologiques précis (ex: "Une punaise de lit peut pondre jusqu'à 5 œufs par jour").
+4. **OUVERTURE PERCUTANTE** : Commence par le problème ou la conclusion. Pas d'introduction polie.
+5. **LONGUEUR** : Environ 1000 mots de contenu dense et utile.
+6. **ILLUSTRATIONS** : Suggère 2 à 3 illustrations clés (prompts descriptifs + emplacement conseillé).
 
-### CONTRAINTES HTML
-- Balises autorisées : <h2>, <h3>, <ul>, <ol>, <li>, <blockquote>, <p>, <strong>, <em>
-- Chaque section H2 doit avoir un titre informatif et accrocheur (pas "Introduction", "Résultats" — ex: "Pourquoi les frelons asiatiques prolifèrent à Monaco au printemps")
-- NE PAS inclure de <html>, <body>, <div>, ni de balises de style inline.
+### STRUCTURE (HTML)
+1. **Introduction** (Problème concret + impact local Riviera)
+2. **Expertise Biologique / Comportementale** (Enseigne au lecteur comment le nuisible fonctionne)
+3. **Les Signaux Faibles** (Comment détecter avant l'infestation massive)
+4. **L'Approche Professionnelle** (Pourquoi les solutions du commerce échouent + résumé rapide du protocole ESEND avec lien vers le service)
+5. **Prévention & Checklist** (Valeur pratique : 6-8 points)
 
-### TITRE
-Génère un titre qui : (a) contient le mot-clé principal, (b) inclut une zone géographique (Menton, Monaco, Côte d'Azur, Riviera), (c) fait une promesse concrète ou pose une question. Ex: "Frelon asiatique à Menton : 5 signes d'un nid à ne jamais ignorer"
-
-### TON
-- Direct, expert, sans flatterie.
-- Vouvoie le lecteur ("votre propriété", "votre famille").
-- Professionnel et rassurant, jamais alarmiste.`;
-
+### CONTRAINTES
+- Balises : <h2>, <h3>, <ul>, <li>, <blockquote>, <p>, <strong>, <a>
+- AUCUN témoignage fictif.
+- AUCUNE annotation de type [IMAGE] dans le content_html. Les images sont gérées via le champ 'illustrations' du JSON.`;
 
         const schema = {
             type: "OBJECT",
@@ -294,10 +290,20 @@ Génère un titre qui : (a) contient le mot-clé principal, (b) inclut une zone 
                 content_html: { type: "STRING" },
                 meta_title: { type: "STRING" },
                 meta_description: { type: "STRING" },
-                image_prompt: { type: "STRING" },
-                service_id: { type: "INTEGER" }
+                service_id: { type: "INTEGER" },
+                illustrations: {
+                    type: "ARRAY",
+                    items: {
+                        type: "OBJECT",
+                        properties: {
+                            prompt: { type: "STRING" },
+                            location_hint: { type: "STRING" }
+                        },
+                        required: ["prompt", "location_hint"]
+                    }
+                }
             },
-            required: ["title", "category", "excerpt", "content_html", "meta_title", "meta_description", "service_id"]
+            required: ["title", "category", "excerpt", "content_html", "meta_title", "meta_description", "service_id", "illustrations"]
         };
 
         const response = await this._callLLM({

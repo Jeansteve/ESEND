@@ -99,7 +99,8 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
     meta_description: article?.meta_description || article?.seo_description || '',
     service_id: article?.service_id || 1,
     is_published: article?.is_published || 0,
-    image_prompt: '', // Suggestion image de l'IA (non stocké en DB)
+    illustrations: article?.illustrations || [], // Suggestions d'images (prompts + emplacements)
+    image_prompt: article?.image_prompt || '', // Prompt de l'image de couverture
   });
 
   const [activeTab, setActiveTab] = useState('split');
@@ -193,11 +194,15 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
         cover_image: currentImageIsGeneric ? '' : prev.cover_image,
         // Slug auto depuis le nouveau titre
         slug: generateSlug(refined.title || prev.title),
+        // Stocker les illustrations suggérées
+        illustrations: refined.illustrations || [],
+        // Utiliser la première illustration comme prompt principal si disponible
+        image_prompt: refined.illustrations?.[0]?.prompt || prev.image_prompt
       }));
 
-      // Informer l'utilisateur du prompt image s'il est disponible
-      if (refined.image_prompt && currentImageIsGeneric) {
-        toast(`✨ Article généré ! Image suggérée : "${refined.image_prompt.slice(0, 60)}..."`);
+      // Informer l'utilisateur
+      if (refined.illustrations?.length > 0) {
+        toast(`✨ Article généré avec ${refined.illustrations.length} suggestions d'images !`);
       } else {
         toast('Article généré par l\'IA ✨');
       }
@@ -367,6 +372,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
             <nav className="flex gap-1 bg-[var(--bg-input)] p-1 rounded-xl border border-[var(--border-subtle)] shrink-0">
               {[
                 { id: 'editor', label: 'Éditeur', icon: FileText },
+                { id: 'media', label: 'Illustrations', icon: Camera },
                 { id: 'split', label: 'Split', icon: Columns },
                 { id: 'preview', label: 'Aperçu', icon: Eye },
                 { id: 'seo', label: 'SEO', icon: Search },
@@ -376,7 +382,11 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
                   onClick={() => setActiveTab(t.id)}
                   className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${activeTab === t.id ? 'bg-[var(--text-main)] text-[var(--bg-primary)]' : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)]'}`}
                 >
-                  <t.icon className="w-3 h-3" /> {t.label}
+                  <t.icon className="w-3 h-3" /> 
+                  {t.label}
+                  {t.id === 'media' && formData.illustrations?.length > 0 && (
+                    <span className="flex h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse ml-0.5"></span>
+                  )}
                 </button>
               ))}
             </nav>
@@ -710,6 +720,96 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
                         />
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {/* ILLUSTRATIONS TAB */}
+          {activeTab === 'media' && (
+            <div className="w-full overflow-y-auto p-8">
+              <div className="max-w-4xl mx-auto">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-black tracking-tighter uppercase mb-2 flex items-center gap-3">
+                      <Camera className="w-6 h-6 text-indigo-500" />
+                      Studio d'Illustration IA
+                    </h2>
+                    <p className="text-[var(--text-dimmed)] text-xs font-medium">
+                      L'IA a suggéré ces visuels pour enrichir votre article et améliorer l'engagement.
+                    </p>
+                  </div>
+                  {formData.illustrations?.length > 0 && (
+                    <div className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400 text-[10px] font-black uppercase tracking-widest">
+                      {formData.illustrations.length} Suggestions dispos
+                    </div>
+                  )}
+                </div>
+
+                {formData.illustrations?.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-6">
+                    {formData.illustrations.map((ill, idx) => (
+                      <div key={idx} className="glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)] overflow-hidden group border-l-4 border-l-indigo-500">
+                        <div className="flex flex-col md:flex-row">
+                          <div className="p-6 flex-1 border-r border-[var(--border-subtle)]">
+                            <div className="flex items-center gap-2 mb-4">
+                              <span className="w-6 h-6 rounded-full bg-[var(--text-main)] text-[var(--bg-primary)] flex items-center justify-center text-[10px] font-black">
+                                {idx + 1}
+                              </span>
+                              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">Prompt suggéré</span>
+                            </div>
+                            <div className="bg-[var(--bg-input)] rounded-xl p-4 border border-[var(--border-subtle)] mb-4">
+                              <p className="text-xs font-mono text-[var(--text-main)] leading-relaxed">
+                                {ill.prompt}
+                              </p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(ill.prompt);
+                                toast('Prompt copié !');
+                              }}
+                              className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-400 hover:text-indigo-300 transition-all"
+                            >
+                              <Save className="w-3 h-3" /> Copier pour Midjourney / Fal.ai
+                            </button>
+                          </div>
+                          <div className="p-6 w-full md:w-64 bg-[var(--bg-input)]/30 flex flex-col justify-center">
+                            <div className="flex items-center gap-2 mb-3 text-emerald-400">
+                              <Globe className="w-3.5 h-3.5" />
+                              <span className="text-[10px] font-black uppercase tracking-widest">Emplacement</span>
+                            </div>
+                            <p className="text-[11px] font-bold text-[var(--text-main)] mb-6 italic leading-snug">
+                              "{ill.location_hint}"
+                            </p>
+                            <div className="mt-auto pt-4 border-t border-[var(--border-subtle)]/50">
+                              <p className="text-[8px] uppercase tracking-widest font-black text-[var(--text-dimmed)]">Statut</p>
+                              <p className="text-[9px] font-bold text-amber-500 flex items-center gap-1.5 mt-1">
+                                <Clock className="w-2.5 h-2.5" /> En attente d'image
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-20 bg-[var(--bg-input)]/20 rounded-3xl border-2 border-dashed border-[var(--border-subtle)] text-center px-6">
+                    <div className="w-16 h-16 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center mb-6 border border-[var(--border-subtle)]">
+                      <Sparkles className="w-8 h-8 text-[var(--text-dimmed)] opacity-20" />
+                    </div>
+                    <h3 className="text-lg font-black uppercase tracking-tighter mb-2">Aucune suggestion pour le moment</h3>
+                    <p className="text-[var(--text-dimmed)] text-xs max-w-sm mb-8 leading-relaxed">
+                      Cliquez sur le bouton <span className="text-red-500 font-bold">IA Magie</span> pour générer un article complet avec ses recommandations visuelles.
+                    </p>
+                  </div>
+                )}
+
+                <div className="mt-12 p-6 bg-indigo-600/5 border border-indigo-500/20 rounded-2xl flex gap-4 items-start">
+                  <Info className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-indigo-400 mb-1">Comment utiliser ces suggestions ?</h4>
+                    <p className="text-[11px] text-[var(--text-dimmed)] leading-relaxed font-medium">
+                      Copiez le prompt et utilisez un générateur d'images (comme Midjourney, Fal.ai ou DALL-E). Une fois votre image générée, uploadez-la dans la section <strong>Éditeur</strong> ou insérez-la directement dans le corps de l'article à l'endroit conseillé via la barre d'outils de l'éditeur riche.
+                    </p>
                   </div>
                 </div>
               </div>
