@@ -724,6 +724,8 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
                 </div>
               </div>
             </div>
+          )}
+
           {/* ILLUSTRATIONS TAB */}
           {activeTab === 'media' && (
             <div className="w-full overflow-y-auto p-8">
