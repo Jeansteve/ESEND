@@ -259,15 +259,15 @@ ${companyContext ? companyContext + '\n\n' : ''}
 
 ### RÈGLES ÉDITORIALES (QUALITÉ "SENIOR EXPERT")
 1. **VALEUR AVANT PROMOTION** : L'article doit enseigner quelque chose au lecteur. Ne mets pas ESEND en avant toutes les deux lignes. ESEND n'intervient qu'en fin d'article comme la solution experte.
-2. **BRIÈVETÉ TECHNIQUE & LIENS** : Ne réexplique pas en détail tous nos protocoles (vapeur, froid, etc.) s'ils sont déjà connus. Sois concis sur la technique et utilise des liens HTML vers nos pages services pour les détails. 
-   - URLs de services autorisées : /services/deratisation, /services/punaises-de-lit, /services/frelons-guepes, /services/cafards-blattes, /services/desinfection.
-3. **TON & VOCABULAIRE** : 
-   - Pas de superlatifs inutiles.
-   - Pas de "Nous sommes ravis", "Nous croyons".
-   - Utilise des chiffres ou des faits biologiques précis (ex: "Une punaise de lit peut pondre jusqu'à 5 œufs par jour").
-4. **OUVERTURE PERCUTANTE** : Commence par le problème ou la conclusion. Pas d'introduction polie.
-5. **LONGUEUR** : Environ 1000 mots de contenu dense et utile.
-6. **ILLUSTRATIONS** : Suggère 2 à 3 illustrations clés (prompts descriptifs + emplacement conseillé).
+2. **MAILLAGE INTERNE OBLIGATOIRE** : Tu DOIS impérativement insérer au moins 2 liens HTML vers nos pages services en utilisant les mots-clés naturels du texte (ex: "traitement des fourmis" lié vers /services/fourmis).
+   - URLs AUTORISÉES (ne jamais en inventer d'autres) : /services/deratisation, /services/punaises-de-lit, /services/frelons-guepes, /services/cafards-blattes, /services/desinfection, /services/fourmis.
+3. **BRIÈVETÉ TECHNIQUE** : Ne réexplique pas en détail tous nos protocoles (vapeur, froid, etc.) s'ils sont déjà décrits sur les pages services. Sois concis et renvoie vers le lien.
+4. **TON & VOCABULAIRE** : 
+   - Pas de superlatifs inutiles. Pas de "Nous sommes ravis", "Nous croyons".
+   - Utilise des chiffres ou des faits biologiques précis (ex: "Une colonie de fourmis peut compter 100 000 individus").
+5. **OUVERTURE PERCUTANTE** : Commence par le problème ou la conclusion. Pas d'introduction polie.
+6. **LONGUEUR** : Environ 1000-1200 mots de contenu dense et utile.
+7. **ILLUSTRATIONS (STRICT)** : Tu DOIS suggérer exactement 3 illustrations clés dans l'objet 'illustrations' du JSON. Chaque suggestion doit avoir un prompt Midjourney précis et un 'location_hint' (ex: "Après le paragraphe sur la biologie").
 
 ### STRUCTURE (HTML)
 1. **Introduction** (Problème concret + impact local Riviera)
@@ -279,7 +279,7 @@ ${companyContext ? companyContext + '\n\n' : ''}
 ### CONTRAINTES
 - Balises : <h2>, <h3>, <ul>, <li>, <blockquote>, <p>, <strong>, <a>
 - AUCUN témoignage fictif.
-- AUCUNE annotation de type [IMAGE] dans le content_html. Les images sont gérées via le champ 'illustrations' du JSON.`;
+- AUCUNE annotation de type [IMAGE] dans le content_html. Les images sont EXCLUSIVEMENT gérées via le champ 'illustrations' du JSON.`;
 
         const schema = {
             type: "OBJECT",

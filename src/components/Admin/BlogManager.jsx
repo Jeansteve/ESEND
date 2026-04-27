@@ -175,13 +175,19 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
                     : 'border-amber-500/20 border-dashed bg-amber-500/5'
                 } ${isDeleting ? 'opacity-50 pointer-events-none' : ''}`}
               >
-                {/* Image */}
-                <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)]">
-                  <img
-                    src={article.image || 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800'}
-                    alt={article.title}
-                    className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
-                  />
+                <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-[var(--border-subtle)] bg-[var(--bg-input)]">
+                  {article.image || article.cover_image ? (
+                    <img
+                      src={article.image || article.cover_image}
+                      alt={article.title}
+                      className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-[var(--text-dimmed)] opacity-40 group-hover:opacity-100 transition-all">
+                       <Camera className="w-8 h-8 mb-2" />
+                       <span className="text-[9px] font-black uppercase tracking-widest">Image manquante</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 via-transparent to-transparent" />
 
                   {/* Badge Catégorie nuisible */}
