@@ -14,7 +14,7 @@ const sanitizeContent = (html = '') => {
 };
 
 const ArticleSkeleton = () => (
-  <div className="min-h-screen bg-white light pt-28 pb-24 animate-pulse">
+  <div className="min-h-screen bg-white light pb-24 animate-pulse">
     <div className="w-full h-[55vh] min-h-[380px] skeleton mb-16" />
     <div className="max-w-4xl mx-auto px-6 space-y-8">
       <div className="h-4 w-32 skeleton rounded-full" />
@@ -142,7 +142,7 @@ const ArticlePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white light pt-28 pb-24 transition-colors duration-1000">
+    <div className="min-h-screen bg-white light pb-24 transition-colors duration-1000">
 
       {/* ─── Hero Banner ──────────────────────────────────────────── */}
       <div className="relative w-full h-[55vh] min-h-[380px] max-h-[600px] overflow-hidden mb-16">

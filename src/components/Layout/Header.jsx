@@ -76,9 +76,11 @@ const Header = () => {
     }
   };
 
+  const isArticlePage = location.pathname.startsWith('/journal/');
+
   return (
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'py-2' : 'py-4'}`}>
-      <div className={`absolute inset-0 transition-opacity duration-300 ${isScrolled || isMobileMenuOpen ? 'opacity-100 bg-[var(--glass-bg)] backdrop-blur-lg border-b border-[var(--border-subtle)]' : 'opacity-0'}`} style={{ zIndex: 0 }} />
+      <div className={`absolute inset-0 transition-opacity duration-300 ${isScrolled || isMobileMenuOpen || isArticlePage ? 'opacity-100 bg-[#020617]/90 backdrop-blur-lg border-b border-white/5' : 'opacity-0'}`} style={{ zIndex: 0 }} />
       <div className="relative z-10 max-w-7xl mx-auto px-6 flex justify-between items-center w-full">
         {/* Logo Section */}
         <div className="flex items-center gap-3">
