@@ -236,35 +236,58 @@ const ArticlePage = () => {
           dangerouslySetInnerHTML={{ __html: sanitizeContent(article.content_html) || '<p>Contenu indisponible.</p>' }}
         />
 
-        {/* ─── CTA de conversion ───────────────────────────────────── */}
+        {/* ─── CTA de conversion "Power Red" ────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="mt-16 rounded-2xl overflow-hidden border border-red-600/20 bg-gradient-to-br from-[#0f172a] to-[#020617] p-10 text-center shadow-2xl shadow-black/20"
+          className="mt-20 rounded-3xl overflow-hidden border border-red-500/30 bg-gradient-to-br from-red-600 via-red-700 to-red-950 p-8 md:p-14 text-center shadow-[0_20px_50px_rgba(220,38,38,0.3)] relative group"
         >
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-500 mb-4">Besoin d'une intervention ?</p>
-          <h2 className="text-2xl md:text-3xl font-black uppercase text-white mb-4 tracking-tight leading-tight">
-            Protégez votre propriété dès maintenant
-          </h2>
-          <p className="text-slate-400 max-w-lg mx-auto mb-8 text-sm leading-relaxed">
-            Nos experts certifiés Certibiocide interviennent à Menton, Monaco, Nice et toute la Côte d'Azur. Diagnostic gratuit, résultat garanti.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="/#/#contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 text-white font-black uppercase tracking-widest text-[11px] rounded-full hover:bg-red-700 active:scale-95 transition-all shadow-lg shadow-red-600/30"
+          {/* Effet de brillance au survol */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+          
+          <div className="relative z-10">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-white mb-8"
             >
-              Demander un devis gratuit
-            </a>
-            {siteSettings.company_phone && (
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              Urgence & Expertise 24h/7j
+            </motion.div>
+
+            <h2 className="text-3xl md:text-5xl font-black uppercase text-white mb-6 tracking-tight leading-[1.1]">
+              Ne laissez pas l'infestation<br />s'installer davantage
+            </h2>
+            
+            <p className="text-red-100 max-w-2xl mx-auto mb-12 text-lg md:text-xl font-medium leading-relaxed opacity-90">
+              Nos experts certifiés <span className="font-black text-white underline decoration-white/30 underline-offset-4">Certibiocide</span> interviennent en urgence pour un résultat garanti par contrat.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <a
-                href={`tel:${siteSettings.company_phone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2 px-8 py-4 border border-white/10 text-white font-black uppercase tracking-widest text-[11px] rounded-full hover:border-red-600/50 hover:text-red-500 transition-all"
+                href="/#/#contact"
+                className="group/btn relative inline-flex items-center gap-3 px-10 py-5 bg-white text-red-700 font-black uppercase tracking-widest text-xs rounded-full hover:bg-red-50 hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20"
               >
-                📞 {siteSettings.company_phone}
+                <span>Demander mon devis gratuit</span>
+                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
               </a>
-            )}
+              
+              {siteSettings.company_phone && (
+                <a
+                  href={`tel:${siteSettings.company_phone.replace(/\s/g, '')}`}
+                  className="inline-flex items-center gap-3 px-10 py-5 border-2 border-white/30 text-white font-black uppercase tracking-widest text-xs rounded-full hover:bg-white/10 hover:border-white transition-all backdrop-blur-sm"
+                >
+                  <Phone className="w-4 h-4" />
+                  {siteSettings.company_phone}
+                </a>
+              )}
+            </div>
+
+            <p className="mt-8 text-red-200/60 text-[10px] font-bold uppercase tracking-widest">
+              Intervention discrète • Diagnostic gratuit • Résultat Garanti
+            </p>
           </div>
         </motion.div>
       </div>
