@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight, Phone } from 'lucide-react';
 import { dataService } from '../lib/DataService';
 import { api } from '../lib/api';
 
