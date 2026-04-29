@@ -14,7 +14,7 @@ const sanitizeContent = (html = '') => {
 };
 
 const ArticleSkeleton = () => (
-  <div className="min-h-screen bg-[var(--bg-primary)] pt-28 pb-24 animate-pulse">
+  <div className="min-h-screen bg-white light pt-28 pb-24 animate-pulse">
     <div className="w-full h-[55vh] min-h-[380px] skeleton mb-16" />
     <div className="max-w-4xl mx-auto px-6 space-y-8">
       <div className="h-4 w-32 skeleton rounded-full" />
@@ -81,8 +81,6 @@ const ArticlePage = () => {
     loadArticleData();
   }, [slug]);
 
-
-
   // ── SEO dynamique : title, meta description, Schema JSON-LD ──────────────
   useEffect(() => {
     if (!article) return;
@@ -132,7 +130,7 @@ const ArticlePage = () => {
 
   if (notFound || !article) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-[var(--bg-primary)] px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-white light px-6">
         <BookOpen className="w-16 h-16 text-red-600 mb-6 opacity-50" />
         <h1 className="text-4xl font-black text-[var(--text-main)] mb-4">Article introuvable</h1>
         <p className="text-[var(--text-dimmed)] mb-8">Cet article n'existe pas ou a été retiré.</p>
@@ -144,7 +142,7 @@ const ArticlePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] pt-28 pb-24">
+    <div className="min-h-screen bg-white light pt-28 pb-24 transition-colors duration-1000">
 
       {/* ─── Hero Banner ──────────────────────────────────────────── */}
       <div className="relative w-full h-[55vh] min-h-[380px] max-h-[600px] overflow-hidden mb-16">
@@ -154,10 +152,10 @@ const ArticlePage = () => {
           className="w-full h-full object-cover scale-105"
           style={{ filter: 'brightness(0.4)' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-black/20 to-transparent" />
 
         {/* Metadata sur la photo */}
-        <div className="absolute bottom-0 left-0 right-0 max-w-4xl mx-auto px-6 pb-10">
+        <div className="absolute bottom-0 left-0 right-0 max-w-4xl mx-auto px-6 pb-10 text-left">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -182,7 +180,7 @@ const ArticlePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex items-center gap-6 text-xs font-bold text-slate-400 uppercase tracking-widest"
+            className="flex items-center gap-6 text-xs font-bold text-slate-300 uppercase tracking-widest"
           >
             {article.date && (
               <span className="flex items-center gap-2">
@@ -207,7 +205,7 @@ const ArticlePage = () => {
         <motion.div
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          className="mb-10"
+          className="mb-10 text-left"
         >
           <button
             onClick={() => navigate('/journal')}

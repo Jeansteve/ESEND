@@ -366,6 +366,11 @@ html, body, #root {
   font-style: italic;
 }
 
+.light .article-reader-content blockquote {
+  color: #b91c1c;
+  background: rgba(220, 38, 38, 0.03);
+}
+
 .article-reader-content blockquote p {
   margin: 0;
   color: inherit;
@@ -402,6 +407,11 @@ html, body, #root {
   border-radius: 0.25rem;
   font-size: 0.875em;
   font-family: 'Menlo', 'Consolas', monospace;
+}
+
+.light .article-reader-content code {
+  color: #b91c1c;
+  background: rgba(220, 38, 38, 0.05);
 }
 
 /* ─── Skeleton Loading ─────────────────────────────────────────────────── */
