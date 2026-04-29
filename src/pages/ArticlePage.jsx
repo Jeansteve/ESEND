@@ -241,13 +241,13 @@ const ArticlePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mt-16 rounded-2xl overflow-hidden border border-red-600/20 bg-gradient-to-br from-red-950/40 to-[var(--bg-secondary)] p-10 text-center"
+          className="mt-16 rounded-2xl overflow-hidden border border-red-600/20 bg-gradient-to-br from-[#0f172a] to-[#020617] p-10 text-center shadow-2xl shadow-black/20"
         >
           <p className="text-[10px] font-black uppercase tracking-[0.3em] text-red-500 mb-4">Besoin d'une intervention ?</p>
-          <h2 className="text-2xl md:text-3xl font-black uppercase text-[var(--text-main)] mb-4 tracking-tight leading-tight">
+          <h2 className="text-2xl md:text-3xl font-black uppercase text-white mb-4 tracking-tight leading-tight">
             Protégez votre propriété dès maintenant
           </h2>
-          <p className="text-[var(--text-dimmed)] max-w-lg mx-auto mb-8 text-sm leading-relaxed">
+          <p className="text-slate-400 max-w-lg mx-auto mb-8 text-sm leading-relaxed">
             Nos experts certifiés Certibiocide interviennent à Menton, Monaco, Nice et toute la Côte d'Azur. Diagnostic gratuit, résultat garanti.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -260,7 +260,7 @@ const ArticlePage = () => {
             {siteSettings.company_phone && (
               <a
                 href={`tel:${siteSettings.company_phone.replace(/\s/g, '')}`}
-                className="inline-flex items-center gap-2 px-8 py-4 border border-[var(--border-strong)] text-[var(--text-main)] font-black uppercase tracking-widest text-[11px] rounded-full hover:border-red-600/50 hover:text-red-500 transition-all"
+                className="inline-flex items-center gap-2 px-8 py-4 border border-white/10 text-white font-black uppercase tracking-widest text-[11px] rounded-full hover:border-red-600/50 hover:text-red-500 transition-all"
               >
                 📞 {siteSettings.company_phone}
               </a>
