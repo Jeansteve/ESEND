@@ -419,7 +419,7 @@ const FormWizard = () => {
           </h2>
         </div>
         <div className="bg-white/5 backdrop-blur-[40px] rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
-          <div className="flex border-b border-white/5 bg-white/5 overflow-x-auto">
+          <div className="flex border-b border-slate-100 bg-white overflow-x-auto">
             {currentSteps.map((step, idx) => (
               <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-[var(--text-dimmed)]')}>
                 <div className={'hidden sm:block'}>{step.icon}</div>
@@ -445,7 +445,7 @@ const FormWizard = () => {
                       <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer l'estimation</button></div>
                   )}
                   {currentStepData.id === 'service' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><SprayCan /> Quel service ?</h3>
+                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-white drop-shadow-md"><SprayCan /> Quel service ?</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {[
                           { n: 'Nuisibles', i: <Bug /> }, 
