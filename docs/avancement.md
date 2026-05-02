@@ -114,6 +114,16 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - L'IA utilise une liste blanche d'URLs de services pour renvoyer le lecteur vers les pages expertes au lieu de répéter les protocoles techniques.
 - **Persistance Radar IA** : Unification des clés de stockage pour un affichage immédiat des sujets suggérés.
 
+## ✅ V9 : Stabilisation du Build de Production (Mai 2024)
+**Fichier :** `src/components/FormWizard/FormWizard.jsx`
+
+- **Résolution des erreurs de nesting JSX** : Correction de l'erreur `esbuild` empêchant le déploiement.
+- **Audit de structure DOM** :
+    - Fermeture des balises `<p>` orphelines dans la section Urgence.
+    - Correction de l'imbrication des `<div>` dans la section Détails (Message vs Photos).
+- **Pipeline CI/CD rétabli** : Le déploiement automatique sur GitHub Actions est à nouveau fonctionnel après stabilisation de l'arborescence React.
+- **Optimisation de la syntaxe** : Nettoyage des balises redondantes et amélioration de la lisibilité des blocs `{... && (...)}`.
+
 ## 🚀 Prochaines Étapes
 1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
 2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.

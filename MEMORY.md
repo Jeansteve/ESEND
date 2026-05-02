@@ -67,3 +67,14 @@
 - **La Solution 2 :** 
   1. Forcer la valeur du `<select>` en `String` pour assurer le matching React.
   2. Ajouter `!loadingFromDb` dans les conditions du `useEffect` pour s'assurer que le composant est stable et la DB locale chargée *avant* de lancer la génération IA.
+### [PSA-2026-05-02-A] : Correction du Nesting JSX (Balise P Orpheline)
+- **Le Problème :** Échec du build de production (`esbuild`) avec l'erreur `Unexpected closing "motion.div" tag does not match opening "p" tag`.
+- **Cause Racine :** Une balise `<p>` dans l'étape `urgency` n'était pas fermée correctement, ce qui corrompait la pile d'analyse syntaxique du compilateur lors du traitement des blocs conditionnels React.
+- **La Solution :** Fermeture explicite de la balise `<p>` et réalignement des blocs de conditions `{... && (...)}`.
+- **Règle d'Or (Codebase) :** Toujours vérifier l'équilibre des balises HTML au sein des rendus conditionnels complexes, car une erreur au milieu du fichier peut être signalée par le compilateur à la toute fin, rendant le debug complexe.
+
+### [PSA-2026-05-02-B] : Réalignement Structurel du Wizard (Balise Div Orpheline)
+- **Le Problème :** Deuxième erreur de build consécutive : `Unexpected closing "motion.div" tag does not match opening "div" tag`.
+- **Cause Racine :** Une balise `<div>` restait ouverte après le `textarea` de l'étape `details`, empiétant sur la section `photos` et décalant la pile de fermeture des composants parents.
+- **La Solution :** Ajout de la fermeture `</div>` manquante et ré-indexation visuelle des niveaux d'imbrication pour garantir un équilibre parfait du DOM.
+- **Impact :** Stabilisation totale du pipeline CI/CD sur GitHub Actions. Le build de production est désormais fluide et sans erreurs structurelles.
