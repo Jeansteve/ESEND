@@ -419,12 +419,28 @@ const FormWizard = () => {
           </h2>
         </div>
         <div className="bg-white/5 backdrop-blur-[40px] rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
-          <div className="flex border-b border-white/10 bg-transparent overflow-x-auto">
+          <div className="relative flex border-b border-white/10 bg-transparent overflow-x-auto min-h-[64px]">
+            {/* Calque Blanc avec bord adouci (Wipe Effect) */}
+            <motion.div 
+              initial={false}
+              animate={{ 
+                clipPath: `inset(0 0 0 ${((stepIndex + 1) / currentSteps.length) * 100}%)`,
+              }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              style={{
+                maskImage: `linear-gradient(to right, transparent 0%, black 10%)`,
+                WebkitMaskImage: `linear-gradient(to right, transparent 0%, black 10%)`,
+                maskPosition: `${((stepIndex + 1) / currentSteps.length) * 100}% 0`,
+                WebkitMaskPosition: `${((stepIndex + 1) / currentSteps.length) * 100}% 0`,
+              }}
+              className="absolute inset-0 bg-white z-0 pointer-events-none"
+            />
+
             {currentSteps.map((step, idx) => (
               <div 
                 key={step.id} 
-                className={`min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-700 
-                  ${stepIndex >= idx ? 'border-[#A72422] text-[#A72422] bg-transparent' : 'border-transparent text-slate-400 bg-white'}
+                className={`relative z-10 min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-700 
+                  ${stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-slate-400'}
                 `}
               >
                 <div className={'hidden sm:block'}>{step.icon}</div>
