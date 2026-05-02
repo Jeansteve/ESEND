@@ -418,8 +418,8 @@ const FormWizard = () => {
             DEMANDER UNE <span className="text-red-500">INTERVENTION</span>
           </h2>
         </div>
-        <div className="bg-white/20 backdrop-blur-2xl rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)] border border-white/30 overflow-hidden">
-          <div className="flex border-b border-white/10 bg-white/5 overflow-x-auto">
+        <div className="bg-white/5 backdrop-blur-[40px] rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
+          <div className="flex border-b border-white/5 bg-white/5 overflow-x-auto">
             {currentSteps.map((step, idx) => (
               <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-[var(--text-dimmed)]')}>
                 <div className={'hidden sm:block'}>{step.icon}</div>
@@ -431,7 +431,7 @@ const FormWizard = () => {
             {currentStepIndex > 0 && !isSubmitted && (
               <button
                 onClick={prevStep}
-                className="absolute top-6 left-6 text-slate-400 hover:text-[#A72422] flex items-center gap-2 font-bold text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10"
+                className="absolute top-6 left-6 text-white/60 hover:text-white flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10 drop-shadow-md"
               >
                 ← Retour
               </button>
@@ -441,7 +441,7 @@ const FormWizard = () => {
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   {currentStepData.id === 'welcome' && (
                     <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
-                      <h3 className="text-2xl font-black italic mb-8 text-white px-4">Votre Devis 100% Offert</h3>
+                      <h3 className="text-2xl font-black italic mb-8 text-white px-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">Votre Devis 100% Offert</h3>
                       <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer l'estimation</button></div>
                   )}
                   {currentStepData.id === 'service' && (
@@ -457,7 +457,7 @@ const FormWizard = () => {
                             whileHover={{ scale: 1.05 }} 
                             whileTap={{ scale: 0.95 }} 
                             onClick={() => handleProblemSelect(s.n)} 
-                            className={'flex flex-col items-center gap-4 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ' + (formData.problem === s.n ? 'border-[#A72422] bg-red-50/20 text-white' : 'border-white/10 bg-white/10 text-white hover:border-[#A72422]')}
+                            className={'flex flex-col items-center gap-4 p-6 border-2 rounded-2xl font-black transition-all hover:shadow-lg ' + (formData.problem === s.n ? 'border-[#A72422] bg-red-50/20 text-white shadow-[0_0_20px_rgba(167,36,34,0.3)]' : 'border-white/5 bg-white/5 text-white hover:border-white/20')}
                           >
                             {s.i}{s.n}
                           </motion.button>
@@ -466,7 +466,7 @@ const FormWizard = () => {
                   )}
                   {currentStepData.id === 'details' && (
                     <div className="space-y-6">
-                      <h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-4 text-white">
+                      <h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                         {formData.problem === 'Nuisibles' ? <><Bug /> Quel nuisible ?</> : <><Asterisk /> Détails du problème</>}
                       </h3>
                       
@@ -493,7 +493,7 @@ const FormWizard = () => {
                       )}
                       
                       {/* Description and Photos Area */}
-                      <div className="bg-white/10 p-4 rounded-2xl border-2 border-white/10 shadow-sm space-y-4">
+                      <div className="bg-white/5 p-4 rounded-2xl border-2 border-white/5 shadow-inner space-y-4">
                          <div>
                             <label className="text-sm font-bold text-slate-700 mb-2 block">Plus de détails (Optionnel)</label>
                             <textarea 
