@@ -419,9 +419,14 @@ const FormWizard = () => {
           </h2>
         </div>
         <div className="bg-white/5 backdrop-blur-[40px] rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
-          <div className="flex border-b border-slate-100 bg-white overflow-x-auto">
+          <div className="flex border-b border-white/10 bg-transparent overflow-x-auto">
             {currentSteps.map((step, idx) => (
-              <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-[var(--text-dimmed)]')}>
+              <div 
+                key={step.id} 
+                className={`min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-700 
+                  ${stepIndex >= idx ? 'border-[#A72422] text-[#A72422] bg-transparent' : 'border-transparent text-slate-400 bg-white'}
+                `}
+              >
                 <div className={'hidden sm:block'}>{step.icon}</div>
                 <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">{step.title}</span>
               </div>
