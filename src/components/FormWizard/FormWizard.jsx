@@ -400,14 +400,25 @@ const FormWizard = () => {
   };
 
   return (
-    <section id="devis" className="py-32 px-6 bg-white transition-colors duration-500">
-      <div className="max-w-4xl mx-auto">
+    <section id="devis" className="relative py-32 px-6 overflow-hidden transition-colors duration-500">
+      {/* Arrière-plan Menton avec Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="/hero-menton-v2.png" 
+          alt="Menton" 
+          className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.6)' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/40" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-slate-900 px-4">
-            Demander une <span className="text-[#A72422]">Intervention</span>
+          <h2 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-4 text-white px-4 drop-shadow-lg">
+            DEMANDER UNE <span className="text-red-500">INTERVENTION</span>
           </h2>
         </div>
-        <div className="bg-white rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] border border-slate-100 overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/20 overflow-hidden">
           <div className="flex border-b border-[var(--border-subtle)] bg-[var(--bg-secondary)]/10 overflow-x-auto">
             {currentSteps.map((step, idx) => (
               <div key={step.id} className={'min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-500 ' + (stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-[var(--text-dimmed)]')}>
