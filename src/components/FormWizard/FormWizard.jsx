@@ -418,7 +418,7 @@ const FormWizard = () => {
             DEMANDER UNE <span className="text-red-500">INTERVENTION</span>
           </h2>
         </div>
-        <div className="bg-white/5 backdrop-blur-[40px] rounded-[3rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
+        <div className="bg-white/5 backdrop-blur-[40px] rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
           <div className="relative flex border-b border-white/10 bg-transparent overflow-x-auto min-h-[64px]">
             {/* Calque Blanc avec bord adouci (Wipe Effect) */}
             <motion.div 
@@ -511,7 +511,7 @@ const FormWizard = () => {
                       {/* Description and Photos Area */}
                       <div className="bg-white/5 p-4 rounded-2xl border-2 border-white/5 shadow-inner space-y-4">
                          <div>
-                            <label className="text-sm font-bold text-slate-700 mb-2 block">Plus de détails (Optionnel)</label>
+                            <label className="text-sm font-black text-white/90 mb-2 block drop-shadow-sm">Plus de détails (Optionnel)</label>
                             <textarea 
                                placeholder={
                                   formData.problem === 'Nuisibles' ? "Décrivez la situation, le degré d'infestation, la superficie concernée..." :
@@ -519,42 +519,40 @@ const FormWizard = () => {
                                   formData.problem === 'Désinfection' ? "Décrivez les locaux à désinfecter, la cause ou le type de virus/bactérie suspecté..." :
                                   "Ajoutez toutes les précisions utiles pour votre devis..."
                                }
-                               className="w-full p-4 bg-slate-50 text-slate-900 border-2 border-slate-100 rounded-lg focus:border-[#A72422] outline-none min-h-[140px] resize-none"
+                               className="w-full p-4 bg-white/10 text-white border-2 border-white/10 rounded-lg focus:border-[#A72422] outline-none min-h-[140px] resize-none placeholder:text-white/40"
                                value={formData.message || ''}
                                onChange={(e) => updateData('message', e.target.value)}
                             ></textarea>
-                         </div>
-                         
-                         <div className="pt-2 border-t border-slate-100">
-                          <label className="text-sm font-bold text-slate-700 flex items-center justify-between mb-3">
+                                    <div className="pt-6 border-t border-white/10 space-y-4">
+                          <label className="text-sm font-black text-white/90 flex items-center justify-between drop-shadow-sm uppercase tracking-widest">
                              <span className="flex items-center gap-2"><Camera className="w-4 h-4 text-[#A72422]" /> Photos (Optionnel)</span>
                           </label>
-                          <div className="flex justify-start gap-3 sm:gap-4">
+                          <div className="flex flex-wrap justify-start gap-4">
                              {[0, 1, 2].map((slotIndex) => {
                                const p = photos[slotIndex];
                                if (p) {
                                  return (
-                                   <div key={slotIndex} className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm animate-in zoom-in duration-200 shrink-0">
+                                   <div key={slotIndex} className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 border-white/20 shadow-xl animate-in zoom-in duration-300 shrink-0">
                                      <img src={URL.createObjectURL(p)} alt="preview" className="object-cover w-full h-full" />
-                                     <button type="button" onClick={() => removePhoto(slotIndex)} className="absolute top-1 right-1 bg-white/90 text-red-600 p-1 rounded-full shadow-sm hover:bg-red-50 transition-colors z-10"><X className="w-3 h-3 font-bold" /></button>
+                                     <button type="button" onClick={() => removePhoto(slotIndex)} className="absolute top-1.5 right-1.5 bg-black/60 text-white p-1.5 rounded-full backdrop-blur-md border border-white/20 hover:bg-red-600 transition-colors z-10"><X className="w-3 h-3 font-bold" /></button>
                                    </div>
                                  );
                                }
                                return (
-                                 <label key={slotIndex} className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl border-2 border-dashed border-slate-300 flex items-center justify-center cursor-pointer bg-slate-50 hover:bg-slate-100 hover:border-[#A72422] transition-all flex-col group shrink-0">
-                                    {isCompressing && photos.length === slotIndex ? <div className="w-5 h-5 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
-                                      <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-slate-400 group-hover:text-[#A72422] transition-colors" />
-                                      <span className="text-[9px] sm:text-[10px] text-slate-400 group-hover:text-[#A72422] font-bold mt-1">Ajouter</span>
+                                 <label key={slotIndex} className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center cursor-pointer bg-white/5 hover:bg-white/10 hover:border-[#A72422] transition-all flex-col group shrink-0">
+                                    {isCompressing && photos.length === slotIndex ? <div className="w-6 h-6 border-2 border-[#A72422] border-t-transparent rounded-full animate-spin" /> : <>
+                                      <Plus className="w-6 h-6 text-white/30 group-hover:text-white transition-colors" />
+                                      <span className="text-[9px] text-white/30 group-hover:text-white font-black mt-1.5 uppercase tracking-tighter">Ajouter</span>
                                     </>}
                                     <input type="file" accept="image/jpeg, image/png, image/webp" multiple onChange={handleFileChange} className="hidden" disabled={isCompressing} />
                                  </label>
                                );
                              })}
                           </div>
-                          <p className="text-[10px] sm:text-xs text-slate-400 mt-3 flex justify-between">
-                            <span>Formats : JPG, PNG, WEBP</span>
-                            <span>{photos.length}/3 ajoutées</span>
-                          </p>
+                          <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-white/40 pt-2">
+                             <span className="drop-shadow-sm">JPG, PNG, WEBP</span>
+                             <span className={photos.length === 3 ? "text-[#A72422]" : ""}>{photos.length}/3 ajoutées</span>
+                          </div>
                         </div>
                       </div>
 
@@ -562,29 +560,29 @@ const FormWizard = () => {
                         type="button"
                         onClick={nextStep} 
                         disabled={formData.problem === 'Nuisibles' ? (!formData.pestType || (formData.pestType === 'Autre' && !formData.otherPest)) : false} 
-                        className="w-full bg-[#A72422] text-white p-4 rounded-xl font-black uppercase disabled:opacity-50 hover:bg-black transition-all hover:scale-[1.02] active:scale-[0.98] mt-2"
+                        className="w-full bg-[#A72422] text-white p-5 rounded-2xl font-black uppercase tracking-widest disabled:opacity-30 hover:bg-black transition-all hover:scale-[1.01] active:scale-[0.99] mt-4 shadow-[0_10px_30px_-10px_rgba(167,36,34,0.5)]"
                       >
-                        Continuer
+                        Continuer l'estimation
                       </button>
                     </div>
                   )}
                   {currentStepData.id === 'urgency' && (
-                    <div className="space-y-6">
+                    <div className="space-y-8">
                       <div className="text-center">
-                        <Zap className="w-12 h-12 text-[#A72422] mx-auto mb-4" />
-                        <h3 className="text-xl font-black text-slate-900 mb-2">Niveau d'urgence</h3>
-                        <p className="text-sm text-slate-500 font-medium">Avez-vous besoin d'une intervention rapide ?</p>
+                        <Zap className="w-16 h-16 text-[#A72422] mx-auto mb-4 drop-shadow-[0_0_15px_rgba(167,36,34,0.3)]" />
+                        <h3 className="text-2xl font-black text-white mb-2 drop-shadow-md uppercase tracking-tight">Niveau d'urgence</h3>
+                        <p className="text-sm text-white/70 font-black italic drop-shadow-sm">Avez-vous besoin d'une intervention immédiate ?</p>
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <motion.button
                           type="button"
                           whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.97 }}
+                          whileTap={{ scale: 0.98 }}
                           onClick={() => { updateData('isUrgent', false); nextStep(); }}
-                          className={`flex flex-col items-center gap-3 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ${
+                          className={`flex flex-col items-center gap-4 p-8 border-2 rounded-[2rem] font-bold transition-all hover:shadow-2xl ${
                             formData.isUrgent === false && formData.isUrgent !== ''
-                              ? 'border-slate-800 bg-slate-800 text-white'
-                              : 'border-white/10 bg-white/10 text-white hover:border-white/30'
+                              ? 'border-white/30 bg-white/10 text-white'
+                              : 'border-white/10 bg-white/5 text-white hover:border-white/30'
                           }`}
                         >
                           <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-2xl">📅</div>
@@ -614,85 +612,112 @@ const FormWizard = () => {
                       </div>
                       <p className="text-center text-[10px] text-slate-400 font-medium">
                         ⚡ Une intervention urgente implique une majoration de tarif. Notre équipe vous communiquera le devis adapté.
-                      </p>
-                    </div>
-                  )}
-                  {currentStepData.id === 'client' && (
-                    <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-slate-900"><Building2 /> Type de client</h3>
-                      <div className="grid grid-cols-2 gap-4">
+                                {currentStepData.id === 'client' && (
+                    <div className="space-y-8">
+                      <h3 className="text-2xl font-black text-center flex items-center justify-center gap-3 text-white drop-shadow-md uppercase tracking-tight"><Building2 className="text-[#A72422]" /> Pour qui ?</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {[
-                          { n: 'Particulier', i: <User /> }, 
-                          { n: 'Entreprise', i: <Building2 /> }
+                          { n: 'Particulier', i: <User className="w-8 h-8" />, desc: 'Maison, Appartement, Jardin' }, 
+                          { n: 'Entreprise', i: <Building2 className="w-8 h-8" />, desc: 'Commerce, Bureaux, Entrepôt' }
                         ].map(option => (
                           <motion.button 
                             key={option.n} 
-                            whileHover={{ scale: 1.05 }} 
-                            whileTap={{ scale: 0.95 }} 
+                            whileHover={{ scale: 1.02 }} 
+                            whileTap={{ scale: 0.98 }} 
                             onClick={() => { updateData('clientType', option.n); nextStep(); }} 
-                            className={'flex flex-col items-center gap-4 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ' + (formData.clientType === option.n ? 'border-[#A72422] bg-red-500/20 text-white' : 'border-white/10 bg-white/10 text-white hover:border-[#A72422]')}
+                            className={'flex flex-col items-center gap-4 p-8 border-2 rounded-[2rem] font-black transition-all hover:shadow-2xl ' + (formData.clientType === option.n ? 'border-[#A72422] bg-red-500/20 text-white' : 'border-white/10 bg-white/5 text-white hover:border-[#A72422]')}
                           >
-                            {option.i}{option.n}
+                            <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center shadow-inner">{option.i}</div>
+                            <div className="text-center">
+                              <div className="text-lg uppercase tracking-tight">{option.n}</div>
+                              <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">{option.desc}</div>
+                            </div>
                           </motion.button>
                         ))}
-                      </div></div>
+                      </div>
+                    </div>
                   )}
                   {currentStepData.id === 'zone' && (
-                    <div className="space-y-4">
-                      <h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-white"><MapPin /> Secteur</h3>
-                      <div className="relative">
+                    <div className="space-y-6">
+                      <h3 className="text-2xl font-black text-center flex items-center justify-center gap-3 text-white drop-shadow-md uppercase tracking-tight"><MapPin className="text-[#A72422]" /> Localisation</h3>
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="relative group">
+                          <input 
+                            type="text" 
+                            placeholder="CODE POSTAL (EX: 06500)" 
+                            value={formData.zipCode} 
+                            onChange={(e) => handleZipChange(e.target.value)} 
+                            className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/20 font-black text-center text-xl tracking-[0.3em]" 
+                          />
+                          {isSearchingCity && (
+                            <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                              <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="w-6 h-6 border-2 border-[#A72422] border-t-transparent rounded-full" />
+                            </div>
+                          )}
+                        </div>
                         <input 
                           type="text" 
-                          placeholder="Code Postal (ex: 59430)" 
-                          value={formData.zipCode} 
-                          onChange={(e) => handleZipChange(e.target.value)} 
-                          className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/40" 
+                          placeholder="VILLE" 
+                          value={formData.city} 
+                          onChange={(e) => updateData('city', e.target.value)}
+                          className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/20 font-black text-center text-lg uppercase tracking-widest" 
                         />
-                        {isSearchingCity && (
-                          <div className="absolute right-6 top-1/2 -translate-y-1/2">
-                            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }} className="w-5 h-5 border-2 border-[#A72422] border-t-transparent rounded-full" />
-                          </div>
-                        )}
                       </div>
-                      <input 
-                        type="text" 
-                        placeholder="Ville" 
-                        value={formData.city} 
-                        onChange={(e) => updateData('city', e.target.value)}
-                        className="w-full p-6 bg-slate-50 text-slate-900 rounded-2xl border-2 border-slate-100 focus:border-[#A72422] outline-none transition-all" 
-                      />
-                      <button onClick={nextStep} disabled={!formData.zipCode || !formData.city} className="w-full mt-2 bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50">Continuer</button>
+                      <button 
+                        onClick={nextStep} 
+                        disabled={!formData.zipCode || !formData.city} 
+                        className="w-full mt-4 bg-[#A72422] text-white p-6 rounded-2xl font-black uppercase tracking-widest hover:bg-black transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-20 shadow-xl"
+                      >
+                        Valider mon secteur
+                      </button>
                     </div>
                   )}
                   {currentStepData.id === 'contact' && (
-                    <div className="space-y-4"><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-white"><User /> Vos coordonnées</h3>
-                      <ErrorMsg error={errors.name} />
-                      <input type="text" placeholder="Nom" className="w-full p-4 border-2 border-white/10 bg-white/10 text-white rounded-lg outline-none focus:border-[#A72422] placeholder:text-white/40" onChange={(e) => updateData('name', e.target.value)} />
-                      <ErrorMsg error={errors.email} />
-                      <input type="email" placeholder="Email" className="w-full p-4 border-2 border-white/10 bg-white/10 text-white rounded-lg outline-none focus:border-[#A72422] placeholder:text-white/40" onChange={(e) => updateData('email', e.target.value)} />
-                      <ErrorMsg error={errors.phone} />
-                      <input type="tel" placeholder="Téléphone" className="w-full p-4 border-2 border-white/10 bg-white/10 text-white rounded-lg focus:border-[#A72422] focus:ring-4 focus:ring-white/5 transition-all outline-none placeholder:text-white/40" onChange={(e) => updateData('phone', e.target.value)} />
-                      <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
+                    <div className="space-y-6">
+                      <h3 className="text-2xl font-black text-center flex items-center justify-center gap-3 text-white drop-shadow-md uppercase tracking-tight"><User className="text-[#A72422]" /> Vos coordonnées</h3>
+                      <div className="space-y-4">
+                        <div className="relative">
+                          <input type="text" placeholder="NOM COMPLET" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/30 font-bold uppercase tracking-widest" onChange={(e) => updateData('name', e.target.value)} />
+                          <ErrorMsg error={errors.name} />
+                        </div>
+                        <div className="relative">
+                          <input type="email" placeholder="ADRESSE EMAIL" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/30 font-bold uppercase tracking-widest" onChange={(e) => updateData('email', e.target.value)} />
+                          <ErrorMsg error={errors.email} />
+                        </div>
+                        <div className="relative">
+                          <input type="tel" placeholder="NUMÉRO DE TÉLÉPHONE" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/30 font-bold uppercase tracking-widest" onChange={(e) => updateData('phone', e.target.value)} />
+                          <ErrorMsg error={errors.phone} />
+                        </div>
+                      </div>
+                      <div className="pt-4">
+                        <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />
+                      </div>
                     </div>
                   )}
                 </motion.div>
               </AnimatePresence>
             ) : (
-              <motion.div className="text-center py-10 space-y-4">
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 px-6 space-y-6">
                 <motion.div 
-                  initial={{ scale: 0 }} 
-                  animate={{ scale: 1 }} 
-                  className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto text-4xl"
+                  initial={{ scale: 0, rotate: -45 }} 
+                  animate={{ scale: 1, rotate: 0 }} 
+                  className="w-24 h-24 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto text-5xl shadow-[0_0_50px_rgba(34,197,94,0.3)] border border-green-500/30"
                 >
-                  <Check className="w-10 h-10" />
+                  <Check className="w-12 h-12" />
                 </motion.div>
-                <h3 className="text-2xl font-black text-slate-900">Demande envoyée !</h3>
+                <div className="space-y-2">
+                  <h3 className="text-3xl font-black text-white drop-shadow-lg uppercase tracking-tighter">Merci de votre confiance !</h3>
+                  <p className="text-white/60 font-black italic text-sm uppercase tracking-widest">Demande de devis transmise avec succès</p>
+                </div>
                 {formData.isUrgent ? (
-                  <div className="bg-red-50 border border-red-100 rounded-2xl p-4 mx-auto max-w-sm">
-                    <p className="text-[#A72422] font-black text-sm">⚡ Demande urgente enregistrée</p>
-                    <p className="text-slate-600 font-medium text-xs mt-1">Notre équipe reviendra vers vous rapidement avec un devis adapté à votre situation.</p>
-                  </div>
+                   <div className="bg-red-500/20 border border-red-500/30 rounded-[2rem] p-8 mx-auto max-w-md shadow-2xl backdrop-blur-md">
+                     <p className="text-white font-black text-lg drop-shadow-sm uppercase tracking-tight">⚡ PRIORITÉ SOS ACTIVÉE</p>
+                     <p className="text-white/80 font-black italic text-xs mt-4 leading-relaxed uppercase tracking-widest">Notre cellule d'urgence analyse votre dossier.<br/>Un expert vous rappelle dans les 30 minutes.</p>
+                   </div>
                 ) : (
-                  <p className="text-slate-600 font-medium italic">Notre équipe vous recontactera dans les plus brefs délais.</p>
+                  <div className="bg-white/5 border border-white/10 rounded-[2rem] p-8 mx-auto max-w-md backdrop-blur-md">
+                    <p className="text-white/80 font-black italic text-sm leading-relaxed uppercase tracking-widest">Notre équipe reviendra vers vous<br/>sous 24h avec une proposition sur-mesure.</p>
+                  </div>
                 )}
               </motion.div>
             )}
