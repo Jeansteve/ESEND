@@ -424,15 +424,10 @@ const FormWizard = () => {
             <motion.div 
               initial={false}
               animate={{ 
-                clipPath: `inset(0 0 0 ${((stepIndex + 1) / currentSteps.length) * 100}%)`,
+                maskImage: `linear-gradient(to right, transparent 0%, transparent ${((stepIndex + 1) / currentSteps.length) * 100 - 15}%, black ${((stepIndex + 1) / currentSteps.length) * 100 + 10}%)`,
+                WebkitMaskImage: `linear-gradient(to right, transparent 0%, transparent ${((stepIndex + 1) / currentSteps.length) * 100 - 15}%, black ${((stepIndex + 1) / currentSteps.length) * 100 + 10}%)`
               }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
-              style={{
-                maskImage: `linear-gradient(to right, transparent 0%, black 10%)`,
-                WebkitMaskImage: `linear-gradient(to right, transparent 0%, black 10%)`,
-                maskPosition: `${((stepIndex + 1) / currentSteps.length) * 100}% 0`,
-                WebkitMaskPosition: `${((stepIndex + 1) / currentSteps.length) * 100}% 0`,
-              }}
+              transition={{ duration: 1.2, ease: "easeInOut" }}
               className="absolute inset-0 bg-white z-0 pointer-events-none"
             />
 
