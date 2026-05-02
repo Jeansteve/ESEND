@@ -523,7 +523,8 @@ const FormWizard = () => {
                                value={formData.message || ''}
                                onChange={(e) => updateData('message', e.target.value)}
                             ></textarea>
-                                    <div className="pt-6 border-t border-white/10 space-y-4">
+                          </div>
+                          <div className="pt-6 border-t border-white/10 space-y-4">
                           <label className="text-sm font-black text-white/90 flex items-center justify-between drop-shadow-sm uppercase tracking-widest">
                              <span className="flex items-center gap-2"><Camera className="w-4 h-4 text-[#A72422]" /> Photos (Optionnel)</span>
                           </label>
