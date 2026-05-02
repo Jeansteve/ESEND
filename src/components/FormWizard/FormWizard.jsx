@@ -610,9 +610,12 @@ const FormWizard = () => {
                           </div>
                         </motion.button>
                       </div>
-                      <p className="text-center text-[10px] text-slate-400 font-medium">
+                      <p className="text-center text-[10px] text-white/40 font-black italic uppercase tracking-widest mt-4">
                         ⚡ Une intervention urgente implique une majoration de tarif. Notre équipe vous communiquera le devis adapté.
-                                {currentStepData.id === 'client' && (
+                      </p>
+                    </div>
+                  )}
+                  {currentStepData.id === 'client' && (
                     <div className="space-y-8">
                       <h3 className="text-2xl font-black text-center flex items-center justify-center gap-3 text-white drop-shadow-md uppercase tracking-tight"><Building2 className="text-[#A72422]" /> Pour qui ?</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
