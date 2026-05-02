@@ -236,7 +236,7 @@ const ArticlePage = () => {
           dangerouslySetInnerHTML={{ __html: sanitizeContent(article.content_html) || '<p>Contenu indisponible.</p>' }}
         />
 
-        {/* ─── CTA de conversion "Power Red" ────────────────────────── */}
+        {/* ─── CTA de conversion "Power Red" Authentique ────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -254,15 +254,15 @@ const ArticlePage = () => {
               className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-white mb-8"
             >
               <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-              Urgence & Expertise 24h/7j
+              Expertise Familiale & Proximité Directe
             </motion.div>
 
             <h2 className="text-3xl md:text-5xl font-black uppercase text-white mb-6 tracking-tight leading-[1.1]">
-              Ne laissez pas l'infestation<br />s'installer davantage
+              Faites appel à votre duo<br />d'experts locaux
             </h2>
             
             <p className="text-red-100 max-w-2xl mx-auto mb-12 text-lg md:text-xl font-medium leading-relaxed opacity-90">
-              Nos experts certifiés <span className="font-black text-white underline decoration-white/30 underline-offset-4">Certibiocide</span> interviennent en urgence pour un résultat garanti par contrat.
+              Nous sommes vos <span className="font-black text-white">interlocuteurs uniques</span>. Entreprise familiale basée à Menton, nous intervenons avec discrétion et efficacité pour votre totale sérénité.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -286,7 +286,7 @@ const ArticlePage = () => {
             </div>
 
             <p className="mt-8 text-red-200/60 text-[10px] font-bold uppercase tracking-widest">
-              Intervention discrète • Diagnostic gratuit • Résultat Garanti
+              Savoir-faire familial • Diagnostic gratuit • Intervention discrète
             </p>
           </div>
         </motion.div>
