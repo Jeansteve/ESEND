@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../../lib/api';
 
 const Footer = () => {
+  const [settings, setSettings] = useState({
+    company_phone: '06 51 23 98 41',
+    contact_email: 'contact@esendnuisibles.fr'
+  });
+
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const data = await api.getSettings();
+        if (data) {
+          setSettings({
+            company_phone: data.company_phone || '06 51 23 98 41',
+            contact_email: data.contact_email || 'contact@esendnuisibles.fr'
+          });
+        }
+      } catch (err) {
+        console.error("Erreur chargement footer settings:", err);
+      }
+    };
+    loadSettings();
+  }, []);
+
   return (
     <footer className="bg-slate-950 text-slate-100 pt-24 pb-12 px-6 border-t border-white/5 transition-colors duration-400">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 mb-20 text-center md:text-left">
@@ -34,10 +57,14 @@ const Footer = () => {
           <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Contact Direct</h4>
           <div className="space-y-6">
             <div>
-              <div className="text-2xl font-black tracking-tight italic">06 51 23 98 41</div>
+              <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="text-2xl font-black tracking-tight italic hover:text-esend-red transition-colors block">
+                {settings.company_phone}
+              </a>
               <div className="text-zinc-500 text-[10px] font-bold uppercase tracking-widest mt-1">Secteur Menton (06)</div>
             </div>
-            <div className="text-zinc-400 text-sm font-medium">contact@esendnuisibles.fr</div>
+            <a href={`mailto:${settings.contact_email}`} className="text-zinc-400 text-sm font-medium hover:text-white transition-colors block">
+              {settings.contact_email}
+            </a>
           </div>
         </div>
       </div>
