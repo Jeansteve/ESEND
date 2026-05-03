@@ -52,9 +52,9 @@ const itemVariants = {
 
 const TrustBanner = () => {
   return (
-    <section className="bg-[#A72422] py-24 px-6 relative overflow-hidden transition-colors duration-500">
-      {/* Decorative center glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 blur-[120px] rounded-full pointer-events-none" />
+    <section className="bg-white py-24 px-6 relative overflow-hidden transition-colors duration-500">
+      {/* Decorative center glow - Subtle red tint */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#A72422]/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div 
@@ -68,7 +68,7 @@ const TrustBanner = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="group flex flex-col items-center text-center text-white"
+              className="group flex flex-col items-center text-center text-[#A72422]"
               style={{ perspective: "1000px" }}
             >
               <motion.div 
@@ -86,7 +86,7 @@ const TrustBanner = () => {
                 className="relative mb-8"
               >
                 {/* Magnetic Core Container */}
-                <div className="p-5 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md shadow-2xl relative overflow-hidden group-hover:bg-white group-hover:text-[#A72422] transition-colors duration-500">
+                <div className="p-6 bg-[#A72422]/5 rounded-[2rem] border border-[#A72422]/10 shadow-lg relative overflow-hidden group-hover:bg-[#A72422] group-hover:text-white transition-all duration-500 group-hover:shadow-[0_20px_40px_-10px_rgba(167,36,34,0.3)]">
                   {/* Shimmer / Gloss Sweep - Sequenced */}
                   <div 
                     className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-[250%] skew-x-[-45deg] animate-sweep pointer-events-none" 
@@ -102,7 +102,7 @@ const TrustBanner = () => {
                 </div>
 
                 {/* Reflection effect */}
-                <div className="absolute inset-0 bg-white/20 blur-xl opacity-0 group-hover:opacity-40 transition-opacity rounded-full -z-10" />
+                <div className="absolute inset-0 bg-[#A72422]/10 blur-xl opacity-0 group-hover:opacity-40 transition-opacity rounded-full -z-10" />
               </motion.div>
 
               <div className="overflow-hidden">
@@ -121,7 +121,7 @@ const TrustBanner = () => {
                   initial={{ y: "100%" }}
                   whileInView={{ y: 0 }}
                   transition={{ delay: (index * 0.1) + 0.6, duration: 0.6 }}
-                  className="text-white/60 text-xs font-bold uppercase tracking-[0.2em]"
+                  className="text-[#A72422]/50 text-[10px] font-black uppercase tracking-[0.3em] mt-1"
                 >
                   {item.description}
                 </motion.p>
