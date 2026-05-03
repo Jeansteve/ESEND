@@ -52,7 +52,10 @@ const itemVariants = {
 
 const TrustBanner = () => {
   return (
-    <section className="bg-white py-24 px-6 relative overflow-hidden transition-colors duration-500">
+    <section className="bg-white pt-24 pb-12 px-6 relative overflow-visible transition-colors duration-500 z-20">
+      {/* Fusion avec la section suivante (le ciel de Menton) */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-white to-transparent translate-y-full pointer-events-none" />
+      
       {/* Decorative center glow - Subtle red tint */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#A72422]/5 blur-[120px] rounded-full pointer-events-none" />
 
