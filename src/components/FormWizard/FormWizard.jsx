@@ -738,7 +738,7 @@ const FormWizard = () => {
                 {formData.isUrgent ? (
                    <div className="bg-red-500/20 border border-red-500/30 rounded-[2rem] p-8 mx-auto max-w-md shadow-2xl backdrop-blur-md">
                      <p className="text-white font-black text-lg drop-shadow-sm uppercase tracking-tight">⚡ PRIORITÉ SOS ACTIVÉE</p>
-                     <p className="text-white/80 font-black italic text-xs mt-4 leading-relaxed uppercase tracking-widest">Notre cellule d'urgence analyse votre dossier.<br/>Nous traitons votre demande en priorité absolue.</p>
+                     <p className="text-white/80 font-black italic text-xs mt-4 leading-relaxed uppercase tracking-widest">Votre demande est bien reçue !<br/>Nous la traitons en priorité absolue.</p>
                    </div>
                 ) : (
                   <div className="bg-white/5 border border-white/10 rounded-[2rem] p-8 mx-auto max-w-md backdrop-blur-md">
