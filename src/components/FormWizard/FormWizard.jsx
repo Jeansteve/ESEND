@@ -711,13 +711,26 @@ const FormWizard = () => {
               </AnimatePresence>
             ) : (
               <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 px-6 space-y-6">
-                <motion.div 
-                  initial={{ scale: 0, rotate: -45 }} 
-                  animate={{ scale: 1, rotate: 0 }} 
-                  className="w-24 h-24 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto text-5xl shadow-[0_0_50px_rgba(34,197,94,0.3)] border border-green-500/30"
-                >
-                  <Check className="w-12 h-12" />
-                </motion.div>
+                <div className="relative mx-auto w-32 h-32 mb-8">
+                  {/* Halo de célébration */}
+                  <motion.div 
+                    animate={{ 
+                      scale: [1, 1.4, 1],
+                      opacity: [0.2, 0.5, 0.2]
+                    }}
+                    transition={{ repeat: Infinity, duration: 4 }}
+                    className="absolute inset-0 bg-green-500/40 rounded-full blur-[40px]"
+                  />
+                  
+                  <motion.div 
+                    initial={{ scale: 0, rotate: -90 }} 
+                    animate={{ scale: 1, rotate: 0 }} 
+                    transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.2 }}
+                    className="relative w-32 h-32 bg-white text-green-600 rounded-full flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.2),0_0_30px_rgba(34,197,94,0.3)] border-4 border-white"
+                  >
+                    <Check className="w-16 h-16 stroke-[4]" />
+                  </motion.div>
+                </div>
                 <div className="space-y-2">
                   <h3 className="text-3xl font-black text-white drop-shadow-lg uppercase tracking-tighter">Merci de votre confiance !</h3>
                   <p className="text-white/60 font-black italic text-sm uppercase tracking-widest">Demande de devis transmise avec succès</p>
