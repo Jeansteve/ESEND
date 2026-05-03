@@ -23,6 +23,11 @@ Les interventions récentes ont porté sur la résolution de bugs critiques bloq
 - **Correction** : Ajout d'une fermeture `</div>` après le textarea de l'étape `details`.
 - **Impact** : Résolution de l'erreur `Unexpected closing "motion.div" tag does not match opening "div" tag`. Stabilisation du pipeline GitHub Actions.
 
+### 3. Optimisation de la Lisibilité (Norme Glass-Contrast)
+- **Problème** : Textes gris et rouges sombres illisibles sur le fond Menton flouté.
+- **Correction** : Uniformisation du Wizard. Utilisation systématique de blanc opacifié (`text-white/70`) et de titres blancs avec ombres portées puissantes (`drop-shadow-xl`). Refonte de la carte "Urgente" pour un contraste maximal.
+- **Impact** : Expérience utilisateur plus fluide, réduction de la fatigue visuelle et amélioration du taux de conversion sur mobile.
+
 ## 📌 Rappels Techniques pour Gemini
 - **CSS** : Utiliser impérativement `!important` et les préfixes `-webkit` pour le glassmorphism en production.
 - **FormWizard** : Toujours vérifier l'équilibre des balises dans les rendus conditionnels complexes.

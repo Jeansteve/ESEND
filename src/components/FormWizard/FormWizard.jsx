@@ -571,8 +571,8 @@ const FormWizard = () => {
                     <div className="space-y-8">
                       <div className="text-center">
                         <Zap className="w-16 h-16 text-[#A72422] mx-auto mb-4 drop-shadow-[0_0_15px_rgba(167,36,34,0.3)]" />
-                        <h3 className="text-2xl font-black text-white mb-2 drop-shadow-md uppercase tracking-tight">Niveau d'urgence</h3>
-                        <p className="text-sm text-white/70 font-black italic drop-shadow-sm">Avez-vous besoin d'une intervention immédiate ?</p>
+                        <h3 className="text-2xl font-black text-white mb-2 drop-shadow-xl uppercase tracking-tight">Niveau d'urgence</h3>
+                        <p className="text-sm text-white font-black italic drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">Avez-vous besoin d'une intervention immédiate ?</p>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <motion.button
@@ -582,14 +582,14 @@ const FormWizard = () => {
                           onClick={() => { updateData('isUrgent', false); nextStep(); }}
                           className={`flex flex-col items-center gap-4 p-8 border-2 rounded-[2rem] font-bold transition-all hover:shadow-2xl ${
                             formData.isUrgent === false && formData.isUrgent !== ''
-                              ? 'border-white/30 bg-white/10 text-white'
-                              : 'border-white/10 bg-white/5 text-white hover:border-white/30'
+                              ? 'border-white/40 bg-white/20 text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]'
+                              : 'border-white/10 bg-white/10 text-white/90 hover:border-white/30'
                           }`}
                         >
                           <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-2xl">📅</div>
                           <div>
                             <div className="text-base font-black">Intervention Standard</div>
-                            <div className="text-xs text-slate-500 font-medium mt-1">Prise en charge selon disponibilités · Tarif habituel</div>
+                            <div className="text-xs text-white/70 font-bold mt-1 uppercase tracking-wider">Prise en charge selon disponibilités · Tarif habituel</div>
                           </div>
                         </motion.button>
 
@@ -600,18 +600,18 @@ const FormWizard = () => {
                           onClick={() => { updateData('isUrgent', true); nextStep(); }}
                           className={`flex flex-col items-center gap-3 p-6 border-2 rounded-2xl font-bold transition-all hover:shadow-lg ${
                             formData.isUrgent === true
-                              ? 'border-[#A72422] bg-red-50 text-[#A72422]'
-                              : 'border-red-500/20 bg-red-500/10 text-white hover:border-[#A72422]'
+                              ? 'border-red-500 bg-red-600/30 text-white shadow-[0_0_40px_rgba(220,38,38,0.4)]'
+                              : 'border-red-500/20 bg-red-500/20 text-white/90 hover:border-red-500'
                           }`}
                         >
                           <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-2xl">⚡</div>
                           <div>
-                            <div className="text-base font-black text-[#A72422]">Intervention Urgente</div>
-                            <div className="text-xs text-slate-500 font-medium mt-1">Prise en charge prioritaire · Majoration tarifaire</div>
+                            <div className="text-base font-black drop-shadow-md">Intervention Urgente</div>
+                            <div className="text-xs text-white/80 font-black mt-1 uppercase tracking-widest italic">Prise en charge prioritaire · Majoration tarifaire</div>
                           </div>
                         </motion.button>
                       </div>
-                      <p className="text-center text-[10px] text-white/40 font-black italic uppercase tracking-widest mt-4">
+                      <p className="text-center text-[10px] text-white/80 font-black italic uppercase tracking-widest mt-4 drop-shadow-md">
                         ⚡ Une intervention urgente implique une majoration de tarif. Notre équipe vous communiquera le devis adapté.
                       </p>
                     </div>
@@ -634,7 +634,7 @@ const FormWizard = () => {
                             <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center shadow-inner">{option.i}</div>
                             <div className="text-center">
                               <div className="text-lg uppercase tracking-tight">{option.n}</div>
-                              <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">{option.desc}</div>
+                              <div className="text-[10px] text-white/70 mt-1 uppercase tracking-widest font-bold">{option.desc}</div>
                             </div>
                           </motion.button>
                         ))}
@@ -651,7 +651,7 @@ const FormWizard = () => {
                             placeholder="CODE POSTAL (EX: 06500)" 
                             value={formData.zipCode} 
                             onChange={(e) => handleZipChange(e.target.value)} 
-                            className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/20 font-black text-center text-xl tracking-[0.3em]" 
+                            className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/40 font-black text-center text-xl tracking-[0.3em]" 
                           />
                           {isSearchingCity && (
                             <div className="absolute right-6 top-1/2 -translate-y-1/2">
@@ -664,7 +664,7 @@ const FormWizard = () => {
                           placeholder="VILLE" 
                           value={formData.city} 
                           onChange={(e) => updateData('city', e.target.value)}
-                          className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/20 font-black text-center text-lg uppercase tracking-widest" 
+                          className="w-full p-6 bg-white/10 text-white rounded-2xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/40 font-black text-center text-lg uppercase tracking-widest" 
                         />
                       </div>
                       <button 
@@ -681,15 +681,15 @@ const FormWizard = () => {
                       <h3 className="text-2xl font-black text-center flex items-center justify-center gap-3 text-white drop-shadow-md uppercase tracking-tight"><User className="text-[#A72422]" /> Vos coordonnées</h3>
                       <div className="space-y-4">
                         <div className="relative">
-                          <input type="text" placeholder="NOM COMPLET" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/30 font-bold uppercase tracking-widest" onChange={(e) => updateData('name', e.target.value)} />
+                          <input type="text" placeholder="NOM COMPLET" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('name', e.target.value)} />
                           <ErrorMsg error={errors.name} />
                         </div>
                         <div className="relative">
-                          <input type="email" placeholder="ADRESSE EMAIL" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/30 font-bold uppercase tracking-widest" onChange={(e) => updateData('email', e.target.value)} />
+                          <input type="email" placeholder="ADRESSE EMAIL" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('email', e.target.value)} />
                           <ErrorMsg error={errors.email} />
                         </div>
                         <div className="relative">
-                          <input type="tel" placeholder="NUMÉRO DE TÉLÉPHONE" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/30 font-bold uppercase tracking-widest" onChange={(e) => updateData('phone', e.target.value)} />
+                          <input type="tel" placeholder="NUMÉRO DE TÉLÉPHONE" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('phone', e.target.value)} />
                           <ErrorMsg error={errors.phone} />
                         </div>
                       </div>

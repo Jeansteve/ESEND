@@ -78,3 +78,12 @@
 - **Cause Racine :** Une balise `<div>` restait ouverte après le `textarea` de l'étape `details`, empiétant sur la section `photos` et décalant la pile de fermeture des composants parents.
 - **La Solution :** Ajout de la fermeture `</div>` manquante et ré-indexation visuelle des niveaux d'imbrication pour garantir un équilibre parfait du DOM.
 - **Impact :** Stabilisation totale du pipeline CI/CD sur GitHub Actions. Le build de production est désormais fluide et sans erreurs structurelles.
+
+### [PSA-2026-05-03-A] : Norme 'Glass-Contrast' (Lisibilité sur Glassmorphism)
+- **Le Problème :** Textes gris (`slate-500`) ou rouges sombres (`#A72422`) illisibles sur fond flou (effet "washed out").
+- **Cause Racine :** Le flou gaussien et la saturation variable de l'arrière-plan absorbent les couleurs sombres peu contrastées.
+- **La Solution :** 
+  1. Remplacer `slate-500` par `text-white/70` ou `text-white/80` (le blanc "brille" à travers le flou).
+  2. Forcer les titres en blanc pur avec `drop-shadow-xl`.
+  3. Pour les états actifs "Urgents", abandonner le fond clair opaque pour un fond de couleur vive translucide (`bg-red-600/30`) avec texte blanc.
+- **Règle d'Or (UI Premium) :** Sur un fond Glassmorphism, la lisibilité se gagne par l'opacité du blanc et la force des ombres portées, jamais par des couleurs sombres.
