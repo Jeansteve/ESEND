@@ -90,8 +90,8 @@ const CodePenSubmitButton = ({ onClick, isPending, isSuccess }) => {
             initial="idle"
             animate={btnState}
             variants={{
-              idle: { opacity: 1, y: 0, x: 0, scale: 1, fill: mainRed },
-              loading: { opacity: 0, y: 7, x: 0, scale: 0.7, fill: mainRed, transition: { duration: 0.3 } },
+              idle: { opacity: 1, y: 0, x: 0, scale: 1, fill: "#ffffff" },
+              loading: { opacity: 0, y: 7, x: 0, scale: 0.7, fill: "#ffffff", transition: { duration: 0.3 } },
               // Translating text by x: -5 units perfectly centers it when the red circle isn't there anymore
               success: { opacity: 1, y: 0, x: -5, scale: 1, fill: successGreen, transition: { delay: 1.0, type: "spring", stiffness: 200 } }
             }}
@@ -339,7 +339,7 @@ const FormWizard = () => {
   };
 
   const ErrorMsg = ({ error }) => error ? (
-    <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-[#A72422] text-xs font-bold pt-1">{error}</motion.p>
+    <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-[11px] font-black pt-1 drop-shadow-sm uppercase tracking-wide">{error}</motion.p>
   ) : null;
 
   const [isSuccess, setIsSuccess] = useState(false);
@@ -681,15 +681,15 @@ const FormWizard = () => {
                       <h3 className="text-2xl font-black text-center flex items-center justify-center gap-3 text-white drop-shadow-md uppercase tracking-tight"><User className="text-[#A72422]" /> Vos coordonnées</h3>
                       <div className="space-y-4">
                         <div className="relative">
-                          <input type="text" placeholder="NOM COMPLET" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('name', e.target.value)} />
+                          <input type="text" placeholder="NOM COMPLET" className="w-full p-5 bg-white/20 text-white rounded-xl border-2 border-white/20 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('name', e.target.value)} />
                           <ErrorMsg error={errors.name} />
                         </div>
                         <div className="relative">
-                          <input type="email" placeholder="ADRESSE EMAIL" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('email', e.target.value)} />
+                          <input type="email" placeholder="ADRESSE EMAIL" className="w-full p-5 bg-white/20 text-white rounded-xl border-2 border-white/20 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('email', e.target.value)} />
                           <ErrorMsg error={errors.email} />
                         </div>
                         <div className="relative">
-                          <input type="tel" placeholder="NUMÉRO DE TÉLÉPHONE" className="w-full p-5 bg-white/10 text-white rounded-xl border-2 border-white/10 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('phone', e.target.value)} />
+                          <input type="tel" placeholder="NUMÉRO DE TÉLÉPHONE" className="w-full p-5 bg-white/20 text-white rounded-xl border-2 border-white/20 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('phone', e.target.value)} />
                           <ErrorMsg error={errors.phone} />
                         </div>
                       </div>
