@@ -91,8 +91,11 @@ const PestSelector = () => {
             <motion.div
               key={pest.id}
               variants={cardVariants}
-              initial="initial"
+              initial={{ ...cardVariants.initial, opacity: 0, y: 40 }}
+              whileInView={{ ...cardVariants.initial, opacity: 1, y: 0 }}
               whileHover="hover"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: index * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="group relative flex flex-col border rounded-[2rem] p-6 lg:p-8 transition-all duration-500 overflow-hidden text-left"
             >
                    {/* Full-width link overlay for better UX */}
@@ -129,7 +132,8 @@ const PestSelector = () => {
                 </div>
               ) : (
                 <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-white/5">
-                  <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" />
+                  <img src={pest.image} alt={pest.name} className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" loading="lazy" decoding="async" />
+
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                   <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-md p-2 rounded-full border border-white/10">
                     {pest.icon}

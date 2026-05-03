@@ -51,10 +51,10 @@ const PortfolioBento = () => {
           {interventions.map((item, index) => (
             <motion.div
               key={item.id || index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              initial={{ opacity: 0, scale: 0.92, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setSelectedItem(item)}
               className={`group relative overflow-hidden rounded-[2.5rem] border border-black/5 cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 ${item.size}`}
             >
@@ -62,6 +62,8 @@ const PortfolioBento = () => {
                 src={item.img || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070'} 
                 alt={item.title} 
                 className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
               

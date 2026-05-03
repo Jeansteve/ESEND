@@ -87,10 +87,10 @@ const KnowledgeHub = () => {
           ) : articles.slice(0, 3).map((article, index) => (
             <motion.article
               key={article.id || index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
               onClick={() => handleArticleClick(article)}
               onMouseEnter={() => handleMouseEnter(article)}
               className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
@@ -100,6 +100,8 @@ const KnowledgeHub = () => {
                   src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'}
                   alt={article.title}
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent text-left" />
                 <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1.5 rounded-full tracking-widest text-left">

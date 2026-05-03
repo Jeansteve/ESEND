@@ -20,6 +20,8 @@ const About = () => {
                 src="/duo-experts-esend.png" 
                 className="w-full h-full object-cover transition-all duration-1000"
                 alt="Votre duo d'experts à Menton"
+                loading="lazy"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
             </div>
@@ -45,8 +47,8 @@ const About = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
             <div className="inline-flex items-center gap-2 text-esend-red font-black uppercase tracking-[0.2em] text-[10px] mb-6">
               <span className="w-8 h-px bg-esend-red"></span> Expertise & Proximité
             </div>
