@@ -49,6 +49,7 @@ const About = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
+          >
             <div className="inline-flex items-center gap-2 text-esend-red font-black uppercase tracking-[0.2em] text-[10px] mb-6">
               <span className="w-8 h-px bg-esend-red"></span> Expertise & Proximité
             </div>
