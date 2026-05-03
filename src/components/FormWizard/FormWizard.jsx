@@ -339,7 +339,16 @@ const FormWizard = () => {
   };
 
   const ErrorMsg = ({ error }) => error ? (
-    <motion.p initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-red-400 text-[11px] font-black pt-1 drop-shadow-sm uppercase tracking-wide">{error}</motion.p>
+    <motion.div 
+      initial={{ opacity: 0, y: 10, scale: 0.9, x: '-50%' }} 
+      animate={{ opacity: 1, y: 0, scale: 1, x: '-50%' }} 
+      className="absolute bottom-[calc(100%+8px)] left-1/2 bg-white text-red-600 text-[10px] font-black px-4 py-2 rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.3)] z-[100] border border-red-100 flex items-center gap-2 whitespace-nowrap"
+    >
+      <Zap className="w-3 h-3 fill-red-600" />
+      <span className="uppercase tracking-wider">{error}</span>
+      {/* Petit triangle pointant vers le bas */}
+      <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-r border-b border-red-100" />
+    </motion.div>
   ) : null;
 
   const [isSuccess, setIsSuccess] = useState(false);
