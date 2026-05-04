@@ -19,7 +19,7 @@
   padding: 2rem;
   flex-shrink: 0;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
-  z-index: 50;
+  z-index: 1300; /* Toujours visible au-dessus du Studio (1100) et des modales (100) */
 }
 
 .admin-sidebar.collapsed {

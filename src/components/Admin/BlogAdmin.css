@@ -163,8 +163,8 @@
    Wait, `ArticleModal` is inside `BlogManager` which is inside `Dashboard`.
    So if `Dashboard` has `.collapsed-mode`, we can target:
 */
-.collapsed-mode .article-editor-integrated,
-.collapsed-mode .creation-studio-integrated {
+.sidebar-collapsed .article-editor-integrated,
+.sidebar-collapsed .creation-studio-integrated {
     left: 80px;
 }
 
