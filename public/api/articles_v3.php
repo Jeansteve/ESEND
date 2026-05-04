@@ -68,9 +68,10 @@ switch ($method) {
         $stmt->execute($params);
         $articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Mapper 'content' (DB) -> 'content_html' (frontend) pour tous les articles
+        // OPTIMISATION PERF: Supprimer le contenu lourd pour la vue liste
+        // Le frontend n'a besoin que du titre, extrait, image, etc.
         $articles = array_map(function($a) {
-            $a['content_html'] = $a['content'] ?? '';
+            unset($a['content']); // Réduit la taille du JSON drastiquement
             return $a;
         }, $articles);
 
