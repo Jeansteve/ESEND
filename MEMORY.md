@@ -87,3 +87,10 @@
   2. Forcer les titres en blanc pur avec `drop-shadow-xl`.
   3. Pour les états actifs "Urgents", abandonner le fond clair opaque pour un fond de couleur vive translucide (`bg-red-600/30`) avec texte blanc.
 - **Règle d'Or (UI Premium) :** Sur un fond Glassmorphism, la lisibilité se gagne par l'opacité du blanc et la force des ombres portées, jamais par des couleurs sombres.
+### [PSA-2026-05-04-A] : Conformité Légale & RGPD Dynamique
+- **Le Concept :** Centralisation totale des informations juridiques (SIRET, Adresse, Gérant) dans le système de paramètres pour garantir une mise en conformité "zéro-code" pour l'administrateur.
+- **Implémentation Technique :** 
+  1. Création de `LegalNotices.jsx` et `PrivacyPolicy.jsx` utilisant exclusivement `api.getSettings()`.
+  2. Injection du SIRET dynamique dans le `Footer.jsx` avec liens de navigation explicites.
+  3. Intégration d'un verrou de consentement obligatoire (`checkbox`) dans le `FormWizard.jsx`.
+- **Règle d'Or (Conformité) :** Toute collecte de données personnelles (Formulaire) DOIT être précédée d'une case à cocher explicite non-précochée, liée à une politique de confidentialité accessible en un clic. L'adresse physique doit être paramétrable pour refléter la réalité juridique de l'entreprise sans intervention technique.

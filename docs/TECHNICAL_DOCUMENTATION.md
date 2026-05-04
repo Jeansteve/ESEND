@@ -12,6 +12,12 @@ ESEND est une application **Hybrid SPA** (Single Page Application) :
 - **Base de Données** : MySQL (Relationnelle).
 - **Hébergement** : Hostinger (Serveur Mutualisé Linux).
 
+Les routes principales sont définies dans `App.jsx` :
+- `<Route path="/journal/:slug" element={<ArticlePage />} />`
+- `<Route path="/mentions-legales" element={<LegalNotices />} />`
+- `<Route path="/politique-confidentialite" element={<PrivacyPolicy />} />`
+- `<Route path="*" element={<Navigate to="/" replace />} />`
+
 ---
 
 ## 🎨 2. Frontend & Design System
@@ -49,6 +55,10 @@ L'API est située dans `/public/api/`. Chaque fichier PHP gère une ressource sp
     - **Optimisation de Liste** : Pour accélérer le chargement initial, les requêtes de liste (sans `id`) excluent désormais le champ lourd `content`.
     - **Lecture Unique** : Le contenu HTML n'est renvoyé que lorsqu'un article spécifique est demandé via `?id=...`.
 4. **`projects.php`** : CRUD pour les "Réalisations Terrain".
+5. **`settings.php`** : Système de configuration dynamique (Key-Value).
+    - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
+    - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
+    - **Usage Légal** : Sert de source unique de vérité pour l'adresse, le SIRET et les coordonnées affichées sur les pages légales.
 
 ---
 
@@ -77,11 +87,15 @@ Pour faciliter le marketing et l'archivage, les dossiers sont créés dynamiquem
 
 ---
 
-## 🔐 6. Sécurité
+## 🔐 6. Sécurité & Conformité
 
 - **Protection Uploads** : Un fichier `.htaccess` dans `/uploads/` interdit l'exécution de scripts (`php`, `cgi`, etc.).
 - **Validation** : Regex stricte pour les numéros de téléphone et emails côté client et serveur.
 - **Authentification Admin** : Système de session simplifié via `localStorage` (simulation) + protection des endpoints API (à renforcer en production avec JWT ou Sessions PHP).
+- **Conformité RGPD (Nouveau)** : 
+    - **Consentement Libre** : Case à cocher obligatoire dans le `FormWizard`.
+    - **Transparence** : Accès direct à la politique de confidentialité depuis le formulaire.
+    - **Droit à l'Oubli** : L'email de contact est dynamiquement injecté pour faciliter les demandes de suppression/modification.
 
 ---
 
@@ -91,16 +105,6 @@ Le projet utilise **GitHub Actions**.
 - **Config** : `.github/workflows/deploy.yml`.
 - **Méthode** : FTP Sync vers Hostinger.
 - **Action requise** : À chaque push sur `main`, les fichiers sont synchronisés automatiquement dans `public_html`.
-
----
-
-### 📂 3. Backend & API
-[...]
-5. **`settings.php`** : Système de configuration dynamique (Key-Value).
-    - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
-    - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
-
----
 
 ---
 

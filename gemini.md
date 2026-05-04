@@ -28,11 +28,16 @@ Les interventions récentes ont porté sur la résolution de bugs critiques bloq
 - **Correction** : Uniformisation du Wizard. Utilisation systématique de blanc opacifié (`text-white/70`) et de titres blancs avec ombres portées puissantes (`drop-shadow-xl`). Refonte de la carte "Urgente" pour un contraste maximal.
 - **Impact** : Expérience utilisateur plus fluide, réduction de la fatigue visuelle et amélioration du taux de conversion sur mobile.
 
+## ⚖️ 6. Mise en Conformité Légale & RGPD (Mai 2026)
+L'application est désormais alignée sur les obligations légales françaises (RGPD/LCEN) :
+- **Pages Légales Dynamiques** : Création de `/mentions-legales` et `/politique-confidentialite`. Ces pages consomment les données de `api.getSettings()`, permettant à l'admin de modifier son SIRET ou son adresse sans toucher au code.
+- **Validation RGPD** : Ajout d'un consentement obligatoire dans le `FormWizard`. Le lead n'est pas créé tant que la politique de confidentialité n'est pas acceptée.
+- **Footer Juridique** : Affichage permanent du SIRET dynamique et liens légaux avec mécanisme de "Scroll to Top" forcé pour éviter les confusions de navigation.
+
 ## 📌 Rappels Techniques pour Gemini
-- **CSS** : Utiliser impérativement `!important` et les préfixes `-webkit` pour le glassmorphism en production.
-- **FormWizard** : Toujours vérifier l'équilibre des balises dans les rendus conditionnels complexes.
-- **SEO** : Maillage interne via les URLs des pages expertes au lieu de protocoles techniques.
+[...]
 - **Images** : Les assets réels (rat.png, punaise.png) sont prioritaires pour les illustrations du wizard.
+- **Conformité** : Toujours utiliser `Link` avec un `onClick` de scroll pour les pages légales situées en bas de page.
 
 ---
-*Documentation mise à jour le 02 Mai 2026 par Antigravity.*
+*Documentation mise à jour le 04 Mai 2026 par Antigravity.*

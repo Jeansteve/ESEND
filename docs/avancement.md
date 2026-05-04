@@ -136,10 +136,23 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction d'un bug de type (`String` vs `Number`) qui invalidait le cache.
     - Le système de "Prefetch" (pré-chargement au survol) est désormais 100% fonctionnel, rendant le clic sur un article quasi-instantané.
 
+## ✅ V11 : Conformité Légale & RGPD Dynamique (Live — Mai 2024)
+**Fichiers :** `LegalNotices.jsx`, `PrivacyPolicy.jsx`, `Footer.jsx`, `FormWizard.jsx`, `App.jsx`
+
+- **Pages Juridiques Dynamiques** : 
+    - Création des routes `/mentions-legales` et `/politique-confidentialite`.
+    - Récupération des données (SIRET, Adresse, Gérant) via `api.getSettings()`.
+- **Verrou de Consentement RGPD** :
+    - Ajout d'une case à cocher obligatoire à la fin du `FormWizard`.
+    - Blocage de la soumission si non cochée + message d'erreur explicite.
+- **Footer Juridique** :
+    - Intégration du SIRET dynamique dans le pied de page.
+    - Ajout des liens légaux avec mécanisme de "Scroll to Top" forcé.
+- **Design Harmonisé** : Utilisation du thème "Frozen Night" avec typographie lisible et icônes Lucide-React.
+
 ## 🚀 Prochaines Étapes
 1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
 2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.
-3. **Surveillance du Poids** : Sensibilisation à l'évitement des images en base64 dans l'éditeur pour préserver la vitesse.
-4. **Monitoring** : Vérifier la stabilité du déploiement FTP.
+3. **Optimisation SEO Avancée** : Vérifier l'indexation des nouvelles pages légales.
 
 
