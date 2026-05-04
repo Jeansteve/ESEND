@@ -145,6 +145,17 @@ Le tableau de bord admin dispose d'un module d'analyse poussé (`AnalyticsTab.js
 
 ---
 
-## 💡 11. Notes pour les évolutions futures
+## 📋 11. Gestion des Flux & Filtrage (CRM / Portfolio)
+Les listes de données (Leads et Réalisations) utilisent un pattern de filtrage en cascade :
+- **Niveau 1 : Status/Scope** : État binaire (À traiter vs Archives dans le CRM, Visible vs Masqué dans le Portfolio).
+- **Niveau 2 : Pôle Métier** : Filtrage par catégorie via l'état `serviceFilter` (CRM) ou `activeCategory` (Portfolio).
+- **Niveau 3 : Recherche Full-Text** : Filtrage par mots-clés sur un agrégat de champs textuels.
+
+**Optimisation UX (Auto-Reset)** : 
+Un `useEffect` surveille la prop `searchQuery`. Si celle-ci n'est pas vide, l'état du pôle métier est automatiquement réinitialisé à sa valeur par défaut ("Tous" / "all"). Cela évite le bug d'expérience utilisateur où une recherche ne donne aucun résultat car un filtre de catégorie restrictif est resté actif à l'insu de l'utilisateur.
+
+---
+
+## 💡 12. Notes pour les évolutions futures
 - **Migration Cloud** : La structure `images` en JSON est prête pour accueillir des URLs Cloudinary/S3.
 - **Auto-Réponse** : Envisager l'intégration d'un webhook pour notifier les clients après un dépôt de devis.

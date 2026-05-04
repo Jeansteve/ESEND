@@ -164,12 +164,13 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Indicateurs Clés de Performance (KPIs)** :
     - Cartes récapitulatives temporelles indiquant le volume total de la période sélectionnée et sa tendance (+XX%).
 
-## ✅ V13 : CRM Filtering & Search Excellence (Live)
-**Fichiers :** `LeadManager.jsx`, `Dashboard.jsx`
+## ✅ V13 : CRM Filtering & Search UX (Live)
+**Fichiers :** `LeadManager.jsx`, `Dashboard.jsx`, `PortfolioTab (Dashboard.jsx)`
 
-- **Filtrage par Pôle Métier** : Intégration de boutons de filtrage rapide pour Nuisibles, Nettoyage et Désinfection avec identité visuelle synchronisée.
-- **Recherche Globale Connectée** : La barre de recherche du Dashboard est désormais fonctionnelle dans la partie Demandes, permettant de trouver un lead par nom, ville, tracking ID ou détails du problème.
-- **Logique Cascade** : Système de filtrage intelligent combinant l'état du dossier (Archives/Inbox), le pôle métier et la recherche textuelle.
+- **Filtrage par Pôle Métier** : Intégration de boutons de filtrage rapide (Nuisibles, Nettoyage, Désinfection) avec identité visuelle synchronisée sur les Demandes et les Réalisations.
+- **Recherche Globale Connectée** : La barre de recherche du Dashboard est désormais fonctionnelle dans les sections Demandes et Réalisations, permettant une recherche multi-critères (nom, ville, ID, détails).
+- **UX Auto-Reset** : Implémentation d'un déclencheur intelligent qui bascule automatiquement les filtres de catégorie sur "Tous" dès qu'une recherche est entamée, garantissant que l'utilisateur trouve toujours ce qu'il cherche sans friction.
+- **Logique Cascade** : Système de filtrage intelligent combinant l'état (Archives/Inbox), le pôle métier et la recherche textuelle.
 
 ## 🚀 Prochaines Étapes
 1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.

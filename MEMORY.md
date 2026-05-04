@@ -102,3 +102,15 @@
   2. **Recharts SVG** : Emballer `AreaChart` dans un `ResponsiveContainer` (100% de largeur) pour garantir la fluidité mobile. Utiliser les balises `<defs>` et `<linearGradient>` pour l'effet premium de courbes lumineuses descendantes.
   3. **État Conditionnel** : Rendre différentes balises `<Area>` en fonction d'un état `viewMode` (Macro vs Micro).
 - **Règle d'Or (BI) :** Ne jamais figer une vue analytique sur une seule granularité. Un tableau de bord premium doit permettre à l'utilisateur de "zoomer" visuellement et "zoomer" chronologiquement de façon autonome et instantanée.
+
+### [PSA-2026-05-04-C] : Pattern de Recherche Sans Friction (UX Search Reset)
+- **Le Concept :** Dans une interface complexe disposant de filtres de catégories ET d'une barre de recherche, la recherche doit toujours être prioritaire et inclusive.
+- **Le Problème :** Un utilisateur filtre sur "Désinfection", puis cherche un client "Jean" qui est en réalité dans "Nuisibles". La recherche renvoie 0 résultat, causant de la frustration.
+- **La Solution :** Connecter la barre de recherche à un reset automatique des filtres de catégorie.
+- **Implémentation :** 
+  ```javascript
+  useEffect(() => {
+    if (searchQuery.trim() !== "") setCategoryFilter('all');
+  }, [searchQuery]);
+  ```
+- **Règle d'Or (UX Admin) :** La recherche est une intention globale. Toute saisie dans le champ de recherche doit "libérer" les filtres de catégories pour scanner l'intégralité de la base de données.

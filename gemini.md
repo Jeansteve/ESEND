@@ -39,7 +39,8 @@ L'application est désormais alignée sur les obligations légales françaises (
 - **Images** : Les assets réels (rat.png, punaise.png) sont prioritaires pour les illustrations du wizard.
 - **Conformité** : Toujours utiliser `Link` avec un `onClick` de scroll pour les pages légales situées en bas de page.
 - **Analytics** : Pour la visualisation de données, toujours privilégier `Recharts` avec des `<linearGradient>` pour un aspect moderne.
-- **BI Temporelle** : Toujours offrir plusieurs niveaux de granularité (ex: Jour, Semaine, Mois, Année) pour éviter des tableaux de bord figés. L'agrégation doit idéalement se faire en frontend (`useMemo`) si le volume de données le permet.
+- **BI Temporelle** : Toujours offrir plusieurs niveaux de granularité (ex: Jour, Semaine, Mois, Année) pour éviter des tableaux de bord figés.
+- **UX Search** : Toute interface de liste (CRM, Portfolio) doit réinitialiser ses filtres de catégorie au profit de la recherche dès que l'utilisateur saisit une requête dans la barre globale.
 
 ---
 *Documentation mise à jour le 04 Mai 2026 par Antigravity.*
