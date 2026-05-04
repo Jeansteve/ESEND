@@ -164,7 +164,7 @@ const FormWizard = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(false);
-
+  const [rgpdConsent, setRgpdConsent] = useState(false);
   useEffect(() => {
     const devisPest = searchParams.get('devis');
     if (devisPest) {
@@ -189,6 +189,9 @@ const FormWizard = () => {
       newErrors.phone = 'Le numéro est requis';
     } else if (!/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(formData.phone)) {
       newErrors.phone = 'Numéro invalide (ex: 06 12 34 56 78)';
+    }
+    if (!rgpdConsent) {
+      newErrors.rgpd = 'Vous devez accepter la politique de confidentialité';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -696,6 +699,29 @@ const FormWizard = () => {
                           <input type="tel" placeholder="NUMÉRO DE TÉLÉPHONE" className="w-full p-5 bg-white/20 text-white rounded-xl border-2 border-white/20 focus:border-[#A72422] outline-none transition-all placeholder:text-white/50 font-bold uppercase tracking-widest" onChange={(e) => updateData('phone', e.target.value)} />
                           <ErrorMsg error={errors.phone} />
                         </div>
+                      </div>
+                      <div className="pt-2">
+                        <label className="flex items-start gap-3 cursor-pointer group">
+                          <div className="relative flex items-center justify-center mt-0.5">
+                            <input 
+                              type="checkbox" 
+                              className="peer sr-only" 
+                              checked={rgpdConsent}
+                              onChange={(e) => {
+                                setRgpdConsent(e.target.checked);
+                                if (e.target.checked && errors.rgpd) setErrors(prev => ({ ...prev, rgpd: null }));
+                              }}
+                            />
+                            <div className="w-5 h-5 border-2 border-white/20 rounded-md peer-checked:bg-red-600 peer-checked:border-red-600 transition-all flex items-center justify-center group-hover:border-red-500">
+                              <Check className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
+                            </div>
+                          </div>
+                          <span className="text-[10px] text-zinc-400 font-bold tracking-widest leading-relaxed flex-1">
+                            J'accepte que mes données soient traitées par ESEND pour ma demande de devis. <br/>
+                            <a href="/#/politique-confidentialite" target="_blank" className="text-red-500 hover:text-red-400 underline decoration-red-500/30">En savoir plus sur la gestion de vos données</a>.
+                          </span>
+                        </label>
+                        <ErrorMsg error={errors.rgpd} />
                       </div>
                       <div className="pt-4">
                         <CodePenSubmitButton onClick={handleSubmit} isPending={isPending} isSuccess={isSuccess} />

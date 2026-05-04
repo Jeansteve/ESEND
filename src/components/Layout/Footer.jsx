@@ -5,7 +5,8 @@ import { api } from '../../lib/api';
 const Footer = () => {
   const [settings, setSettings] = useState({
     company_phone: '06 51 23 98 41',
-    contact_email: 'contact@esendnuisibles.fr'
+    contact_email: 'contact@esendnuisibles.fr',
+    company_siret: '900 556 838 00010'
   });
 
   useEffect(() => {
@@ -15,7 +16,8 @@ const Footer = () => {
         if (data) {
           setSettings({
             company_phone: data.company_phone || '06 51 23 98 41',
-            contact_email: data.contact_email || 'contact@esendnuisibles.fr'
+            contact_email: data.contact_email || 'contact@esendnuisibles.fr',
+            company_siret: data.company_siret || '900 556 838 00010'
           });
         }
       } catch (err) {
@@ -70,11 +72,15 @@ const Footer = () => {
       </div>
 
       <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
-        <div>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</div>
+        <div className="flex flex-col md:flex-row items-center gap-2">
+          <span>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</span>
+          <span className="hidden md:inline">|</span>
+          <span>SIRET : {settings.company_siret}</span>
+        </div>
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mt-6 md:mt-0">
-          <a href="#devis" className="hover:text-zinc-400 transition-colors">Mentions Légales</a>
-          <a href="#devis" className="hover:text-zinc-400 transition-colors">RGPD</a>
-          <a href="https://portfolio-wandaboy.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-esend-red transition-colors">Design par Wandaboy 🕵️‍♂️</a>
+          <Link to="/mentions-legales" onClick={() => window.scrollTo(0,0)} className="hover:text-zinc-400 transition-colors cursor-pointer">Mentions Légales</Link>
+          <Link to="/politique-confidentialite" onClick={() => window.scrollTo(0,0)} className="hover:text-zinc-400 transition-colors cursor-pointer">RGPD</Link>
+          <span className="text-slate-500 select-none">Design par Wandaboy 🕵️‍♂️</span>
         </div>
       </div>
     </footer>
