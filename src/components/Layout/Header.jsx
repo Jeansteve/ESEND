@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, ArrowRight, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 
@@ -14,6 +14,7 @@ const Header = () => {
   const [hoveredItem, setHoveredItem] = useState(null);
   const [mobileSubMenuOpen, setMobileSubMenuOpen] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +40,7 @@ const Header = () => {
     },
     { name: 'Nos réalisations', href: '/realisations', type: 'link' },
     { name: 'Le Journal', href: '/journal', type: 'link' },
-    { name: 'A propos', href: '/#valeurs', type: 'anchor' },
+    { name: 'A propos', href: '#valeurs', type: 'anchor' },
   ];
 
   const handleNavClick = (e, item) => {
@@ -56,7 +57,7 @@ const Header = () => {
     setMobileSubMenuOpen(null);
     
     if (item.type === 'anchor') {
-      const targetId = item.href.split('#')[1];
+      const targetId = item.href.replace('#', '');
       if (location.pathname === '/') {
         e.preventDefault();
         const target = document.getElementById(targetId);
@@ -67,11 +68,10 @@ const Header = () => {
           window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
         }
       } else {
-        // En dehors de l'accueil, comportement normal : la page charge "/" puis l'ancre native prend le relais.
-        // Sur React-Router avec HashRouter, on force la nav :
-        if (item.href.startsWith('/#')) {
-            window.location.href = item.href;
-        }
+        // En dehors de l'accueil, on navigue vers l'accueil + hash
+        // useNavigate gérera correctement le hash avec HashRouter
+        e.preventDefault();
+        navigate(`/#${targetId}`);
       }
     }
   };

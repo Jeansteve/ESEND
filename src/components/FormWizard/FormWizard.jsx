@@ -178,24 +178,7 @@ const FormWizard = () => {
       setCurrentStepIndex(3); // Passe directement à l'étape "Client"
     }
 
-    // Gestion du scroll automatique vers #devis
-    const handleHashScroll = () => {
-      if (window.location.hash.includes('#devis')) {
-        const target = document.getElementById('devis');
-        if (target) {
-          setTimeout(() => {
-            const headerOffset = 100;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          }, 100);
-        }
-      }
-    };
 
-    handleHashScroll();
-    window.addEventListener('hashchange', handleHashScroll);
-    return () => window.removeEventListener('hashchange', handleHashScroll);
   }, [searchParams]);
 
   const validate = () => {
