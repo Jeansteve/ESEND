@@ -53,27 +53,30 @@ const ArticlePage = () => {
 
     const loadArticleData = async () => {
       try {
-        // Chargement via le cache du DataService
+        // 1. Chargement de l'article principal (rapide)
         const fullArticle = await dataService.getArticleById(slug);
         
         if (fullArticle && fullArticle.id) {
           setArticle(fullArticle);
+          setLoading(false); // On débloque l'affichage immédiatement
           
-          // Articles liés (on peut utiliser le cache ici aussi)
-          const allArticles = await dataService.getArticles();
-          const published = (allArticles || []).filter(a => a.is_published == 1 || a.is_published === true);
-          const others = published
-            .filter(a => String(a.id) !== String(fullArticle.id) && a.service_id === fullArticle.service_id)
-            .slice(0, 3);
-          
-          setRelated(others.length > 0 ? others : published.filter(a => String(a.id) !== String(fullArticle.id)).slice(0, 3));
+          // 2. Chargement des articles liés en arrière-plan (lourd, non-bloquant)
+          dataService.getArticles().then(allArticles => {
+            const published = (allArticles || []).filter(a => a.is_published == 1 || a.is_published === true);
+            const others = published
+              .filter(a => String(a.id) !== String(fullArticle.id) && a.service_id === fullArticle.service_id)
+              .slice(0, 3);
+            
+            setRelated(others.length > 0 ? others : published.filter(a => String(a.id) !== String(fullArticle.id)).slice(0, 3));
+          }).catch(err => console.error("Erreur chargement articles liés:", err));
+
         } else {
           setNotFound(true);
+          setLoading(false);
         }
       } catch (err) {
         console.error('Erreur chargement article:', err);
         setNotFound(true);
-      } finally {
         setLoading(false);
       }
     };
