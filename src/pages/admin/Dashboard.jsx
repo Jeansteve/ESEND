@@ -69,6 +69,12 @@ const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
   const [activeCategory, setActiveCategory] = React.useState('all');
   const [deletingId, setDeletingId] = React.useState(null);
 
+  React.useEffect(() => {
+    if (searchQuery && searchQuery.trim() !== "") {
+      setActiveCategory('all');
+    }
+  }, [searchQuery]);
+
   const handleDelete = async (proj) => {
     if (!window.confirm(`Supprimer "${proj.title}" ? Action irréversible.`)) return;
     setDeletingId(proj.id);
