@@ -136,6 +136,15 @@ ESEND intègre des mécanismes d'automatisation SEO avancés sur ses pages dynam
 
 ---
 
-## 💡 10. Notes pour les évolutions futures
+## 📊 10. Stack Analytics & Business Intelligence (Admin)
+Le tableau de bord admin dispose d'un module d'analyse poussé (`AnalyticsTab.jsx`) :
+- **Moteur Graphique** : Utilisation de **Recharts**, une librairie basée sur D3.js spécifiquement conçue pour React. Elle garantit un rendu SVG fluide et `ResponsiveContainer` assure la compatibilité mobile.
+- **Logique de Rendu Dynamique** : Le rendu des courbes (`Area`) s'adapte conditionnellement à l'état `viewMode` pour permettre l'effet "Drill-Down" sans recharger la page.
+- **Granularité Temporelle** : Le composant gère un état `timeRange` (`day`, `week`, `month`, `year`). L'algorithme de génération de données (Mock) réagit à ce changement en ajustant le nombre de points (ex: 14 pour les jours, 12 pour les mois, 5 pour les années) et en pondérant les volumes.
+- **Micro-Interactions** : `Framer Motion` gère l'apparition et la disparition fluide des boutons de contrôle (ex: bouton de retour "Zoom Global").
+
+---
+
+## 💡 11. Notes pour les évolutions futures
 - **Migration Cloud** : La structure `images` en JSON est prête pour accueillir des URLs Cloudinary/S3.
 - **Auto-Réponse** : Envisager l'intégration d'un webhook pour notifier les clients après un dépôt de devis.

@@ -150,6 +150,20 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Ajout des liens légaux avec mécanisme de "Scroll to Top" forcé.
 - **Design Harmonisé** : Utilisation du thème "Frozen Night" avec typographie lisible et icônes Lucide-React.
 
+## ✅ V12 : Business Intelligence & Analytics Premium (Live)
+**Fichiers :** `AnalyticsTab.jsx`, `Dashboard.jsx`, `package.json`
+
+- **Visualisation Graphique Haute Performance** :
+    - Intégration de `Recharts` pour des graphiques fluides et responsifs.
+    - Graphique `AreaChart` temporel avec le thème "Frozen Night" (dégradés dynamiques Rouges, Indigos, Cyans).
+- **Fonctionnalité "Drill-Down" (Zoom Métier)** :
+    - Basculement instantané d'une vue "Macro" (Nuisibles vs Nettoyage) à une vue "Micro" (Rats, Souris, Punaises...) via des animations `Framer Motion`.
+- **Filtres de Granularité Temporelle** :
+    - Vue modifiable à la volée : Jour (14 jours), Semaine (12 semaines), Mois (12 mois), Année (5 ans).
+    - Algorithme de Mock Data adaptatif (générateur de tendance pour l'effet Wow en l'absence de data volumineuse).
+- **Indicateurs Clés de Performance (KPIs)** :
+    - Cartes récapitulatives temporelles indiquant le volume total de la période sélectionnée et sa tendance (+XX%).
+
 ## 🚀 Prochaines Étapes
 1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
 2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.

@@ -94,3 +94,11 @@
   2. Injection du SIRET dynamique dans le `Footer.jsx` avec liens de navigation explicites.
   3. Intégration d'un verrou de consentement obligatoire (`checkbox`) dans le `FormWizard.jsx`.
 - **Règle d'Or (Conformité) :** Toute collecte de données personnelles (Formulaire) DOIT être précédée d'une case à cocher explicite non-précochée, liée à une politique de confidentialité accessible en un clic. L'adresse physique doit être paramétrable pour refléter la réalité juridique de l'entreprise sans intervention technique.
+
+### [PSA-2026-05-04-B] : Pattern d'Analyse Temporelle (Recharts & Framer)
+- **Le Concept :** Pour représenter des volumes d'activité (Analytics) complexes sans surcharger l'UI, combiner le "Drill-Down" (Zoom conditionnel) et des filtres de granularité temporelle.
+- **Implémentation Technique :**
+  1. **Mock Dynamique** : Utiliser un `useMemo` couplé à un état `timeRange` (`day`, `week`, `month`, `year`) pour ajuster à la volée le nombre de points générés sur l'axe X.
+  2. **Recharts SVG** : Emballer `AreaChart` dans un `ResponsiveContainer` (100% de largeur) pour garantir la fluidité mobile. Utiliser les balises `<defs>` et `<linearGradient>` pour l'effet premium de courbes lumineuses descendantes.
+  3. **État Conditionnel** : Rendre différentes balises `<Area>` en fonction d'un état `viewMode` (Macro vs Micro).
+- **Règle d'Or (BI) :** Ne jamais figer une vue analytique sur une seule granularité. Un tableau de bord premium doit permettre à l'utilisateur de "zoomer" visuellement et "zoomer" chronologiquement de façon autonome et instantanée.

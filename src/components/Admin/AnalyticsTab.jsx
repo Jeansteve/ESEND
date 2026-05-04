@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { ArrowLeft, TrendingUp, Bug, Sparkles, ShieldCheck, Activity } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Bug, Sparkles, Activity } from 'lucide-react';
 
 // --- Palette de Couleurs "Frozen Night" ---
 const COLORS = {
@@ -43,32 +43,59 @@ const CustomTooltip = ({ active, payload, label }) => {
 const AnalyticsTab = ({ leads }) => {
   // viewMode: 'global' | 'nuisibles'
   const [viewMode, setViewMode] = useState('global');
+  // timeRange: 'day' | 'week' | 'month' | 'year'
+  const [timeRange, setTimeRange] = useState('month');
 
-  // Génération de Mock Data (Si peu de leads réels)
+  // Génération de Mock Data (Adaptative selon timeRange)
   const chartData = useMemo(() => {
-    // Si on a assez de leads, on pourrait faire une agrégation réelle ici.
-    // Pour l'instant, on génère 12 mois de données réalistes pour l'effet "Wow".
-    const months = ['Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar', 'Avr', 'Mai'];
     const data = [];
-    
-    let baseN = 25, baseD = 12, baseC = 18;
-    
-    for (let i = 0; i < 12; i++) {
-      // Saisonnalité
-      let mulN = ['Juin', 'Juil', 'Aoû', 'Sep'].includes(months[i]) ? 2.5 : 1;
-      let mulD = ['Déc', 'Jan', 'Fév'].includes(months[i]) ? 1.8 : 1;
-      
-      const nuisiblesTotal = Math.floor((baseN + Math.random() * 15) * mulN);
-      const nettoyageTotal = Math.floor(baseC + Math.random() * 8);
-      const desinfectionTotal = Math.floor((baseD + Math.random() * 5) * mulD);
-      
+    let labels = [];
+    let points = 0;
+    let baseMultiplier = 1;
+    let mulN = 1, mulD = 1;
+
+    if (timeRange === 'day') {
+      points = 14;
+      baseMultiplier = 0.15; // Moins de leads par jour
+      for (let i = 14; i > 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        labels.push(`${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`);
+      }
+    } else if (timeRange === 'week') {
+      points = 12;
+      baseMultiplier = 0.8;
+      for (let i = 12; i > 0; i--) labels.push(`S-${i}`);
+    } else if (timeRange === 'month') {
+      points = 12;
+      baseMultiplier = 1;
+      labels = ['Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar', 'Avr', 'Mai'];
+    } else if (timeRange === 'year') {
+      points = 5;
+      baseMultiplier = 12;
+      labels = ['2022', '2023', '2024', '2025', '2026'];
+    }
+
+    let baseN = 25 * baseMultiplier, baseD = 12 * baseMultiplier, baseC = 18 * baseMultiplier;
+
+    for (let i = 0; i < points; i++) {
+      if (timeRange === 'month') {
+        mulN = ['Juin', 'Juil', 'Aoû', 'Sep'].includes(labels[i]) ? 2.5 : 1;
+        mulD = ['Déc', 'Jan', 'Fév'].includes(labels[i]) ? 1.8 : 1;
+      } else {
+        mulN = 1 + (Math.random() * 0.5);
+        mulD = 1 + (Math.random() * 0.5);
+      }
+
+      const nuisiblesTotal = Math.max(0, Math.floor((baseN + Math.random() * 15 * baseMultiplier) * mulN));
+      const nettoyageTotal = Math.max(0, Math.floor(baseC + Math.random() * 8 * baseMultiplier));
+      const desinfectionTotal = Math.max(0, Math.floor((baseD + Math.random() * 5 * baseMultiplier) * mulD));
+
       data.push({
-        name: months[i],
-        // Globals
+        name: labels[i],
         Nuisibles: nuisiblesTotal,
         Nettoyage: nettoyageTotal,
         Désinfection: desinfectionTotal,
-        // Détails Nuisibles
         Rats: Math.floor(nuisiblesTotal * 0.3),
         Souris: Math.floor(nuisiblesTotal * 0.2),
         Cafards: Math.floor(nuisiblesTotal * 0.25),
@@ -77,11 +104,11 @@ const AnalyticsTab = ({ leads }) => {
       });
     }
     return data;
-  }, [leads]);
+  }, [leads, timeRange]);
 
-  // KPIs
-  const currentMonth = chartData[chartData.length - 1];
-  const totalActuel = currentMonth.Nuisibles + currentMonth.Nettoyage + currentMonth.Désinfection;
+  // KPIs (Basé sur la dernière période du timeRange sélectionné)
+  const currentPeriod = chartData[chartData.length - 1];
+  const totalActuel = currentPeriod.Nuisibles + currentPeriod.Nettoyage + currentPeriod.Désinfection;
   
   return (
     <div className="space-y-8 animate-in fade-in duration-700 max-w-6xl mx-auto">
@@ -93,22 +120,22 @@ const AnalyticsTab = ({ leads }) => {
           Intelligence d'Activité
         </h3>
         <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">
-          Analyse des volumes de demandes sur 12 mois
+          Analyse dynamique des volumes de demandes
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard title="Total Mensuel" value={totalActuel} trend="+12%" icon={<TrendingUp />} color="text-indigo-500" bg="bg-indigo-500/10" />
-        <StatCard title="Pôle Nuisibles" value={currentMonth.Nuisibles} trend="+24%" icon={<Bug />} color="text-red-500" bg="bg-red-500/10" />
-        <StatCard title="Pôle Propreté" value={currentMonth.Nettoyage + currentMonth.Désinfection} trend="-5%" icon={<Sparkles />} color="text-cyan-500" bg="bg-cyan-500/10" />
+        <StatCard title="Total Période" value={totalActuel} trend="+12%" icon={<TrendingUp />} color="text-indigo-500" bg="bg-indigo-500/10" />
+        <StatCard title="Pôle Nuisibles" value={currentPeriod.Nuisibles} trend="+24%" icon={<Bug />} color="text-red-500" bg="bg-red-500/10" />
+        <StatCard title="Pôle Propreté" value={currentPeriod.Nettoyage + currentPeriod.Désinfection} trend="-5%" icon={<Sparkles />} color="text-cyan-500" bg="bg-cyan-500/10" />
       </div>
 
       {/* Zone Graphique Principale */}
       <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
         
-        {/* Navigation Drill-down */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        {/* Navigation Drill-down et Filtres Temporels */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
             <AnimatePresence mode="wait">
               {viewMode !== 'global' && (
                 <motion.button
@@ -125,17 +152,30 @@ const AnalyticsTab = ({ leads }) => {
             <h4 className="font-black uppercase tracking-widest text-sm text-slate-800">
               {viewMode === 'global' ? 'Répartition Globale (Services)' : 'Détail d\'activité : Nuisibles'}
             </h4>
+            
+            {viewMode === 'global' && (
+              <button 
+                onClick={() => setViewMode('nuisibles')}
+                className="text-[10px] font-bold uppercase tracking-widest bg-red-50 text-red-600 px-3 py-1.5 rounded-full hover:bg-red-100 transition-colors border border-red-100 flex items-center gap-2"
+              >
+                <Bug className="w-3 h-3" />
+                Zoom Nuisibles
+              </button>
+            )}
           </div>
 
-          {viewMode === 'global' && (
-            <button 
-              onClick={() => setViewMode('nuisibles')}
-              className="text-[10px] font-bold uppercase tracking-widest bg-red-50 text-red-600 px-4 py-2 rounded-full hover:bg-red-100 transition-colors border border-red-100 flex items-center gap-2"
-            >
-              <Bug className="w-3 h-3" />
-              Zoom Nuisibles
-            </button>
-          )}
+          {/* Sélecteur de Granularité */}
+          <div className="flex bg-slate-100 p-1 rounded-full border border-slate-200 self-end md:self-auto shrink-0">
+            {['day', 'week', 'month', 'year'].map(range => (
+              <button
+                key={range}
+                onClick={() => setTimeRange(range)}
+                className={`px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all ${timeRange === range ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+              >
+                {range === 'day' ? 'Jour' : range === 'week' ? 'Sem' : range === 'month' ? 'Mois' : 'Année'}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Chart Container */}
