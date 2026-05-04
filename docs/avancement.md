@@ -164,6 +164,13 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Indicateurs Clés de Performance (KPIs)** :
     - Cartes récapitulatives temporelles indiquant le volume total de la période sélectionnée et sa tendance (+XX%).
 
+## ✅ V13 : CRM Filtering & Search Excellence (Live)
+**Fichiers :** `LeadManager.jsx`, `Dashboard.jsx`
+
+- **Filtrage par Pôle Métier** : Intégration de boutons de filtrage rapide pour Nuisibles, Nettoyage et Désinfection avec identité visuelle synchronisée.
+- **Recherche Globale Connectée** : La barre de recherche du Dashboard est désormais fonctionnelle dans la partie Demandes, permettant de trouver un lead par nom, ville, tracking ID ou détails du problème.
+- **Logique Cascade** : Système de filtrage intelligent combinant l'état du dossier (Archives/Inbox), le pôle métier et la recherche textuelle.
+
 ## 🚀 Prochaines Étapes
 1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
 2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.

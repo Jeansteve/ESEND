@@ -726,7 +726,7 @@ const Dashboard = () => {
             )}
 
             {activeTab === 'leads' && (
-              <LeadManager />
+              <LeadManager searchQuery={searchQuery} />
             )}
 
             {activeTab === 'analytics' && (

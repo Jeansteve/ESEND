@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { Mail, Phone, Calendar, RefreshCw, Archive, CheckCircle, Trash2, ShieldCheck, Bug, Zap } from 'lucide-react';
 import { api } from '../../lib/api';
 
-const LeadManager = () => {
+const LeadManager = ({ searchQuery = "" }) => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('inbox'); // 'inbox', 'archived'
+  const [serviceFilter, setServiceFilter] = useState('Tous'); // 'Tous', 'Nuisibles', 'Nettoyage', 'Désinfection'
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -66,8 +67,35 @@ const LeadManager = () => {
   };
 
   const filteredLeads = leads.filter(l => {
-    if (filter === 'inbox') return l.status === 'nouveau' || l.status === 'contacté';
-    return l.status === 'terminé' || l.status === 'annulé';
+    // 1. Filtre par onglet (Inbox / Archives)
+    const matchesTab = filter === 'inbox' 
+      ? (l.status === 'nouveau' || l.status === 'contacté')
+      : (l.status === 'terminé' || l.status === 'annulé');
+    
+    if (!matchesTab) return false;
+
+    // 2. Filtre par service (Tous / Nuisibles / ...)
+    if (serviceFilter !== 'Tous' && l.service !== serviceFilter) return false;
+
+    // 3. Filtre par recherche
+    if (searchQuery && searchQuery.trim() !== "") {
+      const q = searchQuery.toLowerCase();
+      const searchableText = [
+        l.tracking_id,
+        l.client_name,
+        l.client_email,
+        l.client_phone,
+        l.city,
+        l.zip_code,
+        l.nuisible,
+        l.service,
+        l.problem_details
+      ].join(' ').toLowerCase();
+      
+      if (!searchableText.includes(q)) return false;
+    }
+
+    return true;
   });
 
   const getServiceIcon = (service) => {
@@ -101,23 +129,48 @@ const LeadManager = () => {
         </div>
       </div>
 
-      <div className="flex gap-2 p-1 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-subtle)] w-fit">
-        <button
-          onClick={() => setFilter('inbox')}
-          className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
-            filter === 'inbox' ? 'bg-[var(--text-main)] text-[var(--bg-primary)]' : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)] hover:bg-[var(--bg-input)]'
-          }`}
-        >
-          À Traiter ({leads.filter(l => l.status === 'nouveau' || l.status === 'contacté').length})
-        </button>
-        <button
-          onClick={() => setFilter('archived')}
-          className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all flex border border-transparent items-center gap-2 ${
-            filter === 'archived' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'text-[var(--text-dimmed)] hover:text-emerald-500 hover:bg-emerald-500/5'
-          }`}
-        >
-          <Archive className="w-3.5 h-3.5" /> Archives
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex gap-2 p-1 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-subtle)] w-fit">
+          <button
+            onClick={() => setFilter('inbox')}
+            className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
+              filter === 'inbox' ? 'bg-[var(--text-main)] text-[var(--bg-primary)]' : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)] hover:bg-[var(--bg-input)]'
+            }`}
+          >
+            À Traiter ({leads.filter(l => l.status === 'nouveau' || l.status === 'contacté').length})
+          </button>
+          <button
+            onClick={() => setFilter('archived')}
+            className={`px-6 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all flex border border-transparent items-center gap-2 ${
+              filter === 'archived' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'text-[var(--text-dimmed)] hover:text-emerald-500 hover:bg-emerald-500/5'
+            }`}
+          >
+            <Archive className="w-3.5 h-3.5" /> Archives
+          </button>
+        </div>
+
+        {/* Filtres par Service */}
+        <div className="flex gap-2 p-1 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-subtle)] w-fit overflow-x-auto max-w-full no-scrollbar">
+          {['Tous', 'Nuisibles', 'Nettoyage', 'Désinfection'].map((svc) => (
+            <button
+              key={svc}
+              onClick={() => setServiceFilter(svc)}
+              className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 whitespace-nowrap ${
+                serviceFilter === svc 
+                ? (svc === 'Nuisibles' ? 'bg-orange-500/10 text-orange-500 border border-orange-500/20' :
+                   svc === 'Nettoyage' ? 'bg-purple-500/10 text-purple-500 border border-purple-500/20' :
+                   svc === 'Désinfection' ? 'bg-green-500/10 text-green-500 border border-green-500/20' :
+                   'bg-[var(--text-main)] text-[var(--bg-primary)]')
+                : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)] hover:bg-[var(--bg-input)]'
+              }`}
+            >
+              {svc === 'Nuisibles' && <Bug className="w-3 h-3" />}
+              {svc === 'Nettoyage' && <Zap className="w-3 h-3" />}
+              {svc === 'Désinfection' && <ShieldCheck className="w-3 h-3" />}
+              {svc}
+            </button>
+          ))}
+        </div>
       </div>
 
       {loading && leads.length === 0 ? (
