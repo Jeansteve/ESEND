@@ -422,12 +422,24 @@ const FormWizard = () => {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
           <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-4 text-white px-4 drop-shadow-lg flex flex-wrap justify-center items-center gap-x-4">
             DEMANDER UNE <span className="bg-white text-[#A72422] px-6 py-2 rounded-2xl shadow-xl transform -rotate-1 inline-block">INTERVENTION</span>
           </h2>
-        </div>
-        <div className="bg-white/5 backdrop-blur-[40px] rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden">
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="bg-white/5 backdrop-blur-[40px] rounded-[2rem] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.6)] border border-white/20 overflow-hidden"
+        >
           <div className="relative flex border-b border-white/10 bg-transparent overflow-x-auto min-h-[64px]">
             {/* Calque Blanc avec bord adouci (Wipe Effect) */}
             <motion.div 
@@ -748,7 +760,7 @@ const FormWizard = () => {
               </motion.div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
