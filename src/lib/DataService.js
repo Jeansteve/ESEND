@@ -55,19 +55,20 @@ class DataService {
      * Récupère un article complet par son ID/Slug
      */
     async getArticleById(id, options = {}) {
-        const cacheKey = `article_${id}`;
+        const strId = String(id);
+        const cacheKey = `article_${strId}`;
         
         // On utilise la Map interne pour les détails
-        if (this.cache.articleDetails.has(id) && !options.force) {
-            return this.cache.articleDetails.get(id);
+        if (this.cache.articleDetails.has(strId) && !options.force) {
+            return this.cache.articleDetails.get(strId);
         }
 
         if (this.pendingRequests.has(cacheKey)) {
             return this.pendingRequests.get(cacheKey);
         }
 
-        const promise = api.getArticle(id).then(data => {
-            this.cache.articleDetails.set(id, data);
+        const promise = api.getArticle(strId).then(data => {
+            this.cache.articleDetails.set(strId, data);
             this.pendingRequests.delete(cacheKey);
             return data;
         }).catch(err => {
@@ -83,9 +84,10 @@ class DataService {
      * Pré-chargement d'un article (sans await pour ne pas bloquer)
      */
     prefetchArticle(id) {
-        if (!this.cache.articleDetails.has(id) && !this.pendingRequests.has(`article_${id}`)) {
-            console.log(`[DataService] Prefetching article: ${id}`);
-            this.getArticleById(id).catch(() => {});
+        const strId = String(id);
+        if (!this.cache.articleDetails.has(strId) && !this.pendingRequests.has(`article_${strId}`)) {
+            console.log(`[DataService] Prefetching article: ${strId}`);
+            this.getArticleById(strId).catch(() => {});
         }
     }
 
