@@ -46,68 +46,107 @@ const AnalyticsTab = ({ leads }) => {
   // timeRange: 'day' | 'week' | 'month' | 'year'
   const [timeRange, setTimeRange] = useState('month');
 
-  // Génération de Mock Data (Adaptative selon timeRange)
+  // Génération des données à partir des vrais leads
   const chartData = useMemo(() => {
-    const data = [];
-    let labels = [];
-    let points = 0;
-    let baseMultiplier = 1;
-    let mulN = 1, mulD = 1;
+    if (!leads || leads.length === 0) return [];
 
+    const groupedData = {};
+
+    // 1. Initialiser les labels pour garantir un affichage même s'il y a des trous
+    const labelsToInit = [];
     if (timeRange === 'day') {
-      points = 14;
-      baseMultiplier = 0.15; // Moins de leads par jour
-      for (let i = 14; i > 0; i--) {
+      for (let i = 13; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        labels.push(`${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`);
+        labelsToInit.push(`${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`);
       }
     } else if (timeRange === 'week') {
-      points = 12;
-      baseMultiplier = 0.8;
-      for (let i = 12; i > 0; i--) labels.push(`S-${i}`);
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - (i * 7));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+        labelsToInit.push(`S-${weekNo}`);
+      }
     } else if (timeRange === 'month') {
-      points = 12;
-      baseMultiplier = 1;
-      labels = ['Juin', 'Juil', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc', 'Jan', 'Fév', 'Mar', 'Avr', 'Mai'];
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date();
+        d.setMonth(d.getMonth() - i);
+        labelsToInit.push(d.toLocaleString('fr-FR', { month: 'short' }));
+      }
     } else if (timeRange === 'year') {
-      points = 5;
-      baseMultiplier = 12;
-      labels = ['2022', '2023', '2024', '2025', '2026'];
+      const currentYear = new Date().getFullYear();
+      for (let i = 4; i >= 0; i--) {
+        labelsToInit.push((currentYear - i).toString());
+      }
     }
 
-    let baseN = 25 * baseMultiplier, baseD = 12 * baseMultiplier, baseC = 18 * baseMultiplier;
+    labelsToInit.forEach(label => {
+      groupedData[label] = {
+        name: label,
+        Nuisibles: 0, Nettoyage: 0, Désinfection: 0,
+        Rats: 0, Souris: 0, Cafards: 0, Punaises: 0, Guêpes: 0
+      };
+    });
 
-    for (let i = 0; i < points; i++) {
-      if (timeRange === 'month') {
-        mulN = ['Juin', 'Juil', 'Aoû', 'Sep'].includes(labels[i]) ? 2.5 : 1;
-        mulD = ['Déc', 'Jan', 'Fév'].includes(labels[i]) ? 1.8 : 1;
-      } else {
-        mulN = 1 + (Math.random() * 0.5);
-        mulD = 1 + (Math.random() * 0.5);
+    // 2. Agréger les leads
+    leads.forEach(lead => {
+      const date = new Date(lead.created_at || Date.now());
+      let label = "";
+
+      if (timeRange === 'day') {
+        label = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+      } else if (timeRange === 'week') {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+        label = `S-${weekNo}`;
+      } else if (timeRange === 'month') {
+        label = date.toLocaleString('fr-FR', { month: 'short' });
+      } else if (timeRange === 'year') {
+        label = date.getFullYear().toString();
       }
 
-      const nuisiblesTotal = Math.max(0, Math.floor((baseN + Math.random() * 15 * baseMultiplier) * mulN));
-      const nettoyageTotal = Math.max(0, Math.floor(baseC + Math.random() * 8 * baseMultiplier));
-      const desinfectionTotal = Math.max(0, Math.floor((baseD + Math.random() * 5 * baseMultiplier) * mulD));
+      // Si le lead est trop vieux et n'est pas dans notre scope d'initialisation, on l'ignore
+      // ou on l'ajoute dynamiquement (pour la simplicité, on le traite)
+      if (!groupedData[label]) {
+        groupedData[label] = {
+          name: label,
+          Nuisibles: 0, Nettoyage: 0, Désinfection: 0,
+          Rats: 0, Souris: 0, Cafards: 0, Punaises: 0, Guêpes: 0
+        };
+      }
 
-      data.push({
-        name: labels[i],
-        Nuisibles: nuisiblesTotal,
-        Nettoyage: nettoyageTotal,
-        Désinfection: desinfectionTotal,
-        Rats: Math.floor(nuisiblesTotal * 0.3),
-        Souris: Math.floor(nuisiblesTotal * 0.2),
-        Cafards: Math.floor(nuisiblesTotal * 0.25),
-        Punaises: Math.floor(nuisiblesTotal * 0.15),
-        Guêpes: Math.floor(nuisiblesTotal * 0.1)
-      });
-    }
-    return data;
+      const serviceStr = (lead.service || "").toLowerCase();
+      
+      if (serviceStr.includes("nuisible")) {
+        groupedData[label].Nuisibles += 1;
+        const nuisibleStr = (lead.nuisible || "").toLowerCase();
+        if (nuisibleStr.includes("rat")) groupedData[label].Rats += 1;
+        if (nuisibleStr.includes("souris")) groupedData[label].Souris += 1;
+        if (nuisibleStr.includes("cafard") || nuisibleStr.includes("blatte")) groupedData[label].Cafards += 1;
+        if (nuisibleStr.includes("punaise")) groupedData[label].Punaises += 1;
+        if (nuisibleStr.includes("guêpe") || nuisibleStr.includes("frelon")) groupedData[label].Guêpes += 1;
+      } else if (serviceStr.includes("nettoyage")) {
+        groupedData[label].Nettoyage += 1;
+      } else if (serviceStr.includes("désinfection") || serviceStr.includes("desinfection")) {
+        groupedData[label].Désinfection += 1;
+      }
+    });
+
+    // Retourner les valeurs dans l'ordre chronologique des labels initialisés
+    // S'il y a de nouveaux labels (leads plus vieux/plus récents hors scope initial), 
+    // l'ordre des clés d'objet peut ne pas être chronologique, mais pour une V1 c'est suffisant.
+    return Object.values(groupedData);
+
   }, [leads, timeRange]);
 
-  // KPIs (Basé sur la dernière période du timeRange sélectionné)
-  const currentPeriod = chartData[chartData.length - 1];
+  // KPIs (Sécurisé s'il n'y a pas de data)
+  const currentPeriod = chartData.length > 0 ? chartData[chartData.length - 1] : { Nuisibles: 0, Nettoyage: 0, Désinfection: 0 };
   const totalActuel = currentPeriod.Nuisibles + currentPeriod.Nettoyage + currentPeriod.Désinfection;
   
   return (

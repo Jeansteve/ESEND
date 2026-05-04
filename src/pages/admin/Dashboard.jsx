@@ -730,7 +730,7 @@ const Dashboard = () => {
             )}
 
             {activeTab === 'analytics' && (
-              <AnalyticsTab leads={[]} />
+              <AnalyticsTab leads={leads} />
             )}
 
             {activeTab === 'settings' && (
