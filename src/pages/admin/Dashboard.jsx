@@ -43,6 +43,7 @@ import CreationStudio from '../../components/Admin/CreationStudio';
 import ProjectModal from '../../components/Admin/ProjectModal';
 import ArticleModal from '../../components/Admin/ArticleModal';
 import LeadManager from '../../components/Admin/LeadManager';
+import AnalyticsTab from '../../components/Admin/AnalyticsTab';
 import './AdminPanel.css';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -371,6 +372,7 @@ const Dashboard = () => {
         <nav className="flex-grow space-y-2">
           {[
             { id: 'dashboard', icon: BarChart3, label: 'Dashboard' },
+            { id: 'analytics', icon: TrendingUp, label: 'Analyses' },
             { id: 'blog', icon: BookOpen, label: 'Journal Expert' },
             { id: 'portfolio', icon: Briefcase, label: 'Réalisations' },
             { id: 'leads', icon: Inbox, label: 'Demandes' },
@@ -437,6 +439,7 @@ const Dashboard = () => {
                   </h2>
                   <p className="hidden sm:block text-[var(--text-dimmed)] font-medium text-[10px] sm:text-xs italic tracking-widest uppercase border-l border-red-600 pl-3 sm:pl-4">
                     {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
+                    {activeTab === 'analytics' && "Statistiques temporelles et volumes d'activité"}
                     {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
                     {activeTab === 'portfolio' && "Mise en avant de vos interventions terrain"}
                     {activeTab === 'leads' && "CRM simplifié — Suivi des demandes de devis"}
@@ -724,6 +727,10 @@ const Dashboard = () => {
 
             {activeTab === 'leads' && (
               <LeadManager />
+            )}
+
+            {activeTab === 'analytics' && (
+              <AnalyticsTab leads={[]} />
             )}
 
             {activeTab === 'settings' && (
