@@ -14,6 +14,12 @@ const LeadManager = ({ searchQuery = "" }) => {
     loadLeads();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery && searchQuery.trim() !== "") {
+      setServiceFilter('Tous');
+    }
+  }, [searchQuery]);
+
   const loadLeads = async () => {
     setLoading(true);
     try {
