@@ -252,7 +252,7 @@ const CleaningPage = () => {
             <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
               <Sparkles className="text-indigo-500" /> Redonnez de l'éclat à votre patrimoine
             </h4>
-            <Link to="/#devis" className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(79, 70, 229, 0.3)]">
+            <Link to={{ pathname: "/", hash: "#devis" }} className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(79, 70, 229, 0.3)]">
               Demander un nettoyage expert
             </Link>
             <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">

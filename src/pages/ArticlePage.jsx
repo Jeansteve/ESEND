@@ -269,13 +269,13 @@ const ArticlePage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a
-                href="/#/#contact"
+              <Link
+                to={{ pathname: "/", hash: "#devis" }}
                 className="group/btn relative inline-flex items-center gap-3 px-10 py-5 bg-white text-red-700 font-black uppercase tracking-widest text-xs rounded-full hover:bg-red-50 hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20"
               >
                 <span>Demander mon devis gratuit</span>
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-              </a>
+              </Link>
               
               {siteSettings.company_phone && (
                 <a

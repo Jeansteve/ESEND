@@ -13,20 +13,22 @@ function Home() {
   useEffect(() => {
     const handleHashScroll = () => {
       const hash = window.location.hash;
-      // En HashRouter, le hash peut ressembler à #/ ou #/#section
-      // On cherche la partie après le dernier #
-      const targetId = hash.split('#').pop();
+      // En HashRouter, le hash peut être #/ ou #/#section ou #/path#section
+      // On cherche la partie après le dernier # qui n'est pas suivie d'un slash
+      const parts = hash.split('#');
+      const targetId = parts.length > 1 ? parts.pop() : null;
       
       if (targetId && targetId !== '/' && !targetId.startsWith('/')) {
-        const target = document.getElementById(targetId);
-        if (target) {
-          setTimeout(() => {
-            const headerOffset = 100;
+        // Petit délai pour laisser le temps au FormWizard de s'initialiser si besoin
+        setTimeout(() => {
+          const target = document.getElementById(targetId);
+          if (target) {
+            const headerOffset = 120; // Un peu plus d'espace pour le header fixe
             const elementPosition = target.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
             window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          }, 100);
-        }
+          }
+        }, 300); // 300ms est plus sûr pour les composants lourds comme le wizard
       }
     };
 

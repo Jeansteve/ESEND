@@ -255,7 +255,7 @@ const DisinfectionPage = () => {
             <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
               <ShieldCheck className="text-cyan-500" /> Sécurisez votre environnement dès aujourd'hui
             </h4>
-            <Link to="/#devis" className="inline-block bg-cyan-600 hover:bg-cyan-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(6,182,212,0.3)]">
+            <Link to={{ pathname: "/", hash: "#devis" }} className="inline-block bg-cyan-600 hover:bg-cyan-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(6,182,212,0.3)]">
               Demander une désinfection experte
             </Link>
             <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
