@@ -45,7 +45,9 @@ L'API est située dans `/public/api/`. Chaque fichier PHP gère une ressource sp
     - Gère l'upload structuré des images.
     - Enregistre en BDD et envoie un e-mail via PHPMailer.
 2. **`leads.php`** : Gestion des leads pour l'admin (GET/POST).
-3. **`articles.php`** : CRUD pour le blog "Journal de l'Expert".
+3. **`articles_v3.php`** : CRUD pour le blog "Journal de l'Expert".
+    - **Optimisation de Liste** : Pour accélérer le chargement initial, les requêtes de liste (sans `id`) excluent désormais le champ lourd `content`.
+    - **Lecture Unique** : Le contenu HTML n'est renvoyé que lorsqu'un article spécifique est demandé via `?id=...`.
 4. **`projects.php`** : CRUD pour les "Réalisations Terrain".
 
 ---
@@ -97,6 +99,29 @@ Le projet utilise **GitHub Actions**.
 5. **`settings.php`** : Système de configuration dynamique (Key-Value).
     - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
     - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
+
+---
+
+---
+
+## ⚡ 8. Optimisations de Performance
+
+Le projet intègre des mécanismes avancés pour garantir un chargement instantané :
+
+### Frontend : Découplage du Rendu (`ArticlePage.jsx`)
+Pour éviter que l'utilisateur n'attende le chargement de tous les articles liés avant de lire son article, le rendu a été découplé :
+1. **Priorité Haute** : Chargement de l'article principal via son ID. Dès réception, l'état `loading` est passé à `false`.
+2. **Priorité Basse** : Chargement des articles liés en arrière-plan via une promesse non-bloquante.
+
+### DataService : Système de Prefetching Intelligent
+Le fichier `src/lib/DataService.js` gère un cache en RAM (Singleton) :
+- **Pré-chargement** : Au survol d'une carte d'article (`onMouseEnter`), le système télécharge silencieusement les détails de l'article.
+- **Normalisation des Identifiants** : Tous les identifiants sont convertis en `String` pour garantir que le cache fonctionne quelle que soit la provenance de l'ID (Integer depuis la DB vs String depuis l'URL).
+
+### Backend : Stratégie de Payload Minimum
+L'API `articles_v3.php` suit une stratégie de "Lazy Data Transfer" :
+- `GET /api/articles_v3.php` -> Retourne uniquement les métadonnées (titre, image, résumé, etc.). Poids réduit de ~95%.
+- `GET /api/articles_v3.php?id=...` -> Retourne l'article complet avec le HTML riche.
 
 ---
 

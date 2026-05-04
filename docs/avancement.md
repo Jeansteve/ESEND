@@ -124,8 +124,22 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Pipeline CI/CD rétabli** : Le déploiement automatique sur GitHub Actions est à nouveau fonctionnel après stabilisation de l'arborescence React.
 - **Optimisation de la syntaxe** : Nettoyage des balises redondantes et amélioration de la lisibilité des blocs `{... && (...)}`.
 
+## ✅ V10 : Performance & Expérience Utilisateur (Live — Mai 2024)
+**Fichiers :** `articles_v3.php`, `ArticlePage.jsx`, `DataService.js`
+
+- **Optimisation Drastique de l'API** : 
+    - Les requêtes de liste d'articles ne transfèrent plus le champ `content`. 
+    - Réduction du poids des réponses JSON de plusieurs Mo à quelques Ko.
+- **Rendu Instantané (Découplage)** :
+    - La page de l'article affiche désormais le contenu principal dès réception, sans attendre le calcul/chargement des articles liés.
+- **Réparation du Système de Cache** :
+    - Correction d'un bug de type (`String` vs `Number`) qui invalidait le cache.
+    - Le système de "Prefetch" (pré-chargement au survol) est désormais 100% fonctionnel, rendant le clic sur un article quasi-instantané.
+
 ## 🚀 Prochaines Étapes
 1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
 2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.
-3. **Optimisation Vitesse** : Mise en place de lazy-loading sur les images de couverture d'articles.
+3. **Surveillance du Poids** : Sensibilisation à l'évitement des images en base64 dans l'éditeur pour préserver la vitesse.
+4. **Monitoring** : Vérifier la stabilité du déploiement FTP.
+
 
