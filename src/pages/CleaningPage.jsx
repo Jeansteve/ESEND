@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cleaningData as data } from '../data/cleaning';
-import { articles } from '../data/articles';
+import { articles as staticArticles } from '../data/articles';
+import { dataService } from '../lib/DataService';
 import { 
   ShieldCheck, 
   CheckCircle, 
@@ -18,11 +19,27 @@ import {
 } from 'lucide-react';
 
 const CleaningPage = () => {
+  const [relatedArticles, setRelatedArticles] = useState([]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  const relatedArticles = articles.filter(a => a.category_id === 'nettoyage' || a.title.toLowerCase().includes('nettoyage')).slice(0, 3);
+    // Charger les articles réels et filtrer par catégorie nettoyage
+    dataService.getArticles().then(allArticles => {
+      const filtered = (allArticles || []).filter(a => {
+        const t = (a.title + ' ' + a.excerpt + ' ' + (a.category_id || '')).toLowerCase();
+        return t.includes('nettoyage') || a.category_id === 'nettoyage';
+      }).slice(0, 3);
+      
+      if (filtered.length > 0) {
+        setRelatedArticles(filtered);
+      } else {
+        setRelatedArticles(staticArticles.filter(a => a.category_id === 'nettoyage' || a.title.toLowerCase().includes('nettoyage')).slice(0, 3));
+      }
+    }).catch(() => {
+      setRelatedArticles(staticArticles.filter(a => a.category_id === 'nettoyage' || a.title.toLowerCase().includes('nettoyage')).slice(0, 3));
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 selection:bg-indigo-500/30">

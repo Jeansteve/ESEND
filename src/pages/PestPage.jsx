@@ -1,15 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pests } from '../data/pests';
-import { articles } from '../data/articles';
+import { articles as staticArticles } from '../data/articles';
 import { interventions } from '../data/interventions';
+import { dataService } from '../lib/DataService';
 import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info, Lightbulb } from 'lucide-react';
 
 const PestPage = () => {
   const [searchParams] = useSearchParams();
   const type = searchParams.get('type') || 'punaises-de-lit';
   const pest = pests[type] || pests['punaises-de-lit'];
+
+  // Articles réels depuis l'API
+  const [relatedArticles, setRelatedArticles] = useState([]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    
+    // Charger les articles réels et filtrer par type de nuisible
+    dataService.getArticles().then(allArticles => {
+      const filtered = (allArticles || []).filter(a => {
+        const t = (a.title + ' ' + a.excerpt + ' ' + (a.pestType || '')).toLowerCase();
+        return t.includes(type.replace('-', ' ')) || a.pestType === type;
+      }).slice(0, 3);
+      
+      // Si on a des articles réels, on les utilise, sinon on peut utiliser les statiques (attention aux IDs)
+      if (filtered.length > 0) {
+        setRelatedArticles(filtered);
+      } else {
+        // Fallback sur les statiques filtrés
+        setRelatedArticles(staticArticles.filter(a => a.pestType === type).slice(0, 3));
+      }
+    }).catch(() => {
+      setRelatedArticles(staticArticles.filter(a => a.pestType === type).slice(0, 3));
+    });
+  }, [type]);
 
   // Hub Dynamique state
   const pestKeys = Object.keys(pests);
@@ -32,7 +58,6 @@ const PestPage = () => {
     else setStep(3); // Result step
   };
 
-  const relatedArticles = articles.filter(a => a.pestType === type).slice(0, 3);
   const relatedInterventions = interventions.filter(i => i.category === type).slice(0, 2);
 
   // Données structurées SEO (JSON-LD)

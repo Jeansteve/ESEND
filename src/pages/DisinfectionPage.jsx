@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { disinfectionData as data } from '../data/disinfection';
-import { articles } from '../data/articles';
+import { articles as staticArticles } from '../data/articles';
+import { dataService } from '../lib/DataService';
 import { 
   ShieldCheck, 
   Wind, 
@@ -21,11 +22,27 @@ import {
 } from 'lucide-react';
 
 const DisinfectionPage = () => {
+  const [relatedArticles, setRelatedArticles] = useState([]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  const relatedArticles = articles.filter(a => a.category_id === 'hygiene' || a.title.toLowerCase().includes('désinfection')).slice(0, 3);
+    // Charger les articles réels et filtrer par catégorie hygiène/désinfection
+    dataService.getArticles().then(allArticles => {
+      const filtered = (allArticles || []).filter(a => {
+        const t = (a.title + ' ' + a.excerpt + ' ' + (a.category_id || '')).toLowerCase();
+        return t.includes('désinfection') || t.includes('hygiène') || a.category_id === 'hygiene';
+      }).slice(0, 3);
+      
+      if (filtered.length > 0) {
+        setRelatedArticles(filtered);
+      } else {
+        setRelatedArticles(staticArticles.filter(a => a.category_id === 'hygiene' || a.title.toLowerCase().includes('désinfection')).slice(0, 3));
+      }
+    }).catch(() => {
+      setRelatedArticles(staticArticles.filter(a => a.category_id === 'hygiene' || a.title.toLowerCase().includes('désinfection')).slice(0, 3));
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 selection:bg-cyan-500/30">
