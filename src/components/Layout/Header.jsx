@@ -159,8 +159,8 @@ const Header = () => {
                 className="relative cursor-pointer ml-4"
               >
                 <Link
-                  to="/#devis"
-                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })}
+                  to="/#devis-title"
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })}
                   className="relative group overflow-hidden bg-red-600 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
                 >
                   <span className="relative z-10">Devis Offert</span>
@@ -244,8 +244,8 @@ const Header = () => {
                   </div>
                 </a>
                 <Link 
-                  to="/#devis" 
-                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })} 
+                  to="/#devis-title" 
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })} 
                   className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[10px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all cursor-pointer font-sans"
                 >
                   <span>Demander un devis</span>

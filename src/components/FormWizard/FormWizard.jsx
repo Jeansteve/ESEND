@@ -415,7 +415,7 @@ const FormWizard = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-4 text-white px-4 drop-shadow-lg flex flex-wrap justify-center items-center gap-x-4">
+          <h2 id="devis-title" className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-4 text-white px-4 drop-shadow-lg flex flex-wrap justify-center items-center gap-x-4">
             DEMANDER UNE <span className="bg-white text-[#A72422] px-6 py-2 rounded-2xl shadow-xl transform -rotate-1 inline-block">INTERVENTION</span>
           </h2>
         </motion.div>

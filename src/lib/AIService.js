@@ -261,6 +261,7 @@ ${companyContext ? companyContext + '\n\n' : ''}
 1. **VALEUR AVANT PROMOTION** : L'article doit enseigner quelque chose au lecteur. Ne mets pas ESEND en avant toutes les deux lignes. ESEND n'intervient qu'en fin d'article comme la solution experte.
 2. **MAILLAGE INTERNE OBLIGATOIRE** : Tu DOIS impérativement insérer au moins 2 liens HTML vers nos pages services en utilisant les mots-clés naturels du texte (ex: "traitement des fourmis" lié vers /services/fourmis).
    - URLs AUTORISÉES (ne jamais en inventer d'autres) : /services/deratisation, /services/punaises-de-lit, /services/frelons-guepes, /services/cafards-blattes, /services/desinfection, /services/fourmis.
+   - APPEL À L'ACTION : Pour rediriger vers le formulaire de devis, utilise TOUJOURS le lien exact '/#devis-title'. Ne jamais utiliser '#contact' ou d'autres variantes.
 3. **BRIÈVETÉ TECHNIQUE** : Ne réexplique pas en détail tous nos protocoles (vapeur, froid, etc.) s'ils sont déjà décrits sur les pages services. Sois concis et renvoie vers le lien.
 4. **TON & VOCABULAIRE** : 
    - Pas de superlatifs inutiles. Pas de "Nous sommes ravis", "Nous croyons".
