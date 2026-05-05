@@ -172,9 +172,24 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **UX Auto-Reset** : Implémentation d'un déclencheur intelligent qui bascule automatiquement les filtres de catégorie sur "Tous" dès qu'une recherche est entamée, garantissant que l'utilisateur trouve toujours ce qu'il cherche sans friction.
 - **Logique Cascade** : Système de filtrage intelligent combinant l'état (Archives/Inbox), le pôle métier et la recherche textuelle.
 
+## ✅ V14 : Sécurisation Critique & Hachage Argon2id (Mai 2024)
+**Fichiers :** `login.php`, `change_password.php`, `mass_migrate.php`, `Dashboard.jsx`, `App.jsx`
+
+- **Migration Mots de Passe (Règles de l'Art)** :
+    - Abandon du stockage en clair au profit du hachage **Argon2id**.
+    - **Lazy Migration** : Système intelligent qui hache le mot de passe lors de la connexion réussie de l'admin.
+    - **Script de Migration Massive** : Création de `mass_migrate.php` pour sécuriser l'intégralité de la base de données en une seule action.
+- **Sécurité Admin Renforcée** :
+    - Correction du module de changement de mot de passe (Frontend + Backend).
+    - Ajout d'une validation de confirmation côté client pour éviter les erreurs de saisie.
+- **Expérience de Navigation (UX)** :
+    - Correction du bug de navigation vers les ancres (`#contact`) depuis les pages profondes (ex: Journal).
+    - Synchronisation des CTA "Devis Gratuit" pour un scroll fluide et précis.
+
 ## 🚀 Prochaines Étapes
-1. **Sauvegarde BDD du Radar IA** : Migrer du LocalStorage vers une table MySQL dédiée pour une persistance multi-appareils.
-2. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.
-3. **Optimisation SEO Avancée** : Vérifier l'indexation des nouvelles pages légales.
+1. **Migration Massive** : Exécuter `mass_migrate.php` sur la production.
+2. **Nettoyage** : Supprimer le script de migration après usage.
+3. **Double Authentification (2FA)** : Envisager l'ajout de TOTP pour l'accès admin.
+4. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.
 
 

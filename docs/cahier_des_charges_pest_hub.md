@@ -110,9 +110,15 @@ L'administration permet un pilotage total sans connaissances techniques.
 - **Metadata Dynamique** : Tags SEO injectés via `DynamicSEO.jsx`.
 - **Architecture de contenu** : Une page par nuisible + URL canonique.
 
+## 8. Sécurité & Protection des Données
+La plateforme ESEND applique des protocoles de sécurité de niveau industriel :
+- **Hachage des Mots de Passe** : Transition totale vers **Argon2id** (Standard 2026) pour tous les accès administratifs. Aucune donnée sensible n'est stockée en clair.
+- **Migration Sécurisée** : Utilisation d'un système de migration douce (Lazy Migration) garantissant la mise à jour des comptes sans interruption de service.
+- **Conformité RGPD** : Verrouillage de la collecte de données par consentement explicite et politique de transparence totale sur l'usage des informations.
+
 ---
 
-## 8. Business Intelligence & IA Strategy
+## 9. Business Intelligence & IA Strategy
 Le Dashboard ESEND intègre un moteur de **Market Intelligence** pour transformer les données web en opportunités commerciales.
 
 ### Composants Clés :

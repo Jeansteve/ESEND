@@ -28,6 +28,11 @@ Les routes principales sont définies dans `App.jsx` :
 - **Icônes** : Lucide React.
 - **Polices** : Outfit (Titres) et Inter (Corps) via Google Fonts.
 
+### Navigation & Routage (`HashRouter`)
+Le projet utilise `HashRouter` pour éviter les erreurs 404 sur Hostinger. 
+- **Anchor Scrolling** : Un correctif global a été appliqué dans `App.jsx` pour intercepter les clics vers les ancres (ex: `#contact`) et forcer un scroll fluide même lors de navigations inter-pages.
+- **CTA Sync** : Les boutons "Devis Gratuit" redirigent intelligemment vers la section contact, que l'utilisateur soit sur la Home ou une page profonde.
+
 ### Gestion du Thème (Deterministic Locking)
 Le système de thème est géré par le hook `src/hooks/useTheme.js`. Il impose un thème fixe selon l'URL :
 - **Public (`/`)** : Force la classe `.dark` (Thème "Frozen Night").
@@ -59,6 +64,12 @@ L'API est située dans `/public/api/`. Chaque fichier PHP gère une ressource sp
     - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
     - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
     - **Usage Légal** : Sert de source unique de vérité pour l'adresse, le SIRET et les coordonnées affichées sur les pages légales.
+6. **`change_password.php`** : Mise à jour sécurisée du mot de passe admin.
+    - Hachage automatique en **Argon2id**.
+    - Validation de l'ancien mot de passe (hybride hash/clair).
+7. **`mass_migrate.php`** : Script utilitaire de migration groupée.
+    - Transforme tous les mots de passe en clair en hashs Argon2id en une seule passe.
+    - *Note : Doit être supprimé après usage.*
 
 ---
 
@@ -91,7 +102,11 @@ Pour faciliter le marketing et l'archivage, les dossiers sont créés dynamiquem
 
 - **Protection Uploads** : Un fichier `.htaccess` dans `/uploads/` interdit l'exécution de scripts (`php`, `cgi`, etc.).
 - **Validation** : Regex stricte pour les numéros de téléphone et emails côté client et serveur.
-- **Authentification Admin** : Système de session simplifié via `localStorage` (simulation) + protection des endpoints API (à renforcer en production avec JWT ou Sessions PHP).
+- **Authentification Admin (Hachage Argon2id)** : 
+    - Les mots de passe ne sont plus stockés en clair.
+    - **Algorithme** : Argon2id (Standard OWASP 2026).
+    - **Lazy Migration** : Les anciens mots de passe sont hachés automatiquement lors de la première connexion réussie.
+    - **Validation Client** : Vérification de la correspondance des mots de passe lors du changement.
 - **Conformité RGPD (Nouveau)** : 
     - **Consentement Libre** : Case à cocher obligatoire dans le `FormWizard`.
     - **Transparence** : Accès direct à la politique de confidentialité depuis le formulaire.
