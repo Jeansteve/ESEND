@@ -142,7 +142,6 @@ const KnowledgeHub = () => {
             <EmptyState 
               title="Le Savoir en préparation"
               message="Notre centre de ressources se remplit. Nos experts documentent actuellement les meilleures techniques d'intervention."
-              image="/images/empty-articles.png"
               variant="light"
               icon={BookOpen}
               actionLabel="Explorer le Journal"

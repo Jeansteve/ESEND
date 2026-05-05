@@ -139,7 +139,6 @@ const BlogPage = () => {
           <EmptyState 
             title="Le Journal est en cours d'édition"
             message="Nos experts rédigent actuellement de nouveaux dossiers pour vous tenir informés des meilleures pratiques d'hygiène et de sécurité."
-            image="/images/empty-articles.png"
             icon={BookOpen}
             actionLabel="S'inscrire à la veille"
             actionLink="/#contact"

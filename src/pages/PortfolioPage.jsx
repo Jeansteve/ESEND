@@ -76,7 +76,6 @@ const PortfolioPage = () => {
             <EmptyState 
               title="Le Duo est sur le terrain"
               message="Aucune réalisation n'est encore documentée pour cette catégorie. Nous intervenons actuellement pour sécuriser de nouveaux sites."
-              image="/images/empty-projects.png"
               icon={Search}
               actionLabel="Demander une intervention"
             />

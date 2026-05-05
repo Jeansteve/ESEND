@@ -1,21 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Search, Inbox } from 'lucide-react';
+import { ArrowRight, Inbox } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 /**
  * @component EmptyState
- * @description État vide premium avec illustration 3D et CTA.
- * Utilisé pour les réalisations et le journal quand aucune donnée n'est disponible.
+ * @description État vide premium avec icône stylisée et effets de lueur.
+ * Remplacement de l'illustration 3D par une approche plus minimaliste et intégrée.
  */
 const EmptyState = ({ 
   title = "Aucun élément trouvé", 
   message = "Nous préparons actuellement de nouveaux contenus pour vous.",
-  image = "/images/empty-projects.png",
   actionLabel = "Demander un devis",
   actionLink = "/#devis-title",
   icon: Icon = Inbox,
-  variant = "dark" // "dark" pour fond sombre (Portfolio/Blog), "light" pour fond clair (KnowledgeHub)
+  variant = "dark"
 }) => {
   const isDark = variant === "dark";
   
@@ -23,66 +22,72 @@ const EmptyState = ({
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`w-full py-20 px-6 flex flex-col items-center text-center ${isDark ? 'text-white' : 'text-slate-900'}`}
+      className={`w-full py-24 px-6 flex flex-col items-center text-center ${isDark ? 'text-white' : 'text-slate-900'}`}
     >
-      <div className="relative w-full max-w-lg mb-12 group">
-        {/* Background Glow */}
-        <div className={`absolute inset-0 blur-[100px] rounded-full group-hover:opacity-100 opacity-70 transition-all duration-700 ${isDark ? 'bg-red-600/10' : 'bg-red-600/5'}`} />
-        
-        {/* Main Illustration */}
-        <div className="relative relative-3d">
-          <motion.img 
-            src={image} 
-            alt={title}
-            initial={{ scale: 0.9, rotateY: -10 }}
-            animate={{ 
-              scale: 1, 
-              rotateY: 0,
-              y: [0, -15, 0]
-            }}
-            transition={{ 
-              duration: 5, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
-            }}
-            className={`w-full h-auto drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)] transition-all duration-1000 ${isDark ? 'grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100' : 'grayscale-[0.5] opacity-90 group-hover:grayscale-0 group-hover:opacity-100'}`}
-          />
-        </div>
-        
-        {/* Floating Icon */}
+      {/* Icon Container */}
+      <div className="relative mb-12">
+        {/* Animated Glow Rings */}
         <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className={`absolute -bottom-6 -right-6 p-5 rounded-3xl shadow-2xl backdrop-blur-xl border ${isDark ? 'bg-slate-900 border-white/10 shadow-black' : 'bg-white border-slate-100 shadow-slate-200'}`}
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 bg-red-600/20 blur-[60px] rounded-full"
+        />
+        <motion.div 
+          animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute inset-0 bg-red-500/10 blur-[80px] rounded-full"
+        />
+
+        {/* Main Icon Box */}
+        <motion.div 
+          whileHover={{ scale: 1.05, rotate: 5 }}
+          className={`relative z-10 w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] flex items-center justify-center border backdrop-blur-3xl shadow-2xl transition-transform duration-500 ${
+            isDark 
+              ? 'bg-slate-900/50 border-white/10 shadow-black/50' 
+              : 'bg-white/50 border-slate-200 shadow-slate-200/50'
+          }`}
         >
-          <Icon className="w-8 h-8 text-red-600" />
+          {/* Subtle Inner Bevel */}
+          <div className={`absolute inset-1 rounded-[2.2rem] border-t border-l opacity-20 ${isDark ? 'border-white' : 'border-slate-400'}`} />
+          
+          <Icon className="w-16 h-16 md:w-20 md:h-20 text-red-600 drop-shadow-[0_10px_20px_rgba(220,38,38,0.4)]" strokeWidth={1.5} />
+        </motion.div>
+
+        {/* Floating Decorative Elements */}
+        <motion.div 
+          animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-4 -right-4 w-12 h-12 rounded-2xl bg-red-600/10 border border-red-600/20 backdrop-blur-lg flex items-center justify-center"
+        >
+          <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
         </motion.div>
       </div>
 
-      <div className="max-w-md space-y-6">
-        <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter italic">
+      {/* Content */}
+      <div className="max-w-md space-y-6 relative z-20">
+        <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter italic leading-none">
           {title}
         </h3>
-        <p className={`${isDark ? 'text-slate-400' : 'text-slate-500'} font-medium leading-relaxed`}>
+        <p className={`text-lg ${isDark ? 'text-slate-400' : 'text-slate-500'} font-medium leading-relaxed`}>
           {message}
         </p>
         
-        <div className="pt-8">
+        <div className="pt-10">
           {actionLink.startsWith('http') || actionLink.includes('#') ? (
             <a 
               href={actionLink}
-              className="inline-flex items-center gap-3 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-xs rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
+              className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
             >
               {actionLabel}
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
             </a>
           ) : (
             <Link 
               to={actionLink}
-              className="inline-flex items-center gap-3 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-xs rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
+              className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
             >
               {actionLabel}
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
             </Link>
           )}
         </div>
