@@ -948,13 +948,27 @@ const Dashboard = () => {
 
                     <form onSubmit={async (e) => {
                       e.preventDefault();
-                      const res = await api.changePassword(e.target.current.value, e.target.next.value);
+                      const current = e.target.current.value;
+                      const next = e.target.next.value;
+                      const confirm = e.target.confirm.value;
+
+                      if (!current || !next || !confirm) {
+                        alert("Veuillez remplir tous les champs");
+                        return;
+                      }
+
+                      if (next !== confirm) {
+                        alert("Le nouveau mot de passe et la confirmation ne correspondent pas");
+                        return;
+                      }
+
+                      const res = await api.changePassword(current, next);
                       if (res.success) {
                         setSaveStatus({ id: 'admin', type: 'success' });
                         setTimeout(() => setSaveStatus({ id: null, type: '' }), 3000);
                         e.target.reset();
                       } else {
-                        alert(res.message);
+                        alert(res.message || "Une erreur est survenue");
                       }
                     }} className="space-y-8 pl-0 md:pl-14">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

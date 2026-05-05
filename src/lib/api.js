@@ -140,6 +140,15 @@ const realApi = {
             localStorage.setItem('esend_ai_topics_v1', JSON.stringify(filtered));
             return { success: true };
         } catch { return { success: false }; }
+    },
+    
+    // --- Security ---
+    changePassword: async (current, next) => {
+        const res = await fetch(`${API_BASE}/change_password.php`, {
+            method: 'POST',
+            body: JSON.stringify({ current, next })
+        });
+        return res.json();
     }
 };
 

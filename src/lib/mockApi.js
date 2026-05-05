@@ -164,5 +164,16 @@ export const mockApi = {
     updateSettings: async (settings) => {
         save(STORAGE_KEYS.SETTINGS, settings);
         return { success: true };
+    },
+
+    // --- Security ---
+    changePassword: async (current, next) => {
+        const settings = load(STORAGE_KEYS.SETTINGS, { admin_password: 'admin' });
+        if (current !== settings.admin_password) {
+            return { success: false, message: "L'ancien mot de passe est incorrect" };
+        }
+        settings.admin_password = next;
+        save(STORAGE_KEYS.SETTINGS, settings);
+        return { success: true };
     }
 };
