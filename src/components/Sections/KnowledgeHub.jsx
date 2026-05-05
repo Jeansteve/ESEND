@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Clock, Calendar } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { dataService } from '../../lib/DataService';
+import EmptyState from '../UI/EmptyState';
 
 const KnowledgeHub = () => {
   const [articles, setArticles] = React.useState([]);
@@ -81,57 +82,73 @@ const KnowledgeHub = () => {
         </div>
 
         {/* Grille d'articles ou Skeletons */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="w-full">
           {loading ? (
-            [1, 2, 3].map(i => <SkeletonItem key={i} />)
-          ) : articles.slice(0, 3).map((article, index) => (
-            <motion.article
-              key={article.id || index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
-              onClick={() => handleArticleClick(article)}
-              onMouseEnter={() => handleMouseEnter(article)}
-              className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
-            >
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'}
-                  alt={article.title}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent text-left" />
-                <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1.5 rounded-full tracking-widest text-left">
-                  {article.category}
-                </span>
-              </div>
-
-              <div className="p-8 flex flex-col flex-grow text-left">
-                <div className="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-                  <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
-                  <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {article.readTime}</span>
-                </div>
-
-                <h3 className="text-2xl font-black leading-tight mb-4 group-hover:text-red-500 transition-colors">
-                  {article.title}
-                </h3>
-
-                <p className="text-slate-400 leading-relaxed mb-6 font-medium flex-grow text-sm">
-                  {article.excerpt}
-                </p>
-
-                <div className="mt-auto flex items-center gap-3 text-red-600 font-black uppercase tracking-widest text-xs group/btn">
-                  <span>Lire l'article</span>
-                  <div className="w-7 h-7 rounded-full bg-red-600/10 flex items-center justify-center group-hover/btn:bg-red-600 group-hover/btn:text-white transition-all">
-                    <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map(i => <SkeletonItem key={i} />)}
+            </div>
+          ) : articles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {articles.slice(0, 3).map((article, index) => (
+                <motion.article
+                  key={article.id || index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
+                  onClick={() => handleArticleClick(article)}
+                  onMouseEnter={() => handleMouseEnter(article)}
+                  className="group cursor-pointer flex flex-col h-full bg-white border border-black/5 rounded-3xl overflow-hidden shadow-xl hover:border-red-600/50 hover:shadow-2xl transition-all duration-500"
+                >
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'}
+                      alt={article.title}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-105 group-hover:scale-110 transition-all duration-700"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent text-left" />
+                    <span className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1.5 rounded-full tracking-widest text-left">
+                      {article.category}
+                    </span>
                   </div>
-                </div>
-              </div>
-            </motion.article>
-          ))}
+
+                  <div className="p-8 flex flex-col flex-grow text-left">
+                    <div className="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+                      <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
+                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {article.readTime}</span>
+                    </div>
+
+                    <h3 className="text-2xl font-black leading-tight mb-4 group-hover:text-red-500 transition-colors">
+                      {article.title}
+                    </h3>
+
+                    <p className="text-slate-400 leading-relaxed mb-6 font-medium flex-grow text-sm">
+                      {article.excerpt}
+                    </p>
+
+                    <div className="mt-auto flex items-center gap-3 text-red-600 font-black uppercase tracking-widest text-xs group/btn">
+                      <span>Lire l'article</span>
+                      <div className="w-7 h-7 rounded-full bg-red-600/10 flex items-center justify-center group-hover/btn:bg-red-600 group-hover/btn:text-white transition-all">
+                        <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          ) : (
+            <EmptyState 
+              title="Le Savoir en préparation"
+              message="Notre centre de ressources se remplit. Nos experts documentent actuellement les meilleures techniques d'intervention."
+              image="/images/empty-articles.png"
+              variant="light"
+              icon={BookOpen}
+              actionLabel="Explorer le Journal"
+              actionLink="/journal"
+            />
+          )}
         </div>
       </div>
     </section>

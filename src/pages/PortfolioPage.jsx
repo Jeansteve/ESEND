@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, ShieldCheck, MapPin, Calendar, Target, Activity, ArrowLeft, Filter, Info } from 'lucide-react';
+import { Camera, ShieldCheck, MapPin, Calendar, Target, Activity, ArrowLeft, Filter, Info, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import ProjectDetailModal from '../components/UI/ProjectDetailModal';
+import EmptyState from '../components/UI/EmptyState';
 
 const CATEGORIES = [
   { id: 'all', label: 'Tous' },
@@ -55,19 +56,31 @@ const PortfolioPage = () => {
         </div>
       </section>
       <section className="py-20 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence>
-            {filtered.map(item => (
-              <motion.div key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedItem(item)} className="group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer bg-slate-900 aspect-square">
-                <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60" />
-                <div className="absolute bottom-10 left-10 right-10">
-                  <span className="px-2 py-1 rounded bg-red-600 text-[9px] font-black uppercase text-white mb-3 inline-block">{item.tag}</span>
-                  <h3 className="text-2xl font-black uppercase text-white group-hover:text-red-600 transition-colors">{item.title}</h3>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+        <div className="max-w-7xl mx-auto">
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <AnimatePresence>
+                {filtered.map(item => (
+                  <motion.div key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedItem(item)} className="group relative overflow-hidden rounded-[2.5rem] border border-white/5 cursor-pointer bg-slate-900 aspect-square">
+                    <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-60" />
+                    <div className="absolute bottom-10 left-10 right-10">
+                      <span className="px-2 py-1 rounded bg-red-600 text-[9px] font-black uppercase text-white mb-3 inline-block">{item.tag}</span>
+                      <h3 className="text-2xl font-black uppercase text-white group-hover:text-red-600 transition-colors">{item.title}</h3>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <EmptyState 
+              title="Le Duo est sur le terrain"
+              message="Aucune réalisation n'est encore documentée pour cette catégorie. Nous intervenons actuellement pour sécuriser de nouveaux sites."
+              image="/images/empty-projects.png"
+              icon={Search}
+              actionLabel="Demander une intervention"
+            />
+          )}
         </div>
       </section>
       <AnimatePresence>

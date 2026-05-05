@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { dataService } from '../lib/DataService';
+import EmptyState from '../components/UI/EmptyState';
 
 const SkeletonCard = () => (
   <div className="flex flex-col h-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-3xl overflow-hidden shadow-xl animate-pulse">
@@ -135,10 +136,14 @@ const BlogPage = () => {
             ))}
           </div>
         ) : (
-          <div className="py-32 text-center text-[var(--text-dimmed)]">
-            <BookOpen className="w-16 h-16 mx-auto mb-6 opacity-20" />
-            <p className="font-bold text-lg">Aucun article publié pour le moment.</p>
-          </div>
+          <EmptyState 
+            title="Le Journal est en cours d'édition"
+            message="Nos experts rédigent actuellement de nouveaux dossiers pour vous tenir informés des meilleures pratiques d'hygiène et de sécurité."
+            image="/images/empty-articles.png"
+            icon={BookOpen}
+            actionLabel="S'inscrire à la veille"
+            actionLink="/#contact"
+          />
         )}
       </div>
     </div>
