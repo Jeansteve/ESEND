@@ -29,14 +29,23 @@ try {
         exit;
     }
 
-    if ($current !== $user['password']) {
+    $isCurrentCorrect = false;
+    // Vérification hybride (Hash ou Clair pour migration)
+    if (password_verify($current, $user['password'])) {
+        $isCurrentCorrect = true;
+    } else if ($current === $user['password']) {
+        $isCurrentCorrect = true;
+    }
+
+    if (!$isCurrentCorrect) {
         echo json_encode(['success' => false, 'message' => 'L\'ancien mot de passe est incorrect']);
         exit;
     }
 
-    // 2. Mettre à jour le mot de passe
+    // 2. Mettre à jour avec le nouveau mot de passe haché
+    $newHash = password_hash($next, PASSWORD_ARGON2ID);
     $stmt = $pdo->prepare("UPDATE esend_users SET password = ? WHERE id = ?");
-    $stmt->execute([$next, $user['id']]);
+    $stmt->execute([$newHash, $user['id']]);
 
     echo json_encode(['success' => true]);
 } catch (\PDOException $e) {

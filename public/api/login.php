@@ -21,12 +21,40 @@ try {
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if ($user && $password === $user['password']) { // Simplifié pour test, idéalement avec password_verify
-        echo json_encode(['success' => true, 'user' => [
-            'id' => $user['id'],
-            'email' => $user['email'],
-            'name' => $user['name']
-        ]]);
+    if ($user) {
+        $isPasswordCorrect = false;
+        $needsRehash = false;
+
+        // 1. Essai avec hachage moderne
+        if (password_verify($password, $user['password'])) {
+            $isPasswordCorrect = true;
+            // Vérifier si les paramètres de hachage doivent être mis à jour
+            if (password_needs_rehash($user['password'], PASSWORD_ARGON2ID)) {
+                $needsRehash = true;
+            }
+        } 
+        // 2. Fallback pour les anciens mots de passe en clair (Migration Douce)
+        else if ($password === $user['password']) {
+            $isPasswordCorrect = true;
+            $needsRehash = true;
+        }
+
+        if ($isPasswordCorrect) {
+            // Si nécessaire, on hache/re-hache le mot de passe
+            if ($needsRehash) {
+                $newHash = password_hash($password, PASSWORD_ARGON2ID);
+                $updateStmt = $pdo->prepare("UPDATE esend_users SET password = ? WHERE id = ?");
+                $updateStmt->execute([$newHash, $user['id']]);
+            }
+
+            echo json_encode(['success' => true, 'user' => [
+                'id' => $user['id'],
+                'email' => $user['email'],
+                'name' => $user['name']
+            ]]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Identifiants incorrects']);
+        }
     } else {
         echo json_encode(['success' => false, 'error' => 'Identifiants incorrects']);
     }
