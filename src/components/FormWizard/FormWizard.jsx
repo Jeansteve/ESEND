@@ -165,6 +165,14 @@ const FormWizard = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [rgpdConsent, setRgpdConsent] = useState(false);
+  const [maxStepReached, setMaxStepReached] = useState(0);
+
+  // Mémoriser l'étape maximale atteinte pour permettre la navigation rapide
+  useEffect(() => {
+    if (currentStepIndex > maxStepReached) {
+      setMaxStepReached(currentStepIndex);
+    }
+  }, [currentStepIndex, maxStepReached]);
   useEffect(() => {
     const devisPest = searchParams.get('devis');
     if (devisPest) {
@@ -459,13 +467,32 @@ const FormWizard = () => {
                 ← Retour
               </button>
             )}
+
+            {/* Bouton Suivant de reprise rapide */}
+            {currentStepIndex < maxStepReached && !isSubmitted && (
+              <button
+                onClick={nextStep}
+                className="absolute top-6 right-6 text-white/60 hover:text-white flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-all hover:translate-x-1 active:scale-95 z-10 drop-shadow-md"
+              >
+                Suivant →
+              </button>
+            )}
             {!isSubmitted ? (
               <AnimatePresence mode="popLayout">
                 <motion.div key={currentStepData.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   {currentStepData.id === 'welcome' && (
-                    <div className="text-center"><Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
-                      <h3 className="text-2xl font-black italic mb-8 text-white px-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">Votre Devis 100% Offert</h3>
-                      <button onClick={nextStep} className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98]">Démarrer l'estimation</button></div>
+                    <div className="text-center">
+                      <Star className="w-16 h-16 text-[#A72422] mx-auto mb-6" />
+                      <h3 className="text-2xl font-black italic mb-8 text-white px-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+                        {maxStepReached > 0 ? "Reprenons votre estimation" : "Votre Devis 100% Offert"}
+                      </h3>
+                      <button 
+                        onClick={nextStep} 
+                        className="w-full bg-black text-white p-6 rounded-2xl font-black uppercase hover:bg-[#A72422] transition-all hover:scale-[1.02] active:scale-[0.98] shadow-2xl"
+                      >
+                        {maxStepReached > 0 ? "Continuer l'estimation" : "Démarrer l'estimation"}
+                      </button>
+                    </div>
                   )}
                   {currentStepData.id === 'service' && (
                     <div><h3 className="text-xl font-black text-center flex items-center justify-center gap-2 mb-8 text-white drop-shadow-md"><SprayCan /> Quel service ?</h3>
