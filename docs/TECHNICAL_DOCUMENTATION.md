@@ -114,12 +114,23 @@ Pour faciliter le marketing et l'archivage, les dossiers sont créés dynamiquem
 
 ---
 
-## 🚀 7. Déploiement (CI/CD)
+## 🚀 7. Déploiement (CI/CD Multi-Environnements)
 
-Le projet utilise **GitHub Actions**.
-- **Config** : `.github/workflows/deploy.yml`.
-- **Méthode** : FTP Sync vers Hostinger.
-- **Action requise** : À chaque push sur `main`, les fichiers sont synchronisés automatiquement dans `public_html`.
+Le projet utilise **GitHub Actions** pour un déploiement automatisé et sécurisé.
+
+### Architecture des Workflows :
+1. **Production (`main`)** :
+    - Fichier : `.github/workflows/deploy-prod.yml`
+    - Cible : `esendnuisibles.fr`
+    - Secrets requis : `FTP_PROD_SERVER`, `FTP_PROD_USERNAME`, `FTP_PROD_PASSWORD`.
+2. **Hors-Production (`test`)** :
+    - Fichier : `.github/workflows/deploy-test.yml`
+    - Cible : `site-test.esendnuisibles.fr`
+    - Secrets requis : `FTP_TEST_SERVER`, `FTP_TEST_USERNAME`, `FTP_TEST_PASSWORD`.
+
+### Processus :
+- À chaque push sur la branche correspondante, les fichiers sont compilés (`npm run build`) et synchronisés par FTP sur Hostinger.
+- Le fichier `api/config.php` est **exclu** du déploiement automatique pour permettre une configuration DB spécifique à chaque environnement directement sur le serveur.
 
 ---
 

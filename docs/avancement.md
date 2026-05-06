@@ -186,10 +186,23 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction du bug de navigation vers les ancres (`#contact`) depuis les pages profondes (ex: Journal).
     - Synchronisation des CTA "Devis Gratuit" pour un scroll fluide et précis.
 
+## ✅ V15 : Préparation Production & Standardisation (Live — Mai 2024)
+**Fichiers :** `index.html`, `schema_prod.sql`, `DUPLICATION_GUIDE.md`, `robots.txt`, `sitemap.xml`
+
+- **Branding & SEO Final** :
+    - Remplacement du favicon Vite par le logo ESEND.
+    - Optimisation des balises OpenGraph et Twitter Cards pour un partage social professionnel.
+    - Création des fichiers `robots.txt` et `sitemap.xml` pointant sur le domaine de production.
+- **Infrastructure de Déploiement** :
+    - Séparation des flux GitHub Actions : `deploy-prod.yml` (branche main) et `deploy-test.yml` (branche test).
+    - Création d'un guide de duplication industrielle pour faciliter le déploiement de futurs clients.
+- **Base de Données Unifiée** :
+    - Création de `schema_prod.sql` regroupant l'intégralité des tables et colonnes (V1 à V5).
+
 ## 🚀 Prochaines Étapes
-1. **Migration Massive** : Exécuter `mass_migrate.php` sur la production.
-2. **Nettoyage** : Supprimer le script de migration après usage.
-3. **Double Authentification (2FA)** : Envisager l'ajout de TOTP pour l'accès admin.
-4. **Auto-réponse Client** : Envoyer un mail de confirmation automatique au client lors de sa demande de devis.
+1. **Validation Directe** : Vérifier le rendu sur `esendnuisibles.fr` après le déploiement GitHub Actions.
+2. **Nettoyage Post-Déploiement** : Supprimer le script `mass_migrate.php` et les backups temporaires sur le serveur.
+3. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
+4. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
 
 

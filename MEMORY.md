@@ -114,3 +114,11 @@
   }, [searchQuery]);
   ```
 - **Règle d'Or (UX Admin) :** La recherche est une intention globale. Toute saisie dans le champ de recherche doit "libérer" les filtres de catégories pour scanner l'intégralité de la base de données.
+
+### [PSA-2026-05-06-A] : Standardisation Industrielle pour Duplication Client
+- **Le Concept :** Transformer le projet ESEND en un "BluePrint" (modèle) capable d'être déployé pour n'importe quel nouveau client en moins d'une heure.
+- **Architecture de Déploiement :**
+  1. **Multi-Environnements** : Utilisation systématique de branches `main` (Prod) et `test` (Recette) avec des workflows GitHub Actions distincts.
+  2. **Isolation de Configuration** : Le fichier `api/config.php` doit TOUJOURS être exclu de Git pour permettre des réglages DB locaux sans collision.
+  3. **Schéma Unifié** : Utilisation d'un `schema_prod.sql` exhaustif regroupant toutes les versions (V1 à V5) pour une initialisation instantanée.
+- **Règle d'Or (Gouvernance) :** Pour chaque nouveau client, le process doit suivre : Clone -> Setup Secrets GitHub -> Import Schema SQL -> Config manuelle `config.php`. Cette approche garantit une scalabilité maximale de l'agence.
