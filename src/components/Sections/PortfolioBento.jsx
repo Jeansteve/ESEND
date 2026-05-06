@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Camera, CheckCircle2, ChevronRight, Briefcase } from 'lucide-react';
 import { api } from '../../lib/api';
 import { Link } from 'react-router-dom';
 import ProjectDetailModal from '../UI/ProjectDetailModal';
+import EmptyState from '../UI/EmptyState';
 
 const PortfolioBento = () => {
   const [interventions, setInterventions] = React.useState([]);
@@ -47,44 +48,54 @@ const PortfolioBento = () => {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[250px]">
-          {interventions.map((item, index) => (
-            <motion.div
-              key={item.id || index}
-              initial={{ opacity: 0, scale: 0.92, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              onClick={() => setSelectedItem(item)}
-              className={`group relative overflow-hidden rounded-[2.5rem] border border-black/5 cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 ${item.size}`}
-            >
-              <img 
-                src={item.img || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070'} 
-                alt={item.title} 
-                className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
-                loading="lazy"
-                decoding="async"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
-              
-              <div className="absolute top-6 right-6 p-2 rounded-full bg-slate-950/80 backdrop-blur-md border border-red-600/30">
-                <Camera className="w-4 h-4 text-red-600" />
-              </div>
-              
-              <div className="absolute bottom-8 left-8 right-8 text-left">
-                <span className="inline-block px-2 py-1 rounded-md bg-red-600 text-[9px] font-black uppercase tracking-widest text-white mb-3">
-                   {item.tag}
-                </span>
-                <h3 className="text-xl font-black uppercase tracking-tighter leading-tight text-white mb-2 group-hover:text-red-600 transition-colors">
-                  {item.title}
-                </h3>
-                <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
-                   <CheckCircle2 className="w-3 h-3 text-red-600" /> {item.location}
+        {interventions.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[250px]">
+            {interventions.map((item, index) => (
+              <motion.div
+                key={item.id || index}
+                initial={{ opacity: 0, scale: 0.92, y: 30 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                onClick={() => setSelectedItem(item)}
+                className={`group relative overflow-hidden rounded-[2.5rem] border border-black/5 cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 ${item.size}`}
+              >
+                <img 
+                  src={item.img || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070'} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity" />
+                
+                <div className="absolute top-6 right-6 p-2 rounded-full bg-slate-950/80 backdrop-blur-md border border-red-600/30">
+                  <Camera className="w-4 h-4 text-red-600" />
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                
+                <div className="absolute bottom-8 left-8 right-8 text-left">
+                  <span className="inline-block px-2 py-1 rounded-md bg-red-600 text-[9px] font-black uppercase tracking-widest text-white mb-3">
+                     {item.tag}
+                  </span>
+                  <h3 className="text-xl font-black uppercase tracking-tighter leading-tight text-white mb-2 group-hover:text-red-600 transition-colors">
+                    {item.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
+                     <CheckCircle2 className="w-3 h-3 text-red-600" /> {item.location}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <EmptyState 
+            variant="light"
+            icon={Briefcase}
+            title="Archives en cours de numérisation"
+            message="Nos dernières interventions sur le terrain sont en cours d'intégration par nos experts."
+            actionLabel="Demander un devis offert"
+          />
+        )}
       </div>
 
       <AnimatePresence>

@@ -118,7 +118,15 @@ La plateforme ESEND applique des protocoles de sécurité de niveau industriel :
 
 ---
 
-## 9. Business Intelligence & IA Strategy
+## 9. Standardisation & Déploiement Industriel
+Le projet est conçu comme un **BluePrint** reproductible.
+- **CI/CD** : Automatisation via GitHub Actions avec isolation des environnements (`main` pour la Prod, `test` pour la Recette).
+- **Configuration** : Séparation stricte de la logique et des accès (exclusion de `config.php` de Git).
+- **Duplication** : Guide de duplication complet (`DUPLICATION_GUIDE.md`) permettant un setup client en < 1 heure.
+
+---
+
+## 10. Business Intelligence & IA Strategy
 Le Dashboard ESEND intègre un moteur de **Market Intelligence** pour transformer les données web en opportunités commerciales.
 
 ### Composants Clés :
@@ -128,4 +136,4 @@ Le Dashboard ESEND intègre un moteur de **Market Intelligence** pour transforme
 
 ---
 
-> **Note de l'IA Architect :** Ce document doit être la base de toute future itération. Il garantit la cohérence entre le design frontal et la puissance du backend.
+> **Note de l'IA Architect :** Ce document est le garant de la cohérence de l'écosystème ESEND. Toute modification structurelle doit y être consignée.
