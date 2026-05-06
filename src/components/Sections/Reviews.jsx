@@ -1,3 +1,5 @@
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Star, Quote, CheckCircle2 } from 'lucide-react';
 import AnimatedNumber from '../UI/AnimatedNumber';
 

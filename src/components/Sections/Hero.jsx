@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { ArrowRight, Star, Phone } from 'lucide-react';
 import AnimatedNumber from '../UI/AnimatedNumber';
