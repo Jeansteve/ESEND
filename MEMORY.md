@@ -115,6 +115,8 @@
   ```
 - **Règle d'Or (UX Admin) :** La recherche est une intention globale. Toute saisie dans le champ de recherche doit "libérer" les filtres de catégories pour scanner l'intégralité de la base de données.
 
+
+
 ### [PSA-2026-05-06-A] : Standardisation Industrielle pour Duplication Client
 - **Le Concept :** Transformer le projet ESEND en un "BluePrint" (modèle) capable d'être déployé pour n'importe quel nouveau client en moins d'une heure.
 - **Architecture de Déploiement :**
@@ -122,3 +124,11 @@
   2. **Isolation de Configuration** : Le fichier `api/config.php` doit TOUJOURS être exclu de Git pour permettre des réglages DB locaux sans collision.
   3. **Schéma Unifié** : Utilisation d'un `schema_prod.sql` exhaustif regroupant toutes les versions (V1 à V5) pour une initialisation instantanée.
 - **Règle d'Or (Gouvernance) :** Pour chaque nouveau client, le process doit suivre : Clone -> Setup Secrets GitHub -> Import Schema SQL -> Config manuelle `config.php`. Cette approche garantit une scalabilité maximale de l'agence.
+
+### [PSA-2026-05-06-B] : Harmonisation des Animations de Score (Composant Global)
+- **Le Concept :** Utiliser un composant unique `AnimatedNumber` pour garantir une expérience visuelle identique entre le Hero (score statique au chargement) et les sections de contenu (score animé au scroll).
+- **Architecture Technique :**
+  - **Déclenchement Hybride :** Utilisation de la prop `triggerOnMount` pour le Hero et de `IntersectionObserver` pour les autres sections.
+  - **Stabilité Mobile :** Encapsulation dans un conteneur `flex items-baseline whitespace-nowrap` pour éviter tout décalage du suffixe "/5".
+  - **Moteur :** Basé sur `framer-motion` avec un effet `spring` (ressort) pour un rendu premium.
+- **Règle d'Or (UI) :** Un score de satisfaction (ex: 4.9/5) ne doit jamais être un simple texte statique ; l'animation renforce la perception de "preuve sociale" dynamique.

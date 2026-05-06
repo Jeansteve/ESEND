@@ -147,7 +147,22 @@ Le projet utilise **GitHub Actions** pour un déploiement automatisé et sécuri
 
 ### Processus :
 - À chaque push sur la branche correspondante, les fichiers sont compilés (`npm run build`) et synchronisés par FTP sur Hostinger.
-- Le fichier `api/config.php` est **exclu** du déploiement automatique pour permettre une configuration DB spécifique à chaque environnement directement sur le serveur.
+- **Configuration Automatisée** : Le fichier `api/config.php` est désormais généré dynamiquement lors du déploiement à partir des GitHub Secrets. Cela garantit une sécurité maximale (aucune clé en clair dans le dépôt) et une séparation parfaite entre Test et Production.
+
+#### Secrets requis sur GitHub :
+
+| Secret | Description | Exemple |
+| :--- | :--- | :--- |
+| `FTP_PROD_*` | Accès FTP Serveur Production | `45.87.81.71` |
+| `FTP_TEST_*` | Accès FTP Serveur Test | `site-test.esend...` |
+| `DB_PROD_HOST` | Host MySQL Production | `localhost` |
+| `DB_PROD_NAME` | Nom BDD Production | `u387599421_esend` |
+| `DB_PROD_USER` | Utilisateur BDD Production | `u387599421_admin` |
+| `DB_PROD_PASS` | Mot de passe BDD Production | `********` |
+| `DB_TEST_HOST` | Host MySQL Test | `localhost` |
+| `DB_TEST_NAME` | Nom BDD Test | `u387599421_test` |
+| `DB_TEST_USER` | Utilisateur BDD Test | `u387599421_t_admin` |
+| `DB_TEST_PASS` | Mot de passe BDD Test | `********` |
 
 ---
 

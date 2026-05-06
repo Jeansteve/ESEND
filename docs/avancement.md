@@ -243,6 +243,14 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Synchronisation Reveal** : L'animation du score démarre 0.3s après l'entrée en vue, se coordonnant parfaitement avec l'effet de révélation en fondu de la section.
 - **Robustesse** : Introduction de la prop `triggerOnMount` pour un contrôle précis du comportement par instance.
 
+### ✅ V17.3 : Sécurisation Totale de l'Infrastructure (Mai 2026)
+**Fichiers :** `deploy.yml`, `config.php`, `setup_config.php`
+
+- **Génération Dynamique de Configuration** : Création d'un script PHP d'auto-configuration pour générer `config.php` à partir des variables d'environnement.
+- **Sécurisation Database** : Migration des identifiants sensibles vers les **GitHub Secrets**. Séparation stricte entre `DB_TEST` et `DB_PROD`.
+- **Durcissement PHP** : Désactivation globale de l'affichage des erreurs (`display_errors = Off`) via la configuration générée pour éviter les fuites d'informations.
+- **Documentation Secrets** : Mise à jour de la documentation technique incluant la liste des secrets requis pour la maintenance du pipeline.
+
 ## 🚀 Prochaines Étapes
 1. **Mise en Production (MEP)** : Déploiement final de la branche `test` vers `main` (Validé).
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
