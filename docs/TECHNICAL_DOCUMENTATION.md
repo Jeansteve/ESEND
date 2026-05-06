@@ -151,18 +151,18 @@ Le projet utilise **GitHub Actions** pour un déploiement automatisé et sécuri
 
 #### Secrets requis sur GitHub :
 
-| Secret | Description | Exemple |
+| Secret | Catégorie | Description |
 | :--- | :--- | :--- |
-| `FTP_PROD_*` | Accès FTP Serveur Production | `45.87.81.71` |
-| `FTP_TEST_*` | Accès FTP Serveur Test | `site-test.esend...` |
-| `DB_PROD_HOST` | Host MySQL Production | `localhost` |
-| `DB_PROD_NAME` | Nom BDD Production | `u387599421_esend` |
-| `DB_PROD_USER` | Utilisateur BDD Production | `u387599421_admin` |
-| `DB_PROD_PASS` | Mot de passe BDD Production | `********` |
-| `DB_TEST_HOST` | Host MySQL Test | `localhost` |
-| `DB_TEST_NAME` | Nom BDD Test | `u387599421_test` |
-| `DB_TEST_USER` | Utilisateur BDD Test | `u387599421_t_admin` |
-| `DB_TEST_PASS` | Mot de passe BDD Test | `********` |
+| `FTP_PROD_SERVER` | FTP | IP Serveur Production (ex: `45.87.81.71`) |
+| `FTP_PROD_USERNAME` | FTP | User FTP (ex: `u387599421.esendnuisibles.fr`) |
+| `FTP_PROD_PASSWORD` | FTP | Mot de passe FTP |
+| `DB_PROD_HOST` | Database | Host MySQL (ex: `localhost`) |
+| `DB_PROD_NAME` | Database | Nom de la base (ex: `u387599421_esend`) |
+| `DB_PROD_USER` | Database | Utilisateur SQL (ex: `u387599421_admin`) |
+| `DB_PROD_PASS` | Database | Mot de passe SQL |
+| `VITE_GA_MEASUREMENT_ID` | Marketing | ID Google Analytics (G-XXXXX) |
+| `FTP_TEST_*` | Test | Identiques aux PROD pour le serveur de test |
+| `DB_TEST_*` | Test | Identiques aux PROD pour la base de test |
 
 ---
 

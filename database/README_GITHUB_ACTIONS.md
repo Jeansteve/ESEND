@@ -1,36 +1,53 @@
-# Guide de Configuration CI/CD - ESEND
-**Spécialiste : chef-de-projet-ia / developpeur-back-end-ops**
+# Guide de Configuration CI/CD & Database - ESEND
+**Spécialiste : developpeur-back-end-ops**
 
-Pour que votre site soit mis à jour automatiquement sur Hostinger, vous devez ajouter les informations de connexion dans les **Secrets de votre dépôt GitHub**.
-
-## 🛡️ Configuration des Secrets GitHub
-1. Allez sur votre dépôt GitHub (ex: `Jeansteve/ESEND`).
-2. Cliquez sur l'onglet **Settings** (Paramètres).
-3. Dans le menu de gauche, allez dans **Secrets and variables** > **Actions**.
-4. Cliquez sur le bouton **New repository secret** pour chaque valeur ci-dessous :
-
-### 1. `FTP_SERVER`
-- **Valeur** : `45.87.81.71`
-- **Description** : L'adresse IP de votre serveur Hostinger.
-
-### 2. `FTP_USERNAME`
-- **Valeur** : `u387599421.site-test.esendnuisibles.fr`
-- **Description** : Votre identifiant FTP.
-
-### 3. `FTP_PASSWORD`
-- **Valeur** : (Votre mot de passe FTP Hostinger)
-- **Description** : Le mot de passe que vous avez défini dans le panel Hostinger pour cet utilisateur.
-
-### 4. `VITE_GA_MEASUREMENT_ID` (Optionnel)
-- **Valeur** : `G-XXXXXXXXXX`
-- **Description** : Votre ID Google Analytics si vous souhaitez l'injecter au build.
+Ce document centralise les informations nécessaires pour configurer le pipeline de déploiement et la base de données pour ESEND.
 
 ---
 
-## 🚀 Premier Déploiement
-Une fois les secrets ajoutés :
-1. Poussez vos modifications sur la branche `main` (`git push origin main`).
-2. Allez dans l'onglet **Actions** de GitHub pour suivre la progression du build et du transfert.
+## 🛡️ 1. Secrets GitHub (Actions)
+Allez dans **Settings > Secrets and variables > Actions** et ajoutez les secrets suivants. Sans eux, le déploiement échouera ou le site ne pourra pas se connecter à la base.
 
-> [!IMPORTANT]
-> **Le fichier de configuration** : Le workflow est configuré pour **ne jamais écraser** votre fichier `public/api/config.php` sur le serveur s'il existe déjà. C'est une sécurité pour éviter de perdre vos réglages de base de données.
+### 🌐 Accès FTP
+| Secret | Valeur |
+| :--- | :--- |
+| `FTP_PROD_SERVER` | `45.87.81.71` (IP Hostinger) |
+| `FTP_PROD_USERNAME` | Identifiant FTP principal |
+| `FTP_PROD_PASSWORD` | Mot de passe FTP |
+
+### 🗄️ Base de Données (Production)
+| Secret | Valeur |
+| :--- | :--- |
+| `DB_PROD_HOST` | `localhost` |
+| `DB_PROD_NAME` | `u387599421_esend` |
+| `DB_PROD_USER` | `u387599421_admin` |
+| `DB_PROD_PASS` | (Le mot de passe de la base) |
+
+### 🧪 Environnement de Test
+Créez les mêmes secrets préfixés par `DB_TEST_*` et `FTP_TEST_*` pour le serveur de recette.
+
+---
+
+## 🚀 2. Automatisation du fichier config.php
+Le fichier `public/api/config.php` est généré dynamiquement lors du déploiement. 
+
+**Structure générée :**
+```php
+define('DB_HOST', '${{ secrets.DB_PROD_HOST }}');
+define('DB_NAME', '${{ secrets.DB_PROD_NAME }}');
+define('DB_USER', '${{ secrets.DB_PROD_USER }}');
+define('DB_PASS', '${{ secrets.DB_PROD_PASS }}');
+```
+Cela signifie que vous n'avez **plus jamais** besoin de modifier ce fichier manuellement sur le serveur. Toute modification manuelle sera écrasée au prochain déploiement.
+
+---
+
+## 📊 3. Schéma & Initialisation
+1. Le schéma de base est situé dans `database/schema_prod.sql`.
+2. Pour initialiser un nouveau client :
+   - Importez le SQL.
+   - L'utilisateur par défaut est `admin@esend.fr` / `admin`.
+   - Modifiez immédiatement le mot de passe dans l'onglet **Paramètres** de l'admin.
+
+---
+*Documentation mise à jour en Mai 2026 pour la version 17.3 (Auto-Config).*
