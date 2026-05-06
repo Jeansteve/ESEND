@@ -1,6 +1,19 @@
-import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { ArrowRight, Star, Phone } from 'lucide-react';
 import { useSettings } from '../../context/SettingsContext';
+
+const AnimatedNumber = ({ value }) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => latest.toFixed(1));
+  
+  useEffect(() => {
+    const controls = animate(count, value, { duration: 2, ease: "circOut", delay: 1 });
+    return controls.stop;
+  }, [value]);
+
+  return <motion.span>{rounded}</motion.span>;
+};
 
 const Hero = () => {
   const { settings } = useSettings();
@@ -80,7 +93,7 @@ const Hero = () => {
                   animate="animate"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20"
+                  className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20 whitespace-nowrap"
                 >
                   <span>Obtenir mon devis offert</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
@@ -90,7 +103,7 @@ const Hero = () => {
                   href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all"
+                  className="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all whitespace-nowrap"
                 >
                   <Phone className="w-4 h-4 text-red-500" />
                   <span>{settings.company_phone}</span>
@@ -107,7 +120,7 @@ const Hero = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="text-3xl font-black tracking-tighter text-[var(--text-main)]">4.9<span className="text-lg text-[var(--text-dimmed)]">/5</span></div>
+              <div className="text-3xl font-black tracking-tighter text-[var(--text-main)]"><AnimatedNumber value={4.9} /><span className="text-lg text-[var(--text-dimmed)]">/5</span></div>
               <div className="h-8 w-px bg-[var(--border-subtle)]"></div>
               <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] text-left">
                 Note <br/>Satisfaction
@@ -159,7 +172,7 @@ const Hero = () => {
 
             <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 mt-2">
               <div className="flex flex-col items-center">
-                <span className="text-[clamp(1rem,2.5vh,1.25rem)] font-black tracking-tighter text-white leading-none">4.9/5</span>
+                <span className="text-[clamp(1rem,2.5vh,1.25rem)] font-black tracking-tighter text-white leading-none"><AnimatedNumber value={4.9} />/5</span>
                 <div className="flex gap-0.5 mt-0.5">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-2 h-2 fill-red-600 text-red-600" />
