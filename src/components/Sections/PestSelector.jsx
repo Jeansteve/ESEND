@@ -171,18 +171,20 @@ const PestSelector = () => {
               </div>
               
               <div className="relative z-40">
-                <motion.div 
-                   whileHover={{ scale: 1.05, backgroundColor: "#dc2626", color: "#fff" }}
-                   className="w-full bg-[var(--text-main)] text-[var(--bg-primary)] py-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl border border-white/10 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.3)]"
-                >
-                  {pest.cta} 
-                  <motion.div
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                <Link to={pest.id === "rongeur" ? "/services/nuisibles" : `/services/${pest.id}`}>
+                  <motion.div 
+                     whileHover={{ scale: 1.05, backgroundColor: "#dc2626", color: "#fff" }}
+                     className="w-full bg-[var(--text-main)] text-[var(--bg-primary)] py-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-3 shadow-xl border border-white/10 group-hover:shadow-[0_0_20px_rgba(220,38,38,0.3)] cursor-pointer"
                   >
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    {pest.cta} 
+                    <motion.div
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                    >
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </motion.div>
                   </motion.div>
-                </motion.div>
+                </Link>
               </div>
             </motion.div>
           ))}
