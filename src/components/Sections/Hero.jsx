@@ -82,8 +82,8 @@ const Hero = () => {
           </p>
           
           {/* Desktop CTA Block */}
-          <div className="hidden lg:flex flex-row gap-6 items-center justify-start mb-10 mt-10">
-            <div className="flex flex-col items-start">
+          <div className="hidden lg:flex flex-col items-start mb-10 mt-10">
+            <div className="flex flex-row items-center gap-12">
               <div className="flex items-center gap-4">
                 <motion.a 
                   href="#devis"
@@ -109,23 +109,25 @@ const Hero = () => {
                   <span>{settings.company_phone}</span>
                 </motion.a>
               </div>
-              <motion.span 
-                 initial={{ opacity: 0 }}
-                 animate={{ opacity: 1 }}
-                 transition={{ delay: 1 }}
-                 className="mt-3 text-[9px] font-bold uppercase tracking-widest text-slate-400 italic"
-              >
-                Estimation offerte sans engagement
-              </motion.span>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <div className="text-3xl font-black tracking-tighter text-[var(--text-main)]"><AnimatedNumber value={4.9} /><span className="text-lg text-[var(--text-dimmed)]">/5</span></div>
-              <div className="h-8 w-px bg-[var(--border-subtle)]"></div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] text-left">
-                Note <br/>Satisfaction
+
+              {/* Satisfaction Score - Now perfectly aligned with buttons */}
+              <div className="flex items-center gap-4">
+                <div className="text-3xl font-black tracking-tighter text-[var(--text-main)]"><AnimatedNumber value={4.9} /><span className="text-lg text-[var(--text-dimmed)]">/5</span></div>
+                <div className="h-8 w-px bg-[var(--border-subtle)]"></div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] text-left">
+                  Note <br/>Satisfaction
+                </div>
               </div>
             </div>
+
+            <motion.span 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ delay: 1 }}
+               className="mt-4 text-[9px] font-bold uppercase tracking-widest text-slate-400 italic ml-2"
+            >
+              Estimation offerte sans engagement
+            </motion.span>
           </div>
         </motion.div>
 
