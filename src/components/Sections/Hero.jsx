@@ -1,36 +1,8 @@
-import React, { useEffect } from 'react';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { ArrowRight, Star, Phone } from 'lucide-react';
+import AnimatedNumber from '../UI/AnimatedNumber';
 import { useSettings } from '../../context/SettingsContext';
 
-const AnimatedNumber = ({ value }) => {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, (latest) => latest.toFixed(1));
-  const [isFinished, setIsFinished] = React.useState(false);
-  
-  useEffect(() => {
-    const controls = animate(count, value, { 
-      duration: 2, 
-      ease: "circOut", 
-      delay: 1,
-      onComplete: () => setIsFinished(true)
-    });
-    return controls.stop;
-  }, [value]);
-
-  return (
-    <motion.span
-      animate={isFinished ? { 
-        scale: [1, 1.25, 1],
-        filter: ["blur(0px)", "blur(0px)", "blur(0px)"] 
-      } : {}}
-      transition={{ duration: 0.5, ease: "backOut" }}
-      className="inline-block"
-    >
-      {rounded}
-    </motion.span>
-  );
-};
 
 const Hero = () => {
   const { settings } = useSettings();

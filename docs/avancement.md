@@ -232,6 +232,13 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction du bug "White Screen" lié aux imports `framer-motion` manquants.
     - Optimisation du `FormWizard` pour utiliser les réglages dynamiques.
 
+### ✅ V17.1 : Harmonisation des Animations de Confiance (Mai 2026)
+**Fichiers :** `AnimatedNumber.jsx`, `Hero.jsx`, `Reviews.jsx`
+
+- **Composant UI Réutilisable** : Externalisation de la logique `AnimatedNumber` dans `src/components/UI/` pour un usage global.
+- **Déploiement Section Avis** : Intégration du compteur animé et de l'effet "Pop" dans le bloc de note globale de la section "Paroles de Confiance".
+- **Cohérence Layout** : Alignement flex-baseline appliqué aux deux sections pour une identité visuelle unifiée.
+
 ## 🚀 Prochaines Étapes
 1. **Mise en Production (MEP)** : Déploiement de la branche `test` vers `main`.
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.

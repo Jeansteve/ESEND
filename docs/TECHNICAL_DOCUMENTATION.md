@@ -34,7 +34,7 @@ Les routes principales sont définies dans `App.jsx` :
 
 ### Animations Premium (Framer Motion)
 Le projet utilise des micro-interactions avancées pour renforcer l'aspect expert :
-- **Compteur de Satisfaction** : Animation progressive de 0.0 à 4.9 avec un effet "Pop" (Zoom Spring) final pour capter l'attention.
+- **AnimatedNumber** : Composant UI réutilisable (`src/components/UI/AnimatedNumber.jsx`) qui gère un compteur progressif avec un effet "Pop" final (Zoom Spring). Il est utilisé dans le Hero et la section Reviews pour dynamiser les scores de satisfaction.
 - **CTA Hero** : Effets de pulsation et transitions fluides sur les boutons de contact.
 - **Stabilité Layout** : Utilisation de `whitespace-nowrap` et `flex items-baseline` pour garantir l'alignement du score de satisfaction sur une seule ligne sur tous les supports (Mobile/Tablette/Desktop).
 

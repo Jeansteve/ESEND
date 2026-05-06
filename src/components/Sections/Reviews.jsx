@@ -1,6 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { Star, Quote, CheckCircle2 } from 'lucide-react';
+import AnimatedNumber from '../UI/AnimatedNumber';
 
 const reviews = [
   { 
@@ -184,7 +183,10 @@ const Reviews = () => {
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
             </div>
-            <div className="text-6xl font-black text-[var(--text-main)] mb-2 tracking-tighter italic">4.9/5</div>
+            <div className="flex items-baseline justify-center whitespace-nowrap text-6xl font-black text-[var(--text-main)] mb-2 tracking-tighter italic">
+              <AnimatedNumber value={4.9} delay={0.5} />
+              <span className="text-3xl opacity-50 ml-1">/5</span>
+            </div>
             <div className="flex gap-1 justify-center text-amber-400 mb-4">
               {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-current" />)}
             </div>
