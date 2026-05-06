@@ -93,7 +93,7 @@ const PortfolioBento = () => {
             icon={Briefcase}
             title="Archives en cours de numérisation"
             message="Nos dernières interventions sur le terrain sont en cours d'intégration par nos experts."
-            actionLabel="Demander un devis offert"
+            actionLabel={null}
           />
         )}
       </div>
