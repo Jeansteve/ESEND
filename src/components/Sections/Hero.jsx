@@ -6,13 +6,30 @@ import { useSettings } from '../../context/SettingsContext';
 const AnimatedNumber = ({ value }) => {
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => latest.toFixed(1));
+  const [isFinished, setIsFinished] = React.useState(false);
   
   useEffect(() => {
-    const controls = animate(count, value, { duration: 2, ease: "circOut", delay: 1 });
+    const controls = animate(count, value, { 
+      duration: 2, 
+      ease: "circOut", 
+      delay: 1,
+      onComplete: () => setIsFinished(true)
+    });
     return controls.stop;
   }, [value]);
 
-  return <motion.span>{rounded}</motion.span>;
+  return (
+    <motion.span
+      animate={isFinished ? { 
+        scale: [1, 1.25, 1],
+        filter: ["blur(0px)", "blur(0px)", "blur(0px)"] 
+      } : {}}
+      transition={{ duration: 0.5, ease: "backOut" }}
+      className="inline-block"
+    >
+      {rounded}
+    </motion.span>
+  );
 };
 
 const Hero = () => {
