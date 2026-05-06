@@ -1,28 +1,33 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, animate, useInView } from 'framer-motion';
+import { motion, animate } from 'framer-motion';
 
 const AnimatedNumber = ({ value, delay = 0.5 }) => {
   const [displayValue, setDisplayValue] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
   
   useEffect(() => {
-    if (isInView && !hasStarted) {
-      setHasStarted(true);
+    console.log("DEBUG: AnimatedNumber mounted with value:", value, "delay:", delay);
+    
+    const timeout = setTimeout(() => {
+      console.log("DEBUG: Starting animation for value:", value);
       const controls = animate(0, value, { 
         duration: 2, 
         ease: "circOut", 
-        delay: delay,
         onUpdate: (latest) => {
+          // console.log("DEBUG: Animation update:", latest);
           setDisplayValue(latest);
         },
-        onComplete: () => setIsFinished(true)
+        onComplete: () => {
+          console.log("DEBUG: Animation complete");
+          setIsFinished(true);
+        }
       });
-      return controls.stop;
-    }
-  }, [isInView, value, delay, hasStarted]);
+      return () => controls.stop();
+    }, delay * 1000);
+
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
 
   return (
     <motion.span
