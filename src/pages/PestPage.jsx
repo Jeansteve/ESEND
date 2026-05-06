@@ -93,7 +93,7 @@ const PestPage = () => {
       <script type="application/ld+json">
         {JSON.stringify(jsonLd)}
       </script>
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-6 relative items-start">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-6 relative">
         
         {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) : Plus compact */}
         <div className="w-full md:w-56 lg:w-64 shrink-0 z-20 relative">
