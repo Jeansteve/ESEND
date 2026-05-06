@@ -7,7 +7,7 @@ const AnimatedNumber = ({ value, delay = 0.5 }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
   
   useEffect(() => {
     if (isInView && !hasStarted) {
