@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 html, body, #root {
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
   max-width: 100vw !important;
   background-color: var(--bg-primary);
