@@ -23,10 +23,10 @@ Les interventions récentes ont porté sur la résolution de bugs critiques bloq
 - **Correction** : Ajout d'une fermeture `</div>` après le textarea de l'étape `details`.
 - **Impact** : Résolution de l'erreur `Unexpected closing "motion.div" tag does not match opening "div" tag`. Stabilisation du pipeline GitHub Actions.
 
-### 3. Optimisation de la Lisibilité (Norme Glass-Contrast)
-- **Problème** : Textes gris et rouges sombres illisibles sur le fond Menton flouté.
-- **Correction** : Uniformisation du Wizard. Utilisation systématique de blanc opacifié (`text-white/70`) et de titres blancs avec ombres portées puissantes (`drop-shadow-xl`). Refonte de la carte "Urgente" pour un contraste maximal.
-- **Impact** : Expérience utilisateur plus fluide, réduction de la fatigue visuelle et amélioration du taux de conversion sur mobile.
+### 3. Optimisation de la Lisibilité & Portfolio
+- **Portfolio** : Implémentation d'un `EmptyState` premium pour les archives vides. Suppression du bouton CTA sur cet état pour un rendu minimaliste.
+- **Wizard** : Ajout d'un système de navigation rapide ("Suivant →") et d'une reprise intelligente ("Reprendre l'estimation") pour améliorer l'UX lors des retours en arrière.
+- **Contraste** : Utilisation de blanc opacifié (`text-white/70`) et de titres blancs avec ombres portées puissantes (`drop-shadow-xl`) sur les fonds glassmorphism.
 
 ## ⚖️ 6. Mise en Conformité Légale & RGPD (Mai 2026)
 L'application est désormais alignée sur les obligations légales françaises (RGPD/LCEN) :

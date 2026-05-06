@@ -199,10 +199,23 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Base de Données Unifiée** :
     - Création de `schema_prod.sql` regroupant l'intégralité des tables et colonnes (V1 à V5).
 
+## ✅ V16 : Optimisation de l'Expérience Utilisateur & Navigation (Live — Mai 2026)
+**Fichiers :** `FormWizard.jsx`, `PortfolioBento.jsx`, `EmptyState.jsx`, `index.html`
+
+- **Navigation Rapide FormWizard** :
+    - Implémentation du système "Fast-Forward" : un bouton **"Suivant →"** apparaît dynamiquement si l'utilisateur revient sur une étape déjà complétée.
+    - Reprise intelligente : le message d'accueil s'adapte ("Reprenons votre estimation") pour encourager la conversion.
+- **Épuration du Portfolio** :
+    - Refonte du composant `EmptyState` pour le portfolio vide.
+    - Suppression du bouton CTA sur cet état pour éviter de surcharger l'interface et préserver l'aspect "vitrine archives".
+- **Finalisation SEO & Branding** :
+    - Amélioration de la compatibilité du Favicon via l'ajout de `shortcut icon`.
+- **Gouvernance de Déploiement** :
+    - Verrouillage du workflow CI/CD : passage obligatoire par la branche `test` avant tout merge sur `main`.
+
 ## 🚀 Prochaines Étapes
-1. **Validation Directe** : Vérifier le rendu sur `esendnuisibles.fr` après le déploiement GitHub Actions.
-2. **Nettoyage Post-Déploiement** : Supprimer le script `mass_migrate.php` et les backups temporaires sur le serveur.
-3. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
-4. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
+1. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
+2. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
+3. **Optimisation Performance Images** : Passage au format WebP natif pour tous les assets de la page d'accueil.
 
 
