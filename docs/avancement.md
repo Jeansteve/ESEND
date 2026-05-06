@@ -209,6 +209,10 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Refonte du composant `EmptyState` pour le portfolio vide.
     - Suppression des boutons "Explorer le Journal" dans `KnowledgeHub.jsx` si aucun article n'est présent.
     - Suppression du bouton CTA sur l'état vide du portfolio pour préserver l'aspect "vitrine archives".
+- **Navigation Services (PestPage)** :
+    - Activation du **Sticky Permanent** pour le sélecteur de nuisibles.
+    - Correction technique globale : passage de `overflow-x: hidden` à `clip` pour autoriser le positionnement collant sur toute la hauteur de la page.
+    - Ajustement des conteneurs parents pour garantir que le menu reste à portée de main sans déborder sur le footer.
 - **Finalisation SEO & Branding** :
     - Amélioration de la compatibilité du Favicon via l'ajout de `shortcut icon`.
 - **Gouvernance de Déploiement** :
