@@ -33,6 +33,7 @@ L'interface utilise les codes du **Design UI Moderne** (Glassmorphism, animation
 - **Code Couleur Maître** : Rouge ESEND (`#dc2626`) sur fonds sombres/propres.
 - **Typographie** : Sans-serif grasse, majuscules pour les titres (impact maximal).
 - **Composant `Reveal`** : Utilisation systématique de Framer Motion pour des entrées progressives (staggered animations).
+- **Navigation Services** : Utilisation d'un sélecteur de catégories **Sticky** (collant) sur Desktop pour maintenir l'accès aux autres nuisibles sans remonter la page.
 - **Règle de Lisibilité** : Malgré le thème sombre général, les formulaires critiques (Wizard) conservent un fond blanc pur (`bg-white`) pour une clarté absolue.
 
 ---

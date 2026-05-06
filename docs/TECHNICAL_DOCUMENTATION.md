@@ -42,6 +42,13 @@ L'interface admin a été spécifiquement corrigée pour les appareils mobiles :
 - **Scrolling** : Le défilement vertical est garanti par `height: auto` et `overflow-y: auto` sur `.admin-container` (media query < 1024px).
 - **Largeur** : Suppression des contraintes de largeur fixes (forçage à `100% !important`) pour éviter le décalage horizontal typique des conteneurs Flexbox compressés.
 - **Sidebars** : Isolation totale (`display: none`) de la sidebar desktop sur mobile pour libérer 100% de l'espace au contenu principal.
+
+### 🧩 Gouvernance CSS & Comportements Sticky
+Pour garantir le bon fonctionnement des menus "sticky" (comme le sélecteur de nuisibles) :
+- **Règle Racine** : Ne JAMAIS utiliser `overflow-x: hidden !important` sur les éléments parents (`html`, `body`, `#root`). Cela désactive le calcul du défilement pour `position: sticky`.
+- **Alternative Safe** : Utiliser **`overflow-x: clip !important`**. Cette valeur offre la même protection contre les débordements horizontaux mais ne crée pas de nouveau contexte de défilement, préservant ainsi la fonctionnalité sticky.
+- **Offsets** : Les éléments sticky doivent avoir un `top` défini (ex: `top-32`) pour se caler proprement sous le Header.
+
 *Note : Le changement manuel par l'utilisateur est désactivé pour préserver l'identité visuelle de chaque section.*
 
 ---

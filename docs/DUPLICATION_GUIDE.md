@@ -40,6 +40,10 @@ $pass = 'votre_mot_de_passe';
 2. **SEO** : Mettre à jour les balises dans `index.html` (Title, Description).
 3. **Paramètres** : Se connecter à l'admin et renseigner les infos dans l'onglet **Paramètres** (SIRET, Téléphone, Adresse, Clé Gemini).
 
+## 🧩 4. Points d'Attention UI (Failsafe)
+- **Sticky Menus** : Ne jamais utiliser `overflow-x: hidden` sur `html/body`. Toujours utiliser `overflow-x: clip` pour préserver le comportement collant des menus.
+- **Header Clearance** : Vérifier que le `pt-24` ou `pt-32` des pages de contenu est suffisant pour passer sous le header du nouveau client.
+
 ## 🛡️ 4. Maintenance & Sécurité
 - Supprimer tout fichier de migration après usage.
 - S'assurer que le fichier `.htaccess` est bien présent dans `public/uploads/` pour interdire l'exécution de scripts.
