@@ -218,9 +218,23 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Gouvernance de Déploiement** :
     - Verrouillage du workflow CI/CD : passage obligatoire par la branche `test` avant tout merge sur `main`.
 
+## ✅ V17 : Centralisation & Expérience Premium (Mai 2026)
+**Fichiers :** `SettingsContext.jsx`, `Hero.jsx`, `App.jsx`, `FormWizard.jsx`
+
+- **Centralisation des Paramètres (SSOT)** :
+    - Mise en place du `SettingsContext` pour éliminer les coordonnées codées en dur.
+    - Synchronisation automatique du téléphone et de l'email sur l'ensemble du site.
+- **Animations Premium "High-End"** :
+    - Implémentation du **compteur animé (0.0 → 4.9)** pour le score de satisfaction.
+    - Ajout d'un effet **"Pop & Zoom"** final pour valider la confiance client.
+- **Corrections de Stabilité UI** :
+    - Résolution des problèmes d'alignement du score de satisfaction sur mobile et desktop.
+    - Correction du bug "White Screen" lié aux imports `framer-motion` manquants.
+    - Optimisation du `FormWizard` pour utiliser les réglages dynamiques.
+
 ## 🚀 Prochaines Étapes
-1. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
-2. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
-3. **Optimisation Performance Images** : Passage au format WebP natif pour tous les assets de la page d'accueil.
+1. **Mise en Production (MEP)** : Déploiement de la branche `test` vers `main`.
+2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
+3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
 
 

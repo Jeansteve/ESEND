@@ -28,6 +28,16 @@ Les routes principales sont définies dans `App.jsx` :
 - **Icônes** : Lucide React.
 - **Polices** : Outfit (Titres) et Inter (Corps) via Google Fonts.
 
+### Architecture des Données & Contexte
+- **SettingsContext** : Fournisseur global (`src/context/SettingsContext.jsx`) qui centralise les coordonnées de l'entreprise (téléphone, email, SIRET). Il assure la cohérence des informations sur l'ensemble du site (Header, Footer, FormWizard, Pages Légales) sans duplication de code.
+- **Hooks Personnalisés** : Utilisation intensive de `useSettings()` pour dynamiser les CTAs et les mentions légales.
+
+### Animations Premium (Framer Motion)
+Le projet utilise des micro-interactions avancées pour renforcer l'aspect expert :
+- **Compteur de Satisfaction** : Animation progressive de 0.0 à 4.9 avec un effet "Pop" (Zoom Spring) final pour capter l'attention.
+- **CTA Hero** : Effets de pulsation et transitions fluides sur les boutons de contact.
+- **Stabilité Layout** : Utilisation de `whitespace-nowrap` et `flex items-baseline` pour garantir l'alignement du score de satisfaction sur une seule ligne sur tous les supports (Mobile/Tablette/Desktop).
+
 ### Navigation & Routage (`HashRouter`)
 Le projet utilise `HashRouter` pour éviter les erreurs 404 sur Hostinger. 
 - **Anchor Scrolling** : Un correctif global a été appliqué dans `App.jsx` pour intercepter les clics vers les ancres (ex: `#contact`) et forcer un scroll fluide même lors de navigations inter-pages.
@@ -67,10 +77,9 @@ L'API est située dans `/public/api/`. Chaque fichier PHP gère une ressource sp
     - **Optimisation de Liste** : Pour accélérer le chargement initial, les requêtes de liste (sans `id`) excluent désormais le champ lourd `content`.
     - **Lecture Unique** : Le contenu HTML n'est renvoyé que lorsqu'un article spécifique est demandé via `?id=...`.
 4. **`projects.php`** : CRUD pour les "Réalisations Terrain".
-5. **`settings.php`** : Système de configuration dynamique (Key-Value).
     - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
     - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
-    - **Usage Légal** : Sert de source unique de vérité pour l'adresse, le SIRET et les coordonnées affichées sur les pages légales.
+    - **Usage Légal & UI** : Sert de source unique de vérité. Les données sont consommées par le `SettingsContext` côté React pour dynamiser l'intégralité de l'interface (CTAs, Footer, Pages Légales).
 6. **`change_password.php`** : Mise à jour sécurisée du mot de passe admin.
     - Hachage automatique en **Argon2id**.
     - Validation de l'ancien mot de passe (hybride hash/clair).
