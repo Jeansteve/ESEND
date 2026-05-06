@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-const AnimatedNumber = ({ value, delay = 0.5 }) => {
+const AnimatedNumber = ({ value, delay = 0.5, triggerOnMount = false }) => {
   const [displayValue, setDisplayValue] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
@@ -9,38 +9,41 @@ const AnimatedNumber = ({ value, delay = 0.5 }) => {
   
   // LOG DE CERTIFICATION DE VERSION
   useEffect(() => {
-    console.log("🚀 [SCORE-SYSTEM] AnimatedNumber V3.0 Loaded - Target:", value);
-  }, [value]);
+    console.log(`🚀 [SCORE-SYSTEM] AnimatedNumber V3.1 Loaded - Target: ${value}, TriggerOnMount: ${triggerOnMount}`);
+  }, [value, triggerOnMount]);
 
   useEffect(() => {
-    // 1. Intersection Observer natif
+    // 1. Intersection Observer natif - Toujours actif pour le déclenchement au scroll
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasStarted) {
-          console.log("🚀 [SCORE-SYSTEM] Element in view, starting timer...");
+          console.log("🚀 [SCORE-SYSTEM] Element in view, starting animation...");
           setHasStarted(true);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 } // Un peu plus de marge pour être sûr qu'on le voit bien
     );
 
     if (containerRef.current) {
       observer.observe(containerRef.current);
     }
     
-    // 2. Safety Timer pour le Hero
-    const safety = setTimeout(() => {
-      if (!hasStarted) {
-        console.log("🚀 [SCORE-SYSTEM] Safety timer triggered.");
-        setHasStarted(true);
-      }
-    }, 1500);
+    // 2. Safety Timer uniquement SI triggerOnMount est vrai (utile pour le Hero)
+    let safety;
+    if (triggerOnMount) {
+      safety = setTimeout(() => {
+        if (!hasStarted) {
+          console.log("🚀 [SCORE-SYSTEM] Safety timer triggered (Mount).");
+          setHasStarted(true);
+        }
+      }, 1000);
+    }
 
     return () => {
       observer.disconnect();
-      clearTimeout(safety);
+      if (safety) clearTimeout(safety);
     };
-  }, [hasStarted]);
+  }, [hasStarted, triggerOnMount]);
 
   useEffect(() => {
     if (hasStarted) {

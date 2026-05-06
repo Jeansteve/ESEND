@@ -186,7 +186,7 @@ const Reviews = () => {
               </svg>
             </div>
             <div className="flex items-baseline justify-center whitespace-nowrap text-6xl font-black text-[var(--text-main)] mb-2 tracking-tighter italic">
-              <AnimatedNumber value={4.9} delay={0.5} />
+              <AnimatedNumber value={4.9} delay={0.3} />
               <span className="text-3xl opacity-50 ml-1">/5</span>
             </div>
             <div className="flex gap-1 justify-center text-amber-400 mb-4">

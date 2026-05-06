@@ -103,7 +103,7 @@ const Hero = () => {
               {/* Satisfaction Score - Now perfectly aligned with buttons */}
               <div className="flex items-center gap-4">
                 <div className="flex items-baseline whitespace-nowrap text-3xl font-black tracking-tighter text-[var(--text-main)]">
-                  <AnimatedNumber value={4.9} />
+                  <AnimatedNumber value={4.9} triggerOnMount={true} />
                   <span className="text-lg text-[var(--text-dimmed)] ml-0.5">/5</span>
                 </div>
                 <div className="h-8 w-px bg-[var(--border-subtle)]"></div>
@@ -168,7 +168,7 @@ const Hero = () => {
             <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 mt-2">
               <div className="flex flex-col items-center">
                 <div className="flex items-baseline whitespace-nowrap text-[clamp(1rem,2.5vh,1.25rem)] font-black tracking-tighter text-white leading-none">
-                  <AnimatedNumber value={4.9} />
+                  <AnimatedNumber value={4.9} triggerOnMount={true} />
                   <span className="text-[0.7em] opacity-60 ml-0.5">/5</span>
                 </div>
                 <div className="flex gap-0.5 mt-0.5">
