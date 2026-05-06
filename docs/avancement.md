@@ -205,9 +205,10 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Navigation Rapide FormWizard** :
     - Implémentation du système "Fast-Forward" : un bouton **"Suivant →"** apparaît dynamiquement si l'utilisateur revient sur une étape déjà complétée.
     - Reprise intelligente : le message d'accueil s'adapte ("Reprenons votre estimation") pour encourager la conversion.
-- **Épuration du Portfolio** :
+- **Épuration du Portfolio & Journal** :
     - Refonte du composant `EmptyState` pour le portfolio vide.
-    - Suppression du bouton CTA sur cet état pour éviter de surcharger l'interface et préserver l'aspect "vitrine archives".
+    - Suppression des boutons "Explorer le Journal" dans `KnowledgeHub.jsx` si aucun article n'est présent.
+    - Suppression du bouton CTA sur l'état vide du portfolio pour préserver l'aspect "vitrine archives".
 - **Finalisation SEO & Branding** :
     - Amélioration de la compatibilité du Favicon via l'ajout de `shortcut icon`.
 - **Gouvernance de Déploiement** :

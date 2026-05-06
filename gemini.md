@@ -26,6 +26,7 @@ Les interventions récentes ont porté sur la résolution de bugs critiques bloq
 ### 3. Optimisation de la Lisibilité & Portfolio
 - **Portfolio** : Implémentation d'un `EmptyState` premium pour les archives vides. Suppression du bouton CTA sur cet état pour un rendu minimaliste.
 - **Wizard** : Ajout d'un système de navigation rapide ("Suivant →") et d'une reprise intelligente ("Reprendre l'estimation") pour améliorer l'UX lors des retours en arrière.
+- **Journal/KnowledgeHub** : Masquage automatique des boutons d'exploration si aucun article n'est présent pour éviter les redirections vides.
 - **Contraste** : Utilisation de blanc opacifié (`text-white/70`) et de titres blancs avec ombres portées puissantes (`drop-shadow-xl`) sur les fonds glassmorphism.
 
 ## ⚖️ 6. Mise en Conformité Légale & RGPD (Mai 2026)
