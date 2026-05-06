@@ -237,7 +237,9 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 
 - **Logique Différenciée (V3.1)** : Le composant `AnimatedNumber` gère désormais deux modes de déclenchement :
     - **Immédiat (Hero)** : Le score s'anime dès le chargement pour un impact visuel direct.
-    - **Au Scroll (Avis)** : Utilisation de l'`IntersectionObserver` pour ne lancer l'animation que lorsque l'utilisateur arrive réellement sur la section "Paroles de Confiance".
+    - **Animation Scroll-Sync** : Finalisation du composant `AnimatedNumber` avec support `IntersectionObserver`. Harmonisation réussie sur le Hero (immédiat) et les Reviews (au scroll).
+- **Documentation Master** : Mise à jour du **Cahier des Charges**, de la **Documentation Technique** et du **MEMORY.md** (PSA-2026-05-06-B) pour refléter ces standards.
+- **Mise En Production** : Déploiement V17.2 validé et poussé sur le serveur Hostinger.
 - **Synchronisation Reveal** : L'animation du score démarre 0.3s après l'entrée en vue, se coordonnant parfaitement avec l'effet de révélation en fondu de la section.
 - **Robustesse** : Introduction de la prop `triggerOnMount` pour un contrôle précis du comportement par instance.
 
