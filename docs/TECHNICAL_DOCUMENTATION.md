@@ -34,9 +34,10 @@ Les routes principales sont définies dans `App.jsx` :
 
 ### Animations Premium (Framer Motion)
 Le projet utilise des micro-interactions avancées pour renforcer l'aspect expert :
-- **AnimatedNumber** : Composant UI réutilisable (`src/components/UI/AnimatedNumber.jsx`) qui gère un compteur progressif avec un effet "Pop" final (Zoom Spring). Il est utilisé dans le Hero et la section Reviews pour dynamiser les scores de satisfaction.
-- **CTA Hero** : Effets de pulsation et transitions fluides sur les boutons de contact.
-- **Stabilité Layout** : Utilisation de `whitespace-nowrap` et `flex items-baseline` pour garantir l'alignement du score de satisfaction sur une seule ligne sur tous les supports (Mobile/Tablette/Desktop).
+- **AnimatedNumber** : Composant UI réutilisable (`src/components/UI/AnimatedNumber.jsx`) qui gère un compteur progressif (0.0 → 4.9) avec un effet "Pop" final (Zoom Spring).
+    - **Déclenchement Hybride** : Supporte l'animation immédiate via la prop `triggerOnMount={true}` (utilisé pour le Hero) ou le déclenchement au scroll via `IntersectionObserver` (utilisé pour les Reviews).
+    - **Performance** : Utilise `useMotionValue` et `useTransform` de Framer Motion pour éviter les re-rendus React inutiles pendant l'incrémentation.
+- **Stabilité Layout** : Utilisation de `whitespace-nowrap` et `flex items-baseline` pour garantir l'alignement du score sur une seule ligne sur tous les supports (Mobile/Tablette/Desktop).
 
 ### Navigation & Routage (`HashRouter`)
 Le projet utilise `HashRouter` pour éviter les erreurs 404 sur Hostinger. 

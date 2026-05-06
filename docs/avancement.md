@@ -232,15 +232,17 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction du bug "White Screen" lié aux imports `framer-motion` manquants.
     - Optimisation du `FormWizard` pour utiliser les réglages dynamiques.
 
-### ✅ V17.1 : Harmonisation des Animations de Confiance (Mai 2026)
+### ✅ V17.2 : Synchronisation Intelligente au Scroll (Mai 2026)
 **Fichiers :** `AnimatedNumber.jsx`, `Hero.jsx`, `Reviews.jsx`
 
-- **Composant UI Réutilisable** : Externalisation de la logique `AnimatedNumber` dans `src/components/UI/` pour un usage global.
-- **Déploiement Section Avis** : Intégration du compteur animé et de l'effet "Pop" dans le bloc de note globale de la section "Paroles de Confiance".
-- **Cohérence Layout** : Alignement flex-baseline appliqué aux deux sections pour une identité visuelle unifiée.
+- **Logique Différenciée (V3.1)** : Le composant `AnimatedNumber` gère désormais deux modes de déclenchement :
+    - **Immédiat (Hero)** : Le score s'anime dès le chargement pour un impact visuel direct.
+    - **Au Scroll (Avis)** : Utilisation de l'`IntersectionObserver` pour ne lancer l'animation que lorsque l'utilisateur arrive réellement sur la section "Paroles de Confiance".
+- **Synchronisation Reveal** : L'animation du score démarre 0.3s après l'entrée en vue, se coordonnant parfaitement avec l'effet de révélation en fondu de la section.
+- **Robustesse** : Introduction de la prop `triggerOnMount` pour un contrôle précis du comportement par instance.
 
 ## 🚀 Prochaines Étapes
-1. **Mise en Production (MEP)** : Déploiement de la branche `test` vers `main`.
+1. **Mise en Production (MEP)** : Déploiement final de la branche `test` vers `main` (Validé).
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
 3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
 
