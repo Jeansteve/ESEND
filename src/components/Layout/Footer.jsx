@@ -1,31 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { api } from '../../lib/api';
+import { useSettings } from '../../context/SettingsContext';
 
 const Footer = () => {
-  const [settings, setSettings] = useState({
-    company_phone: '06 51 23 98 41',
-    contact_email: 'contact@esendnuisibles.fr',
-    company_siret: '900 556 838 00010'
-  });
-
-  useEffect(() => {
-    const loadSettings = async () => {
-      try {
-        const data = await api.getSettings();
-        if (data) {
-          setSettings({
-            company_phone: data.company_phone || '06 51 23 98 41',
-            contact_email: data.contact_email || 'contact@esendnuisibles.fr',
-            company_siret: data.company_siret || '900 556 838 00010'
-          });
-        }
-      } catch (err) {
-        console.error("Erreur chargement footer settings:", err);
-      }
-    };
-    loadSettings();
-  }, []);
+  const { settings } = useSettings();
 
   return (
     <footer className="bg-slate-950 text-slate-100 pt-24 pb-12 px-6 border-t border-white/5 transition-colors duration-400">

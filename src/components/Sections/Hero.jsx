@@ -1,8 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight, Star, Phone } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 const Hero = () => {
+  const { settings } = useSettings();
   const scrollToDevis = (e) => {
     e.preventDefault();
     const target = document.querySelector('#devis');
@@ -86,13 +86,13 @@ const Hero = () => {
                 </motion.a>
 
                 <motion.a
-                  href="tel:0651239841"
+                  href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   className="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all"
                 >
                   <Phone className="w-4 h-4 text-red-500" />
-                  <span>06 51 23 98 41</span>
+                  <span>{settings.company_phone}</span>
                 </motion.a>
               </div>
               <motion.span 
@@ -144,12 +144,12 @@ const Hero = () => {
               </motion.a>
 
               <motion.a 
-                href="tel:0651239841"
+                href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
                 whileTap={{ scale: 0.95 }}
                 className="w-full bg-white/10 backdrop-blur-xl text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] border border-white/10 flex justify-center items-center gap-3 cursor-pointer"
               >
                 <Phone className="w-4 h-4 text-red-500" />
-                <span>Appeler : 06 51 23 98 41</span>
+                <span>{settings.company_phone}</span>
               </motion.a>
             </div>
             <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400 italic">

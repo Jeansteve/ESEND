@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Phone, ArrowRight, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSettings } from '../../context/SettingsContext';
 
 
 
 
 const Header = () => {
+    const { settings } = useSettings();
     // ... existant
   const [isScrolled, setIsScrolled] = useState(false);
   const [showCTA, setShowCTA] = useState(false);
@@ -172,9 +174,9 @@ const Header = () => {
             )}
           </AnimatePresence>
 
-          <a href="tel:0651239841" className="flex bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-3 sm:px-5 py-2.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 font-sans shadow-lg group">
+          <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="flex bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-3 sm:px-5 py-2.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 font-sans shadow-lg group">
             <Phone className="w-3.5 h-3.5 text-red-600 group-hover:text-white transition-colors" />
-            <span className="inline">06 51 23 98 41</span>
+            <span className="inline">{settings.company_phone}</span>
           </a>
           
           <button className="lg:hidden text-[var(--text-main)] p-1.5 hover:bg-white/5 rounded-lg transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
@@ -242,11 +244,11 @@ const Header = () => {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
 
-                <a href="tel:0651239841" className="flex items-center gap-4 text-[var(--text-main)] text-[11px] font-black uppercase tracking-widest bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-subtle)] hover:bg-black/5 transition-colors font-sans">
+                <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="flex items-center gap-4 text-[var(--text-main)] text-[11px] font-black uppercase tracking-widest bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-subtle)] hover:bg-black/5 transition-colors font-sans">
                   <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20"><Phone className="w-4 h-4 text-red-600" /></div>
                   <div className="flex flex-col text-left">
                     <span className="text-[8px] text-[var(--text-dimmed)] mb-1 uppercase tracking-wider">Assistance Directe 24/7</span>
-                    06 51 23 98 41
+                    {settings.company_phone}
                   </div>
                 </a>
               </div>

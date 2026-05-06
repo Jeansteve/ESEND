@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Inbox, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../../context/SettingsContext';
 
 /**
  * @component EmptyState
@@ -16,6 +17,7 @@ const EmptyState = ({
   icon: Icon = Inbox,
   variant = "dark"
 }) => {
+  const { settings } = useSettings();
   const isDark = variant === "dark";
   
   return (
@@ -93,11 +95,11 @@ const EmptyState = ({
             )}
 
             <a 
-              href="tel:0651239841"
+              href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
               className={`inline-flex items-center gap-4 px-10 py-5 ${isDark ? 'bg-white/10' : 'bg-slate-100'} ${isDark ? 'text-white' : 'text-slate-900'} font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-600 hover:text-white hover:scale-105 active:scale-95 transition-all border border-white/10 w-full sm:w-auto justify-center`}
             >
               <Phone className="w-4 h-4" />
-              Appeler Directement
+              {settings.company_phone}
             </a>
           </div>
         )}

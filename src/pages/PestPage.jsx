@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { pests } from '../data/pests';
-import { articles as staticArticles } from '../data/articles';
-import { interventions } from '../data/interventions';
-import { dataService } from '../lib/DataService';
 import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info, Lightbulb, Phone } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const PestPage = () => {
+  const { settings } = useSettings();
   const [searchParams] = useSearchParams();
   const type = searchParams.get('type') || 'punaises-de-lit';
   const pest = pests[type] || pests['punaises-de-lit'];
@@ -278,9 +273,9 @@ const PestPage = () => {
                   <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="flex-1 w-full bg-red-600 hover:bg-red-500 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] hover:scale-105 active:scale-95 border border-red-500/50 text-center">
                     {score > 0 ? "Demander un devis gratuit" : "Devis pour une inspection"}
                   </Link>
-                  <a href="tel:0651239841" className="flex-1 w-full bg-white/5 hover:bg-white/10 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all border border-white/10 flex items-center justify-center gap-3">
+                  <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="flex-1 w-full bg-white/5 hover:bg-white/10 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all border border-white/10 flex items-center justify-center gap-3">
                     <Phone className="w-5 h-5 text-red-500" />
-                    Appeler l'expert
+                    {settings.company_phone}
                   </a>
                 </div>
               </motion.div>
@@ -485,9 +480,9 @@ const PestPage = () => {
               <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
                 Demander un devis gratuit
               </Link>
-              <a href="tel:0651239841" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
+              <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
                 <Phone className="w-5 h-5 text-red-500" />
-                Appeler : 06 51 23 98 41
+                {settings.company_phone}
               </a>
             </div>
             <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
