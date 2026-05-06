@@ -15,7 +15,8 @@ import {
   Sparkles,
   Layers,
   Search,
-  Droplets
+  Droplets,
+  Phone
 } from 'lucide-react';
 
 const CleaningPage = () => {
@@ -271,9 +272,15 @@ const CleaningPage = () => {
             <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
               <Sparkles className="text-indigo-500" /> Redonnez de l'éclat à votre patrimoine
             </h4>
-            <Link to={{ pathname: "/", hash: "#devis" }} className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(79, 70, 229, 0.3)]">
-              Demander un nettoyage expert
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link to={{ pathname: "/", hash: "#devis" }} className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(79, 70, 229, 0.3)]">
+                Demander un nettoyage expert
+              </Link>
+              <a href="tel:0651239841" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
+                <Phone className="w-5 h-5 text-indigo-500" />
+                Appeler : 06 51 23 98 41
+              </a>
+            </div>
             <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
               <CheckCircle className="w-4 h-4" /> Intervention Riviera • Finition Crystal Clear
             </p>

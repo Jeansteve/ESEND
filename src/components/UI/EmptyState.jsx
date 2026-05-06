@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Inbox } from 'lucide-react';
+import { ArrowRight, Inbox, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 /**
@@ -73,11 +73,11 @@ const EmptyState = ({
         </p>
         
         {actionLabel && (
-          <div className="pt-10">
+          <div className="pt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             {actionLink.startsWith('http') || actionLink.includes('#') ? (
               <a 
                 href={actionLink}
-                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
+                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn w-full sm:w-auto justify-center"
               >
                 {actionLabel}
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
@@ -85,12 +85,20 @@ const EmptyState = ({
             ) : (
               <Link 
                 to={actionLink}
-                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
+                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn w-full sm:w-auto justify-center"
               >
                 {actionLabel}
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
               </Link>
             )}
+
+            <a 
+              href="tel:0651239841"
+              className={`inline-flex items-center gap-4 px-10 py-5 ${isDark ? 'bg-white/10' : 'bg-slate-100'} ${isDark ? 'text-white' : 'text-slate-900'} font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-600 hover:text-white hover:scale-105 active:scale-95 transition-all border border-white/10 w-full sm:w-auto justify-center`}
+            >
+              <Phone className="w-4 h-4" />
+              Appeler Directement
+            </a>
           </div>
         )}
       </div>

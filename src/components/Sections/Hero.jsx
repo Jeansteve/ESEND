@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Star, Phone } from 'lucide-react';
 
 const Hero = () => {
   const scrollToDevis = (e) => {
@@ -68,21 +68,33 @@ const Hero = () => {
           </p>
           
           {/* Desktop CTA Block */}
-          <div className="hidden lg:flex flex-row gap-8 items-center justify-start mb-10 mt-10">
-            <div className="flex flex-col items-center">
-              <motion.a 
-                href="#devis"
-                onClick={scrollToDevis}
-                variants={ctaPulseVariants}
-                initial="initial"
-                animate="animate"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20"
-              >
-                <span>Obtenir mon devis offert</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-              </motion.a>
+          <div className="hidden lg:flex flex-row gap-6 items-center justify-start mb-10 mt-10">
+            <div className="flex flex-col items-start">
+              <div className="flex items-center gap-4">
+                <motion.a 
+                  href="#devis"
+                  onClick={scrollToDevis}
+                  variants={ctaPulseVariants}
+                  initial="initial"
+                  animate="animate"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20"
+                >
+                  <span>Obtenir mon devis offert</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
+                </motion.a>
+
+                <motion.a
+                  href="tel:0651239841"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all"
+                >
+                  <Phone className="w-4 h-4 text-red-500" />
+                  <span>06 51 23 98 41</span>
+                </motion.a>
+              </div>
               <motion.span 
                  initial={{ opacity: 0 }}
                  animate={{ opacity: 1 }}
@@ -117,18 +129,29 @@ const Hero = () => {
 
           {/* MOBILE ONLY CTA BLOCK */}
           <div className="lg:hidden w-full flex flex-col items-center gap-[clamp(0.5rem,1.5vh,1rem)] mt-auto mb-4 relative z-30">
-            <motion.a 
-              href="#devis"
-              onClick={scrollToDevis}
-              variants={ctaPulseVariants}
-              initial="initial"
-              animate="animate"
-              whileTap={{ scale: 0.95 }}
-              className="w-full bg-red-600 text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
-            >
-              <span>Obtenir mon devis offert</span>
-              <ArrowRight className="w-4 h-4" />
-            </motion.a>
+            <div className="flex flex-col w-full gap-3">
+              <motion.a 
+                href="#devis"
+                onClick={scrollToDevis}
+                variants={ctaPulseVariants}
+                initial="initial"
+                animate="animate"
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-red-600 text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
+              >
+                <span>Obtenir mon devis offert</span>
+                <ArrowRight className="w-4 h-4" />
+              </motion.a>
+
+              <motion.a 
+                href="tel:0651239841"
+                whileTap={{ scale: 0.95 }}
+                className="w-full bg-white/10 backdrop-blur-xl text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] border border-white/10 flex justify-center items-center gap-3 cursor-pointer"
+              >
+                <Phone className="w-4 h-4 text-red-500" />
+                <span>Appeler : 06 51 23 98 41</span>
+              </motion.a>
+            </div>
             <span className="text-[8px] font-bold uppercase tracking-widest text-slate-400 italic">
                Estimation offerte sans engagement
             </span>

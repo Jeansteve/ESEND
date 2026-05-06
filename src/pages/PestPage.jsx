@@ -5,7 +5,7 @@ import { pests } from '../data/pests';
 import { articles as staticArticles } from '../data/articles';
 import { interventions } from '../data/interventions';
 import { dataService } from '../lib/DataService';
-import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info, Lightbulb } from 'lucide-react';
+import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info, Lightbulb, Phone } from 'lucide-react';
 
 const PestPage = () => {
   const [searchParams] = useSearchParams();
@@ -274,9 +274,15 @@ const PestPage = () => {
                 ) : (
                   <p className="text-green-400 font-bold text-xl mb-10">Risque Faible. Restez vigilant.</p>
                 )}
-                <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-500 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] hover:scale-105 active:scale-95 border border-red-500/50">
-                  {score > 0 ? "Demander un devis gratuit" : "Devis pour une inspection"}
-                </Link>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="flex-1 w-full bg-red-600 hover:bg-red-500 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_50px_rgba(220,38,38,0.6)] hover:scale-105 active:scale-95 border border-red-500/50 text-center">
+                    {score > 0 ? "Demander un devis gratuit" : "Devis pour une inspection"}
+                  </Link>
+                  <a href="tel:0651239841" className="flex-1 w-full bg-white/5 hover:bg-white/10 text-white font-black py-4 px-10 rounded-full uppercase tracking-widest transition-all border border-white/10 flex items-center justify-center gap-3">
+                    <Phone className="w-5 h-5 text-red-500" />
+                    Appeler l'expert
+                  </a>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -475,9 +481,15 @@ const PestPage = () => {
         <div className="text-center bg-slate-900/60 border border-red-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[80px] -z-10" />
             <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter">Prêt à sécuriser votre foyer ?</h4>
-            <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="inline-block bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
-              Demander un devis gratuit
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
+                Demander un devis gratuit
+              </Link>
+              <a href="tel:0651239841" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
+                <Phone className="w-5 h-5 text-red-500" />
+                Appeler : 06 51 23 98 41
+              </a>
+            </div>
             <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
               <ShieldCheck className="w-4 h-4" /> Devis sans engagement sous 15 minutes
             </p>

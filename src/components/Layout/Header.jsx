@@ -148,35 +148,32 @@ const Header = () => {
             </div>
           ))}
           
+        </nav>
+
+        {/* Header Right Side */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <AnimatePresence>
             {(location.pathname !== '/' || showCTA) && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative cursor-pointer ml-4"
+                className="hidden sm:block"
               >
                 <Link
                   to="/#devis-title"
                   onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })}
                   className="relative group overflow-hidden bg-red-600 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
                 >
-                  <span className="relative z-10">Devis Offert</span>
-                  <ArrowRight className="w-3.5 h-3.5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                  <span>Devis Offert</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
             )}
           </AnimatePresence>
-        </nav>
 
-        {/* Header Right Side */}
-        <div className="flex items-center gap-2 sm:gap-4">
-          
-          <a href="tel:0651239841" className="flex bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-3 sm:px-4 py-2 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 font-sans shadow-lg">
-
-            <Phone className="w-3 h-3 text-red-600 group-hover:text-white" />
+          <a href="tel:0651239841" className="flex bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-3 sm:px-5 py-2.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 font-sans shadow-lg group">
+            <Phone className="w-3.5 h-3.5 text-red-600 group-hover:text-white transition-colors" />
             <span className="inline">06 51 23 98 41</span>
           </a>
           
@@ -235,22 +232,23 @@ const Header = () => {
                 </div>
               ))}
               <div className="h-px bg-[var(--border-subtle)] my-2" />
-              <div className="flex flex-col gap-4">
-                <a href="tel:0651239841" className="flex items-center gap-4 text-[var(--text-main)] text-xs font-black uppercase tracking-widest bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-subtle)] hover:bg-black/5 transition-colors font-sans">
-                  <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20"><Phone className="w-4 h-4 text-red-600" /></div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-[8px] text-[var(--text-dimmed)] mb-1">Assistance 24/7</span>
-                    06 51 23 98 41
-                  </div>
-                </a>
+              <div className="flex flex-col gap-3">
                 <Link 
                   to="/#devis-title" 
                   onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })} 
-                  className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[10px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all cursor-pointer font-sans"
+                  className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[11px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all cursor-pointer font-sans"
                 >
                   <span>Demander un devis</span>
                   <ArrowRight className="w-5 h-5" />
                 </Link>
+
+                <a href="tel:0651239841" className="flex items-center gap-4 text-[var(--text-main)] text-[11px] font-black uppercase tracking-widest bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-subtle)] hover:bg-black/5 transition-colors font-sans">
+                  <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20"><Phone className="w-4 h-4 text-red-600" /></div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-[8px] text-[var(--text-dimmed)] mb-1 uppercase tracking-wider">Assistance Directe 24/7</span>
+                    06 51 23 98 41
+                  </div>
+                </a>
               </div>
             </div>
           </motion.div>

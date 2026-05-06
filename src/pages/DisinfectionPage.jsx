@@ -18,7 +18,8 @@ import {
   AlertCircle,
   Stethoscope,
   Activity,
-  Microscope
+  Microscope,
+  Phone
 } from 'lucide-react';
 
 const DisinfectionPage = () => {
@@ -274,9 +275,15 @@ const DisinfectionPage = () => {
             <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
               <ShieldCheck className="text-cyan-500" /> Sécurisez votre environnement dès aujourd'hui
             </h4>
-            <Link to={{ pathname: "/", hash: "#devis" }} className="inline-block bg-cyan-600 hover:bg-cyan-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(6,182,212,0.3)]">
-              Demander une désinfection experte
-            </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link to={{ pathname: "/", hash: "#devis" }} className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(6,182,212,0.3)]">
+                Demander une désinfection experte
+              </Link>
+              <a href="tel:0651239841" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
+                <Phone className="w-5 h-5 text-cyan-500" />
+                Appeler : 06 51 23 98 41
+              </a>
+            </div>
             <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
               <CheckCircle className="w-4 h-4" /> Intervention sous 24h • Normes Hospitalières
             </p>
