@@ -65,20 +65,22 @@ const KnowledgeHub = () => {
               <span className="text-red-600 italic">Articles</span>
             </h2>
           </div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex-shrink-0"
-          >
-            <button
-              onClick={handleViewAll}
-              className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-[10px] rounded-full hover:bg-red-600 transition-all flex items-center gap-3 group shadow-lg border border-white/5"
+          {articles.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex-shrink-0"
             >
-              Explorer le Journal expert
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
-            </button>
-          </motion.div>
+              <button
+                onClick={handleViewAll}
+                className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-wider text-[10px] rounded-full hover:bg-red-600 transition-all flex items-center gap-3 group shadow-lg border border-white/5"
+              >
+                Explorer le Journal expert
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
+              </button>
+            </motion.div>
+          )}
         </div>
 
         {/* Grille d'articles ou Skeletons */}
@@ -144,8 +146,7 @@ const KnowledgeHub = () => {
               message="Notre centre de ressources se remplit. Nos experts documentent actuellement les meilleures techniques d'intervention."
               variant="light"
               icon={BookOpen}
-              actionLabel="Explorer le Journal"
-              actionLink="/journal"
+              actionLabel={null}
             />
           )}
         </div>
