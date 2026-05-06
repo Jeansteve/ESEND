@@ -1,0 +1,43 @@
+name: Deploy to TEST (Hostinger)
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
+
+      - name: Force Copy API files to dist (Vite fix)
+        run: mkdir -p dist/api && cp -r public/api/* dist/api/
+
+      - name: Deploy to Hostinger TEST via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_TEST_SERVER }}
+          username: ${{ secrets.FTP_TEST_USERNAME }}
+          password: ${{ secrets.FTP_TEST_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./
+          # On exclut le config.php du serveur pour ne pas écraser les réglages manuels
+          exclude: |
+            **/node_modules/**
+            **/.git/**
+            **/api/config.php

@@ -1,4 +1,4 @@
-name: Deploy to Hostinger (FTP)
+name: Deploy to PRODUCTION (Hostinger)
 
 on:
   push:
@@ -28,17 +28,15 @@ jobs:
       - name: Force Copy API files to dist (Vite fix)
         run: mkdir -p dist/api && cp -r public/api/* dist/api/
 
-      - name: Deploy to Hostinger via FTP
+      - name: Deploy to Hostinger PRODUCTION via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_PROD_SERVER }}
+          username: ${{ secrets.FTP_PROD_USERNAME }}
+          password: ${{ secrets.FTP_PROD_PASSWORD }}
           local-dir: ./dist/
           server-dir: ./
-          # On exclut le config.php du serveur pour ne pas écraser les réglages manuels
           exclude: |
             **/node_modules/**
             **/.git/**
             **/api/config.php
-# No-op change to trigger CI/CD
