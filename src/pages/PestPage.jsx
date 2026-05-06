@@ -1,5 +1,16 @@
-import { AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, Calendar, MapPin, Target, Info, Lightbulb, Phone } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  AlertTriangle, Shield, BookOpen, ChevronDown, CheckCircle, XCircle, Search, 
+  Calculator, Bug, Rat, ShieldCheck, Asterisk, Snail, ArrowRight, Clock, 
+  Calendar, MapPin, Target, Info, Lightbulb, Phone 
+} from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
+import { pests } from '../data/pests';
+import { articles as staticArticles } from '../data/articles';
+import { interventions } from '../data/interventions';
+import { dataService } from '../lib/DataService';
 
 const PestPage = () => {
   const { settings } = useSettings();

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { ArrowRight, Star, Phone } from 'lucide-react';
 import { useSettings } from '../../context/SettingsContext';
 
