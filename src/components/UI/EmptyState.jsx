@@ -72,25 +72,27 @@ const EmptyState = ({
           {message}
         </p>
         
-        <div className="pt-10">
-          {actionLink.startsWith('http') || actionLink.includes('#') ? (
-            <a 
-              href={actionLink}
-              className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
-            >
-              {actionLabel}
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
-            </a>
-          ) : (
-            <Link 
-              to={actionLink}
-              className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
-            >
-              {actionLabel}
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
-            </Link>
-          )}
-        </div>
+        {actionLabel && (
+          <div className="pt-10">
+            {actionLink.startsWith('http') || actionLink.includes('#') ? (
+              <a 
+                href={actionLink}
+                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
+              >
+                {actionLabel}
+                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
+              </a>
+            ) : (
+              <Link 
+                to={actionLink}
+                className="inline-flex items-center gap-4 px-10 py-5 bg-red-600 text-white font-black uppercase tracking-widest text-[10px] rounded-full hover:bg-red-500 hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(220,38,38,0.3)] group/btn"
+              >
+                {actionLabel}
+                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1.5 transition-transform" />
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

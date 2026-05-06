@@ -42,5 +42,11 @@ L'application est désormais alignée sur les obligations légales françaises (
 - **BI Temporelle** : Toujours offrir plusieurs niveaux de granularité (ex: Jour, Semaine, Mois, Année) pour éviter des tableaux de bord figés.
 - **UX Search** : Toute interface de liste (CRM, Portfolio) doit réinitialiser ses filtres de catégorie au profit de la recherche dès que l'utilisateur saisit une requête dans la barre globale.
 
+- **Déploiement Sécurisé (Workflow Impératif)** : 
+    - **ÉTAPE 1** : Pousser les modifications sur la branche `test`.
+    - **ÉTAPE 2** : Valider les changements sur `site-test.esendnuisibles.fr`.
+    - **ÉTAPE 3** : Pousser sur `main` UNIQUEMENT après validation explicite du client.
+    - *Règle d'or : Interdiction formelle de pousser sur main sans passage par la branche test.*
+
 ---
-*Documentation mise à jour le 04 Mai 2026 par Antigravity.*
+*Documentation mise à jour le 06 Mai 2026 par Antigravity.*
