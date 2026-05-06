@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.FTP_PROD_USERNAME }}
           password: ${{ secrets.FTP_PROD_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./
+          server-dir: ./public_html/
           exclude: |
             **/node_modules/**
             **/.git/**

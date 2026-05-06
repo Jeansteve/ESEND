@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.FTP_TEST_USERNAME }}
           password: ${{ secrets.FTP_TEST_PASSWORD }}
           local-dir: ./dist/
-          server-dir: ./
+          server-dir: ./public_html/
           # On exclut le config.php du serveur pour ne pas écraser les réglages manuels
           exclude: |
             **/node_modules/**
