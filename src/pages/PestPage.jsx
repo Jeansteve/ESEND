@@ -97,7 +97,7 @@ const PestPage = () => {
         
         {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) : Plus compact */}
         <div className="w-full md:w-56 lg:w-64 shrink-0 z-20 relative">
-          <div className="md:fixed md:top-32 md:w-56 lg:w-64 relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+          <div className="md:sticky md:top-32 md:w-56 lg:w-64 relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
             <div className="flex md:flex-col w-full min-w-max md:min-w-0 gap-1 md:gap-2">
               {pestKeys.map(key => {
                 const isActive = type === key;
