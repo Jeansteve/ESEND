@@ -124,14 +124,14 @@ if (!empty($_FILES)) {
             $destination = $uploadDir . $fileName;
             
             // --- NOUVEAU : Nettoyage profond (Re-génération de l'image) ---
-            // On crée une nouvelle ressource image à partir du fichier temporaire
-            // Cela détruit instantanément tout code malveillant caché dans les métadonnées.
             $img = null;
-            switch($extension) {
-                case 'jpg':
-                case 'jpeg': $img = @imagecreatefromjpeg($file['tmp_name']); break;
-                case 'png':  $img = @imagecreatefrompng($file['tmp_name']); break;
-                case 'webp': $img = @imagecreatefromwebp($file['tmp_name']); break;
+            if (function_exists('imagecreatefromjpeg')) {
+                switch($extension) {
+                    case 'jpg':
+                    case 'jpeg': $img = @imagecreatefromjpeg($file['tmp_name']); break;
+                    case 'png':  $img = @imagecreatefrompng($file['tmp_name']); break;
+                    case 'webp': $img = @imagecreatefromwebp($file['tmp_name']); break;
+                }
             }
 
             if ($img) {
@@ -147,16 +147,20 @@ if (!empty($_FILES)) {
                         break;
                     case 'webp': $saved = imagewebp($img, $destination, 80); break;
                 }
-                imagedestroy($img); // Libère la mémoire
-
+                imagedestroy($img);
                 if ($saved) {
                     $uploadedFiles[] = $relPath . $fileName;
                     $i++;
                 }
             } else {
-                // Fallback sécurisé : si GD échoue, on ne déplace PAS le fichier original
-                // car il pourrait être corrompu ou malveillant.
-                error_log("Échec de la désinfection de l'image : " . $file['name']);
+                // FALLBACK : Si GD est absent, on utilise move_uploaded_file 
+                // mais on garde le renommage et l'extension sécurisée.
+                if (move_uploaded_file($file['tmp_name'], $destination)) {
+                    $uploadedFiles[] = $relPath . $fileName;
+                    $i++;
+                } else {
+                    error_log("Échec du déplacement de fichier fallback : " . $file['name']);
+                }
             }
         }
     }
