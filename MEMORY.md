@@ -131,7 +131,8 @@
 - **La Solution :**
   1. Implémentation de `auth_check.php` (Middleware session).
   2. Protection systématique des méthodes `POST`, `PUT`, `DELETE` et des données sensibles (`leads`).
-  3. Durcissement du `.htaccess` (Options -Indexes et en-têtes de sécurité).
+  3. Durcissement du `.htaccess` (Options -Indexes, en-têtes de sécurité et `php_flag engine off` dans `/uploads/`).
+  4. Désinfection profonde des images via re-génération PHP GD pour neutraliser la stéganographie.
 - **Règle d'Or (Sécurité) :** NE JAMAIS faire confiance au client (Navigateur). Chaque appel à une donnée sensible DOIT être validé par le serveur via une session active.
 
 

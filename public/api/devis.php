@@ -123,9 +123,40 @@ if (!empty($_FILES)) {
             $fileName = $trackingId . "_img_" . $i . "." . $extension;
             $destination = $uploadDir . $fileName;
             
-            if (move_uploaded_file($file['tmp_name'], $destination)) {
-                $uploadedFiles[] = $relPath . $fileName;
-                $i++;
+            // --- NOUVEAU : Nettoyage profond (Re-génération de l'image) ---
+            // On crée une nouvelle ressource image à partir du fichier temporaire
+            // Cela détruit instantanément tout code malveillant caché dans les métadonnées.
+            $img = null;
+            switch($extension) {
+                case 'jpg':
+                case 'jpeg': $img = @imagecreatefromjpeg($file['tmp_name']); break;
+                case 'png':  $img = @imagecreatefrompng($file['tmp_name']); break;
+                case 'webp': $img = @imagecreatefromwebp($file['tmp_name']); break;
+            }
+
+            if ($img) {
+                // On sauvegarde la nouvelle image (nettoyée) à destination
+                $saved = false;
+                switch($extension) {
+                    case 'jpg':
+                    case 'jpeg': $saved = imagejpeg($img, $destination, 85); break;
+                    case 'png':  
+                        imagealphablending($img, true);
+                        imagesavealpha($img, true);
+                        $saved = imagepng($img, $destination, 8); 
+                        break;
+                    case 'webp': $saved = imagewebp($img, $destination, 80); break;
+                }
+                imagedestroy($img); // Libère la mémoire
+
+                if ($saved) {
+                    $uploadedFiles[] = $relPath . $fileName;
+                    $i++;
+                }
+            } else {
+                // Fallback sécurisé : si GD échoue, on ne déplace PAS le fichier original
+                // car il pourrait être corrompu ou malveillant.
+                error_log("Échec de la désinfection de l'image : " . $file['name']);
             }
         }
     }
