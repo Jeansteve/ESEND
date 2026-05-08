@@ -17,3 +17,4 @@ dist-ssr/
 public/api/config.php
 public/uploads/*
 !public/uploads/.gitkeep
+!public/uploads/.htaccess

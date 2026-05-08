@@ -1,0 +1,13 @@
+# Désactiver l'exécution de scripts PHP dans ce dossier
+<FilesMatch "\.(php|php[0-9]|phtml|pl|py|jsp|asp|sh|cgi)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Désactiver l'indexation du répertoire
+Options -Indexes
+
+# Forcer le téléchargement ou l'affichage simple (pas d'exécution)
+RemoveHandler .php .phtml .php3
+RemoveType .php .phtml .php3
+php_flag engine off
