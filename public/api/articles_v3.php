@@ -7,8 +7,14 @@
 
 header('Content-Type: application/json');
 require_once 'config.php';
+require_once 'auth_check.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+
+// Protection : Seul l'admin peut modifier, créer ou supprimer des articles
+if ($method !== 'GET') {
+    checkAuth();
+}
 
 switch ($method) {
     case 'GET':
@@ -43,6 +49,7 @@ switch ($method) {
 
         if ($hasIsPublished) {
             if ($filter === 'draft') {
+                checkAuth(); // Protection : Seul l'admin voit les brouillons
                 $conditions[] = "is_published = 0";
             } elseif ($filter === 'published') {
                 $conditions[] = "is_published = 1";

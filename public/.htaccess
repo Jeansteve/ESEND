@@ -14,3 +14,17 @@
   ExpiresDefault "access plus 1 month"
   ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
+
+# --- BLINDAGE SÉCURITÉ ---
+# Empêcher le listage des dossiers
+Options -Indexes
+
+# En-têtes de sécurité
+<IfModule mod_headers.c>
+  Header set X-XSS-Protection "1; mode=block"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  # Décommenter si HTTPS est activé
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>

@@ -1,12 +1,5 @@
-<?php
-/**
- * ESEND - Contrôleur d'Authentification
- * Identique à TNERI, utilise la table esend_users.
- * Specialist: developpeur-back-end-ops
- */
-
+session_start();
 require_once 'config.php';
-
 $data = json_decode(file_get_contents('php://input'), true);
 $email = $data['email'] ?? '';
 $password = $data['password'] ?? '';
@@ -40,6 +33,10 @@ try {
         }
 
         if ($isPasswordCorrect) {
+            // --- NOUVEAU : On stocke l'ID en session ---
+            $_SESSION['esend_admin_id'] = $user['id'];
+            $_SESSION['esend_admin_email'] = $user['email'];
+
             // Si nécessaire, on hache/re-hache le mot de passe
             if ($needsRehash) {
                 $newHash = password_hash($password, PASSWORD_ARGON2ID);

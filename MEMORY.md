@@ -125,6 +125,16 @@
   3. **Schéma Unifié** : Utilisation d'un `schema_prod.sql` exhaustif regroupant toutes les versions (V1 à V5) pour une initialisation instantanée.
 - **Règle d'Or (Gouvernance) :** La rapidité ne doit jamais primer sur la stabilité. Un build cassé en production est plus coûteux qu'un déploiement différé de 5 minutes.
 
+### [PSA-2026-05-08-B] : Blindage de Sécurité API & Session
+- **Le Problème :** APIs administratives (`leads.php`, `articles_v3.php`) accessibles sans authentification côté serveur.
+- **Cause Racine :** Authentification purement frontend (localStorage) sans vérification de session PHP.
+- **La Solution :**
+  1. Implémentation de `auth_check.php` (Middleware session).
+  2. Protection systématique des méthodes `POST`, `PUT`, `DELETE` et des données sensibles (`leads`).
+  3. Durcissement du `.htaccess` (Options -Indexes et en-têtes de sécurité).
+- **Règle d'Or (Sécurité) :** NE JAMAIS faire confiance au client (Navigateur). Chaque appel à une donnée sensible DOIT être validé par le serveur via une session active.
+
+
 ### 🧩 BLUEPRINT FONCTIONNEL (État Réel du Projet)
 *Ceci est la source de vérité pour éviter toute erreur de connaissance.*
 
