@@ -103,14 +103,27 @@ $uploadedFiles = [];
 
 if (!empty($_FILES)) {
     $i = 1;
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    $maxFileSize = 2 * 1024 * 1024; // 2MB par fichier
+
     foreach ($_FILES as $file) {
         if ($file['error'] == UPLOAD_ERR_OK && is_uploaded_file($file['tmp_name'])) {
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            
+            // Vérification de l'extension
+            if (!in_array($extension, $allowedExtensions)) {
+                continue; // Ignore les fichiers non autorisés
+            }
+
+            // Vérification de la taille
+            if ($file['size'] > $maxFileSize) {
+                continue; // Ignore les fichiers trop lourds
+            }
+
             $fileName = $trackingId . "_img_" . $i . "." . $extension;
             $destination = $uploadDir . $fileName;
             
             if (move_uploaded_file($file['tmp_name'], $destination)) {
-                // IMPORTANT : On stocke le chemin RELATIF complet pour la BDD
                 $uploadedFiles[] = $relPath . $fileName;
                 $i++;
             }
