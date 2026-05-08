@@ -6,7 +6,6 @@ import { dataService } from '../lib/DataService';
 import { api } from '../lib/api';
 import SEO from '../components/UI/SEO';
 
-/**
 import { sanitizeHTML } from '../utils/security';
 
 const ArticleSkeleton = () => (

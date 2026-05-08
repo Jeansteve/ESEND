@@ -33,10 +33,11 @@ Pour chaque environnement (Production et Test), vous devez renseigner les secret
 #### 📊 Analytics & Marketing (Build)
 - `VITE_GA_MEASUREMENT_ID` : ID Google Analytics (ex: `G-XXXXXX`).
 
-### Étape 3 : Initialisation de la Base de Données
-1. Créer une nouvelle base MySQL sur Hostinger (ex: `u123_client_prod`).
-2. Importer le fichier `database/schema_prod.sql`.
-3. L'utilisateur admin par défaut est `admin@esend.fr` / `admin`.
+### Étape 3 : Initialisation de la Base de Données & Sécurité
+1.  Créer une nouvelle base MySQL sur Hostinger (ex : `u123_client_prod`).
+2.  Importer le fichier `database/schema_prod.sql`. Ce schéma inclut les tables pour les Leads, Articles, Projets et Settings.
+3.  **Vérification Sécurité** : Assurez-vous que PHP sur le serveur autorise les sessions (`session_start()`) pour le fonctionnement du middleware `auth_check.php`.
+4.  L'utilisateur admin par défaut est `admin@esend.fr` / `admin`. **À changer impérativement après la première connexion.**
 
 ### Étape 4 : Validation du Déploiement
 Plus aucune configuration manuelle n'est requise sur le serveur. À chaque `git push`, GitHub Actions va :

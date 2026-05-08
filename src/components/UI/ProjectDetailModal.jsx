@@ -66,7 +66,7 @@ const ProjectDetailModal = ({ project, onClose }) => {
                                 prose-headings:text-slate-950 prose-p:text-slate-700
                                 prose-strong:text-slate-950 prose-blockquote:border-red-600">
                   {project.content_html ? (
-                     <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(project.content_html) }} />/>
+                     <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(project.content_html) }} />
                   ) : (
                      <p className="text-slate-400 italic">Détails de l'intervention en cours de rédaction...</p>
                   )}

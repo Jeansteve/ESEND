@@ -1,0 +1,31 @@
+
+> esend-web@1.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 53 modules transformed.
+x Build failed in 473ms
+error during build:
+[vite:esbuild] Transform failed with 1 error:
+/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/src/components/UI/ProjectDetailModal.jsx:69:102: ERROR: Unexpected ">"
+file: /Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/src/components/UI/ProjectDetailModal.jsx:69:102
+
+Unexpected ">"
+67 |                                  prose-strong:text-slate-950 prose-blockquote:border-red-600">
+68 |                    {project.content_html ? (
+69 |                       <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(project.content_html) }} />/>
+   |                                                                                                        ^
+70 |                    ) : (
+71 |                       <p className="text-slate-400 italic">Détails de l'intervention en cours de rédaction...</p>
+
+    at failureErrorWithLog (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:1472:15)
+    at /Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
