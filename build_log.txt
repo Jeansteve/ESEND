@@ -1,0 +1,31 @@
+
+> esend-web@1.0.0 build
+> vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 9 modules transformed.
+x Build failed in 438ms
+error during build:
+[vite:esbuild] Transform failed with 1 error:
+/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/src/pages/ArticlePage.jsx:120:167: ERROR: Unexpected "}"
+file: /Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/src/pages/ArticlePage.jsx:120:167
+
+Unexpected "}"
+119|  
+120|        {/* ─── Hero Banner ──────────────────────────────────────────── */}
+121|        <div className="relative w-full h-[55vh] min-h-[380px] max-h-[600px] overflow-hidden mb-16">
+   |                                                                                              ^
+122|          <img
+123|            src={article.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000'}
+
+    at failureErrorWithLog (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:1472:15)
+    at /Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/Users/steve/Documents/PROJET/PROJET-ESEND/ESEND/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)

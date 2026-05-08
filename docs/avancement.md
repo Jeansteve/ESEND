@@ -251,8 +251,26 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Durcissement PHP** : Désactivation globale de l'affichage des erreurs (`display_errors = Off`) via la configuration générée pour éviter les fuites d'informations.
 - **Documentation Secrets** : Mise à jour de la documentation technique incluant la liste des secrets requis pour la maintenance du pipeline.
 
+## ✅ V18 : Blindage de Sécurité & Gouvernance (Audit v1 & v2 — Mai 2026)
+**Fichiers :** `auth_check.php`, `login.php`, `upload.php`, `settings.php`, `security.js`, `.htaccess`
+
+- **Audit de Sécurité Complet (v1 & v2)** :
+    - **Authentification Backend-Native** : Migration vers un système de session PHP sécurisé. Chaque appel API sensible est désormais validé par le middleware `auth_check.php`.
+    - **Isolation des Données Clients** : Verrouillage strict de l'accès aux leads et aux paramètres du site.
+    - **Protection Anti-Sabotage** : Les méthodes d'écriture (`POST`, `PUT`, `DELETE`) sont réservées aux administrateurs authentifiés.
+    - **Bouclier Anti-XSS (Refonte)** : Création d'un utilitaire de désinfection HTML centralisé (`sanitizeHTML`) appliqué aux articles et aux réalisations.
+    - **Durcissement Infrastructure** :
+        - Blocage du listage des répertoires (`Options -Indexes`).
+        - Injection d'en-têtes de sécurité HTTP (Anti-Clickjacking/XSS).
+        - Masquage total des erreurs SQL pour prévenir les fuites d'informations techniques.
+    - **Mitigation Brute-Force** : Introduction d'un délai de sécurité sur l'API de connexion.
+- **Réparation CI/CD** :
+    - Correction des erreurs de syntaxe React bloquant le build.
+    - Synchronisation des pipelines `test` et `prod`.
+- **Gouvernance PSA-2026-05-08-B** : Mise à jour de la mémoire du projet concernant l'interdiction de faire confiance au client (navigateur) pour les données sensibles.
+
 ## 🚀 Prochaines Étapes
-1. **Mise en Production (MEP)** : Déploiement final de la branche `test` vers `main` (Validé).
+1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
 3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
 

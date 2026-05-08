@@ -119,15 +119,25 @@ Pour faciliter le marketing et l'archivage, les dossiers sont créés dynamiquem
 
 - **Protection Uploads** : Un fichier `.htaccess` dans `/uploads/` interdit l'exécution de scripts (`php`, `cgi`, etc.).
 - **Validation** : Regex stricte pour les numéros de téléphone et emails côté client et serveur.
-- **Authentification Admin (Hachage Argon2id)** : 
-    - Les mots de passe ne sont plus stockés en clair.
-    - **Algorithme** : Argon2id (Standard OWASP 2026).
-    - **Lazy Migration** : Les anciens mots de passe sont hachés automatiquement lors de la première connexion réussie.
-    - **Validation Client** : Vérification de la correspondance des mots de passe lors du changement.
-- **Conformité RGPD (Nouveau)** : 
+- **Conformité RGPD** : 
     - **Consentement Libre** : Case à cocher obligatoire dans le `FormWizard`.
     - **Transparence** : Accès direct à la politique de confidentialité depuis le formulaire.
     - **Droit à l'Oubli** : L'email de contact est dynamiquement injecté pour faciliter les demandes de suppression/modification.
+
+### 🛡️ 6.1 Audit de Sécurité & Blindage (Mai 2026)
+Suite à un audit approfondi, le système a été renforcé contre les vecteurs d'attaque modernes :
+- **Authentification Session (Backend)** : Migration d'une auth purement frontend vers une validation par session PHP (`session_start()`). Le middleware `auth_check.php` valide chaque requête sensible côté serveur.
+- **Protection des APIs** :
+    - `leads.php` : Accès strictement réservé aux admins connectés.
+    - `articles_v3.php` : Les méthodes `POST`, `PUT`, `DELETE` sont verrouillées. Les brouillons (`is_published=0`) sont invisibles pour le public.
+    - `upload.php` & `settings.php` : Désormais protégés par `checkAuth()`.
+- **Nettoyage XSS (Cross-Site Scripting)** : Implémentation d'un utilitaire central `src/utils/security.js` (`sanitizeHTML`) qui filtre les balises dangereuses (`<script>`, `<iframe>`) dans les articles et les réalisations avant affichage via `dangerouslySetInnerHTML`.
+- **Anti Brute-Force** : Introduction d'un délai d'attente (throttle) sur `login.php` en cas d'échec pour neutraliser les attaques par dictionnaire.
+- **Durcissement .htaccess** : 
+    - `Options -Indexes` pour empêcher l'exploration des répertoires.
+    - En-têtes `X-Frame-Options: SAMEORIGIN` et `X-XSS-Protection`.
+- **Information Leak Prevention** : Suppression des messages d'erreur SQL bruts (`$e->getMessage()`) dans les réponses API de production.
+
 
 ---
 
