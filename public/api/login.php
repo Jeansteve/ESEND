@@ -50,9 +50,11 @@ try {
                 'name' => $user['name']
             ]]);
         } else {
+            sleep(1); // Ralentit les attaques brute-force
             echo json_encode(['success' => false, 'error' => 'Identifiants incorrects']);
         }
     } else {
+        sleep(1); // Ralentit les attaques brute-force
         echo json_encode(['success' => false, 'error' => 'Identifiants incorrects']);
     }
 } catch (\PDOException $e) {

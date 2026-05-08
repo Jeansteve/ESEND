@@ -28,7 +28,7 @@ try {
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (\PDOException $e) {
     header('HTTP/1.1 500 Internal Server Error');
-    echo json_encode(['success' => false, 'error' => 'Erreur de connexion DB : ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'error' => 'Erreur de connexion à la base de données.']);
     exit;
 }
 

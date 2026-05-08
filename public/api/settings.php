@@ -5,8 +5,14 @@
  */
 
 require_once 'config.php';
+require_once 'auth_check.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+
+// Protection : Seul l'admin peut modifier les réglages
+if ($method === 'POST') {
+    checkAuth();
+}
 
 switch ($method) {
     case 'GET':
