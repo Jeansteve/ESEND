@@ -3,6 +3,10 @@ header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 require_once 'config.php';
+require_once 'auth_check.php';
+
+// Protection : Seul l'admin peut voir ou modifier les leads
+checkAuth();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
