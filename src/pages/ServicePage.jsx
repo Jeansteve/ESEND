@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Zap, AlertTriangle, ArrowLeft, Phone, ArrowRight, Crosshair, Target, CheckCircle2 } from 'lucide-react';
+import SEO from '../components/UI/SEO';
 
 const serviceData = {
   'deratisation': {
@@ -50,8 +51,36 @@ const ServicePage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "description": service.description,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "ESEND Nuisibles"
+    },
+    "areaServed": "Alpes-Maritimes",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": service.subtitle,
+      "itemListElement": service.features.map(f => ({
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": f.title
+        }
+      }))
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#020617] text-white selection:bg-red-600/30">
+      <SEO 
+        title={`${service.title} - ${service.subtitle}`} 
+        description={service.description.substring(0, 160)}
+        schema={serviceSchema}
+      />
       <div className="fixed inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
       <div className="fixed inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(30,27,75,0.4),transparent)] pointer-events-none" />
 

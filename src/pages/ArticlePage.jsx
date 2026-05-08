@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, BookOpen, ArrowRight, Phone } from 'lucide-react';
 import { dataService } from '../lib/DataService';
 import { api } from '../lib/api';
+import SEO from '../components/UI/SEO';
 
 /**
  * Nettoie le contenu HTML généré par l'IA avant affichage public.
@@ -84,51 +85,6 @@ const ArticlePage = () => {
     loadArticleData();
   }, [slug]);
 
-  // ── SEO dynamique : title, meta description, Schema JSON-LD ──────────────
-  useEffect(() => {
-    if (!article) return;
-
-    const prevTitle = document.title;
-    document.title = article.meta_title || `${article.title} | ESEND Nuisibles`;
-
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.name = 'description';
-      document.head.appendChild(metaDesc);
-    }
-    const prevDesc = metaDesc.getAttribute('content');
-    metaDesc.setAttribute('content', article.meta_description || article.excerpt || '');
-
-    const schemaId = 'esend-article-schema';
-    let existing = document.getElementById(schemaId);
-    if (existing) existing.remove();
-    const script = document.createElement('script');
-    script.id = schemaId;
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Article',
-      headline: article.title,
-      description: article.excerpt || '',
-      image: article.image || '',
-      datePublished: article.date || '',
-      publisher: {
-        '@type': 'LocalBusiness',
-        name: 'ESEND Nuisibles',
-        url: 'https://esendnuisibles.fr'
-      }
-    });
-    document.head.appendChild(script);
-
-    return () => {
-      document.title = prevTitle;
-      if (metaDesc) metaDesc.setAttribute('content', prevDesc || '');
-      const s = document.getElementById(schemaId);
-      if (s) s.remove();
-    };
-  }, [article]);
-
   if (loading) return <ArticleSkeleton />;
 
   if (notFound || !article) {
@@ -144,8 +100,27 @@ const ArticlePage = () => {
     );
   }
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': article.title,
+    'description': article.excerpt || article.meta_description || '',
+    'image': article.image || '',
+    'datePublished': article.date || '',
+    'author': {
+      '@type': 'Organization',
+      'name': 'ESEND Nuisibles'
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white light pb-24 transition-colors duration-1000">
+      <SEO 
+        title={article.meta_title || `${article.title} | Expertise Nuisibles`}
+        description={article.meta_description || article.excerpt || ''}
+        type="article"
+        schema={articleSchema}
+      />
 
       {/* ─── Hero Banner ──────────────────────────────────────────── */}
       <div className="relative w-full h-[55vh] min-h-[380px] max-h-[600px] overflow-hidden mb-16">

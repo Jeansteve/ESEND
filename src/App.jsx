@@ -1,5 +1,5 @@
 import React from 'react'
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
 import Home from './pages/Home'
@@ -22,7 +22,7 @@ function App() {
   
   return (
     <SettingsProvider>
-      <HashRouter>
+      <BrowserRouter>
         <div className="min-h-screen text-[var(--text-main)] transition-colors duration-400">
           <Routes>
             {/* --- ADMIN ROUTES --- */}

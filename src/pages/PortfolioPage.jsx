@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import ProjectDetailModal from '../components/UI/ProjectDetailModal';
 import EmptyState from '../components/UI/EmptyState';
+import SEO from '../components/UI/SEO';
 
 const CATEGORIES = [
   { id: 'all', label: 'Tous' },
@@ -32,6 +33,10 @@ const PortfolioPage = () => {
     : interventions.filter(i => i.category === activeCategory);
   return (
     <div className="min-h-screen bg-slate-950 text-white pb-32 text-left">
+      <SEO 
+        title="Interventions & Réalisations Terrain | Expertise 06"
+        description="Découvrez les interventions d'ESEND à Menton, Monaco et Nice : dératisation, désinsectisation et nettoyage professionnel documentés."
+      />
       <section className="pt-40 pb-20 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-b border-white/5">
         <div className="max-w-7xl mx-auto">
           <Link to="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-red-600 mb-12 text-sm font-black uppercase tracking-widest"><ArrowLeft className="w-4 h-4" /> Accueil</Link>

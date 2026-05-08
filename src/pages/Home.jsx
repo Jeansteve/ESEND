@@ -9,37 +9,56 @@ import KnowledgeHub from '../components/Sections/KnowledgeHub'
 import TrustBanner from '../components/Sections/TrustBanner'
 import SectionSeparator from '../components/Layout/SectionSeparator'
 
+import SEO from '../components/UI/SEO'
+
 function Home() {
   useEffect(() => {
-    const handleHashScroll = () => {
-      const hash = window.location.hash;
-      // En HashRouter, le hash peut être #/ ou #/#section ou #/path#section
-      // On cherche la partie après le dernier # qui est une ancre de section
-      const parts = hash.split('#');
-      // La dernière partie est l'ID si elle ne contient pas de slash (ex: devis-title)
-      const targetId = parts.length > 1 ? parts[parts.length - 1] : null;
-      
-      if (targetId && targetId !== '/' && !targetId.includes('/')) {
-        // Délai pour laisser le temps au FormWizard de s'initialiser
+    // Gestion propre du scroll vers les ancres avec BrowserRouter
+    const hash = window.location.hash;
+    if (hash) {
+      const targetId = hash.replace('#', '');
+      const target = document.getElementById(targetId);
+      if (target) {
         setTimeout(() => {
-          const target = document.getElementById(targetId);
-          if (target) {
-            const headerOffset = 100; // Offset ajusté pour le header fixe
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-          }
-        }, 500); // 500ms est plus robuste pour les transitions de page
+          const headerOffset = 100;
+          const elementPosition = target.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }, 500);
       }
-    };
-
-    handleHashScroll();
-    window.addEventListener('hashchange', handleHashScroll);
-    return () => window.removeEventListener('hashchange', handleHashScroll);
+    }
   }, []);
+
+  const homeSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "ESEND Nuisibles",
+    "image": "https://esendnuisibles.fr/images/logo-esend.jpg",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Menton",
+      "addressRegion": "Alpes-Maritimes",
+      "addressCountry": "FR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 43.7745,
+      "longitude": 7.4975
+    },
+    "url": "https://esendnuisibles.fr",
+    "telephone": "+33600000000",
+    "priceRange": "$$",
+    "areaServed": ["Menton", "Monaco", "Roquebrune-Cap-Martin", "Nice", "Antibes", "Cannes"],
+    "description": "Expert en éradication de nuisibles, dératisation, désinsectisation et désinfection sur la Côte d'Azur."
+  };
 
   return (
     <div className="transition-colors duration-400">
+      <SEO 
+        title="Expert Éradication Nuisibles & Désinfection (06)" 
+        description="ESEND intervient à Menton, Monaco et Nice pour la dératisation, désinsectisation (punaises de lit) et désinfection. Devis offert sous 2h."
+        schema={homeSchema}
+      />
       <Hero />
       <PestSelector />
       <PortfolioBento />

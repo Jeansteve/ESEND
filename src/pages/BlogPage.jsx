@@ -4,6 +4,7 @@ import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { dataService } from '../lib/DataService';
 import EmptyState from '../components/UI/EmptyState';
+import SEO from '../components/UI/SEO';
 
 const SkeletonCard = () => (
   <div className="flex flex-col h-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-3xl overflow-hidden shadow-xl animate-pulse">
@@ -52,6 +53,10 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] pt-32 pb-20 px-6 transition-colors duration-500">
+      <SEO 
+        title="Conseils & Expertise Nuisibles | Le Journal ESEND"
+        description="Retrouvez les conseils de nos experts sur l'éradication des nuisibles, la désinfection et le nettoyage professionnel à Menton et Nice."
+      />
       <div className="max-w-7xl mx-auto">
 
         {/* Entête de la page */}
