@@ -134,6 +134,8 @@ Suite à un audit approfondi, le système a été renforcé contre les vecteurs 
 - **Nettoyage XSS (Cross-Site Scripting)** : Implémentation d'un utilitaire central `src/utils/security.js` (`sanitizeHTML`) qui filtre les balises dangereuses (`<script>`, `<iframe>`) dans les articles et les réalisations avant affichage via `dangerouslySetInnerHTML`.
 - **Anti Brute-Force** : Introduction d'un délai d'attente (throttle) sur `login.php` en cas d'échec pour neutraliser les attaques par dictionnaire.
 - **Désinfection Profonde des Images (PHP GD)** : Les pièces jointes des devis sont intégralement re-générées par le serveur à partir des données de pixels. Cela élimine radicalement tout code malveillant caché dans les métadonnées (stéganographie) ou les structures de fichiers hybrides (polyglottes).
+- **Envoi SMTP Authentifié** : Migration de la fonction `mail()` vers un serveur SMTP Hostinger (`smtp.hostinger.com`) avec authentification SSL (Port 465) pour garantir la délivrabilité des devis et éviter le spam.
+- **Routage SPA (Base Path)** : Configuration de la `base: '/'` dans Vite pour assurer le chargement correct des assets sur les routes profondes (ex: `/admin/login`) avec `BrowserRouter`.
 - **Durcissement .htaccess** : 
     - `Options -Indexes` pour empêcher l'exploration des répertoires.
     - Désactivation totale du moteur PHP dans le dossier `/uploads/` (`php_flag engine off`) pour neutraliser toute exécution accidentelle.

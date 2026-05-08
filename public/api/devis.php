@@ -249,10 +249,17 @@ $htmlMessage = "
 $mail = new PHPMailer(true);
 
 try {
-    // Configuration (utilisation de la fonction mail native de PHP, très fiable si l'expéditeur existe)
+    // Configuration SMTP Hostinger
     $mail->CharSet = 'UTF-8';
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.hostinger.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'contact@esendnuisibles.fr';
+    $mail->Password   = 'gyZsom-7fupqa-dajtam';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port       = 465;
 
-    // Paramètres de l'expéditeur (doit être l'adresse existante)
+    // Paramètres de l'expéditeur
     $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');
     if (!empty($email)) {
         $mail->addReplyTo($email, $nom);
