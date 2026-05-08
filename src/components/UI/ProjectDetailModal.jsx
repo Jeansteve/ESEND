@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, ShieldCheck, MapPin, Calendar, Target, ArrowLeft } from 'lucide-react';
+import { sanitizeHTML } from '../../utils/security';
 
 /**
  * @component ProjectDetailModal
@@ -42,8 +43,8 @@ const ProjectDetailModal = ({ project, onClose }) => {
              <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
              <div className="absolute bottom-6 left-6 md:bottom-10 md:left-16 right-6 md:right-16">
                 <div className="flex flex-wrap items-center gap-3 mb-4">
-                  <span className="px-3 py-1 md:px-4 md:py-1 rounded-full bg-red-600 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-red-600/20">{project.tag}</span>
-                  <span className="flex items-center gap-1.5 text-slate-500 text-[9px] md:text-[10px] font-bold uppercase tracking-widest"><MapPin className="w-3 h-3 text-red-500" /> {project.location}</span>
+                   <span className="px-3 py-1 md:px-4 md:py-1 rounded-full bg-red-600 text-[9px] md:text-[10px] font-black uppercase tracking-widest text-white shadow-lg shadow-red-600/20">{project.tag}</span>
+                   <span className="flex items-center gap-1.5 text-slate-500 text-[9px] md:text-[10px] font-bold uppercase tracking-widest"><MapPin className="w-3 h-3 text-red-500" /> {project.location}</span>
                 </div>
                 <h3 className="text-2xl md:text-5xl lg:text-6xl font-black uppercase text-slate-950 leading-tight">{project.title}</h3>
              </div>
@@ -65,7 +66,7 @@ const ProjectDetailModal = ({ project, onClose }) => {
                                 prose-headings:text-slate-950 prose-p:text-slate-700
                                 prose-strong:text-slate-950 prose-blockquote:border-red-600">
                   {project.content_html ? (
-                     <div dangerouslySetInnerHTML={{ __html: project.content_html }} />
+                     <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(project.content_html) }} />/>
                   ) : (
                      <p className="text-slate-400 italic">Détails de l'intervention en cours de rédaction...</p>
                   )}

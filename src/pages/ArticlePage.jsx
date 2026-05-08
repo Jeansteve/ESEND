@@ -7,12 +7,7 @@ import { api } from '../lib/api';
 import SEO from '../components/UI/SEO';
 
 /**
- * Nettoie le contenu HTML généré par l'IA avant affichage public.
- */
-const sanitizeContent = (html = '') => {
-  if (!html) return '';
-  return html.replace(/\[ILLUSTRATION\s*:.*?\]/gi, '').trim();
-};
+import { sanitizeHTML } from '../utils/security';
 
 const ArticleSkeleton = () => (
   <div className="min-h-screen bg-white light pb-24 animate-pulse">
@@ -211,7 +206,7 @@ const ArticlePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="article-reader-content"
-          dangerouslySetInnerHTML={{ __html: sanitizeContent(article.content_html) || '<p>Contenu indisponible.</p>' }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(article.content_html) || '<p>Contenu indisponible.</p>' }}
         />
 
         {/* ─── CTA de conversion "Power Red" Authentique ────────────── */}

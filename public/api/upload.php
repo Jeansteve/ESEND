@@ -5,6 +5,10 @@
  */
 
 require_once 'config.php';
+require_once 'auth_check.php';
+
+// Protection : Seul l'admin peut uploader des fichiers
+checkAuth();
 
 // Dossier de destination relatif
 $target_dir = "../uploads/";
