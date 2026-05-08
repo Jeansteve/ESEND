@@ -123,7 +123,26 @@
   1. **Multi-Environnements** : Utilisation systématique de branches `main` (Prod) et `test` (Recette) avec des workflows GitHub Actions distincts.
   2. **Isolation de Configuration** : Le fichier `api/config.php` doit TOUJOURS être exclu de Git pour permettre des réglages DB locaux sans collision.
   3. **Schéma Unifié** : Utilisation d'un `schema_prod.sql` exhaustif regroupant toutes les versions (V1 à V5) pour une initialisation instantanée.
-- **Règle d'Or (Gouvernance) :** Pour chaque nouveau client, le process doit suivre : Clone -> Setup Secrets GitHub -> Import Schema SQL -> Config manuelle `config.php`. Cette approche garantit une scalabilité maximale de l'agence.
+- **Règle d'Or (Gouvernance) :** La rapidité ne doit jamais primer sur la stabilité. Un build cassé en production est plus coûteux qu'un déploiement différé de 5 minutes.
+
+### 🧩 BLUEPRINT FONCTIONNEL (État Réel du Projet)
+*Ceci est la source de vérité pour éviter toute erreur de connaissance.*
+
+- **IA & Marketing Advisor (LIVE)** :
+  - `src/components/Admin/MarketAdvisor.jsx` : Analyse des tendances Google Trends (Apify).
+  - `src/components/Admin/CreationStudio.jsx` : Studio de rédaction IA (Gemini) avec Parcours Manuel (01-02-03) et Magie Totale.
+  - `AIService.js` : Moteur de génération HTML, SEO et suggestions d'illustrations.
+  - `localStorage` : Persistance des sujets (`esend_ai_topics_v1`).
+- **Dashboard & BI (LIVE)** :
+  - `AnalyticsTab.jsx` : Graphiques Recharts avec Drill-Down (Macro/Micro).
+  - `LeadManager.jsx` : Système CRM avec filtres de pôle (Nuisibles, Désinfection, Nettoyage) et recherche globale.
+- **Sécurité (LIVE)** :
+  - Argon2id pour les mots de passe.
+  - `config.php` généré par GitHub Secrets (Zéro identifiant en clair).
+  - `BrowserRouter` avec `.htaccess` pour les URLs propres (SEO).
+- **SEO & SEO Local (LIVE)** :
+  - Composant `SEO.jsx` dynamique sur toutes les pages.
+  - Schémas JSON-LD LocalBusiness et Service.
 
 ### [PSA-2026-05-06-B] : Harmonisation des Animations de Score (Composant Global)
 - **Le Concept :** Utiliser un composant unique `AnimatedNumber` pour garantir une expérience visuelle identique entre le Hero (score statique au chargement) et les sections de contenu (score animé au scroll).
