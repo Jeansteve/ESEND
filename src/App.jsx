@@ -57,7 +57,7 @@ function App() {
             />
           </Routes>
         </div>
-      </HashRouter>
+      </BrowserRouter>
     </SettingsProvider>
   )
 }
