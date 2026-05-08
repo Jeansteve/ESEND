@@ -27,7 +27,17 @@ switch ($method) {
             $stmt = $pdo->prepare("SELECT * FROM esend_articles WHERE id = ? LIMIT 1");
             $stmt->execute([$id]);
             $article = $stmt->fetch(PDO::FETCH_ASSOC);
+            
             if ($article) {
+                // Protection : Empêcher la lecture d'un brouillon sans être admin
+                if (isset($article['is_published']) && $article['is_published'] == 0) {
+                    if (!isset($_SESSION['esend_admin_id'])) {
+                        http_response_code(403);
+                        echo json_encode(['error' => 'Accès interdit : cet article est en cours de rédaction.']);
+                        exit;
+                    }
+                }
+                
                 // Mapper 'content' (DB) -> 'content_html' (frontend)
                 $article['content_html'] = $article['content'] ?? '';
                 echo json_encode($article);
@@ -53,6 +63,11 @@ switch ($method) {
                 $conditions[] = "is_published = 0";
             } elseif ($filter === 'published') {
                 $conditions[] = "is_published = 1";
+            } else {
+                // Par défaut, si pas d'authentification, on ne montre que le publié
+                if (!isset($_SESSION['esend_admin_id'])) {
+                    $conditions[] = "is_published = 1";
+                }
             }
         }
 

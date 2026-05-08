@@ -161,3 +161,13 @@
   - **Stabilité Mobile :** Encapsulation dans un conteneur `flex items-baseline whitespace-nowrap` pour éviter tout décalage du suffixe "/5".
   - **Moteur :** Basé sur `framer-motion` avec un effet `spring` (ressort) pour un rendu premium.
 - **Règle d'Or (UI) :** Un score de satisfaction (ex: 4.9/5) ne doit jamais être un simple texte statique ; l'animation renforce la perception de "preuve sociale" dynamique.
+
+### [PSA-2026-05-08-A] : Gouvernance CI/CD & Sécurisation du Pipeline
+- **Le Problème :** Échec du build de production dû à une erreur de syntaxe (balise non fermée) et violation du workflow de test.
+- **Cause Racine :** Absence de vérification locale (build) et push direct sur la branche `main` sans validation préalable sur `test`.
+- **Le Protocole Obligatoire (Checklist de Commit) :**
+  1. **Build Local :** Exécuter impérativement `npm run build` localement. Si le build échoue, le commit est INTERDIT.
+  2. **Workflow Linéaire :** Toute modification doit d'abord être poussée sur la branche `test`.
+  3. **Validation Recette :** Vérifier le rendu sur l'environnement de test.
+  4. **Mise en Production :** Le merge sur `main` ne se fait QU'APRÈS succès des étapes 1, 2 et 3.
+- **Règle d'Or (Gouvernance) :** La rapidité ne doit jamais primer sur la stabilité. Un build cassé en production est plus coûteux qu'un déploiement différé de 5 minutes.
