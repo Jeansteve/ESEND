@@ -123,7 +123,7 @@
   1. **Multi-Environnements** : Utilisation systématique de branches `main` (Prod) et `test` (Recette) avec des workflows GitHub Actions distincts.
   2. **Isolation de Configuration** : Le fichier `api/config.php` doit TOUJOURS être exclu de Git pour permettre des réglages DB locaux sans collision.
   3. **Schéma Unifié** : Utilisation d'un `schema_prod.sql` exhaustif regroupant toutes les versions (V1 à V5) pour une initialisation instantanée.
-- **Règle d'Or (Gouvernance) :** La rapidité ne doit jamais primer sur la stabilité. Un build cassé en production est plus coûteux qu'un déploiement différé de 5 minutes.
+- **Règle d'Or (Gouvernance) :** La rapidité ne doit jamais primer sur la stabilité. Un build cassé en production est plus coûteux qu'un déploiement différé de 5 minutes. **Le build local (`npm run build`) est désormais OBLIGATOIRE avant tout commit.**
 
 ### [PSA-2026-05-08-B] : Blindage de Sécurité API & Session
 - **Le Problème :** APIs administratives (`leads.php`, `articles_v3.php`) accessibles sans authentification côté serveur.
