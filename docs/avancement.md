@@ -260,6 +260,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - **Protection Anti-Sabotage** : Les méthodes d'écriture (`POST`, `PUT`, `DELETE`) sont réservées aux administrateurs authentifiés.
     - **Bouclier Anti-XSS (Refonte)** : Création d'un utilitaire de désinfection HTML centralisé (`sanitizeHTML`) appliqué aux articles et aux réalisations.
     - **Désinfection Profonde des Images** : Re-génération via PHP GD pour détruire les payloads cachés (stéganographie).
+    - **Optimisation Accessibilité** : Amélioration du contraste du texte de consentement RGPD (Passage en `slate-200` + `11px`).
     - **Durcissement Infrastructure** :
         - Blocage du listage des répertoires (`Options -Indexes`).
         - Injection d'en-têtes de sécurité HTTP (Anti-Clickjacking/XSS).

@@ -140,6 +140,10 @@ Suite à un audit approfondi, le système a été renforcé contre les vecteurs 
     - En-têtes `X-Frame-Options: SAMEORIGIN` et `X-XSS-Protection`.
 - **Information Leak Prevention** : Suppression des messages d'erreur SQL bruts (`$e->getMessage()`) dans les réponses API de production.
 
+### 🎨 6.2 Accessibilité & UX (Mai 2026)
+- **Contraste RGPD** : Amélioration de la visibilité du texte de consentement dans le `FormWizard`. Passage de `zinc-400` à `slate-200` (contraste élevé sur fond sombre) et augmentation de la taille à `11px`.
+- **Feedback Visuel** : Intégration de `drop-shadow-sm` sur les textes légers pour garantir la lisibilité sur les arrière-plans complexes (images de Menton).
+
 
 ---
 
