@@ -46,7 +46,7 @@ const KnowledgeHub = () => {
   );
 
   return (
-    <section id="encyclopedie" className="py-8 md:py-32 px-6 bg-white text-slate-900 relative transition-colors duration-500">
+    <section id="encyclopedie" className="py-8 md:py-32 px-8 md:px-12 lg:px-6 bg-white text-slate-900 relative transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}

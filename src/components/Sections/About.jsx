@@ -4,7 +4,7 @@ import { ShieldCheck, Target, Heart, Users } from 'lucide-react';
 
 const About = () => {
   return (
-    <section id="valeurs" className="py-8 md:py-32 px-6 bg-[var(--bg-primary)] overflow-hidden transition-colors duration-400">
+    <section id="valeurs" className="py-8 md:py-32 px-8 md:px-12 lg:px-6 bg-[var(--bg-primary)] overflow-hidden transition-colors duration-400">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
         
         {/* Left Visual */}
@@ -54,7 +54,7 @@ const About = () => {
               <span className="w-8 h-px bg-esend-red"></span> Expertise & Proximité
             </div>
             
-            <h2 className="text-5xl lg:text-6xl font-black tracking-tighter uppercase mb-8 leading-[0.95] text-[var(--text-main)]">
+            <h2 className="text-[clamp(2.5rem,8vw,3.75rem)] font-black tracking-tighter uppercase mb-8 leading-[0.95] text-[var(--text-main)]">
               Un Duo de Professionnels à <span className="text-red-600 italic">votre Service</span>
             </h2>
             

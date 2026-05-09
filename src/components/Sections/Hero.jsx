@@ -50,7 +50,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/20 to-slate-950 z-1 lg:bg-gradient-to-r lg:from-slate-950 lg:via-slate-950/40 lg:to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-center lg:justify-between relative z-10 py-6 lg:py-0">
+      <div className="max-w-7xl mx-auto px-8 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-center lg:justify-between relative z-10 py-6 lg:py-0">
         
         {/* Left Content - Adaptive Scaling */}
         <motion.div 
