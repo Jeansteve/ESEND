@@ -39,7 +39,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-auto lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-12 lg:pt-0 transition-colors duration-400">
+    <section id="accueil" className="relative h-auto lg:min-h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-12 lg:pt-20 lg:pb-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
         {/* Main Hero Background - Optimized for Mobile Viewport */}
         <img 
