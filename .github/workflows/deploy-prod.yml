@@ -37,7 +37,7 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASSWORD }}
         run: |
-          envsubst < public/api/config.template.php > dist/api/config.php
+          envsubst '$DB_HOST $DB_NAME $DB_USER $DB_PASS $SMTP_USER $SMTP_PASS' < public/api/config.template.php > dist/api/config.php
 
       - name: Deploy to Hostinger PRODUCTION via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
