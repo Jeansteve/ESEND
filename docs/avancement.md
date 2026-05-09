@@ -98,9 +98,24 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Bouton d'appel dynamique utilisant le numéro configuré dans l'admin.
 - **Réglages Entreprise Centralisés** :
     - Ajout des champs **Téléphone**, **Adresse** et **SIRET** dans les paramètres.
+    - Synchronisation automatique avec le `SettingsContext` pour un affichage cohérent sur tout le site (Footer, Header, Pages Légales).
+
+## ✅ V8 : Expérience Mobile "App-Like" & Respiration (Mai 2026)
+**Fichiers :** `About.jsx`, `Hero.jsx`, `Reviews.jsx`, `KnowledgeHub.jsx`, `PortfolioBento.jsx`, `TrustBanner.jsx`, `PestSelector.jsx`
+
+- **Harmonisation du Padding Horizontal** :
+    - Standardisation à **`px-8`** (32px) sur mobile pour toutes les sections majeures, offrant 33% de respiration supplémentaire.
+    - Transition fluide vers **`md:px-12`** (tablette) et retour à **`lg:px-6`** (desktop) où le conteneur `max-w-7xl` prend le relais.
+    - Suppression totale de l'effet "bord-à-bord" qui nuisait à l'aspect premium.
+- **Typographie Adaptative (Fluid Typography)** :
+    - Implémentation de `text-[clamp(2.5rem,8vw,3.75rem)]` sur les titres de sections (ex: `About.jsx`).
+    - Garantit que les titres massifs ne saturent pas l'espace sur les écrans ultra-compacts (iPhone SE) tout en conservant leur impact sur iPhone Pro/Plus.
+- **Audit Transverse & Zéro Régression** :
+    - Vérification systématique de l'alignement vertical du contenu sur mobile.
+    - Conservation stricte des comportements desktop (`lg:`) pour préserver l'équilibre visuel sur grand écran.
     - Système de sauvegarde dynamique "Key-Value" en base de données.
 
-## ✅ V8 : IA Consulting & Illustration Studio (Live)
+## ✅ V9 : IA Consulting & Illustration Studio (Live)
 **Fichiers :** `AIService.js`, `ArticleModal.jsx`, `CreationStudio.jsx`
 
 - **IA Senior Consultant** : Refonte du prompt pour adopter une posture d'expert pédagogue.
@@ -114,7 +129,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - L'IA utilise une liste blanche d'URLs de services pour renvoyer le lecteur vers les pages expertes au lieu de répéter les protocoles techniques.
 - **Persistance Radar IA** : Unification des clés de stockage pour un affichage immédiat des sujets suggérés.
 
-## ✅ V9 : Stabilisation du Build de Production (Mai 2024)
+## ✅ V10 : Stabilisation du Build de Production (Mai 2024)
 **Fichier :** `src/components/FormWizard/FormWizard.jsx`
 
 - **Résolution des erreurs de nesting JSX** : Correction de l'erreur `esbuild` empêchant le déploiement.
@@ -124,7 +139,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Pipeline CI/CD rétabli** : Le déploiement automatique sur GitHub Actions est à nouveau fonctionnel après stabilisation de l'arborescence React.
 - **Optimisation de la syntaxe** : Nettoyage des balises redondantes et amélioration de la lisibilité des blocs `{... && (...)}`.
 
-## ✅ V10 : Performance & Expérience Utilisateur (Live — Mai 2024)
+## ✅ V11 : Performance & Expérience Utilisateur (Live — Mai 2024)
 **Fichiers :** `articles_v3.php`, `ArticlePage.jsx`, `DataService.js`
 
 - **Optimisation Drastique de l'API** : 
@@ -136,7 +151,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction d'un bug de type (`String` vs `Number`) qui invalidait le cache.
     - Le système de "Prefetch" (pré-chargement au survol) est désormais 100% fonctionnel, rendant le clic sur un article quasi-instantané.
 
-## ✅ V11 : Conformité Légale & RGPD Dynamique (Live — Mai 2024)
+## ✅ V12 : Conformité Légale & RGPD Dynamique (Live — Mai 2024)
 **Fichiers :** `LegalNotices.jsx`, `PrivacyPolicy.jsx`, `Footer.jsx`, `FormWizard.jsx`, `App.jsx`
 
 - **Pages Juridiques Dynamiques** : 
@@ -150,7 +165,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Ajout des liens légaux avec mécanisme de "Scroll to Top" forcé.
 - **Design Harmonisé** : Utilisation du thème "Frozen Night" avec typographie lisible et icônes Lucide-React.
 
-## ✅ V12 : Business Intelligence & Analytics Premium (Live)
+## ✅ V13 : Business Intelligence & Analytics Premium (Live)
 **Fichiers :** `AnalyticsTab.jsx`, `Dashboard.jsx`, `package.json`
 
 - **Visualisation Graphique Haute Performance** :
@@ -164,7 +179,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Indicateurs Clés de Performance (KPIs)** :
     - Cartes récapitulatives temporelles indiquant le volume total de la période sélectionnée et sa tendance (+XX%).
 
-## ✅ V13 : CRM Filtering & Search UX (Live)
+## ✅ V14 : CRM Filtering & Search UX (Live)
 **Fichiers :** `LeadManager.jsx`, `Dashboard.jsx`, `PortfolioTab (Dashboard.jsx)`
 
 - **Filtrage par Pôle Métier** : Intégration de boutons de filtrage rapide (Nuisibles, Nettoyage, Désinfection) avec identité visuelle synchronisée sur les Demandes et les Réalisations.

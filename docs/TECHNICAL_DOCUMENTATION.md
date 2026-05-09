@@ -54,6 +54,7 @@ Le site a été optimisé pour offrir une expérience proche d'une application n
 - **Scroll-Snap Slider** : Implémentation de conteneurs `flex` avec `scroll-snap-type: x mandatory` sur mobile pour les sections denses (ex: Témoignages). Cela permet une navigation horizontale naturelle au doigt.
 - **Mobile Safe Zones** : Utilisation de `100dvh` (Dynamic Viewport Height) pour le Hero, garantissant que le contenu est toujours centré, même avec l'apparition/disparition des barres d'outils des navigateurs mobiles (iOS Safari / Android Chrome).
 - **Tap Targets** : Normalisation des boutons à une hauteur minimale de `44px` (Apple/Google Standards) pour une précision tactile optimale.
+- **Horizontal Breathing Room** : Standardisation du padding latéral à `px-8` (32px) sur mobile pour éviter les effets "bord-à-bord". Le padding évolue dynamiquement (`md:px-12`, `lg:px-6`) pour s'adapter à la largeur du viewport tout en restant aligné avec le conteneur `max-w-7xl`.
 - **Overflow Prevention** : Utilisation de `overflow-x: hidden` sur `html` et `body` combiné à `width: 100%` pour neutraliser les rebonds horizontaux.
 
 ### 🧩 Gouvernance CSS & Comportements Sticky
