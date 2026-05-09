@@ -51,7 +51,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/20 z-1" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-between relative z-10 py-6 lg:py-0">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-center lg:justify-between relative z-10 py-6 lg:py-0">
         
         {/* Left Content - Adaptive Scaling */}
         <motion.div 
@@ -137,7 +137,7 @@ const Hero = () => {
           </div>
 
           {/* MOBILE ONLY CTA BLOCK */}
-          <div className="lg:hidden w-full flex flex-col items-center gap-[clamp(0.5rem,1.5vh,1rem)] mt-auto mb-4 relative z-30">
+          <div className="lg:hidden w-full flex flex-col items-center gap-4 mt-8 mb-4 relative z-30">
             <div className="flex flex-col w-full gap-3">
               <motion.a 
                 href="#devis"

@@ -68,9 +68,9 @@ const cardVariants = {
 
 const PestSelector = () => {
   return (
-    <section id="services" className="relative min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-main)] py-16 lg:py-0 overflow-hidden text-left transition-colors duration-400">
+    <section id="services" className="relative min-h-[auto] lg:min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-main)] py-12 lg:py-0 overflow-hidden text-left transition-colors duration-400">
       <div className="max-w-[1440px] mx-auto w-full px-6 relative z-10 flex flex-col">
-        <div className="max-w-3xl mb-10 lg:mb-16 pt-20 lg:pt-0">
+        <div className="max-w-3xl mb-10 lg:mb-16 pt-4 lg:pt-0 text-center lg:text-left">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
