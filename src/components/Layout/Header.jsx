@@ -3,6 +3,7 @@ import { Phone, ArrowRight, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSettings } from '../../context/SettingsContext';
+import MobileMenu from './MobileMenu';
 
 
 
@@ -185,77 +186,8 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }} 
-            animate={{ opacity: 1, height: 'auto' }} 
-            exit={{ opacity: 0, height: 0 }} 
-            className="lg:hidden bg-[var(--bg-primary)] backdrop-blur-2xl border-b border-[var(--border-subtle)] overflow-hidden text-left"
-          >
-            <div className="px-6 py-8 flex flex-col gap-4">
-              {menuItems.map((item) => (
-                <div key={item.name} className="flex flex-col">
-                    <div 
-                        className="flex justify-between items-center py-2"
-                        onClick={(e) => handleNavClick(e, item)}
-                    >
-                        {item.type === 'link' ? (
-                            <Link to={item.href} className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">{item.name}</Link>
-                        ) : (
-                            <a href={item.href} className="text-xs font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">{item.name}</a>
-                        )}
-                        {item.subItems && <ChevronDown className={`w-4 h-4 text-red-600 transition-transform ${mobileSubMenuOpen === item.name ? 'rotate-180' : ''}`} />}
-                    </div>
-
-                    <AnimatePresence>
-                        {item.subItems && mobileSubMenuOpen === item.name && (
-                            <motion.div 
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                className="flex flex-col gap-3 pl-4 py-2 border-l border-white/10 mt-2"
-                            >
-                                {item.subItems.map((sub) => (
-                                    <Link 
-                                        key={sub.name} 
-                                        to={sub.href} 
-                                        onClick={(e) => handleNavClick(e, { ...sub, type: 'link' })}
-                                        className="sub-link flex flex-col pt-1"
-                                    >
-                                        <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-main)] hover:text-red-600 transition-colors">{sub.name}</span>
-                                        <span className="text-[9px] font-medium text-[var(--text-dimmed)] mt-0.5">{sub.desc}</span>
-                                    </Link>
-                                ))}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
-              ))}
-              <div className="h-px bg-[var(--border-subtle)] my-2" />
-              <div className="flex flex-col gap-3">
-                <Link 
-                  to="/#devis-title" 
-                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })} 
-                  className="w-full bg-red-600 text-white px-8 py-5 rounded-xl font-black uppercase tracking-widest text-[11px] flex justify-between items-center shadow-lg shadow-red-600/20 active:scale-[0.98] transition-all cursor-pointer font-sans"
-                >
-                  <span>Demander un devis</span>
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-
-                <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="flex items-center gap-4 text-[var(--text-main)] text-[11px] font-black uppercase tracking-widest bg-[var(--bg-secondary)] p-4 rounded-xl border border-[var(--border-subtle)] hover:bg-black/5 transition-colors font-sans">
-                  <div className="w-10 h-10 rounded-full bg-red-600/10 flex items-center justify-center border border-red-600/20"><Phone className="w-4 h-4 text-red-600" /></div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-[8px] text-[var(--text-dimmed)] mb-1 uppercase tracking-wider">Assistance Directe 24/7</span>
-                    {settings.company_phone}
-                  </div>
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Mobile Menu Overlay (New Premium Version) */}
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );
 };

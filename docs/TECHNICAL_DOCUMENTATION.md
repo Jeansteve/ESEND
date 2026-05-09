@@ -48,11 +48,13 @@ Le projet utilise `HashRouter` pour éviter les erreurs 404 sur Hostinger.
 Le système de thème est géré par le hook `src/hooks/useTheme.js`. Il impose un thème fixe selon l'URL :
 - **Public (`/`)** : Force la classe `.dark` (Thème "Frozen Night").
 - **Admin (`/#/admin/*`)** : Force la classe `.light` (Thème "Morning Mist"). Comprend une **sidebar rétractable** (persistance localStorage).
-### 📱 Optimisation Mobile (Critical Fixes)
-L'interface admin a été spécifiquement corrigée pour les appareils mobiles :
-- **Scrolling** : Le défilement vertical est garanti par `height: auto` et `overflow-y: auto` sur `.admin-container` (media query < 1024px).
-- **Largeur** : Suppression des contraintes de largeur fixes (forçage à `100% !important`) pour éviter le décalage horizontal typique des conteneurs Flexbox compressés.
-- **Sidebars** : Isolation totale (`display: none`) de la sidebar desktop sur mobile pour libérer 100% de l'espace au contenu principal.
+### 📱 Architecture Mobile "App-Like" (Mai 2026)
+Le site a été optimisé pour offrir une expérience proche d'une application native :
+- **Fluid Typography** : Utilisation de `clamp(min, preferred, max)` sur les balises `h1`, `h2`, `h3` pour une mise à l'échelle automatique sans media queries complexes.
+- **Scroll-Snap Slider** : Implémentation de conteneurs `flex` avec `scroll-snap-type: x mandatory` sur mobile pour les sections denses (ex: Témoignages). Cela permet une navigation horizontale naturelle au doigt.
+- **Mobile Safe Zones** : Utilisation de `100dvh` (Dynamic Viewport Height) pour le Hero, garantissant que le contenu est toujours centré, même avec l'apparition/disparition des barres d'outils des navigateurs mobiles (iOS Safari / Android Chrome).
+- **Tap Targets** : Normalisation des boutons à une hauteur minimale de `44px` (Apple/Google Standards) pour une précision tactile optimale.
+- **Overflow Prevention** : Utilisation de `overflow-x: hidden` sur `html` et `body` combiné à `width: 100%` pour neutraliser les rebonds horizontaux.
 
 ### 🧩 Gouvernance CSS & Comportements Sticky
 Pour garantir le bon fonctionnement des menus "sticky" (comme le sélecteur de nuisibles) :

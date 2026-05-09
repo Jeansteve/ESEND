@@ -48,11 +48,11 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">
+      <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 text-center">
         <div className="flex flex-col md:flex-row items-center gap-2">
           <span>© 2026 ESEND MENTON — TOUS DROITS RÉSERVÉS</span>
           <span className="hidden md:inline">|</span>
-          <span>SIRET : {settings.company_siret}</span>
+          <span className="mt-1 md:mt-0">SIRET : {settings.company_siret}</span>
         </div>
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 mt-6 md:mt-0">
           <Link to="/mentions-legales" onClick={() => window.scrollTo(0,0)} className="hover:text-zinc-400 transition-colors cursor-pointer">Mentions Légales</Link>

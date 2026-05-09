@@ -19,7 +19,7 @@ const PortfolioBento = () => {
 
       const sizedData = recentData.map((item, index) => ({
         ...item,
-        size: item.size || (index % 3 === 0 ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1')
+        size: item.size || (index % 3 === 0 ? 'md:col-span-2 md:row-span-2' : 'col-span-1 row-span-1')
       }));
       setInterventions(sizedData);
     });

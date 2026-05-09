@@ -270,6 +270,26 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Synchronisation des pipelines `test` et `prod`.
 - **Gouvernance PSA-2026-05-08-B** : Mise à jour de la mémoire du projet concernant l'interdiction de faire confiance au client (navigateur) pour les données sensibles.
 
+## ✅ V19 : Expérience Mobile "App-Like" (Live — Mai 2026)
+**Fichiers :** `index.css`, `Hero.jsx`, `Reviews.jsx`, `PortfolioBento.jsx`, `PestSelector.jsx`, `FormWizard.jsx`
+
+- **Typographie Fluide (`clamp`)** : Migration vers un système de tailles de texte dynamiques. Les titres s'adaptent désormais millimétriquement à la largeur de l'écran, éliminant les débordements sur les petits smartphones.
+- **Hero Section "Splash-Effect"** : 
+    - Centrage parfait du contenu sur mobile.
+    - Optimisation de l'image de fond (opacité réduite à 40% sur mobile pour maximiser la lisibilité du texte).
+    - Alignement vertical équilibré pour un aspect "écran de bienvenue" natif.
+- **Slider Tactile (Témoignages)** :
+    - Transformation de la grille de témoignages en **Slider Horizontal** avec `scroll-snap`.
+    - Expérience native : défilement fluide au doigt avec arrêt précis sur chaque carte.
+    - Suppression des barres de défilement inesthétiques (`no-scrollbar`).
+- **Bento Grid Responsive** :
+    - Correction de la logique d'étalement (`col-span-2`) qui ne s'active désormais qu'à partir du format tablette (`md:`).
+    - Empilement vertical parfait sur mobile sans déformation des images.
+- **Ergonomie Tactile (FormWizard)** :
+    - Réduction des paddings internes (`p-6` au lieu de `p-10`) pour libérer de l'espace de saisie.
+    - Normalisation des zones de contact (boutons Retour/Suivant repositionnés pour le pouce).
+- **Zéro Débordement (`overflow-x`)** : Sécurisation globale du conteneur `#root` pour empêcher tout glissement horizontal parasite lors du défilement.
+
 ## 🚀 Prochaines Étapes
 1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.

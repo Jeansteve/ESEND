@@ -70,7 +70,7 @@ const PestSelector = () => {
   return (
     <section id="services" className="relative min-h-screen flex items-center justify-center bg-[var(--bg-primary)] text-[var(--text-main)] py-16 lg:py-0 overflow-hidden text-left transition-colors duration-400">
       <div className="max-w-[1440px] mx-auto w-full px-6 relative z-10 flex flex-col">
-        <div className="max-w-3xl mb-10 lg:mb-16 pt-20 lg:pt-0">
+        <div className="max-w-3xl mb-10 lg:mb-16 pt-20 lg:pt-0 text-center lg:text-left">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -79,10 +79,10 @@ const PestSelector = () => {
           >
             <span className="w-6 h-px bg-red-600"></span> Nos Dossiers Tactiques
           </motion.div>
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-left text-[var(--text-main)]">
+          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-[var(--text-main)]">
             Services <span className="text-red-600 italic">ESEND</span>
           </h2>
-          <p className="text-[var(--text-dimmed)] font-medium text-base lg:text-lg italic border-l border-red-600 pl-4 text-left">
+          <p className="text-[var(--text-dimmed)] font-medium text-base lg:text-lg italic border-l-0 lg:border-l lg:border-red-600 lg:pl-4">
             "L'expertise terrain au service de votre sérénité."
           </p>
         </div>
