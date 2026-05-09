@@ -110,9 +110,13 @@ INSERT INTO `esend_settings` (`setting_key`, `setting_value`) VALUES
 ON DUPLICATE KEY UPDATE `setting_value` = VALUES(`setting_value`);
 
 -- Création de l'utilisateur admin par défaut
--- IMPORTANT : Changez le mot de passe 'admin' dès votre première connexion !
+-- SÉCURITÉ : Mot de passe haché en Argon2id (CRIT-03 : plus de mot de passe en clair)
+-- Hash correspondant à : ESENDAdmin2026! (À CHANGER IMMÉDIATEMENT après la première connexion)
+-- Généré via : password_hash('ESENDAdmin2026!', PASSWORD_ARGON2ID)
 INSERT INTO `esend_users` (`email`, `password`, `name`) VALUES
-('admin@esend.fr', 'admin', 'Steve ESEND')
+('admin@esend.fr', '$argon2id$v=19$m=65536,t=4,p=1$CHANGEME_REGENERATE_THIS_HASH$CHANGEME_REGENERATE_THIS_HASH', 'Steve ESEND')
 ON DUPLICATE KEY UPDATE `email` = `email`;
+-- IMPORTANT : Ce hash est un placeholder. Exécutez ce PHP pour générer le vôtre :
+-- <?php echo password_hash('VotreMotDePasse', PASSWORD_ARGON2ID); ?>
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -193,8 +193,23 @@ $ville_titre = !empty($ville) ? " (" . mb_strimwidth($ville, 0, 20, "...") . ")"
 $prefix_urgent = ($is_urgent === 1) ? "🔥 [URGENT] " : "";
 $subject = $prefix_urgent . $icone . " [" . $trackingId . "] " . $titre_service . " - Devis de " . $nom . $ville_titre;
 
-if(empty($nom) || empty($tel)) {
+// --- Validation serveur stricte (MED-05) ---
+$nom = strip_tags(htmlspecialchars(trim($nom), ENT_QUOTES, 'UTF-8'));
+$ville = strip_tags(htmlspecialchars(trim($ville), ENT_QUOTES, 'UTF-8'));
+$problem = strip_tags(htmlspecialchars(trim($problem), ENT_QUOTES, 'UTF-8'));
+
+if (empty($nom) || empty($tel)) {
     echo json_encode(['success' => false, 'message' => 'Des champs obligatoires sont manquants']);
+    exit;
+}
+
+if (!empty($tel) && !preg_match('/^[0-9\s\+\-\.]{7,20}$/', $tel)) {
+    echo json_encode(['success' => false, 'message' => 'Numéro de téléphone invalide']);
+    exit;
+}
+
+if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['success' => false, 'message' => 'Adresse email invalide']);
     exit;
 }
 
@@ -250,14 +265,15 @@ $mail = new PHPMailer(true);
 
 try {
     // Configuration SMTP Hostinger
+    // SÉCURITÉ : Les credentials SMTP sont injectés par GitHub Actions dans config.php (jamais en clair dans le code)
     $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
-    $mail->Host       = 'smtp.hostinger.com';
+    $mail->Host       = defined('SMTP_HOST') ? SMTP_HOST : 'smtp.hostinger.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'contact@esendnuisibles.fr';
-    $mail->Password   = 'gyZsom-7fupqa-dajtam';
+    $mail->Username   = defined('SMTP_USER') ? SMTP_USER : 'contact@esendnuisibles.fr';
+    $mail->Password   = defined('SMTP_PASS') ? SMTP_PASS : '';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-    $mail->Port       = 465;
+    $mail->Port       = defined('SMTP_PORT') ? SMTP_PORT : 465;
 
     // Paramètres de l'expéditeur
     $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');

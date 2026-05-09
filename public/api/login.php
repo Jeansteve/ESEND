@@ -1,4 +1,14 @@
-session_start();
+<?php
+/**
+ * ESEND - Login API
+ * SÉCURITÉ : Session durcies (MED-04) - Fallback mot de passe en clair supprimé (CRIT-03)
+ */
+session_start([
+    'cookie_httponly' => true,
+    'cookie_secure'   => true,
+    'cookie_samesite' => 'Strict',
+    'gc_maxlifetime'  => 7200
+]);
 require_once 'config.php';
 $data = json_decode(file_get_contents('php://input'), true);
 $email = $data['email'] ?? '';
@@ -18,19 +28,15 @@ try {
         $isPasswordCorrect = false;
         $needsRehash = false;
 
-        // 1. Essai avec hachage moderne
+        // 1. Vérification Argon2id uniquement (le fallback en clair a été supprimé pour des raisons de sécurité)
         if (password_verify($password, $user['password'])) {
             $isPasswordCorrect = true;
-            // Vérifier si les paramètres de hachage doivent être mis à jour
+            // Mettre à jour le hash si les paramètres Argon2id sont obsolètes
             if (password_needs_rehash($user['password'], PASSWORD_ARGON2ID)) {
                 $needsRehash = true;
             }
-        } 
-        // 2. Fallback pour les anciens mots de passe en clair (Migration Douce)
-        else if ($password === $user['password']) {
-            $isPasswordCorrect = true;
-            $needsRehash = true;
         }
+        // Note : Si votre compte ne fonctionne plus, utilisez change_password.php pour réinitialiser.
 
         if ($isPasswordCorrect) {
             // --- NOUVEAU : On stocke l'ID en session ---

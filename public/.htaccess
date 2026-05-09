@@ -25,6 +25,10 @@ Options -Indexes
   Header set X-Frame-Options "SAMEORIGIN"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-  # Décommenter si HTTPS est activé
-  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # HSTS - Force HTTPS (HIGH-03)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # Content Security Policy (HIGH-03)
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://esendnuisibles.fr https://site-test.esendnuisibles.fr; frame-ancestors 'none';"
+  # Permissions Policy (HIGH-03)
+  Header set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=()"
 </IfModule>

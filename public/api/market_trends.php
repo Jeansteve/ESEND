@@ -1,6 +1,9 @@
 <?php
 // /public/api/market_trends.php
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/auth_check.php';
+// SÉCURITÉ : API payante Apify protégée - seul l'admin peut déclencher des recherches (MED-02)
+checkAuth();
 header('Content-Type: application/json');
 
 // Configuration
