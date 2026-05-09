@@ -268,8 +268,14 @@ try {
     // SÉCURITÉ : Les credentials SMTP sont injectés par GitHub Actions dans config.php (jamais en clair dans le code)
     $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
+    
+    // --- NOUVEAU : Activation du Debug SMTP ---
+    $mail->SMTPDebug = 2; // Niveau 2 : Client + Serveur
+    $mail->Debugoutput = function($str, $level) {
+        $GLOBALS['smtp_debug_log'] .= $str . "\n";
+    };
 
-    // Vérification de sécurité : si les constantes sont vides, c'est que les secrets GitHub n'ont pas été injectés
+    // Vérification de sécurité
     $smtpHost = (defined('SMTP_HOST') && !empty(SMTP_HOST)) ? SMTP_HOST : 'smtp.hostinger.com';
     $smtpUser = (defined('SMTP_USER') && !empty(SMTP_USER)) ? SMTP_USER : '';
     $smtpPass = (defined('SMTP_PASS') && !empty(SMTP_PASS)) ? SMTP_PASS : '';
@@ -285,8 +291,8 @@ try {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = defined('SMTP_PORT') ? SMTP_PORT : 465;
 
-    // Paramètres de l'expéditeur
-    $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');
+    // Paramètres de l'expéditeur (SÉCURITÉ : Doit correspondre à l'user SMTP chez Hostinger)
+    $mail->setFrom($smtpUser, 'ESEND Website');
     if (!empty($email)) {
         $mail->addReplyTo($email, $nom);
     }
@@ -322,6 +328,7 @@ try {
     echo json_encode([
         'success' => false, 
         'message' => 'L\'envoi du message a échoué. Erreur SMTP.',
-        'error_details' => $mail->ErrorInfo 
+        'error_details' => $mail->ErrorInfo,
+        'debug_log' => $GLOBALS['smtp_debug_log'] ?? 'Aucun log généré.'
     ]);
 }
