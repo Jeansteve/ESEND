@@ -116,8 +116,10 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Optimisation de la Section Avis (UX & Affordance)** :
     - Centrage parfait du score global Google sur mobile.
     - Correction de la largeur sur PC : le badge de score retrouve un format compact et premium (`max-w-[380px]`).
-    - Implémentation du **Chargement Progressif** : affichage initial limité à 6 avis avec bouton "Découvrir plus d'avis".
-    - Ajout de **Pagination Dots** interactifs sous le carrousel pour indiquer le nombre d'avis et la progression du défilement.
+    - Implémentation d'une **Logique Hybride** :
+        - **Mobile** : Affichage d'office des 9 avis dans le carrousel horizontal pour un swipe sans friction (suppression du bouton "Voir plus").
+        - **PC** : Affichage initial limité à 6 avis (grille 2x3) avec bouton "Découvrir plus d'avis" pour préserver la compacité verticale.
+    - **Pagination Dots** : Correction et maintien de la visibilité des indicateurs sur mobile, synchronisés sur l'intégralité des avis.
     - Ajustement du "Peek Effect" (`w-82vw`) pour suggérer naturellement le swipe.
     - Implémentation d'un listener de scroll pour synchroniser les indicateurs en temps réel.
 - **Audit Transverse & Zéro Régression** :
