@@ -151,7 +151,7 @@ const ReviewCard = ({ review, index }) => (
 
 const Reviews = () => {
   return (
-    <section id="avis" className="py-32 bg-[var(--bg-primary)] overflow-hidden relative">
+    <section id="avis" className="py-16 md:py-32 bg-[var(--bg-primary)] overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">

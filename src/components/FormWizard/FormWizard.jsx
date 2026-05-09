@@ -730,7 +730,7 @@ const FormWizard = () => {
                               <Check className="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity" />
                             </div>
                           </div>
-                          <span className="text-[10px] text-zinc-400 font-bold tracking-widest leading-relaxed flex-1">
+                          <span className="text-[11px] text-slate-200 font-bold tracking-widest leading-relaxed flex-1 drop-shadow-sm">
                             J'accepte que mes données soient traitées par ESEND pour ma demande de devis. <br/>
                             <a href="/#/politique-confidentialite" target="_blank" className="text-red-500 hover:text-red-400 underline decoration-red-500/30">En savoir plus sur la gestion de vos données</a>.
                           </span>

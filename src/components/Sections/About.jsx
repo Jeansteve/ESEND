@@ -4,7 +4,7 @@ import { ShieldCheck, Target, Heart, Users } from 'lucide-react';
 
 const About = () => {
   return (
-    <section id="valeurs" className="py-32 px-6 bg-[var(--bg-primary)] overflow-hidden transition-colors duration-400">
+    <section id="valeurs" className="py-16 md:py-32 px-6 bg-[var(--bg-primary)] overflow-hidden transition-colors duration-400">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-20">
         
         {/* Left Visual */}

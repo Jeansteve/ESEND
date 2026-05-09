@@ -124,14 +124,14 @@ if (!empty($_FILES)) {
             $destination = $uploadDir . $fileName;
             
             // --- NOUVEAU : Nettoyage profond (Re-génération de l'image) ---
-            // On crée une nouvelle ressource image à partir du fichier temporaire
-            // Cela détruit instantanément tout code malveillant caché dans les métadonnées.
             $img = null;
-            switch($extension) {
-                case 'jpg':
-                case 'jpeg': $img = @imagecreatefromjpeg($file['tmp_name']); break;
-                case 'png':  $img = @imagecreatefrompng($file['tmp_name']); break;
-                case 'webp': $img = @imagecreatefromwebp($file['tmp_name']); break;
+            if (function_exists('imagecreatefromjpeg')) {
+                switch($extension) {
+                    case 'jpg':
+                    case 'jpeg': $img = @imagecreatefromjpeg($file['tmp_name']); break;
+                    case 'png':  $img = @imagecreatefrompng($file['tmp_name']); break;
+                    case 'webp': $img = @imagecreatefromwebp($file['tmp_name']); break;
+                }
             }
 
             if ($img) {
@@ -147,16 +147,20 @@ if (!empty($_FILES)) {
                         break;
                     case 'webp': $saved = imagewebp($img, $destination, 80); break;
                 }
-                imagedestroy($img); // Libère la mémoire
-
+                imagedestroy($img);
                 if ($saved) {
                     $uploadedFiles[] = $relPath . $fileName;
                     $i++;
                 }
             } else {
-                // Fallback sécurisé : si GD échoue, on ne déplace PAS le fichier original
-                // car il pourrait être corrompu ou malveillant.
-                error_log("Échec de la désinfection de l'image : " . $file['name']);
+                // FALLBACK : Si GD est absent, on utilise move_uploaded_file 
+                // mais on garde le renommage et l'extension sécurisée.
+                if (move_uploaded_file($file['tmp_name'], $destination)) {
+                    $uploadedFiles[] = $relPath . $fileName;
+                    $i++;
+                } else {
+                    error_log("Échec du déplacement de fichier fallback : " . $file['name']);
+                }
             }
         }
     }
@@ -245,10 +249,17 @@ $htmlMessage = "
 $mail = new PHPMailer(true);
 
 try {
-    // Configuration (utilisation de la fonction mail native de PHP, très fiable si l'expéditeur existe)
+    // Configuration SMTP Hostinger
     $mail->CharSet = 'UTF-8';
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.hostinger.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'contact@esendnuisibles.fr';
+    $mail->Password   = 'gyZsom-7fupqa-dajtam';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+    $mail->Port       = 465;
 
-    // Paramètres de l'expéditeur (doit être l'adresse existante)
+    // Paramètres de l'expéditeur
     $mail->setFrom('contact@esendnuisibles.fr', 'ESEND Website');
     if (!empty($email)) {
         $mail->addReplyTo($email, $nom);
