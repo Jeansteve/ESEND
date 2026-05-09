@@ -1,3 +1,12 @@
+# ESEND — MÉMOIRE DE GOUVERNANCE & DÉCISIONS CRITIQUES
+
+### 🚨 RÈGLE D'OR N°1 (DÉPLOIEMENT)
+**INTERDICTION STRICTE** de pousser toute modification (code ou documentation) sur la branche **`main` (Production)** sans un ordre explicite de l'utilisateur. 
+- Même en cas d'urgence technique ou de correction de faille.
+- Toute MEP (Mise En Production) doit être précédée d'une demande d'autorisation claire.
+- Le flux obligatoire est : **Développement Local > Poussée sur `test` > Validation Utilisateur > Ordre de MEP > Poussée sur `main`**.
+
+---
 
 ### [PSA-2026-03-24-B] : Collision Header & Pitfall justify-center
 - **Le Problème :** Titre Hero caché par le Header fixe sur mobile malgré l'ajout de paddings.

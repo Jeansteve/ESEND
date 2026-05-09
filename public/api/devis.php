@@ -261,7 +261,6 @@ $mail = new PHPMailer(true);
 
 try {
     // Configuration SMTP Hostinger
-    // Configuration SMTP Hostinger
     $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
 
