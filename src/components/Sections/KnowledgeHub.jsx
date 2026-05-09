@@ -68,7 +68,7 @@ const KnowledgeHub = () => {
           {articles.length > 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
               viewport={{ once: true }}
               className="flex-shrink-0"
             >
