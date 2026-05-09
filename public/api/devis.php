@@ -268,10 +268,20 @@ try {
     // SÉCURITÉ : Les credentials SMTP sont injectés par GitHub Actions dans config.php (jamais en clair dans le code)
     $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
-    $mail->Host       = defined('SMTP_HOST') ? SMTP_HOST : 'smtp.hostinger.com';
+
+    // Vérification de sécurité : si les constantes sont vides, c'est que les secrets GitHub n'ont pas été injectés
+    $smtpHost = (defined('SMTP_HOST') && !empty(SMTP_HOST)) ? SMTP_HOST : 'smtp.hostinger.com';
+    $smtpUser = (defined('SMTP_USER') && !empty(SMTP_USER)) ? SMTP_USER : '';
+    $smtpPass = (defined('SMTP_PASS') && !empty(SMTP_PASS)) ? SMTP_PASS : '';
+
+    if (empty($smtpUser) || empty($smtpPass)) {
+        throw new Exception("Configuration SMTP incomplète. Les secrets SMTP_USER ou SMTP_PASS sont vides.");
+    }
+
+    $mail->Host       = $smtpHost;
     $mail->SMTPAuth   = true;
-    $mail->Username   = defined('SMTP_USER') ? SMTP_USER : 'contact@esendnuisibles.fr';
-    $mail->Password   = defined('SMTP_PASS') ? SMTP_PASS : '';
+    $mail->Username   = $smtpUser;
+    $mail->Password   = $smtpPass;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = defined('SMTP_PORT') ? SMTP_PORT : 465;
 
