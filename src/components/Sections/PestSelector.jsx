@@ -79,10 +79,10 @@ const PestSelector = () => {
           >
             <span className="w-6 h-px bg-red-600"></span> Nos Dossiers Tactiques
           </motion.div>
-          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-left text-[var(--text-main)]">
+          <h2 className="text-4xl lg:text-6xl font-black tracking-tighter uppercase mb-4 leading-none text-[var(--text-main)]">
             Services <span className="text-red-600 italic">ESEND</span>
           </h2>
-          <p className="text-[var(--text-dimmed)] font-medium text-base lg:text-lg italic border-l border-red-600 pl-4 text-left">
+          <p className="text-[var(--text-dimmed)] font-medium text-base lg:text-lg italic border-l-0 lg:border-l lg:border-red-600 lg:pl-4">
             "L'expertise terrain au service de votre sérénité."
           </p>
         </div>

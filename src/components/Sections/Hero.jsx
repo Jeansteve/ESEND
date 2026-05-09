@@ -39,7 +39,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-[100dvh] lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 lg:pt-0 transition-colors duration-400">
+    <section id="accueil" className="relative h-auto lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-16 lg:py-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
         {/* Main Hero Background - Powered by V3.3.10 Asset Management */}
         <img 
@@ -67,7 +67,7 @@ const Hero = () => {
             <span className="text-red-600 drop-shadow-[0_0_25px_rgba(220,38,38,0.4)]">NUISIBLES</span>
           </h1>
           
-          <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-[var(--text-dimmed)] font-medium mb-0 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
+          <p className="text-[clamp(0.7rem,1.6vh,1rem)] lg:text-lg text-[var(--text-dimmed)] font-medium mb-8 lg:mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
             Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
           </p>
           
@@ -132,8 +132,8 @@ const Hero = () => {
           className="lg:w-[50%] relative flex flex-col items-center lg:items-start w-full flex-grow lg:flex-none justify-center"
         >
           {/* Visual Space Reserved for Background Duo */}
-          <div className="relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] flex items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0 h-[400px]">
-             {/* Spacing empty to show background photo clearly */}
+          <div className="hidden lg:flex relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0 h-[400px]">
+             {/* Spacing empty to show background photo clearly on desktop */}
           </div>
 
           {/* MOBILE ONLY CTA BLOCK */}
