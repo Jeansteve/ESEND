@@ -39,7 +39,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-auto lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-16 lg:py-0 transition-colors duration-400">
+    <section id="accueil" className="relative !h-auto lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-12 lg:py-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
         {/* Main Hero Background - Optimized for Mobile Viewport */}
         <img 
@@ -131,7 +131,7 @@ const Hero = () => {
           className="lg:w-[50%] relative flex flex-col items-center lg:items-start w-full flex-grow lg:flex-none justify-center"
         >
           {/* Visual Space Reserved for Background Duo */}
-          <div className="hidden lg:flex relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0 h-[400px]">
+          <div className="!hidden lg:!flex relative w-full max-w-[min(380px,75vw)] lg:max-w-[650px] items-end justify-center flex-grow lg:flex-none max-h-[40vh] lg:max-h-none my-4 lg:my-0 h-[400px]">
              {/* Spacing empty to show background photo clearly on desktop */}
           </div>
 

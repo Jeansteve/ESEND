@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const SectionSeparator = ({ text }) => {
   return (
-    <div className="w-full flex items-center justify-center gap-6 py-6 md:py-20 bg-[var(--bg-primary)] transition-colors duration-400">
+    <div className="w-full flex items-center justify-center gap-6 py-2 md:py-20 bg-[var(--bg-primary)] transition-colors duration-400">
       {/* Ligne gauche */}
       <motion.div 
         initial={{ width: 0, opacity: 0 }}
