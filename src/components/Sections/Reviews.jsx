@@ -150,22 +150,33 @@ const ReviewCard = ({ review, index }) => (
 );
 
 const Reviews = () => {
+  const [activeScrollIndex, setActiveScrollIndex] = React.useState(0);
+  const scrollRef = React.useRef(null);
+
+  const handleScroll = (e) => {
+    const container = e.target;
+    const scrollPosition = container.scrollLeft;
+    const cardWidth = container.offsetWidth * 0.82; // matching min-w-[82vw]
+    const index = Math.round(scrollPosition / cardWidth);
+    setActiveScrollIndex(index);
+  };
+
   return (
     <section id="avis" className="py-8 md:py-32 bg-[var(--bg-primary)] overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-8 md:px-12 lg:px-6 relative z-10">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-24 gap-12">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-24 gap-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex-1"
+            className="flex-1 text-center md:text-left"
           >
-            <h2 className="text-5xl lg:text-7xl font-black tracking-tighter uppercase leading-[0.85] mb-8 text-[var(--text-main)]">
+            <h2 className="text-[clamp(2.5rem,10vw,4.5rem)] font-black tracking-tighter uppercase leading-[0.85] mb-8 text-[var(--text-main)]">
               Paroles de <br/>
               <span className="text-[var(--accent-red)] italic">Confiance</span>
             </h2>
-            <p className="text-[var(--text-dimmed)] font-medium max-w-xl text-lg leading-relaxed">
+            <p className="text-[var(--text-dimmed)] font-medium max-w-xl text-lg leading-relaxed mx-auto md:mx-0">
               L'excellence opérationnelle de ESEND confirmée par plus de 150 avis positifs sur Google. Votre sécurité est notre plus belle réussite.
             </p>
           </motion.div>
@@ -175,7 +186,7 @@ const Reviews = () => {
             initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
             whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
             viewport={{ once: true }}
-            className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-10 rounded-[3rem] text-center backdrop-blur-3xl shadow-2xl relative"
+            className="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-10 rounded-[3rem] text-center backdrop-blur-3xl shadow-2xl relative w-full max-w-[320px] md:max-w-none"
           >
             <div className="absolute -top-4 -left-4 bg-[var(--accent-red)] text-white p-3 rounded-2xl shadow-lg -rotate-12">
               <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">
@@ -197,11 +208,29 @@ const Reviews = () => {
         </div>
 
         {/* Reviews Slider/Grid */}
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-x-auto md:overflow-x-visible pb-12 md:pb-0 scroll-snap-x no-scrollbar px-4 -mx-4 md:px-0 md:mx-0">
+        <div 
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-x-auto md:overflow-x-visible pb-8 md:pb-0 scroll-snap-x no-scrollbar px-4 -mx-4 md:px-0 md:mx-0"
+        >
           {reviews.map((review, index) => (
-            <div key={review.id} className="min-w-[85vw] md:min-w-0 scroll-snap-item">
+            <div key={review.id} className="min-w-[82vw] md:min-w-0 scroll-snap-item">
               <ReviewCard review={review} index={index} />
             </div>
+          ))}
+        </div>
+
+        {/* Mobile Pagination Dots */}
+        <div className="flex justify-center gap-2 mt-8 md:hidden">
+          {reviews.map((_, index) => (
+            <div 
+              key={index}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                activeScrollIndex === index 
+                ? "w-8 bg-[var(--accent-red)]" 
+                : "w-2 bg-[var(--border-subtle)]"
+              }`}
+            />
           ))}
         </div>
 
