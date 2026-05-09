@@ -57,6 +57,18 @@ Le site a été optimisé pour offrir une expérience proche d'une application n
 - **Horizontal Breathing Room** : Standardisation du padding latéral à `px-8` (32px) sur mobile pour éviter les effets "bord-à-bord". Le padding évolue dynamiquement (`md:px-12`, `lg:px-6`) pour s'adapter à la largeur du viewport tout en restant aligné avec le conteneur `max-w-7xl`.
 - **Overflow Prevention** : Utilisation de `overflow-x: hidden` sur `html` et `body` combiné à `width: 100%` pour neutraliser les rebonds horizontaux.
 
+### 📱 2.2 Standards d'Expérience Hybride & Mobile (Mai 2026)
+
+Le projet applique une logique différenciée selon le support pour maximiser la conversion :
+
+- **Stepper Dynamique (FormWizard)** : 
+    - **Mobile** : Les libellés textuels des étapes sont masqués au profit d'un affichage exclusivement iconographique (`min-w-[50px]`). Cela permet de maintenir la barre de progression sur une seule ligne sans créer de scroll horizontal.
+    - **Tablette/PC** : Les libellés réapparaissent (`md:block`) pour une clarté textuelle maximale.
+- **Logique d'UX Hybride (Avis & Témoignages)** :
+    - **Mobile/Tablette** : Affichage d'office de **100% des avis** dans un carrousel horizontal (`flex overflow-x-auto`). Le bouton "Voir plus" est supprimé pour favoriser une exploration fluide par swipe.
+    - **Desktop** : Affichage initial limité à 6 avis (grille 2x3) avec bouton "Chargement Progressif" (Load More) pour préserver la compacité verticale et la performance perçue.
+- **Visibilité des Liens RGPD** : Standardisation de l'utilisation du blanc pur (`text-white`) pour les liens sur fonds glassmorphism complexes (ex: FormWizard), garantissant un contraste conforme aux normes d'accessibilité.
+
 ### 🧩 Gouvernance CSS & Comportements Sticky
 Pour garantir le bon fonctionnement des menus "sticky" (comme le sélecteur de nuisibles) :
 - **Règle Racine** : Ne JAMAIS utiliser `overflow-x: hidden !important` sur les éléments parents (`html`, `body`, `#root`). Cela désactive le calcul du défilement pour `position: sticky`.
