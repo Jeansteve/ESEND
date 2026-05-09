@@ -4,6 +4,12 @@
  * Gestion de l'envoi des formulaires de demande de devis avec pièces jointes.
  */
 
+// --- DEBUG TEMPORAIRE ---
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+$GLOBALS['smtp_debug_log'] = ""; 
+
 // Permettre les requêtes cross-origin si on est en dév
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
@@ -270,9 +276,9 @@ try {
     $mail->isSMTP();
     
     // --- NOUVEAU : Activation du Debug SMTP ---
-    $mail->SMTPDebug = 2; // Niveau 2 : Client + Serveur
+    $mail->SMTPDebug = 2;
     $mail->Debugoutput = function($str, $level) {
-        $GLOBALS['smtp_debug_log'] .= $str . "\n";
+        $GLOBALS['smtp_debug_log'] .= (string)$str . "\n";
     };
 
     // Vérification de sécurité
