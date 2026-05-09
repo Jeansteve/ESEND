@@ -28,7 +28,7 @@ jobs:
       - name: Force Copy API files to dist (Vite fix)
         run: mkdir -p dist/api && cp -r public/api/* dist/api/
 
-      - name: Generate config.php from Secrets
+      - name: Generate config.php from Template
         env:
           DB_HOST: ${{ secrets.DB_PROD_HOST }}
           DB_NAME: ${{ secrets.DB_PROD_NAME }}
@@ -37,59 +37,7 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASSWORD }}
         run: |
-          cat <<'EOF' > dist/api/config.php
-          <?php
-          /**
-           * ESEND API Config - PRODUCTION
-           * Generated automatically via GitHub Actions - NE PAS MODIFIER MANUELLEMENT
-           */
-          
-          error_reporting(0);
-          ini_set('display_errors', 0);
-          header('Content-Type: application/json; charset=utf-8');
-          
-          // Credentials Base de Données
-          define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-          define('DB_NAME', getenv('DB_NAME'));
-          define('DB_USER', getenv('DB_USER'));
-          define('DB_PASS', getenv('DB_PASS'));
-          
-          // Credentials SMTP
-          define('SMTP_HOST', 'smtp.hostinger.com');
-          define('SMTP_USER', getenv('SMTP_USER') ?: 'contact@esendnuisibles.fr');
-          define('SMTP_PASS', getenv('SMTP_PASS'));
-          define('SMTP_PORT', 465);
-          
-          $options = [
-              PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-              PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-              PDO::ATTR_EMULATE_PREPARES => false,
-          ];
-          
-          $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-          
-          try {
-              $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-          } catch (\PDOException $e) {
-              header('HTTP/1.1 500 Internal Server Error');
-              echo json_encode(['success' => false, 'error' => 'Erreur de connexion DB']);
-              exit;
-          }
-          
-          // CORS restreint aux domaines autorisés uniquement
-          $allowedOrigins = ['https://esendnuisibles.fr', 'https://site-test.esendnuisibles.fr', 'https://www.esendnuisibles.fr'];
-          $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-          if (in_array($origin, $allowedOrigins)) {
-              header("Access-Control-Allow-Origin: $origin");
-              header('Vary: Origin');
-          }
-          header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-          header("Access-Control-Allow-Headers: Content-Type, Authorization");
-          
-          if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-              exit;
-          }
-          EOF
+          envsubst < public/api/config.template.php > dist/api/config.php
 
       - name: Deploy to Hostinger PRODUCTION via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
