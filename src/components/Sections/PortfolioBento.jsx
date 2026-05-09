@@ -28,8 +28,8 @@ const PortfolioBento = () => {
   return (
     <section id="portfolio" className="py-16 md:py-32 px-8 md:px-12 lg:px-6 bg-white text-slate-900 transition-colors duration-500">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div className="max-w-2xl text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-20 gap-8">
+          <div className="max-w-2xl text-center md:text-left">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

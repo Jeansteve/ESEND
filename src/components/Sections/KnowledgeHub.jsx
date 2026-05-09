@@ -50,8 +50,8 @@ const KnowledgeHub = () => {
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-20 gap-8">
-          <div className="max-w-2xl text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 md:mb-20 gap-8">
+          <div className="max-w-2xl text-center md:text-left">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
