@@ -110,6 +110,9 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Typographie Adaptative (Fluid Typography)** :
     - Implémentation de `text-[clamp(2.5rem,8vw,3.75rem)]` sur les titres de sections (ex: `About.jsx`).
     - Garantit que les titres massifs ne saturent pas l'espace sur les écrans ultra-compacts (iPhone SE) tout en conservant leur impact sur iPhone Pro/Plus.
+- **Optimisation du FormWizard (Mobile UX)** :
+    - Refonte du stepper sur mobile : affichage exclusif des icônes pour éviter l'encombrement textuel et le scroll horizontal.
+    - Correction de la lisibilité du lien RGPD : passage du texte en blanc pour un contraste optimal sur l'arrière-plan dynamique.
 - **Optimisation de la Section Avis (UX & Affordance)** :
     - Centrage parfait du score global Google sur mobile.
     - Ajout de **Pagination Dots** interactifs sous le carrousel pour indiquer le nombre d'avis et la progression du défilement.
