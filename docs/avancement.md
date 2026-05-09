@@ -115,6 +115,8 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction de la lisibilité du lien RGPD : passage du texte en blanc pour un contraste optimal sur l'arrière-plan dynamique.
 - **Optimisation de la Section Avis (UX & Affordance)** :
     - Centrage parfait du score global Google sur mobile.
+    - Correction de la largeur sur PC : le badge de score retrouve un format compact et premium (`max-w-[380px]`).
+    - Implémentation du **Chargement Progressif** : affichage initial limité à 6 avis avec bouton "Découvrir plus d'avis".
     - Ajout de **Pagination Dots** interactifs sous le carrousel pour indiquer le nombre d'avis et la progression du défilement.
     - Ajustement du "Peek Effect" (`w-82vw`) pour suggérer naturellement le swipe.
     - Implémentation d'un listener de scroll pour synchroniser les indicateurs en temps réel.
