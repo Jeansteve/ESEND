@@ -4,16 +4,6 @@
  * Gestion de l'envoi des formulaires de demande de devis avec pièces jointes.
  */
 
-// --- DEBUG TEMPORAIRE ---
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-$GLOBALS['smtp_debug_log'] = ""; 
-
-// Permettre les requêtes cross-origin si on est en dév
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-
 require_once 'config.php';
 
 // Import de PHPMailer
@@ -271,15 +261,9 @@ $mail = new PHPMailer(true);
 
 try {
     // Configuration SMTP Hostinger
-    // SÉCURITÉ : Les credentials SMTP sont injectés par GitHub Actions dans config.php (jamais en clair dans le code)
+    // Configuration SMTP Hostinger
     $mail->CharSet = 'UTF-8';
     $mail->isSMTP();
-    
-    // --- NOUVEAU : Activation du Debug SMTP ---
-    $mail->SMTPDebug = 2;
-    $mail->Debugoutput = function($str, $level) {
-        $GLOBALS['smtp_debug_log'] .= (string)$str . "\n";
-    };
 
     // Vérification de sécurité
     $smtpHost = (defined('SMTP_HOST') && !empty(SMTP_HOST)) ? SMTP_HOST : 'smtp.hostinger.com';
@@ -334,7 +318,6 @@ try {
     echo json_encode([
         'success' => false, 
         'message' => 'L\'envoi du message a échoué. Erreur SMTP.',
-        'error_details' => $mail->ErrorInfo,
-        'debug_log' => $GLOBALS['smtp_debug_log'] ?? 'Aucun log généré.'
+        'error_details' => $mail->ErrorInfo
     ]);
 }

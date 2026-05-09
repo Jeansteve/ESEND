@@ -180,7 +180,8 @@ Le projet utilise **GitHub Actions** pour un déploiement automatisé et sécuri
 
 ### Processus :
 - À chaque push sur la branche correspondante, les fichiers sont compilés (`npm run build`) et synchronisés par FTP sur Hostinger.
-- **Configuration Automatisée** : Le fichier `api/config.php` est désormais généré dynamiquement lors du déploiement à partir des GitHub Secrets. Cela garantit une sécurité maximale (aucune clé en clair dans le dépôt) et une séparation parfaite entre Test et Production.
+- **Configuration Automatisée** : Le fichier `api/config.php` est désormais généré dynamiquement lors du déploiement à partir des GitHub Secrets et du fichier **`api/config.template.php`**. 
+- **Moteur d'Injection (`envsubst`)** : Pour garantir que les caractères spéciaux des mots de passe ($, \, ') ne soient pas corrompus, le workflow utilise la commande Linux `envsubst` pour injecter les variables d'environnement de manière sécurisée.
 
 #### Secrets requis sur GitHub :
 
@@ -196,6 +197,8 @@ Le projet utilise **GitHub Actions** pour un déploiement automatisé et sécuri
 | `VITE_GA_MEASUREMENT_ID` | Marketing | ID Google Analytics (G-XXXXX) |
 | `FTP_TEST_*` | Test | Identiques aux PROD pour le serveur de test |
 | `DB_TEST_*` | Test | Identiques aux PROD pour la base de test |
+| `SMTP_USER` | Email | Adresse email d'envoi (ex: `contact@esendnuisibles.fr`) |
+| `SMTP_PASSWORD` | Email | Mot de passe du compte email Hostinger |
 
 ---
 

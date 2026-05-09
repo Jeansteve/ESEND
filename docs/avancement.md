@@ -104,16 +104,24 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 **Fichiers :** `About.jsx`, `Hero.jsx`, `Reviews.jsx`, `KnowledgeHub.jsx`, `PortfolioBento.jsx`, `TrustBanner.jsx`, `PestSelector.jsx`
 
 - **Harmonisation du Padding Horizontal** :
-    - Standardisation à **`px-8`** (32px) sur mobile pour toutes les sections majeures, offrant 33% de respiration supplémentaire.
+    - Standardisation à **`px-8`** (32px) on mobile pour toutes les sections majeures, offrant 33% de respiration supplémentaire.
     - Transition fluide vers **`md:px-12`** (tablette) et retour à **`lg:px-6`** (desktop) où le conteneur `max-w-7xl` prend le relais.
     - Suppression totale de l'effet "bord-à-bord" qui nuisait à l'aspect premium.
 - **Typographie Adaptative (Fluid Typography)** :
     - Implémentation de `text-[clamp(2.5rem,8vw,3.75rem)]` sur les titres de sections (ex: `About.jsx`).
     - Garantit que les titres massifs ne saturent pas l'espace sur les écrans ultra-compacts (iPhone SE) tout en conservant leur impact sur iPhone Pro/Plus.
+
+### 🛡️ Sécurité & Stabilité CI/CD (10 Mai 2026)
+- **Hardening Sécurité** : Audit offensif réalisé. Suppression des mots de passe en clair et des fichiers de debug (CRIT-01, CRIT-02).
+- **CI/CD Robuste** : Passage à un système de génération de `config.php` via **`envsubst`** et `config.template.php`. Cette méthode protège les secrets contre les erreurs d'interprétation shell lors de l'injection.
+- **SMTP Authentifié** : Résolution du bug d'envoi. Les identifiants sont désormais injectés via les secrets GitHub (`SMTP_USER`, `SMTP_PASSWORD`).
+- **Middleware Auth** : Renforcement des sessions admin (HttpOnly, Secure, SameSite=Strict).
+- **CORS & En-têtes** : Restriction des accès API aux domaines autorisés et activation de HSTS/CSP.
+
 - **Optimisation du FormWizard (Mobile UX)** :
-    - Centrage des entêtes de sections et des boutons CTAs (Explorer le journal, Voir les réalisations) sur mobile pour un équilibre visuel "App-Like".
-    - Refonte du stepper sur mobile : affichage exclusif des icônes pour éviter l'encombrement textuel et le scroll horizontal.
-    - Correction de la lisibilité du lien RGPD : passage du texte en blanc pour un contraste optimal sur l'arrière-plan dynamique.
+    - Centrage des entêtes de sections et des boutons CTAs.
+    - Refonte du stepper sur mobile : affichage exclusif des icônes.
+    - Correction de la lisibilité du lien RGPD : passage du texte en blanc.
 - **Optimisation de la Section Avis (UX & Affordance)** :
     - Centrage parfait du score global Google sur mobile.
     - Correction de la largeur sur PC : le badge de score retrouve un format compact et premium (`max-w-[380px]`).
