@@ -55,7 +55,7 @@ const EmptyState = ({
           <Icon className="w-16 h-16 md:w-20 md:h-20 text-red-600 drop-shadow-[0_10px_20px_rgba(220,38,38,0.4)]" strokeWidth={1.5} />
         </motion.div>
 
-        {/* Floating Decorative Elements */}
+        {/* Floating Decorative Elements - Symmetrical on Mobile for visual balance */}
         <motion.div 
           animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
@@ -63,11 +63,19 @@ const EmptyState = ({
         >
           <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
         </motion.div>
+
+        <motion.div 
+          animate={{ y: [0, 10, 0], x: [0, -5, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-4 -left-4 w-10 h-10 rounded-2xl bg-red-600/10 border border-red-600/20 backdrop-blur-lg flex items-center justify-center lg:hidden"
+        >
+          <div className="w-1.5 h-1.5 rounded-full bg-red-600/40" />
+        </motion.div>
       </div>
 
       {/* Content */}
       <div className="max-w-md space-y-6 relative z-20">
-        <h3 className="text-4xl md:text-5xl font-black uppercase tracking-tighter italic leading-none">
+        <h3 className="text-2xl md:text-5xl font-black uppercase tracking-tighter md:italic leading-none">
           {title}
         </h3>
         <p className={`text-lg ${isDark ? 'text-slate-400' : 'text-slate-500'} font-medium leading-relaxed`}>
