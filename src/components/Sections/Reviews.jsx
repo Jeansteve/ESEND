@@ -152,7 +152,15 @@ const ReviewCard = ({ review, index }) => (
 const Reviews = () => {
   const [activeScrollIndex, setActiveScrollIndex] = React.useState(0);
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
   const scrollRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleScroll = (e) => {
     const container = e.target;
@@ -162,7 +170,9 @@ const Reviews = () => {
     setActiveScrollIndex(index);
   };
 
-  const visibleReviews = isExpanded ? reviews : reviews.slice(0, 6);
+  // Sur mobile on montre tout d'office pour le swipe horizontal
+  // Sur PC on limite à 6 sauf si étendu
+  const visibleReviews = (isMobile || isExpanded) ? reviews : reviews.slice(0, 6);
 
   return (
     <section id="avis" className="py-8 md:py-32 bg-[var(--bg-primary)] overflow-hidden relative">
@@ -233,23 +243,21 @@ const Reviews = () => {
         </div>
 
         {/* Mobile Pagination Dots */}
-        {!isExpanded && (
-          <div className="flex justify-center gap-2 mt-8 md:hidden">
-            {reviews.slice(0, 6).map((_, index) => (
-              <div 
-                key={index}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  activeScrollIndex === index 
-                  ? "w-8 bg-[var(--accent-red)]" 
-                  : "w-2 bg-[var(--border-subtle)]"
-                }`}
-              />
-            ))}
-          </div>
-        )}
+        <div className="flex justify-center gap-2 mt-8 md:hidden">
+          {visibleReviews.map((_, index) => (
+            <div 
+              key={index}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                activeScrollIndex === index 
+                ? "w-8 bg-[var(--accent-red)]" 
+                : "w-2 bg-[var(--border-subtle)]"
+              }`}
+            />
+          ))}
+        </div>
 
-        {/* Show More CTA */}
-        {!isExpanded && reviews.length > 6 && (
+        {/* Show More CTA (PC only) */}
+        {!isMobile && !isExpanded && reviews.length > 6 && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
