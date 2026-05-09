@@ -436,11 +436,11 @@ const FormWizard = () => {
             {currentSteps.map((step, idx) => (
               <div 
                 key={step.id} 
-                className={`relative z-10 min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-700 
+                className={`relative z-10 min-w-[50px] md:min-w-[100px] flex-1 py-4 flex items-center justify-center gap-2 border-b-2 transition-all duration-700 
                   ${stepIndex >= idx ? 'border-[#A72422] text-[#A72422]' : 'border-transparent text-slate-400'}
                 `}
               >
-                <div className={'hidden sm:block'}>{step.icon}</div>
+                <div className="block">{step.icon}</div>
                 <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">{step.title}</span>
               </div>
             ))}
@@ -732,7 +732,7 @@ const FormWizard = () => {
                           </div>
                           <span className="text-[11px] text-slate-200 font-bold tracking-widest leading-relaxed flex-1 drop-shadow-sm">
                             J'accepte que mes données soient traitées par ESEND pour ma demande de devis. <br/>
-                            <a href="/#/politique-confidentialite" target="_blank" className="text-red-500 hover:text-red-400 underline decoration-red-500/30">En savoir plus sur la gestion de vos données</a>.
+                             <a href="/#/politique-confidentialite" target="_blank" className="text-white hover:text-white/80 underline decoration-white/30">En savoir plus sur la gestion de vos données</a>.
                           </span>
                         </label>
                         <ErrorMsg error={errors.rgpd} />
