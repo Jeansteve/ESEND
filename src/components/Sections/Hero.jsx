@@ -41,14 +41,13 @@ const Hero = () => {
   return (
     <section id="accueil" className="relative h-auto lg:h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-16 lg:py-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
-        {/* Main Hero Background - Powered by V3.3.10 Asset Management */}
+        {/* Main Hero Background - Optimized for Mobile Viewport */}
         <img 
           src="/images/hero-menton-v2.png" 
           alt="ESEND Context" 
-          className="w-full h-full object-cover opacity-60 lg:opacity-80"
+          className="w-full h-full object-cover opacity-40 lg:opacity-80 object-[70%_center] lg:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent z-1" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/20 z-1" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/20 to-slate-950 z-1 lg:bg-gradient-to-r lg:from-slate-950 lg:via-slate-950/40 lg:to-transparent" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-center lg:justify-between relative z-10 py-6 lg:py-0">
@@ -58,9 +57,9 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="lg:w-[45%] flex flex-col justify-center text-center lg:text-left"
+          className="lg:w-[55%] flex flex-col justify-center text-center lg:text-left mt-20 lg:mt-0"
         >
-          <h1 className="text-[clamp(1.75rem,4.5vh,4rem)] lg:text-6xl xl:text-7xl font-black tracking-tighter leading-[1.1] uppercase mb-[clamp(0.5rem,1.5vh,1rem)] text-[var(--text-main)]">
+          <h1 className="text-[clamp(2.25rem,10vw,4.5rem)] font-black tracking-tighter leading-[0.95] uppercase mb-6 text-[var(--text-main)]">
             VOTRE EXPERT <br/>
             <span className="text-sky-400 drop-shadow-[0_0_25px_rgba(56,189,248,0.4)]">HYGIÈNE</span>
             <span className="text-[var(--text-main)]"> & </span>

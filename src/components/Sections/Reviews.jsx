@@ -196,10 +196,12 @@ const Reviews = () => {
           </motion.div>
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Reviews Slider/Grid */}
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-x-auto md:overflow-x-visible pb-12 md:pb-0 scroll-snap-x no-scrollbar px-4 -mx-4 md:px-0 md:mx-0">
           {reviews.map((review, index) => (
-            <ReviewCard key={review.id} review={review} index={index} />
+            <div key={review.id} className="min-w-[85vw] md:min-w-0 scroll-snap-item">
+              <ReviewCard review={review} index={index} />
+            </div>
           ))}
         </div>
 

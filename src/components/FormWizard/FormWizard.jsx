@@ -445,11 +445,11 @@ const FormWizard = () => {
               </div>
             ))}
           </div>
-          <div className="p-10 lg:p-16 min-h-[400px] relative">
+          <div className="p-6 md:p-10 lg:p-16 min-h-[400px] relative">
             {currentStepIndex > 0 && !isSubmitted && (
               <button
                 onClick={prevStep}
-                className="absolute top-6 left-6 text-white/60 hover:text-white flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10 drop-shadow-md"
+                className="absolute top-4 left-4 md:top-6 md:left-6 text-white/60 hover:text-white flex items-center gap-2 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all hover:-translate-x-1 active:scale-95 z-10 drop-shadow-md"
               >
                 ← Retour
               </button>
@@ -459,7 +459,7 @@ const FormWizard = () => {
             {currentStepIndex < maxStepReached && !isSubmitted && (
               <button
                 onClick={nextStep}
-                className="absolute top-6 right-6 text-white/60 hover:text-white flex items-center gap-2 font-black text-xs uppercase tracking-widest transition-all hover:translate-x-1 active:scale-95 z-10 drop-shadow-md"
+                className="absolute top-4 right-4 md:top-6 md:right-6 text-white/60 hover:text-white flex items-center gap-2 font-black text-[10px] md:text-xs uppercase tracking-widest transition-all hover:translate-x-1 active:scale-95 z-10 drop-shadow-md"
               >
                 Suivant →
               </button>
