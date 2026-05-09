@@ -34,17 +34,24 @@ jobs:
           <?php
           /**
            * ESEND API Config - TEST
-           * Generated automatically via GitHub Actions
+           * Generated automatically via GitHub Actions - NE PAS MODIFIER MANUELLEMENT
            */
           
           error_reporting(0);
           ini_set('display_errors', 0);
           header('Content-Type: application/json; charset=utf-8');
           
+          // Credentials Base de Données
           define('DB_HOST', '${{ secrets.DB_TEST_HOST }}');
           define('DB_NAME', '${{ secrets.DB_TEST_NAME }}');
           define('DB_USER', '${{ secrets.DB_TEST_USER }}');
           define('DB_PASS', '${{ secrets.DB_TEST_PASS }}');
+          
+          // Credentials SMTP (CRIT-01 : plus jamais en clair dans le code)
+          define('SMTP_HOST', 'smtp.hostinger.com');
+          define('SMTP_USER', '${{ secrets.SMTP_USER }}');
+          define('SMTP_PASS', '${{ secrets.SMTP_PASS }}');
+          define('SMTP_PORT', 465);
           
           \$options = [
               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -62,7 +69,13 @@ jobs:
               exit;
           }
           
-          header("Access-Control-Allow-Origin: *");
+          // CORS restreint aux domaines autorisés uniquement (HIGH-01 : plus de wildcard *)
+          \$allowedOrigins = ['https://esendnuisibles.fr', 'https://site-test.esendnuisibles.fr', 'https://www.esendnuisibles.fr'];
+          \$origin = \$_SERVER['HTTP_ORIGIN'] ?? '';
+          if (in_array(\$origin, \$allowedOrigins)) {
+              header("Access-Control-Allow-Origin: \$origin");
+              header('Vary: Origin');
+          }
           header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
           header("Access-Control-Allow-Headers: Content-Type, Authorization");
           
