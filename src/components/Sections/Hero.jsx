@@ -39,7 +39,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="accueil" className="relative h-auto lg:min-h-screen flex flex-col justify-start lg:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-12 lg:pt-20 lg:pb-0 transition-colors duration-400">
+    <section id="accueil" className="relative h-auto md:min-h-screen flex flex-col justify-start md:justify-center overflow-hidden bg-slate-950 text-white pt-32 pb-12 md:py-0 transition-colors duration-400">
       <div className="absolute inset-0 z-0">
         {/* Main Hero Background - Optimized for Mobile Viewport */}
         <img 
@@ -57,7 +57,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="lg:w-[55%] flex flex-col justify-center text-center lg:text-left mt-20 lg:mt-0"
+          className="lg:w-[55%] flex flex-col justify-center text-center lg:text-left mt-10 lg:mt-32"
         >
           <h1 className="text-[clamp(2.25rem,10vw,4.5rem)] font-black tracking-tighter leading-[0.95] uppercase mb-6 text-[var(--text-main)]">
             VOTRE EXPERT <br/>

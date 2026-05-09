@@ -78,7 +78,7 @@ jobs:
           username: ${{ secrets.FTP_TEST_USERNAME }}
           password: ${{ secrets.FTP_TEST_PASSWORD }}
           local-dir: ./dist/
-          server-dir: public_html/
+          server-dir: ./
           exclude: |
             **/node_modules/**
             **/.git/**
