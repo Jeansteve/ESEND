@@ -157,10 +157,19 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
     return { words, time };
   }, [formData.content_html]);
 
-  // ── Slug auto-update ──
+  // ── Slug auto-update & Auto-Mapping ──
   const update = (field, val) => {
     setFormData(prev => {
       const updates = { [field]: val };
+      
+      // Auto-mapping Nuisible Tag -> Pôle Service
+      if (field === 'nuisible_tag') {
+        const tag = parseInt(val);
+        if (tag >= 1 && tag <= 5) updates.service_id = 1; // Nuisibles
+        else if (tag === 6) updates.service_id = 2;       // Désinfection
+        else if (tag === 7) updates.service_id = 3;       // Nettoyage
+      }
+      
       if (field === 'title' && (!prev.slug || prev.slug === generateSlug(prev.title))) {
         updates.slug = generateSlug(val);
       }

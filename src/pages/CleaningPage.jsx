@@ -31,8 +31,17 @@ const CleaningPage = () => {
     // Charger les articles réels et filtrer par catégorie nettoyage
     dataService.getArticles().then(allArticles => {
       const filtered = (allArticles || []).filter(a => {
-        const t = (a.title + ' ' + a.excerpt + ' ' + (a.category_id || '')).toLowerCase();
-        return t.includes('nettoyage') || a.category_id === 'nettoyage';
+        // Logique de filtrage multi-critères ultra-robuste (ID 7 = Nettoyage dans SERVICES, ID 3 = Nettoyage dans Pôle Service)
+        const sId = String(a.service_id || '');
+        const nTag = String(a.nuisible_tag || '');
+        const catId = String(a.category_id || '');
+        const title = (a.title || '').toLowerCase();
+        const excerpt = (a.excerpt || '').toLowerCase();
+        
+        const matchesId = sId === '3' || sId === '7' || nTag === '7' || catId === 'nettoyage';
+        const matchesText = title.includes('nettoyage') || excerpt.includes('nettoyage');
+        
+        return (matchesId || matchesText) && (a.is_published == 1 || a.is_published === true);
       }).slice(0, 3);
       
       if (filtered.length > 0) {

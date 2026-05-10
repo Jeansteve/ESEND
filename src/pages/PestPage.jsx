@@ -28,9 +28,25 @@ const PestPage = () => {
     
     // Charger les articles réels et filtrer par type de nuisible
     dataService.getArticles().then(allArticles => {
+      // Mapping des types vers les IDs de l'admin
+      const typeToId = {
+        'rats-rongeurs': '1',
+        'guepes-frelons': '2',
+        'punaises-de-lit': '3',
+        'cafards-blattes': '4',
+        'fourmis': '5'
+      };
+      const targetId = typeToId[type];
+
       const filtered = (allArticles || []).filter(a => {
-        const t = (a.title + ' ' + a.excerpt + ' ' + (a.pestType || '')).toLowerCase();
-        return t.includes(type.replace('-', ' ')) || a.pestType === type;
+        const nTag = String(a.nuisible_tag || '');
+        const pType = String(a.pestType || '');
+        const title = (a.title || '').toLowerCase();
+        
+        const matchesId = nTag === targetId || pType === type;
+        const matchesText = title.includes(type.replace('-', ' '));
+        
+        return (matchesId || matchesText) && (a.is_published == 1 || a.is_published === true);
       }).slice(0, 3);
       
       // Si on a des articles réels, on les utilise, sinon on peut utiliser les statiques (attention aux IDs)

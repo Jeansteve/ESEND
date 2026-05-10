@@ -34,8 +34,17 @@ const DisinfectionPage = () => {
     // Charger les articles réels et filtrer par catégorie hygiène/désinfection
     dataService.getArticles().then(allArticles => {
       const filtered = (allArticles || []).filter(a => {
-        const t = (a.title + ' ' + a.excerpt + ' ' + (a.category_id || '')).toLowerCase();
-        return t.includes('désinfection') || t.includes('hygiène') || a.category_id === 'hygiene';
+        // Logique de filtrage multi-critères (ID 6 = Désinfection dans SERVICES, ID 2 = Désinfection dans Pôle Service)
+        const sId = String(a.service_id || '');
+        const nTag = String(a.nuisible_tag || '');
+        const catId = String(a.category_id || '');
+        const title = (a.title || '').toLowerCase();
+        const excerpt = (a.excerpt || '').toLowerCase();
+
+        const matchesId = sId === '2' || sId === '6' || nTag === '6' || catId === 'hygiene' || catId === 'desinfection';
+        const matchesText = title.includes('désinfection') || title.includes('desinfection') || title.includes('hygiène') || excerpt.includes('désinfection');
+
+        return (matchesId || matchesText) && (a.is_published == 1 || a.is_published === true);
       }).slice(0, 3);
       
       if (filtered.length > 0) {
