@@ -6,6 +6,28 @@
 - Toute MEP (Mise En Production) doit être précédée d'une demande d'autorisation claire.
 - Le flux obligatoire est : **Développement Local > Poussée sur `test` > Validation Utilisateur > Ordre de MEP > Poussée sur `main`**.
 
+### 🛡️ PROTOCOLE ANTI-RÉGRESSION UNIVERSEL (ESEND-QA V2)
+*À appliquer avant toute validation de changement (Code, CSS, API ou Config).*
+
+#### 1. PHASE D'ANALYSE (AVANT)
+- **Périmètre** : Identifier si la modification touche un composant partagé (Header, Footer, Layout).
+- **Impact Sticky** : Vérifier si des parents d'éléments fixes sont modifiés (Ne jamais mettre `overflow: hidden` sur ces derniers, utiliser `clip`).
+
+#### 2. PHASE DE DÉVELOPPEMENT (PENDANT)
+- **Changements Atomiques** : Une seule tâche à la fois pour faciliter le debug.
+- **Cohérence Variables** : Utiliser les variables CSS globales (`--bg-primary`, etc.) pour éviter les "tâches" de couleurs incohérentes.
+- **Isolation** : Vérifier que les nouveaux styles n'écrasent pas des règles globales par accident.
+
+#### 3. PHASE DE VALIDATION (APRÈS)
+- **Build Local** : `npm run build` obligatoire pour intercepter les erreurs de syntaxe JSX/JS.
+- **Responsive 3-Points** : Contrôle systématique sur Mobile, Tablette et PC.
+- **Audit de Nettoyage** : Suppression des `console.log`, logs SMTP ou erreurs PHP détaillées.
+- **Transition de Thème** : Vérifier la lisibilité du Header/FAB sur les passages Sombres <-> Claires.
+
+#### 4. FLUX DE MISE EN PRODUCTION (MEP)
+- **Branche Test** : Poussée obligatoire sur `test` pour validation visuelle par l'utilisateur.
+- **Autorisation** : AUCUN push sur `main` sans feu vert explicite (Règle d'Or N°1).
+
 ---
 
 ### [PSA-2026-03-24-B] : Collision Header & Pitfall justify-center

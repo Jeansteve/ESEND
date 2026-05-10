@@ -515,6 +515,7 @@ const PestPage = () => {
                 <ShieldCheck className="w-5 h-5" /> Devis offert sans engagement sous 15 minutes
               </p>
           </div>
+        </div>
       </div>
     </div>
   );
