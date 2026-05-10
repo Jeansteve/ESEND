@@ -18,8 +18,10 @@ const PestPage = () => {
   const type = searchParams.get('type') || 'punaises-de-lit';
   const pest = pests[type] || pests['punaises-de-lit'];
 
-  // Articles réels depuis l'API
+  // Données réelles depuis l'API
   const [relatedArticles, setRelatedArticles] = useState([]);
+  const [realInterventions, setRealInterventions] = useState([]);
+  const [isLoadingInterventions, setIsLoadingInterventions] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,6 +42,26 @@ const PestPage = () => {
       }
     }).catch(() => {
       setRelatedArticles(staticArticles.filter(a => a.pestType === type).slice(0, 3));
+    });
+
+    // Charger les interventions réelles
+    setIsLoadingInterventions(true);
+    dataService.getProjects().then(allProjects => {
+      // Filtrer par catégorie et s'assurer qu'elles sont publiées
+      const filtered = (allProjects || []).filter(p => {
+        const isPublished = p.is_published == 1 || p.is_published === true;
+        const matchesCategory = p.category === 'nuisibles' || p.category === type;
+        // On peut aussi chercher le type de nuisible dans les tags ou le titre
+        const matchesType = (p.title + ' ' + (p.tag || '')).toLowerCase().includes(type.replace('-', ' '));
+        return isPublished && (matchesCategory || matchesType);
+      }).slice(0, 2);
+      
+      setRealInterventions(filtered);
+      setIsLoadingInterventions(false);
+    }).catch(err => {
+      console.error("[PestPage] Error fetching interventions:", err);
+      setRealInterventions([]);
+      setIsLoadingInterventions(false);
     });
   }, [type]);
 
@@ -63,8 +85,6 @@ const PestPage = () => {
     if (step < diagnosticQuestions.length - 1) setStep(s => s + 1);
     else setStep(3); // Result step
   };
-
-  const relatedInterventions = interventions.filter(i => i.category === type).slice(0, 2);
 
   // Données structurées SEO (JSON-LD)
   const jsonLd = {
@@ -374,7 +394,7 @@ const PestPage = () => {
       <div className="bg-white text-slate-900 pt-32 pb-20 mt-0 relative">
         <div className="max-w-7xl mx-auto px-4 lg:px-6 relative">
           {/* Expertise Terrain */}
-          {relatedInterventions.length > 0 && (
+          {realInterventions.length > 0 && (
             <div className="mb-24">
               <motion.h2 
                  initial={{ opacity: 0, x: -20 }}
@@ -384,33 +404,59 @@ const PestPage = () => {
               >
                  <Target className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
               </motion.h2>
-              <div className="grid md:grid-cols-2 gap-10">
-                {relatedInterventions.map((item) => (
+              <div className="grid md:grid-cols-2 gap-8">
+                {realInterventions.map((item, index) => (
                   <motion.div 
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="group relative overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-200 flex flex-col shadow-xl hover:shadow-2xl transition-all duration-500"
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-slate-50 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col h-full"
                   >
-                    <div className="h-72 relative overflow-hidden">
-                      <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent" />
-                      <div className="absolute bottom-6 left-6 flex items-center gap-2 bg-red-600 px-4 py-2 rounded-full">
-                         <MapPin className="w-3.5 h-3.5 text-white" />
-                         <span className="text-[11px] font-black uppercase tracking-widest text-white">{item.location}</span>
+                    <div className="h-64 relative overflow-hidden bg-slate-200">
+                      <img 
+                        src={item.img || item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                      />
+                      <div className="absolute top-6 left-6">
+                        <span className="px-4 py-2 rounded-full bg-red-600 text-[10px] font-black uppercase text-white shadow-lg">
+                          {item.tag || item.category}
+                        </span>
                       </div>
                     </div>
-                    <div className="p-10">
-                      <h3 className="text-3xl font-black uppercase mb-4 text-slate-900 group-hover:text-red-600 transition-colors">{item.title}</h3>
-                      <p className="text-slate-600 text-base mb-8 leading-relaxed italic font-medium">"{item.description}"</p>
-                      <div className="flex items-center gap-4 pt-8 border-t border-slate-200">
-                        <div className="flex items-center gap-2 text-green-600">
-                          <CheckCircle className="w-5 h-5" />
-                          <span className="text-xs font-black uppercase tracking-widest">Résultat garanti</span>
+                    
+                    <div className="p-10 flex flex-col flex-grow">
+                      <div className="flex items-center gap-4 mb-6 text-slate-400">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-red-500" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">{item.location || 'Sud-Est'}</span>
                         </div>
-                        <Link to="/realisations" className="ml-auto text-xs font-black uppercase tracking-widest text-slate-400 hover:text-red-600 flex items-center gap-2 transition-colors">
-                          Détails <ArrowRight className="w-4 h-4" />
+                        <div className="w-1 h-1 bg-slate-300 rounded-full" />
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-red-500" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">{item.date || 'Récemment'}</span>
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-tight group-hover:text-red-600 transition-colors">
+                        {item.title}
+                      </h3>
+                      
+                      <p className="text-slate-600 font-medium leading-relaxed mb-8 flex-grow">
+                        {item.description || item.excerpt}
+                      </p>
+                      
+                      <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                            <Target className="w-4 h-4 text-slate-400" />
+                          </div>
+                          <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Mission Accomplie</span>
+                        </div>
+                        <Link to="/realisations" className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-white hover:bg-red-600 transition-all hover:scale-110 shadow-lg">
+                          <ArrowRight className="w-5 h-5" />
                         </Link>
                       </div>
                     </div>

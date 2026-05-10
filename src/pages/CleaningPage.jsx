@@ -23,6 +23,7 @@ import { useSettings } from '../context/SettingsContext';
 const CleaningPage = () => {
   const { settings } = useSettings();
   const [relatedArticles, setRelatedArticles] = useState([]);
+  const [realInterventions, setRealInterventions] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,6 +43,16 @@ const CleaningPage = () => {
     }).catch(() => {
       setRelatedArticles(staticArticles.filter(a => a.category_id === 'nettoyage' || a.title.toLowerCase().includes('nettoyage')).slice(0, 3));
     });
+
+    // Charger les interventions réelles
+    dataService.getProjects().then(allProjects => {
+      const filtered = (allProjects || []).filter(p => {
+        const isPublished = p.is_published == 1 || p.is_published === true;
+        const matchesCategory = p.category === 'nettoyage' || (p.title + ' ' + (p.tag || '')).toLowerCase().includes('nettoyage');
+        return isPublished && matchesCategory;
+      }).slice(0, 2);
+      setRealInterventions(filtered);
+    }).catch(() => setRealInterventions([]));
   }, []);
 
   return (
@@ -267,6 +278,82 @@ const CleaningPage = () => {
             ))}
           </div>
         </div>
+
+        {/* SECTION INTERVENTIONS (MAGAZINE STYLE) */}
+        {realInterventions.length > 0 && (
+          <div className="bg-white text-slate-900 -mx-4 lg:-mx-6 px-4 lg:px-6 pt-32 pb-32 mb-20 relative">
+            <div className="max-w-7xl mx-auto">
+              <motion.h2 
+                 initial={{ opacity: 0, x: -20 }}
+                 whileInView={{ opacity: 1, x: 0 }}
+                 viewport={{ once: true }}
+                 className="text-3xl lg:text-5xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4"
+              >
+                 <Target className="text-indigo-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
+              </motion.h2>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                {realInterventions.map((item, index) => (
+                  <motion.div 
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-slate-50 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col h-full"
+                  >
+                    <div className="h-64 relative overflow-hidden bg-slate-200">
+                      <img 
+                        src={item.img || item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                      />
+                      <div className="absolute top-6 left-6">
+                        <span className="px-4 py-2 rounded-full bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg">
+                          {item.tag || item.category}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="p-10 flex flex-col flex-grow">
+                      <div className="flex items-center gap-4 mb-6 text-slate-400">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-indigo-500" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">{item.location || 'Sud-Est'}</span>
+                        </div>
+                        <div className="w-1 h-1 bg-slate-300 rounded-full" />
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-indigo-500" />
+                          <span className="text-[10px] font-black uppercase tracking-widest">{item.date || 'Récemment'}</span>
+                        </div>
+                      </div>
+                      
+                      <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-tight group-hover:text-indigo-600 transition-colors">
+                        {item.title}
+                      </h3>
+                      
+                      <p className="text-slate-600 font-medium leading-relaxed mb-8 flex-grow">
+                        {item.description || item.excerpt}
+                      </p>
+                      
+                      <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                            <Target className="w-4 h-4 text-slate-400" />
+                          </div>
+                          <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Finition Crystal</span>
+                        </div>
+                        <Link to="/realisations" className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-white hover:bg-indigo-600 transition-all hover:scale-110 shadow-lg">
+                          <ArrowRight className="w-5 h-5" />
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* CTA Final */}
         <div className="text-center bg-slate-900/60 border border-indigo-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">

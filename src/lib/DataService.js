@@ -92,6 +92,13 @@ class DataService {
     }
 
     /**
+     * Récupère la liste des interventions (projets)
+     */
+    async getProjects(options = {}) {
+        return this.fetchCached('projects', () => api.getProjects(), options);
+    }
+
+    /**
      * Invalide tout ou partie du cache
      */
     invalidateCache(key = null) {
