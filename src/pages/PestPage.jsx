@@ -95,15 +95,19 @@ const PestPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20">
+    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 relative overflow-hidden">
+      {/* Lueurs d'ambiance dynamiques */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
+      
       <script type="application/ld+json">
         {JSON.stringify(jsonLd)}
       </script>
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-6 relative">
+      
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-10 relative">
         
-        {/* Sélecteur Premium Sidebar Fixe (PC/Tablette) : Plus compact */}
         <div className="w-full md:w-56 lg:w-64 shrink-0 z-20 relative">
-          <div className="md:sticky md:top-32 md:w-56 lg:w-64 relative flex md:flex-col w-full bg-slate-900/50 backdrop-blur-xl border border-white/5 p-2 rounded-3xl overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+          <div className="md:sticky md:top-32 md:w-56 lg:w-64 relative flex md:flex-col w-full bg-slate-900/40 backdrop-blur-2xl border border-white/10 p-2.5 rounded-[2rem] overflow-x-auto md:overflow-visible no-scrollbar shadow-[0_30px_60px_rgba(0,0,0,0.4)]">
             <div className="flex md:flex-col w-full min-w-max md:min-w-0 gap-1 md:gap-2">
               {pestKeys.map(key => {
                 const isActive = type === key;
@@ -152,7 +156,7 @@ const PestPage = () => {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-black tracking-tighter uppercase mb-6 leading-none"
+            className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none text-white drop-shadow-2xl"
           >
             {pest.title}
           </motion.h1>
@@ -161,7 +165,7 @@ const PestPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-slate-300 font-bold uppercase tracking-widest border-l-4 border-red-600 pl-6 py-2"
+            className="text-lg md:text-2xl text-slate-200 font-bold uppercase tracking-widest border-l-8 border-red-600 pl-8 py-3 bg-white/5 rounded-r-2xl inline-block pr-10"
           >
             {pest.description}
           </motion.p>
@@ -172,7 +176,7 @@ const PestPage = () => {
            initial={{ opacity: 0, y: 20 }} 
            animate={{ opacity: 1, y: 0 }}
            transition={{ delay: 0.2 }}
-           className="bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 md:p-14 rounded-[2.5rem] shadow-2xl relative overflow-hidden group mb-10"
+           className="bg-[#0f172a]/60 backdrop-blur-xl border border-white/10 p-8 md:p-14 rounded-[3rem] shadow-2xl relative overflow-hidden group mb-12"
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 blur-[150px] -z-10" />
           
@@ -227,7 +231,7 @@ const PestPage = () => {
         </motion.div>
 
         {/* Widget Calculateur de Gravité */}
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 p-8 sm:p-12 rounded-[2.5rem] mb-16 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+        <div className="bg-white/[0.03] backdrop-blur-xl border border-white/5 p-8 sm:p-12 rounded-[3rem] mb-20 shadow-[0_30px_70px_rgba(0,0,0,0.6)]">
           <h3 className="text-2xl font-black uppercase mb-8 flex items-center gap-3"><Calculator className="text-red-600" /> Évaluez la gravité</h3>
           
           <div className="relative h-1.5 bg-slate-800 rounded-full mb-10 overflow-hidden">
@@ -327,20 +331,23 @@ const PestPage = () => {
                 >
                     <Shield className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Mythes vs Réalité
                 </motion.h2>
-                <div className="flex flex-col gap-4">
-                    {pest.mythesVsRealite.map((item, idx) => (
+                <div className="flex flex-col gap-5 relative">
+                    {/* Glow discret pour la section Mythes */}
+                    <div className="absolute -left-20 top-0 w-64 h-64 bg-red-600/5 blur-[100px] pointer-events-none" />
+                    
+                    {pests[type].mythesVsRealite.map((item, idx) => (
                         <motion.div 
                            key={idx} 
                            initial={{ opacity: 0, x: -20 }}
                            whileInView={{ opacity: 1, x: 0 }}
                            whileHover={{ 
                              x: 10, 
-                             backgroundColor: "rgba(255,255,255,0.03)",
-                             borderColor: "rgba(220,38,38,0.3)"
+                             backgroundColor: "rgba(255,255,255,0.04)",
+                             borderColor: "rgba(220,38,38,0.4)"
                            }}
                            viewport={{ once: true }}
                            transition={{ delay: idx * 0.1, duration: 0.4 }}
-                           className="bg-white/[0.01] border border-white/5 p-5 rounded-2xl flex flex-col md:flex-row gap-6 items-center transition-all shadow-lg cursor-default"
+                           className="bg-white/[0.02] border border-white/10 p-6 md:p-8 rounded-[2rem] flex flex-col md:flex-row gap-8 items-center transition-all shadow-xl cursor-default"
                         >
                             <div className="w-full md:w-1/3 shrink-0">
                                 <div className="flex items-center gap-2 mb-2 text-red-500/80 font-black uppercase text-[10px] tracking-[0.2em]"><XCircle className="w-4 h-4" /> Mythe</div>
@@ -426,7 +433,7 @@ const PestPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="group bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-red-600/30 transition-all flex flex-col cursor-pointer"
+                  className="group bg-[#0f172a]/40 backdrop-blur-md border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-red-600/50 transition-all flex flex-col cursor-pointer shadow-2xl"
                 >
                   <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
                     <div className="h-48 relative overflow-hidden">
@@ -467,7 +474,7 @@ const PestPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white/[0.02] border border-white/5 p-6 rounded-[1.5rem] hover:border-red-500/30 transition-all cursor-pointer"
+                className="group bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] hover:border-red-500/50 transition-all cursor-pointer shadow-lg"
               >
                 <summary className="font-bold text-xl flex justify-between items-center list-none outline-none">
                   {item.q}
