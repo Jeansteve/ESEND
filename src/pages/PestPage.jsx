@@ -95,7 +95,7 @@ const PestPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 relative overflow-hidden">
+    <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-0 relative overflow-clip">
       {/* Lueurs d'ambiance dynamiques */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
@@ -367,147 +367,154 @@ const PestPage = () => {
         )}
 
 
-        {/* Expertise Terrain (Nouveau) */}
-        {relatedInterventions.length > 0 && (
-          <div className="mb-20">
-            <motion.h2 
-               initial={{ opacity: 0, x: -20 }}
-               whileInView={{ opacity: 1, x: 0 }}
-               viewport={{ once: true }}
-               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
-            >
-               <Target className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Nos Interventions Récentes
-            </motion.h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              {relatedInterventions.map((item) => (
-                <motion.div 
-                  key={item.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="group relative overflow-hidden rounded-[2.5rem] bg-slate-900/40 border border-white/5 flex flex-col shadow-xl"
-                >
-                  <div className="h-64 relative overflow-hidden">
-                    <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent opacity-80" />
-                    <div className="absolute bottom-6 left-6 flex items-center gap-2 bg-red-600 px-3 py-1.5 rounded-full">
-                       <MapPin className="w-3 h-3 text-white" />
-                       <span className="text-[10px] font-black uppercase tracking-widest text-white">{item.location}</span>
-                    </div>
-                  </div>
-                  <div className="p-8">
-                    <h3 className="text-2xl font-black uppercase mb-4 group-hover:text-red-500 transition-colors">{item.title}</h3>
-                    <p className="text-slate-400 text-sm mb-6 leading-relaxed italic">"{item.description}"</p>
-                    <div className="flex items-center gap-4 pt-6 border-t border-white/5">
-                      <div className="flex items-center gap-2 text-green-400">
-                        <CheckCircle className="w-4 h-4" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Résultat validé</span>
-                      </div>
-                      <Link to="/realisations" className="ml-auto text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white flex items-center gap-2">
-                        Détails <ArrowRight className="w-3 h-3" />
-                      </Link>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
+        </div>
+      </div>
 
-        {/* Le Journal de l'Expert (Restauré) */}
-        {relatedArticles.length > 0 && (
-          <div className="mb-20">
+      {/* SECTION BLANCHE (MAGAZINE STYLE) */}
+      <div className="bg-white text-slate-900 pt-24 pb-20 mt-20 relative">
+        {/* Transition douce */}
+        <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#020617] to-white" />
+        
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 relative">
+          {/* Expertise Terrain */}
+          {relatedInterventions.length > 0 && (
+            <div className="mb-24">
+              <motion.h2 
+                 initial={{ opacity: 0, x: -20 }}
+                 whileInView={{ opacity: 1, x: 0 }}
+                 viewport={{ once: true }}
+                 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4 text-slate-900"
+              >
+                 <Target className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
+              </motion.h2>
+              <div className="grid md:grid-cols-2 gap-10">
+                {relatedInterventions.map((item) => (
+                  <motion.div 
+                    key={item.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="group relative overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-200 flex flex-col shadow-xl hover:shadow-2xl transition-all duration-500"
+                  >
+                    <div className="h-72 relative overflow-hidden">
+                      <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent" />
+                      <div className="absolute bottom-6 left-6 flex items-center gap-2 bg-red-600 px-4 py-2 rounded-full">
+                         <MapPin className="w-3.5 h-3.5 text-white" />
+                         <span className="text-[11px] font-black uppercase tracking-widest text-white">{item.location}</span>
+                      </div>
+                    </div>
+                    <div className="p-10">
+                      <h3 className="text-3xl font-black uppercase mb-4 text-slate-900 group-hover:text-red-600 transition-colors">{item.title}</h3>
+                      <p className="text-slate-600 text-base mb-8 leading-relaxed italic font-medium">"{item.description}"</p>
+                      <div className="flex items-center gap-4 pt-8 border-t border-slate-200">
+                        <div className="flex items-center gap-2 text-green-600">
+                          <CheckCircle className="w-5 h-5" />
+                          <span className="text-xs font-black uppercase tracking-widest">Résultat garanti</span>
+                        </div>
+                        <Link to="/realisations" className="ml-auto text-xs font-black uppercase tracking-widest text-slate-400 hover:text-red-600 flex items-center gap-2 transition-colors">
+                          Détails <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Le Journal de l'Expert */}
+          {relatedArticles.length > 0 && (
+            <div className="mb-24">
+              <motion.h2 
+                 initial={{ opacity: 0, x: -20 }}
+                 whileInView={{ opacity: 1, x: 0 }}
+                 viewport={{ once: true }}
+                 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4 text-slate-900"
+              >
+                 <BookOpen className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> Le Journal de l'Expert
+              </motion.h2>
+              <div className="grid lg:grid-cols-3 gap-8">
+                {relatedArticles.map((article, index) => (
+                  <motion.article 
+                    key={article.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden hover:border-red-600/30 transition-all flex flex-col cursor-pointer shadow-lg hover:shadow-2xl"
+                  >
+                    <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
+                      <div className="h-56 relative overflow-hidden">
+                        <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
+                      </div>
+                      <div className="p-8 flex flex-col flex-grow">
+                        <div className="flex items-center gap-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">
+                          <Calendar className="w-3.5 h-3.5" /> {article.date}
+                        </div>
+                        <h3 className="text-xl font-black leading-tight mb-4 text-slate-900 group-hover:text-red-600 transition-colors uppercase italic">{article.title}</h3>
+                        <p className="text-slate-600 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">{article.excerpt}</p>
+                        <div className="text-red-600 text-xs font-black uppercase tracking-widest flex items-center gap-2 group/btn">
+                          Lire la suite <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* FAQ Expertise */}
+          <div className="mb-24">
             <motion.h2 
                initial={{ opacity: 0, x: -20 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
-               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+               className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4 text-slate-900"
             >
-               <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
+               <Info className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> FAQ Expertise
             </motion.h2>
-            <div className="grid lg:grid-cols-3 gap-6">
-              {relatedArticles.map((article, index) => (
-                <motion.article 
-                  key={article.id}
-                  initial={{ opacity: 0, y: 20 }}
+            <div className="space-y-5">
+              {pest.faq.map((item, index) => (
+                <motion.details 
+                  key={index} 
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group bg-[#0f172a]/40 backdrop-blur-md border border-white/10 rounded-[2.5rem] overflow-hidden hover:border-red-600/50 transition-all flex flex-col cursor-pointer shadow-2xl"
+                  className="group bg-slate-50 border border-slate-200 p-8 rounded-[2rem] hover:border-red-500/30 transition-all cursor-pointer shadow-sm hover:shadow-md"
                 >
-                  <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
-                    <div className="h-48 relative overflow-hidden">
-                      <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                  <summary className="font-black text-xl flex justify-between items-center list-none outline-none text-slate-900">
+                    {item.q}
+                    <div className="bg-white p-2.5 rounded-full border border-slate-200 group-open:bg-red-50 group-open:text-red-600 transition-colors shrink-0 ml-4">
+                       <ChevronDown className="w-6 h-6 group-open:rotate-180 transition-transform duration-300" />
                     </div>
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="flex items-center gap-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-3">
-                        <Calendar className="w-3 h-3" /> {article.date}
-                      </div>
-                      <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-red-500 transition-colors uppercase italic">{article.title}</h3>
-                      <p className="text-slate-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">{article.excerpt}</p>
-                      <div className="text-red-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/btn">
-                        Lire la suite <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </Link>
-                </motion.article>
+                  </summary>
+                  <p className="mt-8 text-slate-600 leading-relaxed text-lg border-t border-slate-200 pt-6 font-medium">
+                    {item.a}
+                  </p>
+                </motion.details>
               ))}
             </div>
           </div>
-        )}
 
-        {/* FAQ Expertise (Déplacée en fin de page) */}
-        <div className="mb-20">
-          <motion.h2 
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             viewport={{ once: true }}
-             className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
-          >
-             <BookOpen className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise
-          </motion.h2>
-          <div className="space-y-4">
-            {pest.faq.map((item, index) => (
-              <motion.details 
-                key={index} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-white/[0.03] border border-white/10 p-8 rounded-[2rem] hover:border-red-500/50 transition-all cursor-pointer shadow-lg"
-              >
-                <summary className="font-bold text-xl flex justify-between items-center list-none outline-none">
-                  {item.q}
-                  <div className="bg-white/5 p-2 rounded-full group-open:bg-red-600/20 group-open:text-red-500 transition-colors shrink-0 ml-4">
-                     <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform duration-300" />
-                  </div>
-                </summary>
-                <p className="mt-6 text-slate-400 leading-relaxed text-lg border-t border-white/5 pt-4">
-                  {item.a}
-                </p>
-              </motion.details>
-            ))}
+          <div className="text-center bg-slate-900 text-white p-12 md:p-20 rounded-[4rem] shadow-3xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] -z-10" />
+              <h4 className="text-4xl md:text-6xl font-black uppercase mb-10 tracking-tighter leading-none">Prêt à sécuriser<br/>votre foyer ?</h4>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
+                <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-6 px-14 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)] text-lg">
+                  Demander mon devis offert
+                </Link>
+                <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-6 px-14 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-4 text-lg">
+                  <Phone className="w-6 h-6 text-red-500" />
+                  {settings.company_phone}
+                </a>
+              </div>
+              <p className="mt-10 text-slate-500 text-xs font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3">
+                <ShieldCheck className="w-5 h-5" /> Devis offert sans engagement sous 15 minutes
+              </p>
           </div>
-        </div>
-
-
-        <div className="text-center bg-slate-900/60 border border-red-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/5 blur-[80px] -z-10" />
-            <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter">Prêt à sécuriser votre foyer ?</h4>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)]">
-                Demander un devis gratuit
-              </Link>
-              <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
-                <Phone className="w-5 h-5 text-red-500" />
-                {settings.company_phone}
-              </a>
-            </div>
-            <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-              <ShieldCheck className="w-4 h-4" /> Devis sans engagement sous 15 minutes
-            </p>
-        </div>
-        </div>
       </div>
     </div>
   );
