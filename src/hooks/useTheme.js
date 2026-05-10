@@ -9,9 +9,9 @@ export const useTheme = () => {
     // Calcul déterministe du thème (Verrouillage ESEND)
     // Public = Dark (Frozen Night) | Admin = Light (Morning Mist)
     const getTargetTheme = () => {
-        const hash = window.location.hash;
-        const isAdmin = hash.includes('/admin');
-        console.log("[useTheme] Path detected:", hash, "| isAdmin:", isAdmin);
+        const path = window.location.pathname;
+        const isAdmin = path.includes('/admin');
+        console.log("[useTheme] Path detected:", path, "| isAdmin:", isAdmin);
         const target = isAdmin ? 'light' : 'dark';
         console.log("[useTheme] Target theme determined:", target);
         return target;
@@ -21,14 +21,24 @@ export const useTheme = () => {
 
     // Écouteur de changement de route pour appliquer le thème immédiatement lors de la navigation
     useEffect(() => {
-        const handleHashChange = () => {
+        const handleLocationChange = () => {
             const newTheme = getTargetTheme();
-            console.log("[useTheme] Hash changed, new theme:", newTheme);
+            console.log("[useTheme] Location changed, new theme:", newTheme);
             setTheme(newTheme);
         };
 
-        window.addEventListener('hashchange', handleHashChange);
-        return () => window.removeEventListener('hashchange', handleHashChange);
+        window.addEventListener('popstate', handleLocationChange);
+        // On écoute aussi les changements via history.pushState (utilisé par React Router)
+        const originalPushState = window.history.pushState;
+        window.history.pushState = function() {
+            originalPushState.apply(this, arguments);
+            handleLocationChange();
+        };
+
+        return () => {
+            window.removeEventListener('popstate', handleLocationChange);
+            window.history.pushState = originalPushState;
+        };
     }, []);
 
     // Application physique du thème au document
