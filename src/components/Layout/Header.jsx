@@ -107,13 +107,13 @@ const Header = () => {
                 onMouseEnter={() => setHoveredItem(item.name)}
                 onMouseLeave={() => setHoveredItem(null)}
             >
-                <div className="flex items-center gap-1.5 cursor-pointer group">
+                <div className="flex items-center gap-1.5 cursor-pointer group drop-shadow-sm">
                     {item.type === 'link' ? (
-                        <Link to={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] group-hover:text-[var(--text-main)] transition-colors">{item.name}</Link>
+                        <Link to={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[12px] font-black uppercase tracking-[0.15em] text-white/80 group-hover:text-white transition-all duration-300">{item.name}</Link>
                     ) : (
-                        <a href={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] group-hover:text-[var(--text-main)] transition-colors">{item.name}</a>
+                        <a href={item.href} onClick={(e) => handleNavClick(e, item)} className="text-[12px] font-black uppercase tracking-[0.15em] text-white/80 group-hover:text-white transition-all duration-300">{item.name}</a>
                     )}
-                    {item.subItems && <ChevronDown className={`w-3.5 h-3.5 text-[var(--text-dimmed)] group-hover:text-red-500 transition-all ${hoveredItem === item.name ? 'rotate-180' : ''}`} />}
+                    {item.subItems && <ChevronDown className={`w-3.5 h-3.5 text-white/60 group-hover:text-red-500 transition-all ${hoveredItem === item.name ? 'rotate-180' : ''}`} />}
                 </div>
 
                 {/* Submenu Desktop */}
