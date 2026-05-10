@@ -371,10 +371,7 @@ const PestPage = () => {
       </div>
 
       {/* SECTION BLANCHE (MAGAZINE STYLE) */}
-      <div className="bg-white text-slate-900 pt-24 pb-20 mt-20 relative">
-        {/* Transition douce */}
-        <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-[#020617] to-white" />
-        
+      <div className="bg-white text-slate-900 pt-32 pb-20 mt-0 relative">
         <div className="max-w-7xl mx-auto px-4 lg:px-6 relative">
           {/* Expertise Terrain */}
           {relatedInterventions.length > 0 && (
