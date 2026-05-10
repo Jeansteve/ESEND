@@ -203,180 +203,181 @@ const CleaningPage = () => {
             </div>
         </div>
 
-        {/* Le Journal de l'Expert */}
-        {relatedArticles.length > 0 && (
-          <div className="mb-20">
+      </div>
+
+      {/* SECTION BLANCHE (MAGAZINE STYLE) */}
+      {realInterventions.length > 0 && (
+        <div className="bg-white text-slate-900 pt-32 pb-20 mt-20 relative">
+          <div className="max-w-7xl mx-auto px-4 lg:px-6 relative">
             <motion.h2 
                initial={{ opacity: 0, x: -20 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
-               className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+               className="text-3xl lg:text-5xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4"
             >
-               <BookOpen className="text-indigo-500 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
+               <Target className="text-indigo-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
             </motion.h2>
-            <div className="grid lg:grid-cols-3 gap-6">
-              {relatedArticles.map((article, index) => (
-                <motion.article 
-                  key={article.id}
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-24">
+              {realInterventions.map((item, index) => (
+                <motion.div 
+                  key={item.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="group bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all flex flex-col cursor-pointer"
+                  className="group bg-slate-50 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col h-full"
                 >
-                  <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
-                    <div className="h-48 relative overflow-hidden">
-                      <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                  <div className="h-64 relative overflow-hidden bg-slate-200">
+                    <img 
+                      src={item.img || item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                    />
+                    <div className="absolute top-6 left-6">
+                      <span className="px-4 py-2 rounded-full bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg">
+                        {item.tag || item.category}
+                      </span>
                     </div>
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="flex items-center gap-3 text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-3">
-                        <Calendar className="w-3 h-3" /> {article.date}
+                  </div>
+                  
+                  <div className="p-10 flex flex-col flex-grow">
+                    <div className="flex items-center gap-4 mb-6 text-slate-400">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-indigo-500" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">{item.location || 'Sud-Est'}</span>
                       </div>
-                      <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-indigo-400 transition-colors uppercase italic">{article.title}</h3>
-                      <p className="text-slate-400 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">{article.excerpt}</p>
-                      <div className="text-indigo-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/btn">
-                        Lire la suite <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                      <div className="w-1 h-1 bg-slate-300 rounded-full" />
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-indigo-500" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">{item.date || 'Récemment'}</span>
                       </div>
                     </div>
-                  </Link>
-                </motion.article>
+                    
+                    <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-tight group-hover:text-indigo-600 transition-colors">
+                      {item.title}
+                    </h3>
+                    
+                    <p className="text-slate-600 font-medium leading-relaxed mb-8 flex-grow">
+                      {item.description || item.excerpt}
+                    </p>
+                    
+                    <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                          <Target className="w-4 h-4 text-slate-400" />
+                        </div>
+                        <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Finition Crystal</span>
+                      </div>
+                      <Link to="/realisations" className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-white hover:bg-indigo-600 transition-all hover:scale-110 shadow-lg">
+                        <ArrowRight className="w-5 h-5" />
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
-          </div>
-        )}
 
-        {/* FAQ Expertise */}
-        <div className="mb-20">
-          <motion.h2 
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             viewport={{ once: true }}
-             className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
-          >
-             <ShieldCheck className="text-indigo-500 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise Technique
-          </motion.h2>
-          <div className="space-y-4">
-            {data.faq.map((item, index) => (
-              <motion.details 
-                key={index} 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-white/[0.02] border border-white/5 p-6 rounded-[1.5rem] hover:border-indigo-500/30 transition-all cursor-pointer"
-              >
-                <summary className="font-bold text-xl flex justify-between items-center list-none outline-none">
-                  {item.q}
-                  <div className="bg-white/5 p-2 rounded-full group-open:bg-indigo-600/20 group-open:text-indigo-400 transition-colors shrink-0 ml-4">
-                     <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform duration-300" />
-                  </div>
-                </summary>
-                <p className="mt-6 text-slate-400 leading-relaxed text-lg border-t border-white/5 pt-4">
-                  {item.a}
-                </p>
-              </motion.details>
-            ))}
-          </div>
-        </div>
+            {/* Le Journal de l'Expert (dans la zone blanche) */}
+            {relatedArticles.length > 0 && (
+              <div className="mb-24">
+                <motion.h2 
+                   initial={{ opacity: 0, x: -20 }}
+                   whileInView={{ opacity: 1, x: 0 }}
+                   viewport={{ once: true }}
+                   className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+                >
+                   <BookOpen className="text-indigo-600 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
+                </motion.h2>
+                <div className="grid lg:grid-cols-3 gap-6">
+                  {relatedArticles.map((article, index) => (
+                    <motion.article 
+                      key={article.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="group bg-slate-50 border border-slate-200 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all flex flex-col cursor-pointer shadow-sm hover:shadow-xl"
+                    >
+                      <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
+                        <div className="h-48 relative overflow-hidden">
+                          <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
+                        </div>
+                        <div className="p-6 flex flex-col flex-grow">
+                          <div className="flex items-center gap-3 text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+                            <Calendar className="w-3 h-3" /> {article.date}
+                          </div>
+                          <h3 className="text-lg font-bold leading-tight mb-3 group-hover:text-indigo-600 transition-colors uppercase italic">{article.title}</h3>
+                          <p className="text-slate-500 text-xs leading-relaxed mb-4 flex-grow line-clamp-2">{article.excerpt}</p>
+                          <div className="text-indigo-600 text-[10px] font-black uppercase tracking-widest flex items-center gap-2 group/btn">
+                            Lire la suite <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.article>
+                  ))}
+                </div>
+              </div>
+            )}
 
-        {/* SECTION INTERVENTIONS (MAGAZINE STYLE) */}
-        {realInterventions.length > 0 && (
-          <div className="bg-white text-slate-900 -mx-4 lg:-mx-6 px-4 lg:px-6 pt-32 pb-32 mb-20 relative">
-            <div className="max-w-7xl mx-auto">
+            {/* FAQ Expertise (dans la zone blanche) */}
+            <div className="mb-24">
               <motion.h2 
                  initial={{ opacity: 0, x: -20 }}
                  whileInView={{ opacity: 1, x: 0 }}
                  viewport={{ once: true }}
-                 className="text-3xl lg:text-5xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4"
+                 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
               >
-                 <Target className="text-indigo-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
+                 <ShieldCheck className="text-indigo-600 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise Technique
               </motion.h2>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                {realInterventions.map((item, index) => (
-                  <motion.div 
-                    key={item.id}
+              <div className="space-y-4">
+                {data.faq.map((item, index) => (
+                  <motion.details 
+                    key={index} 
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="group bg-slate-50 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col h-full"
+                    className="group bg-slate-50 border border-slate-200 p-6 rounded-[1.5rem] hover:border-indigo-500/30 transition-all cursor-pointer shadow-sm"
                   >
-                    <div className="h-64 relative overflow-hidden bg-slate-200">
-                      <img 
-                        src={item.img || item.image} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
-                      />
-                      <div className="absolute top-6 left-6">
-                        <span className="px-4 py-2 rounded-full bg-indigo-600 text-[10px] font-black uppercase text-white shadow-lg">
-                          {item.tag || item.category}
-                        </span>
+                    <summary className="font-bold text-xl flex justify-between items-center list-none outline-none text-slate-900">
+                      {item.q}
+                      <div className="bg-slate-200/50 p-2 rounded-full group-open:bg-indigo-600 group-open:text-white transition-all shrink-0 ml-4">
+                         <ChevronDown className="w-5 h-5 group-open:rotate-180 transition-transform duration-300" />
                       </div>
-                    </div>
-                    
-                    <div className="p-10 flex flex-col flex-grow">
-                      <div className="flex items-center gap-4 mb-6 text-slate-400">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-indigo-500" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">{item.location || 'Sud-Est'}</span>
-                        </div>
-                        <div className="w-1 h-1 bg-slate-300 rounded-full" />
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-indigo-500" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">{item.date || 'Récemment'}</span>
-                        </div>
-                      </div>
-                      
-                      <h3 className="text-3xl font-black uppercase tracking-tighter mb-4 leading-tight group-hover:text-indigo-600 transition-colors">
-                        {item.title}
-                      </h3>
-                      
-                      <p className="text-slate-600 font-medium leading-relaxed mb-8 flex-grow">
-                        {item.description || item.excerpt}
-                      </p>
-                      
-                      <div className="flex items-center justify-between pt-6 border-t border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
-                            <Target className="w-4 h-4 text-slate-400" />
-                          </div>
-                          <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">Finition Crystal</span>
-                        </div>
-                        <Link to="/realisations" className="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center text-white hover:bg-indigo-600 transition-all hover:scale-110 shadow-lg">
-                          <ArrowRight className="w-5 h-5" />
-                        </Link>
-                      </div>
-                    </div>
-                  </motion.div>
+                    </summary>
+                    <p className="mt-6 text-slate-600 leading-relaxed text-lg border-t border-slate-200 pt-4">
+                      {item.a}
+                    </p>
+                  </motion.details>
                 ))}
               </div>
             </div>
-          </div>
-        )}
 
-        {/* CTA Final */}
-        <div className="text-center bg-slate-900/60 border border-indigo-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[80px] -z-10" />
-            <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
-              <Sparkles className="text-indigo-500" /> Redonnez de l'éclat à votre patrimoine
-            </h4>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link to={{ pathname: "/", hash: "#devis" }} className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(79, 70, 229, 0.3)]">
-                Demander un nettoyage expert
-              </Link>
-              <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
-                <Phone className="w-5 h-5 text-indigo-500" />
-                {settings.company_phone}
-              </a>
+            {/* CTA Final */}
+            <div className="text-center bg-slate-900 border border-indigo-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden text-white">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[80px] -z-10" />
+                <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
+                  <Sparkles className="text-indigo-500" /> Redonnez de l'éclat à votre patrimoine
+                </h4>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                  <Link to={{ pathname: "/", hash: "#devis" }} className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(79, 70, 229, 0.3)]">
+                    Demander un nettoyage expert
+                  </Link>
+                  <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
+                    <Phone className="w-5 h-5 text-indigo-500" />
+                    {settings.company_phone}
+                  </a>
+                </div>
+                <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                  <CheckCircle className="w-4 h-4" /> Intervention Riviera • Finition Crystal Clear
+                </p>
             </div>
-            <p className="mt-6 text-slate-500 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-              <CheckCircle className="w-4 h-4" /> Intervention Riviera • Finition Crystal Clear
-            </p>
+          </div>
         </div>
+      )}
 
       </div>
-    </div>
   );
 };
 
