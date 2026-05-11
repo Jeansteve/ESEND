@@ -308,7 +308,7 @@ const CleaningPage = () => {
                       transition={{ delay: index * 0.1 }}
                       className="group bg-slate-50 border border-slate-200 rounded-3xl overflow-hidden hover:border-indigo-500/30 transition-all flex flex-col cursor-pointer shadow-sm hover:shadow-xl"
                     >
-                      <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
+                      <Link to={`/journal/${article.slug || article.id}`} className="flex flex-col h-full">
                         <div className="h-48 relative overflow-hidden">
                           <img src={article.image} alt={article.title} className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" />
                         </div>

@@ -503,7 +503,7 @@ const PestPage = () => {
                     transition={{ delay: index * 0.1 }}
                     className="group bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden hover:border-red-600/30 transition-all flex flex-col cursor-pointer shadow-lg hover:shadow-2xl"
                   >
-                    <Link to={`/journal/${article.id}`} className="flex flex-col h-full">
+                    <Link to={`/journal/${article.slug || article.id}`} className="flex flex-col h-full">
                       <div className="h-56 relative overflow-hidden">
                         <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
                         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />

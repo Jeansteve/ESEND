@@ -44,7 +44,7 @@ const BlogPage = () => {
   }, []);
 
   const handleArticleClick = (article) => {
-    navigate(`/journal/${article.id}`);
+    navigate(`/journal/${article.slug || article.id}`);
   };
 
   const handleMouseEnter = (article) => {
