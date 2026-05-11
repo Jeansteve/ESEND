@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 import { pests } from '../data/pests';
-import { articles as staticArticles } from '../data/articles';
 import { interventions } from '../data/interventions';
 import { dataService } from '../lib/DataService';
 
@@ -49,15 +48,10 @@ const PestPage = () => {
         return (matchesId || matchesText) && (a.is_published == 1 || a.is_published === true);
       }).slice(0, 3);
       
-      // Si on a des articles réels, on les utilise, sinon on peut utiliser les statiques (attention aux IDs)
-      if (filtered.length > 0) {
-        setRelatedArticles(filtered);
-      } else {
-        // Fallback sur les statiques filtrés
-        setRelatedArticles(staticArticles.filter(a => a.pestType === type).slice(0, 3));
-      }
+      // Si on a des articles réels, on les utilise
+      setRelatedArticles(filtered);
     }).catch(() => {
-      setRelatedArticles(staticArticles.filter(a => a.pestType === type).slice(0, 3));
+      setRelatedArticles([]);
     });
 
     // Charger les interventions réelles
