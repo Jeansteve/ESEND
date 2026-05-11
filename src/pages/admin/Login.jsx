@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, ShieldCheck } from 'lucide-react';
 import { api } from '../../lib/api';
+import SEO from '../../components/UI/SEO';
 
 
 
@@ -33,6 +34,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-6 transition-colors duration-300">
+      <SEO 
+        title="Connexion Administration" 
+        robots="noindex, nofollow" 
+      />
 
 
 

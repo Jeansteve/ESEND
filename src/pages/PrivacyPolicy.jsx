@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../lib/api';
 import { ShieldCheck, Database, Lock, Eye, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import SEO from '../components/UI/SEO';
 
 const PrivacyPolicy = () => {
   const [settings, setSettings] = useState(null);
@@ -35,6 +36,11 @@ const PrivacyPolicy = () => {
 
   return (
     <div className="bg-[var(--bg-primary)] min-h-screen pt-32 pb-20 px-6 font-sans">
+      <SEO 
+        title="Politique de Confidentialité" 
+        description="Protection et gestion de vos données personnelles (RGPD) par ESEND."
+        robots="noindex, nofollow"
+      />
       <div className="max-w-4xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

@@ -10,6 +10,7 @@ import { useSettings } from '../context/SettingsContext';
 import { pests } from '../data/pests';
 import { interventions } from '../data/interventions';
 import { dataService } from '../lib/DataService';
+import SEO from '../components/UI/SEO';
 
 const PestPage = () => {
   const { settings } = useSettings();
@@ -130,9 +131,11 @@ const PestPage = () => {
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 w-[600px] h-[600px] bg-blue-600/5 blur-[150px] rounded-full pointer-events-none" />
       
-      <script type="application/ld+json">
-        {JSON.stringify(jsonLd)}
-      </script>
+      <SEO 
+        title={`${pest.title} (06)`}
+        description={pest.description}
+        schema={jsonLd}
+      />
       
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-10 relative">
         

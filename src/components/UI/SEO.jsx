@@ -7,7 +7,7 @@ import { useEffect } from 'react';
  * @param {string} type - Type de page (website, article)
  * @param {object} schema - Données structurées optionnelles (JSON-LD)
  */
-const SEO = ({ title, description, type = 'website', schema }) => {
+const SEO = ({ title, description, type = 'website', schema, robots }) => {
   useEffect(() => {
     // 1. Mise à jour du Titre
     const fullTitle = title ? `${title} | ESEND Nuisibles` : 'ESEND - Expert Éradication Nuisibles & Désinfection';
@@ -15,7 +15,7 @@ const SEO = ({ title, description, type = 'website', schema }) => {
 
     // 2. Mise à jour des Meta Tags
     const updateMeta = (name, content, property = false) => {
-      if (!content) return;
+      if (content === undefined || content === null) return;
       const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
       let el = document.querySelector(selector);
       if (el) {
@@ -37,6 +37,19 @@ const SEO = ({ title, description, type = 'website', schema }) => {
     updateMeta('twitter:title', fullTitle);
     updateMeta('twitter:description', description);
 
+    // 2b. Gestion de la balise Robots
+    updateMeta('robots', robots || 'index, follow');
+
+    // 2c. Gestion de la balise Canonique
+    let canonicalEl = document.querySelector('link[rel="canonical"]');
+    const canonicalUrl = `https://esendnuisibles.fr${window.location.pathname}`;
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
+    }
+    canonicalEl.setAttribute('href', canonicalUrl);
+
     // 3. Gestion du Schéma JSON-LD
     let scriptTag = document.getElementById('json-ld-schema');
     if (schema) {
@@ -51,7 +64,7 @@ const SEO = ({ title, description, type = 'website', schema }) => {
       scriptTag.remove();
     }
 
-  }, [title, description, type, schema]);
+  }, [title, description, type, schema, robots]);
 
   return null; // Composant invisible
 };

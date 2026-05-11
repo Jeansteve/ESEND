@@ -44,6 +44,7 @@ import ProjectModal from '../../components/Admin/ProjectModal';
 import ArticleModal from '../../components/Admin/ArticleModal';
 import LeadManager from '../../components/Admin/LeadManager';
 import AnalyticsTab from '../../components/Admin/AnalyticsTab';
+import SEO from '../../components/UI/SEO';
 import './AdminPanel.css';
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -97,6 +98,7 @@ const PortfolioTab = ({ projects, searchQuery, onEdit, onDelete, onNew }) => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
+      <SEO title="Administration Dashboard" robots="noindex, nofollow" />
       <div>
         <h3 className="text-2xl font-black uppercase tracking-tighter">Réalisations Terrain</h3>
         <p className="text-[var(--text-dimmed)] text-[10px] font-bold uppercase tracking-widest mt-1">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { cleaningData as data } from '../data/cleaning';
 import { dataService } from '../lib/DataService';
+import SEO from '../components/UI/SEO';
 import { 
   ShieldCheck, 
   CheckCircle, 
@@ -15,14 +16,29 @@ import {
   Layers,
   Search,
   Droplets,
-  Phone
+  Phone,
+  Target
 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
 const CleaningPage = () => {
   const { settings } = useSettings();
   const [relatedArticles, setRelatedArticles] = useState([]);
+  const [isLoadingInterventions, setIsLoadingInterventions] = useState(true);
   const [realInterventions, setRealInterventions] = useState([]);
+
+  const cleaningSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Nettoyage & Vitrerie Professionnelle",
+    "serviceType": "Nettoyage Industriel & Résidentiel",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "ESEND Nuisibles"
+    },
+    "description": "Services de nettoyage spécialisé, entretien de vitres et remise en état de locaux à Menton, Monaco et Nice.",
+    "areaServed": "Alpes-Maritimes"
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,6 +77,11 @@ const CleaningPage = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 selection:bg-indigo-500/30">
+      <SEO 
+        title="Nettoyage & Vitrerie Professionnelle | Expertise 06"
+        description="Services de nettoyage spécialisé à Menton, Monaco et Nice. Entretien de vitres, remise en état après travaux et nettoyage de bureaux."
+        schema={cleaningSchema}
+      />
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         
         {/* Header Immersif */}

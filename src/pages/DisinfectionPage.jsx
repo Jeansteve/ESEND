@@ -18,14 +18,30 @@ import {
   Stethoscope,
   Activity,
   Microscope,
-  Phone
+  Phone,
+  Target
 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
+import SEO from '../components/UI/SEO';
 
 const DisinfectionPage = () => {
   const { settings } = useSettings();
   const [relatedArticles, setRelatedArticles] = useState([]);
+  const [isLoadingInterventions, setIsLoadingInterventions] = useState(true);
   const [realInterventions, setRealInterventions] = useState([]);
+
+  const disinfectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Désinfection Professionnelle",
+    "serviceType": "Hygiène & Désinfection",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "ESEND Nuisibles"
+    },
+    "description": "Service de désinfection professionnelle pour locaux résidentiels et commerciaux. Éradication de germes, virus et bactéries.",
+    "areaServed": "Alpes-Maritimes"
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -64,6 +80,11 @@ const DisinfectionPage = () => {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pt-24 md:pt-32 pb-20 selection:bg-cyan-500/30">
+      <SEO 
+        title="Désinfection Professionnelle & Hygiène | Expertise 06"
+        description="Services de désinfection certifiés à Menton, Monaco et Nice. Éradication de virus et bactéries pour locaux professionnels et résidentiels."
+        schema={disinfectionSchema}
+      />
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         
         {/* Header Immersif */}
