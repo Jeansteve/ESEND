@@ -490,7 +490,7 @@ const Dashboard = () => {
               </div>
 
               {/* DROITE : Recherche et Actions */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
+              <div className="flex flex-row items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
                 {activeTab !== 'settings' && (
                   <div className="relative group w-full sm:w-80">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
