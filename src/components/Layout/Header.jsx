@@ -164,8 +164,8 @@ const Header = () => {
                 className="hidden sm:block"
               >
                 <Link
-                  to="/#devis-title"
-                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })}
+                  to="/#devis"
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })}
                   className="relative group overflow-hidden bg-red-600 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
                 >
                   <span>Devis Offert</span>

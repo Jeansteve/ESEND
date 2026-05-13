@@ -18,19 +18,31 @@ function Home() {
 
   useEffect(() => {
     // Gestion propre du scroll vers les ancres avec BrowserRouter
-    const hash = window.location.hash;
-    if (hash) {
-      const targetId = hash.replace('#', '');
-      const target = document.getElementById(targetId);
-      if (target) {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const targetId = hash.replace('#', '');
+        // On attend un peu que le DOM soit prêt, surtout après une navigation inter-page
         setTimeout(() => {
-          const headerOffset = 100;
-          const elementPosition = target.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }, 500);
+          const target = document.getElementById(targetId);
+          if (target) {
+            const headerOffset = 100;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ 
+              top: offsetPosition, 
+              behavior: 'smooth' 
+            });
+          }
+        }, 300); // 300ms est généralement suffisant et plus réactif que 500ms
       }
-    }
+    };
+
+    handleHashScroll();
+    
+    // Écouter les changements de hash sans re-monter le composant
+    window.addEventListener('hashchange', handleHashScroll);
+    return () => window.removeEventListener('hashchange', handleHashScroll);
   }, []);
 
   const homeSchema = [
@@ -103,9 +115,7 @@ function Home() {
       
       <TrustBanner />
       
-      <DeferredSection id="devis" estimatedHeight="800px">
-        <FormWizard />
-      </DeferredSection>
+      <FormWizard />
     </div>
   )
 }

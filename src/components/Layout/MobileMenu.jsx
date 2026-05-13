@@ -2,6 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { X, Home, Bug, ShieldCheck, Zap, Camera, BookOpen, FileText, Phone } from 'lucide-react';
+import { useSettings } from '../../context/SettingsContext';
 
 const menuItems = [
   { name: 'Accueil', path: '/', icon: <Home className="w-5 h-5" /> },
@@ -15,6 +16,7 @@ const menuItems = [
 
 const MobileMenu = ({ isOpen, onClose }) => {
   const location = useLocation();
+  const { settings } = useSettings();
 
   return (
     <AnimatePresence>
@@ -76,11 +78,11 @@ const MobileMenu = ({ isOpen, onClose }) => {
             {/* Footer du Menu (CTA Urgence) */}
             <div className="p-6 bg-slate-50 border-t border-slate-100">
               <a 
-                href="tel:0651239841"
+                href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
                 className="w-full bg-slate-900 text-white p-4 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest shadow-xl active:scale-[0.97] transition-all"
               >
                 <Phone className="w-5 h-5 text-red-600" />
-                Appel d'urgence
+                {settings.company_phone}
               </a>
             </div>
           </motion.div>
