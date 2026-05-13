@@ -23,9 +23,9 @@
   ExpiresByType image/x-icon "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 month"
   
-  # Assets Statiques
-  ExpiresByType text/css "access plus 1 month"
-  ExpiresByType application/javascript "access plus 1 month"
+  # Assets Statiques (Versionnés via Vite)
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
 

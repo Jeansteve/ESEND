@@ -11,6 +11,7 @@ import { pests } from '../data/pests';
 import { interventions } from '../data/interventions';
 import { dataService } from '../lib/DataService';
 import SEO from '../components/UI/SEO';
+import DeferredSection from '../components/UI/DeferredSection';
 
 const PestPage = () => {
   const { settings } = useSettings();
@@ -397,7 +398,7 @@ const PestPage = () => {
 
         {/* Mythes vs Réalité */}
         {pest.mythesVsRealite && (
-            <div className="mb-16">
+          <DeferredSection estimatedHeight="600px" className="mb-16">
                 <motion.h2 
                    initial={{ opacity: 0, x: -20 }}
                    whileInView={{ opacity: 1, x: 0 }}
@@ -438,7 +439,7 @@ const PestPage = () => {
                         </motion.div>
                     ))}
                 </div>
-            </div>
+          </DeferredSection>
         )}
 
 
@@ -450,7 +451,7 @@ const PestPage = () => {
         <div className="max-w-7xl mx-auto px-4 lg:px-6 relative">
           {/* Expertise Terrain */}
           {realInterventions.length > 0 && (
-            <div className="mb-24">
+            <DeferredSection estimatedHeight="600px" className="mb-24">
               <motion.h2 
                  initial={{ opacity: 0, x: -20 }}
                  whileInView={{ opacity: 1, x: 0 }}
@@ -474,6 +475,7 @@ const PestPage = () => {
                         src={item.img || item.image} 
                         alt={item.title} 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                        loading="lazy"
                       />
                       <div className="absolute top-6 left-6">
                         <span className="px-4 py-2 rounded-full bg-red-600 text-[10px] font-black uppercase text-white shadow-lg">
@@ -518,12 +520,12 @@ const PestPage = () => {
                   </motion.div>
                 ))}
               </div>
-            </div>
+            </DeferredSection>
           )}
 
           {/* Le Journal de l'Expert */}
           {relatedArticles.length > 0 && (
-            <div className="mb-24">
+            <DeferredSection estimatedHeight="600px" className="mb-24">
               <motion.h2 
                  initial={{ opacity: 0, x: -20 }}
                  whileInView={{ opacity: 1, x: 0 }}
@@ -544,7 +546,7 @@ const PestPage = () => {
                   >
                     <Link to={`/journal/${article.slug || article.id}`} className="flex flex-col h-full">
                       <div className="h-56 relative overflow-hidden">
-                        <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                        <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" loading="lazy" />
                         <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
                       </div>
                       <div className="p-8 flex flex-col flex-grow">
@@ -561,11 +563,11 @@ const PestPage = () => {
                   </motion.article>
                 ))}
               </div>
-            </div>
+            </DeferredSection>
           )}
 
           {/* FAQ Expertise */}
-          <div className="mb-24">
+          <DeferredSection estimatedHeight="500px" className="mb-24">
             <motion.h2 
                initial={{ opacity: 0, x: -20 }}
                whileInView={{ opacity: 1, x: 0 }}
@@ -595,9 +597,9 @@ const PestPage = () => {
                 </motion.details>
               ))}
             </div>
-          </div>
+          </DeferredSection>
 
-          <div className="text-center bg-slate-900 text-white p-12 md:p-20 rounded-[4rem] shadow-3xl relative overflow-hidden">
+          <DeferredSection estimatedHeight="400px" className="text-center bg-slate-900 text-white p-12 md:p-20 rounded-[4rem] shadow-3xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] -z-10" />
               <h4 className="text-4xl md:text-6xl font-black uppercase mb-10 tracking-tighter leading-none">Prêt à sécuriser<br/>votre foyer ?</h4>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
@@ -612,7 +614,7 @@ const PestPage = () => {
               <p className="mt-10 text-slate-500 text-xs font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3">
                 <ShieldCheck className="w-5 h-5" /> Devis offert sans engagement sous 15 minutes
               </p>
-          </div>
+          </DeferredSection>
         </div>
       </div>
     </div>
