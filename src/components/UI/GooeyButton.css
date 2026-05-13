@@ -45,13 +45,13 @@
 .gooey-bubble:nth-child(9) { left: 90%; width: 27px; height: 27px; animation: move-9 3.18s infinite; animation-delay: 1.8s; }
 .gooey-bubble:nth-child(10) { left: 45%; width: 25px; height: 25px; animation: move-10 3.20s infinite; animation-delay: 2.0s; }
 
-@keyframes move-1 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(5px, -65px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-2 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(-10px, -80px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-3 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(15px, -70px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-4 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(-5px, -90px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-5 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(10px, -60px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-6 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(-15px, -75px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-7 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(8px, -85px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-8 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(-8px, -65px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-9 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(12px, -95px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
-@keyframes move-10 { 0% { transform: translate(0, 0); opacity: 1; } 99% { transform: translate(-12px, -70px); opacity: 1; } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-1 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(5px, -85px); opacity: 0; } }
+@keyframes move-2 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(-10px, -110px); opacity: 0; } }
+@keyframes move-3 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(15px, -90px); opacity: 0; } }
+@keyframes move-4 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(-5px, -120px); opacity: 0; } }
+@keyframes move-5 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(10px, -80px); opacity: 0; } }
+@keyframes move-6 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(-15px, -100px); opacity: 0; } }
+@keyframes move-7 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(8px, -115px); opacity: 0; } }
+@keyframes move-8 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(-8px, -85px); opacity: 0; } }
+@keyframes move-9 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(12px, -125px); opacity: 0; } }
+@keyframes move-10 { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translate(-12px, -90px); opacity: 0; } }
