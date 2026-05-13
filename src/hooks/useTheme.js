@@ -9,11 +9,10 @@ export const useTheme = () => {
     // Calcul déterministe du thème (Verrouillage ESEND)
     // Public = Dark (Frozen Night) | Admin = Light (Morning Mist)
     const getTargetTheme = () => {
-        const path = window.location.pathname;
-        const hash = window.location.hash;
-        const isAdmin = path.includes('/admin') || hash.includes('/admin');
+        const fullPath = window.location.href;
+        const isAdmin = fullPath.includes('/admin');
         const target = isAdmin ? 'light' : 'dark';
-        console.log(`[useTheme] Path: ${path}, Hash: ${hash}, isAdmin: ${isAdmin}, target: ${target}`);
+        console.log(`[useTheme] FullPath: ${fullPath}, isAdmin: ${isAdmin}, target: ${target}`);
         return target;
     };
 
