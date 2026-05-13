@@ -65,7 +65,7 @@ const About = () => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
-              <div className="space-y-4">
+              <div className="flex flex-col items-center text-center sm:items-start sm:text-left space-y-4">
                 <div className="w-12 h-12 bg-[var(--bg-secondary)] rounded-2xl flex items-center justify-center text-[var(--text-main)] border border-[var(--border-subtle)]">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
@@ -75,7 +75,7 @@ const About = () => {
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="flex flex-col items-center text-center sm:items-start sm:text-left space-y-4">
                 <div className="w-12 h-12 bg-[var(--bg-secondary)] rounded-2xl flex items-center justify-center text-[var(--text-main)] border border-[var(--border-subtle)]">
                   <Heart className="w-6 h-6" />
                 </div>
