@@ -87,27 +87,17 @@ function Home() {
       />
       <Hero />
       
-      <DeferredSection estimatedHeight="600px">
-        <PestSelector />
-      </DeferredSection>
+      <PestSelector />
       
-      <DeferredSection estimatedHeight="800px">
-        <PortfolioBento />
-      </DeferredSection>
+      <PortfolioBento />
       
-      <DeferredSection estimatedHeight="500px">
-        <About />
-      </DeferredSection>
+      <About />
       
       <SectionSeparator text="Témoignages Clients" />
       
-      <DeferredSection estimatedHeight="400px">
-        <Reviews />
-      </DeferredSection>
+      <Reviews />
       
-      <DeferredSection estimatedHeight="600px">
-        <KnowledgeHub />
-      </DeferredSection>
+      <KnowledgeHub />
       
       <TrustBanner />
       

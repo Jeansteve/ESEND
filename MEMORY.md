@@ -275,3 +275,8 @@
 - **Résultat de l'Audit** : Bien que visuellement thématique, le flou rendait les textes critiques du site illisibles et dégradait l'expérience utilisateur globale.
 - **Décision Critique** : Suppression définitive du flou de fond. Conservation de la couche Liquid Glass en mode **"Crystal Clear"** (100% transparent).
 - **Standard d'Interaction** : Toute animation de premier plan (`z-index` élevé) doit rester subtile. L'ajout du clic global (`window listener`) permet l'interactivité sans sacrifier la clarté du contenu.
+
+### [PSA-2026-05-13-H] : Navigation par Ancres & Content-Visibility
+- **Le Problème** : Les calculs manuels de scroll (`getBoundingClientRect`) échouaient lors du ciblage des sections proches des `DeferredSections`. Les décalages de mise en page causés par `content-visibility: auto` faussaient la position finale.
+- **Solution Technique** : Passage au défilement natif via `target.scrollIntoView({ behavior: 'smooth', block: 'start' })`.
+- **Compensation Header** : Utilisation de la propriété CSS `scroll-margin-top: 120px` sur les cibles d'ancrage. Le navigateur gère désormais nativement le "déverrouillage" du contenu différé et l'offset du header fixe, garantissant un atterrissage précis sur le titre "DEMANDER UNE INTERVENTION".
