@@ -10,8 +10,10 @@ export const useTheme = () => {
     // Public = Dark (Frozen Night) | Admin = Light (Morning Mist)
     const getTargetTheme = () => {
         const path = window.location.pathname;
-        const isAdmin = path.includes('/admin');
+        const hash = window.location.hash;
+        const isAdmin = path.includes('/admin') || hash.includes('/admin');
         const target = isAdmin ? 'light' : 'dark';
+        console.log(`[useTheme] Path: ${path}, Hash: ${hash}, isAdmin: ${isAdmin}, target: ${target}`);
         return target;
     };
 
@@ -26,6 +28,7 @@ export const useTheme = () => {
         };
 
         window.addEventListener('popstate', handleLocationChange);
+        window.addEventListener('hashchange', handleLocationChange);
         // On écoute aussi les changements via history.pushState (utilisé par React Router)
         const originalPushState = window.history.pushState;
         window.history.pushState = function() {
@@ -35,6 +38,7 @@ export const useTheme = () => {
 
         return () => {
             window.removeEventListener('popstate', handleLocationChange);
+            window.removeEventListener('hashchange', handleLocationChange);
             window.history.pushState = originalPushState;
         };
     }, []);
