@@ -173,9 +173,9 @@ const Header = () => {
 
           <a 
             href={`tel:${settings.company_phone.replace(/\s/g, '')}`} 
-            className={`bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-2 font-sans shadow-lg group ${(location.pathname !== '/' || showCTA) ? 'hidden sm:flex' : 'flex'}`}
+            className={`bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-main)] px-3 py-2 sm:px-4 sm:py-2 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all items-center gap-1.5 sm:gap-2 font-sans shadow-lg group whitespace-nowrap ${(location.pathname !== '/' || showCTA) ? 'hidden sm:flex' : 'flex'}`}
           >
-            <Phone className="w-3.5 h-3.5 text-red-600 group-hover:text-white transition-colors" />
+            <Phone className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-600 group-hover:text-white transition-colors" />
             <span className="inline">{settings.company_phone}</span>
           </a>
           
