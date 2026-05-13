@@ -111,24 +111,13 @@
       };
       setVH();
       window.addEventListener('resize', setVH);
-
-      // Performance: Make main CSS non-blocking since we have Critical CSS inlined
-      window.addEventListener('DOMContentLoaded', () => {
-        const links = document.querySelectorAll('link[rel="stylesheet"]');
-        links.forEach(link => {
-          if (!link.hasAttribute('data-critical')) {
-            link.media = 'print';
-            link.onload = () => { link.media = 'all'; };
-          }
-        });
-      });
     </script>
     <style>
       /* Hide the placeholder once React is ready */
       .react-ready #root-placeholder {
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s ease-out;
+        transition: opacity 0.3s ease-out;
       }
       #root-placeholder {
         position: fixed;
