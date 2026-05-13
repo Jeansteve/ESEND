@@ -48,7 +48,8 @@ L'application est désormais alignée sur les obligations légales françaises (
     - **ÉTAPE 1** : Pousser les modifications sur la branche `test`.
     - **ÉTAPE 2** : Valider les changements sur `site-test.esendnuisibles.fr`.
     - **ÉTAPE 3** : Pousser sur `main` UNIQUEMENT après validation explicite du client.
-    - *Règle d'or : Interdiction formelle de pousser sur main sans passage par la branche test.*
+    - **ÉTAPE 4 (Release)** : Incrémenter la version dans `package.json` (SemVer) et créer un Tag Git correspondant pour chaque livraison de fonctionnalité ou polissage majeur.
+    - *Règle d'or : Toute modification poussée sur main doit faire l'objet d'une montée de version et d'un tag unique.*
 
 ## 🚀 7. SEO Sémantique & Blindage Sécurité (Mai 2026)
 L'optimisation pour les moteurs de recherche et la sécurité ont été portées à un niveau professionnel :
