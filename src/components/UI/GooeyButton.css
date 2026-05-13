@@ -16,8 +16,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+  width: 100%;
+  height: 0;
   z-index: 1;
   pointer-events: none;
 }
@@ -26,7 +26,7 @@
   background-color: #dc2626;
   border-radius: 100%;
   position: absolute;
-  top: 0;
+  top: 0; /* Precisely at the top edge */
   left: 0;
   display: block;
   z-index: -1;
