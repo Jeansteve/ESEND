@@ -25,19 +25,16 @@ function Home() {
       const hash = location.hash;
       if (hash) {
         const targetId = hash.replace('#', '');
-        // On attend un peu que le DOM soit prêt, surtout après une navigation inter-page
+        // On attend un peu que le DOM soit prêt, surtout avec les DeferredSections
         setTimeout(() => {
           const target = document.getElementById(targetId);
           if (target) {
-            const headerOffset = 100;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            window.scrollTo({ 
-              top: offsetPosition, 
-              behavior: 'smooth' 
+            target.scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
             });
           }
-        }, 300);
+        }, 500); // 500ms pour laisser le temps aux DeferredSections de se stabiliser
       }
     };
 

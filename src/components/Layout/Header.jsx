@@ -65,14 +65,10 @@ const Header = () => {
         e.preventDefault();
         const target = document.getElementById(targetId);
         if (target) {
-          const headerOffset = 100;
-          const elementPosition = target.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       } else {
         // En dehors de l'accueil, on navigue vers l'accueil + hash
-        // useNavigate gérera correctement le hash avec HashRouter
         e.preventDefault();
         navigate(`/#${targetId}`);
       }
@@ -164,8 +160,8 @@ const Header = () => {
                 className="hidden sm:block"
               >
                 <Link
-                  to="/#devis"
-                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis' })}
+                  to="/#devis-title"
+                  onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })}
                   className="relative group overflow-hidden bg-red-600 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
                 >
                   <span>Devis Offert</span>
