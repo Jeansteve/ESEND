@@ -19,10 +19,16 @@ Renseignez ces variables dans **Settings > Secrets > Actions** pour automatiser 
 
 | Secret | Utilité |
 | :--- | :--- |
-| `FTP_SERVER` / `FTP_USER` / `FTP_PASS` | Connexion au serveur Hostinger. |
-| `DB_HOST` / `DB_NAME` / `DB_USER` / `DB_PASS` | Accès à la base MySQL (utilisé par `config.template.php`). |
-| `SMTP_USER` / `SMTP_PASSWORD` | Identifiants du compte `contact@client.fr` pour les envois du site. |
-| `VITE_GA_MEASUREMENT_ID` | Code Google Analytics (injecté au build). |
+| `FTP_PROD_SERVER` / `FTP_TEST_SERVER` | IP du serveur Hostinger (ex: `45.87.81.71`). |
+| `FTP_PROD_USERNAME` / `FTP_TEST_USERNAME` | Identifiant FTP Hostinger. |
+| `FTP_PROD_PASSWORD` / `FTP_TEST_PASSWORD` | Mot de passe FTP. |
+| `DB_PROD_HOST` / `DB_TEST_HOST` | Hôte MySQL (généralement `localhost`). |
+| `DB_PROD_NAME` / `DB_TEST_NAME` | Nom de la base de données MySQL. |
+| `DB_PROD_USER` / `DB_TEST_USER` | Utilisateur de la base de données. |
+| `DB_PROD_PASS` / `DB_TEST_PASS` | Mot de passe de la base de données. |
+| `SMTP_USER` | Email complet pour l'envoi (ex: `contact@client.fr`). |
+| `SMTP_PASSWORD` | Mot de passe du compte email Hostinger. |
+| `VITE_GA_MEASUREMENT_ID` | Code Google Analytics (ex: `G-XXXXXX`). |
 
 ### Étape 2 : Initialisation Data
 1. **Base de Données** : Exécuter `database/schema_prod.sql`.
