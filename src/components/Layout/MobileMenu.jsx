@@ -76,10 +76,19 @@ const MobileMenu = ({ isOpen, onClose }) => {
             </nav>
 
             {/* Footer du Menu (CTA Urgence) */}
-            <div className="p-6 bg-slate-50 border-t border-slate-100">
+            <div className="p-6 bg-slate-50 border-t border-slate-100 space-y-3">
+              <Link
+                to="/#devis-title"
+                onClick={onClose}
+                className="w-full bg-red-600 text-white p-4 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest shadow-lg shadow-red-600/20 active:scale-[0.97] transition-all text-xs"
+              >
+                <Zap className="w-5 h-5" />
+                Demander un devis
+              </Link>
+
               <a 
                 href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
-                className="w-full bg-slate-900 text-white p-4 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest shadow-xl active:scale-[0.97] transition-all"
+                className="w-full bg-slate-900 text-white p-4 rounded-2xl flex items-center justify-center gap-3 font-black uppercase tracking-widest shadow-xl active:scale-[0.97] transition-all text-xs"
               >
                 <Phone className="w-5 h-5 text-red-600" />
                 {settings.company_phone}
