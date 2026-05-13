@@ -105,8 +105,21 @@ const realApi = {
 
     // --- Assets (Upload) ---
     uploadImage: async (file) => {
+        // Optimisation client-side : Compression et redimensionnement (max 1200px)
+        let processedFile = file;
+        if (file.type.startsWith('image/')) {
+            try {
+                processedFile = await compressImage(file, { maxWidth: 1200, quality: 0.8 });
+                // Re-créer un objet File pour garder le nom d'origine et forcer .webp
+                const fileName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+                processedFile = new File([processedFile], fileName, { type: 'image/webp' });
+            } catch (err) {
+                console.error("[API] Erreur compression image:", err);
+            }
+        }
+
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', processedFile);
         const res = await fetch(`${API_BASE}/upload.php`, {
             method: 'POST',
             body: formData
@@ -153,3 +166,37 @@ const realApi = {
 };
 
 export const api = USE_MOCK ? mockApi : realApi;
+
+/**
+ * Compresse une image via Canvas API avant l'upload
+ * @param {File} file 
+ * @param {Object} options 
+ */
+async function compressImage(file, { maxWidth = 1200, quality = 0.8 } = {}) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > maxWidth) {
+                    height = Math.round((maxWidth / width) * height);
+                    width = maxWidth;
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                canvas.toBlob((blob) => resolve(blob), 'image/webp', quality);
+            };
+            img.onerror = reject;
+        };
+        reader.onerror = reject;
+    });
+}

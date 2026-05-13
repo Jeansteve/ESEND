@@ -39,9 +39,60 @@
     <!-- Google Fonts — Optimized: reduced weights to essential 400, 500, 700, 900 -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Critical CSS for LCP Optimization -->
+    <style>
+      :root {
+        --bg-primary: #020617;
+        --text-main: #f8fafc;
+        --text-dimmed: #cbd5e1;
+        --accent-red: #dc2626;
+      }
+      body { background-color: var(--bg-primary); margin: 0; font-family: 'Inter', sans-serif; }
+      #root-placeholder {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .lcp-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: clamp(2.25rem, 10vw, 4.5rem);
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        line-height: 0.95;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+        color: var(--text-main);
+      }
+      .lcp-accent-blue { color: #38bdf8; filter: drop-shadow(0 0 25px rgba(56,189,248,0.4)); }
+      .lcp-accent-red { color: var(--accent-red); filter: drop-shadow(0 0 25px rgba(220,38,38,0.4)); }
+      .lcp-desc {
+        color: var(--text-dimmed);
+        font-size: 1.125rem;
+        max-width: 500px;
+        line-height: 1.6;
+        font-weight: 500;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Pre-render Placeholder for LCP Optimization -->
+      <div id="root-placeholder">
+        <h1 class="lcp-title">
+          VOTRE EXPERT <br/>
+          <span class="lcp-accent-blue">HYGIÈNE</span> & <span class="lcp-accent-red">NUISIBLES</span>
+        </h1>
+        <p class="lcp-desc">
+          Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
+        </p>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
