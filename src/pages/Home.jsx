@@ -17,6 +17,9 @@ function Home() {
   const { settings } = useSettings();
 
   useEffect(() => {
+    // Signaler que React est prêt pour masquer le placeholder LCP
+    document.documentElement.classList.add('react-ready');
+    
     // Gestion propre du scroll vers les ancres avec BrowserRouter
     const hash = window.location.hash;
     if (hash) {

@@ -111,23 +111,65 @@
       };
       setVH();
       window.addEventListener('resize', setVH);
+
+      // Performance: Make main CSS non-blocking since we have Critical CSS inlined
+      window.addEventListener('DOMContentLoaded', () => {
+        const links = document.querySelectorAll('link[rel="stylesheet"]');
+        links.forEach(link => {
+          if (!link.hasAttribute('data-critical')) {
+            link.media = 'print';
+            link.onload = () => { link.media = 'all'; };
+          }
+        });
+      });
     </script>
+    <style>
+      /* Hide the placeholder once React is ready */
+      .react-ready #root-placeholder {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease-out;
+      }
+      #root-placeholder {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+        background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.4)), url('/images/hero-menton-v2.webp');
+        background-size: cover;
+        background-position: center;
+        contain: paint;
+      }
+      #root-placeholder::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, #020617, transparent);
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body>
-    <div id="root">
-      <!-- Pre-render Placeholder for LCP Optimization -->
-      <div id="root-placeholder">
-        <div class="lcp-content">
-          <h1 class="lcp-title">
-            VOTRE EXPERT <br/>
-            <span class="lcp-accent-blue">HYGIÈNE</span> & <span class="lcp-accent-red">NUISIBLES</span>
-          </h1>
-          <p class="lcp-desc">
-            Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
-          </p>
-        </div>
+    <!-- Pre-render Placeholder (Outside root to survive React mount) -->
+    <div id="root-placeholder">
+      <div class="lcp-content">
+        <h1 class="lcp-title">
+          VOTRE EXPERT <br/>
+          <span class="lcp-accent-blue">HYGIÈNE</span> & <span class="lcp-accent-red">NUISIBLES</span>
+        </h1>
+        <p class="lcp-desc">
+          Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
+        </p>
       </div>
     </div>
+
+    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
