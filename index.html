@@ -2,7 +2,6 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <!-- Preconnect to speed up font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com">
@@ -11,38 +10,17 @@
     <link rel="icon" type="image/webp" href="/images/logo-esend.webp" />
     <link rel="shortcut icon" href="/images/logo-esend.webp" />
     
-    <!-- Preload critical assets for LCP -->
     <link rel="preload" as="image" href="/images/hero-menton-v2.webp" fetchpriority="high">
     <link rel="preload" as="image" href="/images/logo-esend.webp" fetchpriority="high">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Primary Meta Tags -->
     <title>ESEND - Expert en Éradication de Nuisibles, Désinfection & Nettoyage</title>
-    <meta name="title" content="ESEND - Expert en Éradication de Nuisibles, Désinfection & Nettoyage" />
-    <meta name="description" content="ESEND intervient sur la Côte d'Azur pour l'éradication de nuisibles (rats, punaises, frelons), la désinfection professionnelle et le nettoyage de locaux. Intervention rapide et discrète." />
-    <meta name="keywords" content="nuisibles, dératisation, désinsectisation, punaises de lit, frelons asiatiques, désinfection, nettoyage professionnel, Menton, Monaco, Nice" />
-    <meta name="author" content="ESEND" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://esendnuisibles.fr/" />
-    <meta property="og:title" content="ESEND - Expert en Éradication de Nuisibles & Désinfection" />
-    <meta property="og:description" content="Intervention experte pour l'éradication de nuisibles et l'hygiène de vos locaux. Protégez votre environnement avec ESEND." />
-    <meta property="og:image" content="https://esendnuisibles.fr/images/logo-esend.webp" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://esendnuisibles.fr/" />
-    <meta property="twitter:title" content="ESEND - Expert en Éradication de Nuisibles & Désinfection" />
-    <meta property="twitter:description" content="Intervention experte pour l'éradication de nuisibles et l'hygiène de vos locaux. Protégez votre environnement avec ESEND." />
-    <meta property="twitter:image" content="https://esendnuisibles.fr/images/logo-esend.webp" />
+    <meta name="description" content="ESEND intervient sur la Côte d'Azur pour l'éradication de nuisibles, la désinfection professionnelle et le nettoyage de locaux." />
     
-    <!-- Google Fonts — Optimized: reduced weights to essential 400, 500, 700, 900 -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet"></noscript>
 
-    <!-- Critical CSS for LCP Optimization -->
     <style>
       :root {
         --bg-primary: #020617;
@@ -57,11 +35,18 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
         font-family: 'Inter', system-ui, sans-serif;
       }
+      /* Hide placeholder when React is ready */
+      .react-ready #root-placeholder {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease-out;
+      }
       #root-placeholder {
-        height: calc(var(--vh, 1vh) * 100);
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -72,8 +57,6 @@
         background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.4)), url('/images/hero-menton-v2.webp');
         background-size: cover;
         background-position: center;
-        position: relative;
-        contain: paint;
       }
       #root-placeholder::after {
         content: "";
@@ -104,7 +87,6 @@
       }
     </style>
     <script>
-      // Viewport height fix for mobile
       const setVH = () => {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -112,40 +94,8 @@
       setVH();
       window.addEventListener('resize', setVH);
     </script>
-    <style>
-      /* Hide the placeholder once React is ready */
-      .react-ready #root-placeholder {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease-out;
-      }
-      #root-placeholder {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 20px;
-        box-sizing: border-box;
-        background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.4)), url('/images/hero-menton-v2.webp');
-        background-size: cover;
-        background-position: center;
-        contain: paint;
-      }
-      #root-placeholder::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, #020617, transparent);
-        pointer-events: none;
-      }
-    </style>
   </head>
   <body>
-    <!-- Pre-render Placeholder (Outside root to survive React mount) -->
     <div id="root-placeholder">
       <div class="lcp-content">
         <h1 class="lcp-title">
