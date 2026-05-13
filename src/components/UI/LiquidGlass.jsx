@@ -167,6 +167,36 @@ const LiquidGlass = ({
       `
     });
 
+    // --- Input (Global) ---
+    const mouse = { current: { x: 999, y: 999, active: false, down: false } };
+    const spawnCD = { current: 0 };
+    let aspect = 1;
+
+    const updateMouse = (e) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      aspect = rect.width / rect.height;
+      mouse.current.x = ((e.clientX - rect.left) / rect.width - 0.5) * aspect;
+      mouse.current.y = 0.5 - (e.clientY - rect.top) / rect.height;
+      mouse.current.active = true;
+    };
+
+    const handlePointerMove = (e) => updateMouse(e);
+    const handlePointerDown = (e) => {
+      mouse.current.down = true;
+      updateMouse(e);
+      spawnCD.current = 0; // Force immediate spawn on click
+    };
+    const handlePointerUp = () => { mouse.current.down = false; };
+    const handlePointerLeave = () => {
+      mouse.current.active = false;
+      mouse.current.down = false;
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointerleave", handlePointerLeave);
+
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), shaderMat);
     scene.add(mesh);
 
@@ -180,8 +210,21 @@ const LiquidGlass = ({
     // Remove center pull so they spread out over the whole screen
 
     const fixedUpdate = () => {
-      const aspect = renderer.domElement.width / renderer.domElement.height;
+      aspect = renderer.domElement.width / renderer.domElement.height;
       const drops = dropsRef.current;
+
+      // Mouse Spawn
+      if (mouse.current.down && mouse.current.active) {
+        spawnCD.current -= FIXED_DT_MS;
+        if (spawnCD.current <= 0 && drops.length < MAX_DROPLETS) {
+          spawnCD.current = 120;
+          spawn(
+            mouse.current.x + (Math.random() - 0.5) * 0.02,
+            mouse.current.y + (Math.random() - 0.5) * 0.02,
+            0.02 + Math.random() * 0.015
+          );
+        }
+      }
 
       // Apply forces
       for (const d of drops) {
@@ -328,6 +371,10 @@ const LiquidGlass = ({
     observer.observe(containerRef.current);
 
     return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointerleave", handlePointerLeave);
       observer.disconnect();
       cancelAnimationFrame(requestRef.current);
       window.removeEventListener('resize', handleResize);
