@@ -12,7 +12,6 @@ export const useTheme = () => {
         const fullPath = window.location.href;
         const isAdmin = fullPath.includes('/admin');
         const target = isAdmin ? 'light' : 'dark';
-        console.log(`[useTheme] FullPath: ${fullPath}, isAdmin: ${isAdmin}, target: ${target}`);
         return target;
     };
 
