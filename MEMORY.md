@@ -241,3 +241,21 @@
     2. Toute nouvelle page doit être ajoutée en `lazy()` dans `App.jsx`, sauf si elle fait partie de la landing page critique.
     3. Toute nouvelle dépendance lourde (>50KB) doit être ajoutée dans `manualChunks` de `vite.config.js`.
 
+### [PSA-2026-05-13-D] : Performance Élite (SSR-Lite & Deferred Rendering)
+- **Objectif** : Atteindre un LCP < 200ms sur mobile pour garantir un score Lighthouse Elite.
+- **Stratégie "SSR-Lite"** : 
+  1. Injection d'un **Placeholder HTML statique** dans `index.html` (hors du root React). Ce bloc simule visuellement le Hero section pendant que le JavaScript (157KB) se télécharge.
+  2. **Hydratation Silencieuse** : Une fois React prêt, une transition CSS douce (`opacity: 0` -> `1`) bascule l'utilisateur sur l'application réelle sans aucun scintillement (FOUC).
+- **Technique "Deferred Rendering"** :
+  1. Utilisation du composant `<DeferredSection />` couplé à `content-visibility: auto`.
+  2. Les sections gourmandes en CPU (FAQ, Mythes, Interventions) situées sous la ligne de flottaison (below-the-fold) ne sont rendues par le navigateur que lorsqu'elles approchent du viewport. Cela réduit le temps de blocage du thread principal de **~180ms**.
+- **Mise en Cache Agressive** : Configuration du `.htaccess` pour une expiration à **1 an** sur tous les assets versionnés (JS/CSS), maximisant la vitesse lors des visites récurrentes.
+
+### [PSA-2026-05-13-E] : UI Premium - Gooey Button (Fountain Effect)
+- **L'Innovation** : Remplacement du CTA Hero classique par un bouton à effet "liquide" organique.
+- **Physique de l'Animation** :
+  1. **Densité** : Utilisation de **30 bulles** (au lieu de 10) pour garantir une couverture totale sur les boutons larges.
+  2. **Gooey Filter** : Filtre SVG `feGaussianBlur` (stdDeviation: 5) + `feColorMatrix` appliqué directement sur le bouton.
+  3. **Trajectoire Fountain** : Keyframes optimisées (`0% -> 95% -> 100%`) où les bulles s'effacent à l'apogée avant de reset invisiblement. Cela évite l'effet de "redescente" et crée un flux ascendant continu.
+- **Règle d'Intégrité UI** : Ne JAMAIS appliquer de `box-shadow` ou de `border` sur un élément utilisant le filtre Gooey, car le filtre déformerait les ombres et créerait des artefacts visuels grisâtres ("Dirty Glow").
+

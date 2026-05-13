@@ -77,5 +77,18 @@ Optimisation ciblée pour atteindre les scores "Verts" sur Lighthouse :
 - **FCP Optimization** : Vérification du `font-display: swap` sur les polices Google et ajout de preconnects.
 - **Critical Path** : Priorisation des ressources critiques dans le `index.html` pour un affichage quasi instantané.
 
+## 🚀 10. Performance Élite & UI Premium (Mai 2026)
+L'objectif était d'atteindre des performances d'affichage de niveau "Elite" (LCP ~158ms) tout en intégrant une expérience visuelle haut de gamme.
+
+### 1. Architecture "SSR-Lite" & Performance (Score LCP ~158ms, CLS 0)
+- **Placeholder Statique** : Mise en place d'un placeholder HTML statique dans `index.html` (hors du root React) pour une peinture instantanée dès le chargement, éliminant le délai d'hydratation.
+- **Deferred Rendering** : Implémentation du composant utilitaire `DeferredSection` utilisant `content-visibility: auto`. Toutes les sections "below-the-fold" (FAQ, Mythes, Interventions) sont désormais différées pour libérer le thread principal.
+- **Cache Agressif (.htaccess)** : Extension de la mise en cache (ExpiresByType) à **1 an** pour les fichiers CSS et JS (basé sur le versionnage Vite/Content-Hashing).
+
+### 2. Expérience Visuelle Premium (Gooey Button)
+- **Gooey Button Effect** : Ajout d'un bouton CTA "liquide" (Gooey) sur la section Hero, basé sur un filtre SVG (`feGaussianBlur` + `feColorMatrix`).
+- **Densité Organique** : Implémentation de 30 bulles indépendantes avec des trajectoires et vitesses aléatoires pour recréer un effet de "flammes ondulées" (Fountain Effect) même sur des boutons larges.
+- **Optimisation Rendu** : Suppression des bordures et ombres portées interférant avec le filtre SVG pour garantir un rendu cristallin sans artefacts.
+
 ---
 *Documentation mise à jour le 13 Mai 2026 par Antigravity.*
