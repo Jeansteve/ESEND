@@ -29,6 +29,10 @@ switch ($method) {
             $article = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if ($article) {
+                // --- View Tracking : Incrémenter le compteur de vues ---
+                $pdo->prepare("UPDATE esend_articles SET views = views + 1 WHERE id = ?")->execute([$id]);
+                $article['views'] = ($article['views'] ?? 0) + 1; // Update local copy for response
+
                 // Protection : Empêcher la lecture d'un brouillon sans être admin
                 if (isset($article['is_published']) && $article['is_published'] == 0) {
                     if (!isset($_SESSION['esend_admin_id'])) {
@@ -38,8 +42,11 @@ switch ($method) {
                     }
                 }
                 
-                // Mapper 'content' (DB) -> 'content_html' (frontend)
+                // Mapper les champs pour le frontend
                 $article['content_html'] = $article['content'] ?? '';
+                $article['date'] = $article['publish_date'] ?? '';
+                $article['readTime'] = $article['read_time'] ?? 1;
+                
                 echo json_encode($article);
             } else {
                 http_response_code(404);
@@ -94,6 +101,9 @@ switch ($method) {
         // Le frontend n'a besoin que du titre, extrait, image, etc.
         $articles = array_map(function($a) {
             unset($a['content']); // Réduit la taille du JSON drastiquement
+            // Aliasing pour KnowledgeHub.jsx
+            $a['date'] = $a['publish_date'] ?? '';
+            $a['readTime'] = $a['read_time'] ?? 1;
             return $a;
         }, $articles);
 
@@ -109,8 +119,8 @@ switch ($method) {
             $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
 
             $stmt = $pdo->prepare("INSERT INTO esend_articles 
-                (uuid, title, excerpt, content, meta_title, meta_description, image, category, nuisible_tag, service_id, is_published, publish_date)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (uuid, title, excerpt, content, meta_title, meta_description, image, category, nuisible_tag, service_id, is_published, publish_date, read_time)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $uuid,
                 $data['title'] ?? '',
@@ -123,7 +133,8 @@ switch ($method) {
                 $data['nuisible_tag'] ?? 'actualites',
                 $data['service_id'] ?? 1,
                 $isPublished,
-                $data['date'] ?? date('d M Y')
+                $data['date'] ?? date('d M Y'),
+                $data['read_time'] ?? $data['readTime'] ?? 1
             ]);
 
             $id = $pdo->lastInsertId();
@@ -149,7 +160,7 @@ switch ($method) {
             if ($uuid) {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
                     title = ?, excerpt = ?, content = ?, meta_title = ?, meta_description = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?, updated_at = NOW()
+                    nuisible_tag = ?, service_id = ?, is_published = ?, read_time = ?, updated_at = NOW()
                     WHERE uuid = ?");
                 $stmt->execute([
                     $data['title'] ?? '',
@@ -162,12 +173,13 @@ switch ($method) {
                     $data['nuisible_tag'] ?? 'actualites',
                     $data['service_id'] ?? 1,
                     $isPublished,
+                    $data['read_time'] ?? $data['readTime'] ?? 1,
                     $uuid
                 ]);
             } else {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
                     title = ?, excerpt = ?, content = ?, meta_title = ?, meta_description = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?, updated_at = NOW()
+                    nuisible_tag = ?, service_id = ?, is_published = ?, read_time = ?, updated_at = NOW()
                     WHERE id = ?");
                 $stmt->execute([
                     $data['title'] ?? '',
@@ -180,6 +192,7 @@ switch ($method) {
                     $data['nuisible_tag'] ?? 'actualites',
                     $data['service_id'] ?? 1,
                     $isPublished,
+                    $data['read_time'] ?? $data['readTime'] ?? 1,
                     $id
                 ]);
             }

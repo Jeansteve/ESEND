@@ -232,6 +232,7 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [], integ
       const is_published = publishValue !== null ? publishValue : formData.is_published;
       const payload = {
         ...formData,
+        read_time: metrics.time,
         image: formData.cover_image, // backward compat with API
         is_published
       };

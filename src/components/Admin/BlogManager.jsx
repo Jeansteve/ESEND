@@ -227,18 +227,16 @@ const BlogManager = ({ articles: articlesProp, onRefresh, onOpenStudio, onEditAr
                   {article.excerpt}
                 </p>
 
-                {/* Dates */}
+                {/* Dates & Stats */}
                 <div className="flex items-center gap-4 mb-4 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
                   <div className="flex items-center gap-1.5">
                     <Calendar className="w-3 h-3" />
                     {formatDate(article.created_at || article.date)}
                   </div>
-                  {article.updated_at && article.updated_at !== article.created_at && (
-                    <div className="flex items-center gap-1.5 text-amber-500/70">
-                      <Clock className="w-3 h-3" />
-                      Modifié {formatDate(article.updated_at)}
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1.5 text-blue-500/80">
+                    <Eye className="w-3 h-3" />
+                    {article.views || 0} vues
+                  </div>
                 </div>
 
                 {/* Actions */}
