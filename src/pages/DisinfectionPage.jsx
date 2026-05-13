@@ -244,7 +244,7 @@ const DisinfectionPage = () => {
                 viewport={{ once: true }}
                 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex flex-col md:flex-row items-center gap-4 text-center md:text-left"
             >
-                <flaskonical className="text-cyan-500 w-8 h-8 lg:w-10 lg:h-10" /> Mythes vs Réalité
+                <FlaskConical className="text-cyan-500 w-8 h-8 lg:w-10 lg:h-10" /> Mythes vs Réalité
             </motion.h2>
             <div className="flex flex-col gap-4">
                 {data.mythes.map((item, idx) => (

@@ -124,7 +124,8 @@ const CleaningPage = () => {
         preloadImage={data.heroImage}
       />
       <LiquidGlass className="fixed inset-0 z-50 pointer-events-none mix-blend-screen opacity-60" />
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 relative z        {/* Header Immersif */}
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10">
+        {/* Header Immersif */}
         <div className="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
@@ -151,7 +152,6 @@ const CleaningPage = () => {
           >
             {data.intro}
           </motion.p>
-        </div>
         </div>
 
         {/* Hero Illustration Block */}
