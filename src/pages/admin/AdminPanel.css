@@ -157,7 +157,7 @@
 .admin-search:focus {
   outline: none;
   border-color: rgba(220, 38, 38, 0.5);
-  width: 350px;
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.1);
 }
 
 /* ========================================================================= */
