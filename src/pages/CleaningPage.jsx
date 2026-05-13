@@ -123,6 +123,8 @@ const CleaningPage = () => {
         schema={cleaningSchema}
         preloadImage={data.heroImage}
       />
+      {/* Foggy Glass Overlay */}
+      <div className="fixed inset-0 z-40 bg-slate-900/10 backdrop-blur-[2px] pointer-events-none mix-blend-overlay" />
       <LiquidGlass className="fixed inset-0 z-50 pointer-events-none mix-blend-screen opacity-60" />
       <div className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10">
         
