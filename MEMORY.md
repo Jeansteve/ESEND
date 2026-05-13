@@ -259,3 +259,13 @@
   3. **Trajectoire Fountain** : Keyframes optimisées (`0% -> 95% -> 100%`) où les bulles s'effacent à l'apogée avant de reset invisiblement. Cela évite l'effet de "redescente" et crée un flux ascendant continu.
 - **Règle d'Intégrité UI** : Ne JAMAIS appliquer de `box-shadow` ou de `border` sur un élément utilisant le filtre Gooey, car le filtre déformerait les ombres et créerait des artefacts visuels grisâtres ("Dirty Glow").
 
+
+### [PSA-2026-05-13-F] : 3D Immersive (Liquid Glass) & Gestion des Ressources
+- **Concept** : Utilisation d'un shader de réfraction (métaballes) pour symboliser la pureté de l'eau sur la page Nettoyage.
+- **Optimisation Bundle** : 
+  - `three.js` est isolé dans le chunk `vendor-three` (492KB) via `manualChunks`.
+  - Ce chunk n'est téléchargé que lors de l'accès à `CleaningPage` grâce au lazy loading de React Router.
+- **Optimisation Runtime** : 
+  - Utilisation d'un **IntersectionObserver** dans `LiquidGlass.jsx` pour mettre l'animation en pause (`cancelAnimationFrame`) dès que le composant n'est plus visible.
+  - Réduction de la densité de métaballes sur mobile (MAX_DROPLETS = 15 au lieu de 30) pour préserver les performances GPU.
+- **Règle d'Intégrité** : Le contenu textuel réfracté doit être dessiné sur un canvas interne (`drawBackground`) pour garantir que la réfraction s'adapte dynamiquement à la taille de l'écran et aux changements de props.

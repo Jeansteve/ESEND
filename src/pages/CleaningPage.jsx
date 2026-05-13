@@ -20,6 +20,7 @@ import {
   Target
 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
+import LiquidGlass from '../components/UI/LiquidGlass';
 
 const CleaningPage = () => {
   const { settings } = useSettings();
@@ -153,22 +154,21 @@ const CleaningPage = () => {
           </motion.p>
         </div>
 
-        {/* Hero Illustration Block */}
+        {/* Hero Illustration Block - LIQUID GLASS EDITION */}
         <motion.div 
            initial={{ opacity: 0, scale: 0.98 }} 
            animate={{ opacity: 1, scale: 1 }}
-           className="relative h-[400px] md:h-[600px] rounded-[3rem] overflow-hidden mb-20 shadow-2xl border border-white/5"
+           className="relative h-[500px] md:h-[750px] rounded-[3rem] overflow-hidden mb-20 shadow-2xl border border-white/5 bg-[#020617]"
         >
-          <img 
-            src={data.heroImage} 
-            alt="Nettoyage et Vitrerie Haute Précision" 
-            className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" 
-            fetchpriority="high"
-            decoding="async"
+          <LiquidGlass 
+            title1={data.title.split('&')[0].trim()} 
+            title2={"& " + data.title.split('&')[1].trim()}
+            subtitle="Finition Crystal Clear & Pure Water Tech"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
           
-          <div className="absolute bottom-10 left-10 right-10 flex flex-wrap items-end justify-between gap-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none" />
+          
+          <div className="absolute bottom-10 left-10 right-10 flex flex-wrap items-end justify-between gap-6 pointer-events-none">
             <div className="flex items-center gap-6">
               <div className="bg-indigo-600 text-white font-black px-6 py-3 rounded-2xl text-xl shadow-xl shadow-indigo-600/30">
                 {data.rank}
@@ -193,6 +193,34 @@ const CleaningPage = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* Expérience Tactile Section */}
+        <div className="mb-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+               <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 italic">Expérience <span className="text-indigo-500">Tactile</span></h2>
+               <p className="text-slate-400 font-medium max-w-2xl">Interagissez avec la surface pour générer des bulles de pureté. Nos méthodes utilisent une eau déminéralisée haute technologie garantissant une finition sans aucune trace.</p>
+            </div>
+            <div className="h-px flex-grow bg-white/5 hidden md:block mx-8 mb-6" />
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="h-[400px] md:h-[500px] rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl group relative"
+          >
+            <LiquidGlass 
+              title1="Pureté" 
+              title2="Absolue" 
+              subtitle="Touchez ou glissez pour interagir"
+            />
+            <div className="absolute top-6 right-6 flex items-center gap-2 bg-indigo-600/20 backdrop-blur-md px-4 py-2 rounded-full border border-indigo-500/30 pointer-events-none">
+              <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-indigo-100 italic">Zone Interactive</span>
+            </div>
+          </motion.div>
+        </div>
 
         {/* Protocoles de Précision */}
         <div className="mb-20">

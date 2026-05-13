@@ -17,6 +17,8 @@ export default defineConfig({
           // Admin-only heavy dependencies
           'vendor-charts': ['recharts'],
           'vendor-editor': ['react-quill'],
+          // 3D Engine for Liquid Glass (Cleaning only)
+          'vendor-three': ['three'],
         }
       }
     },

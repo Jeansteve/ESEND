@@ -90,5 +90,10 @@ L'objectif était d'atteindre des performances d'affichage de niveau "Elite" (LC
 - **Densité Organique** : Implémentation de 30 bulles indépendantes avec des trajectoires et vitesses aléatoires pour recréer un effet de "flammes ondulées" (Fountain Effect) même sur des boutons larges.
 - **Optimisation Rendu** : Suppression des bordures et ombres portées interférant avec le filtre SVG pour garantir un rendu cristallin sans artefacts.
 
+### 3. Expérience Visuelle Premium (Liquid Glass)
+- **Liquid Glass - Nettoyage** : Intégration d'un moteur Three.js sur la page de service Nettoyage pour simuler des réfractions d'eau et de savon en temps réel (Interaction tactile + Réfraction typographique).
+- **Architecture de Chunking** : Isolation de Three.js dans le chunk `vendor-three` (492KB) pour garantir que le moteur n'est téléchargé que lors de la navigation vers la page concernée.
+- **Gestion Énergétique** : Utilisation d'un `IntersectionObserver` pour couper le moteur de rendu dès que le composant sort du viewport, préservant ainsi les ressources système.
+
 ---
 *Documentation mise à jour le 13 Mai 2026 par Antigravity.*
