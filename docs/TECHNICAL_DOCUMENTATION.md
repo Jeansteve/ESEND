@@ -44,20 +44,25 @@ Le projet utilise des micro-interactions avancées pour renforcer l'aspect exper
     - **Performance** : Utilise `useMotionValue` et `useTransform` de Framer Motion pour éviter les re-rendus React inutiles pendant l'incrémentation.
 - **Stabilité Layout** : Utilisation de `whitespace-nowrap` et `flex items-baseline` pour garantir l'alignement du score sur une seule ligne sur tous les supports (Mobile/Tablette/Desktop).
 
-### 🌊 2.2 Expérience Immersive : Liquid Glass (WebGL/Three.js)
-Le Hub Nettoyage intègre une simulation de fluide interactive (`src/components/UI/LiquidGlass.jsx`) :
-- **Technologie** : Basé sur Three.js et un shader personnalisé de métaballes (Metaballs).
-- **Rendu Cristal** : Utilise des calculs de réfraction, de réflexion de Fresnel et de spécularité pour simuler des bulles d'eau cristallines.
-- **Interaction Globale** : Contrairement aux implémentations classiques, les écouteurs d'événements (`pointerdown`, `pointermove`) sont attachés à `window`. Le calque possède `pointer-events-none` pour ne pas bloquer le site, mais l'interaction est relayée au shader pour générer de l'eau dynamiquement.
-- **Optimisation Ressources** :
-    - **Lazy Loading** : Isolé dans le chunk `vendor-three` via `vite.config.js`.
-    - **Auto-Pause** : Utilisation d'un `IntersectionObserver` pour arrêter la boucle `requestAnimationFrame` dès que le composant n'est plus visible.
-    - **Physique Contenue** : Limitation de la taille maximale des bulles (`0.08`) et de la vélocité pour préserver la lisibilité du texte.
+### 🌊 2.2 Expérience Immersive : Liquid Glass & Gooey Button
+Le projet utilise des shaders et des filtres SVG pour une esthétique premium :
+- **Liquid Glass (WebGL)** : Rendu de métaballes interactives pour le Hub Nettoyage (`src/components/UI/LiquidGlass.jsx`). 
+    - **Technologie** : Shader personnalisé de réfraction/Fresnel. 
+    - **Optimisation** : `IntersectionObserver` pour suspendre le rendu GPU hors-vue.
+- **Gooey Button (Hero)** : Un bouton à effet "liquide" organique (`src/components/UI/GooeyButton.jsx`).
+    - **Technique** : Filtre SVG (`feGaussianBlur` + `feColorMatrix`) appliqué à un flux de 30 particules.
+    - **UX** : Animation de fontaine continue pour un impact visuel maximal.
+
+### 🚀 2.3 Architecture de Performance "Elite"
+Pour atteindre les standards Lighthouse 2026 :
+- **Code Splitting** : Utilisation de `React.lazy()` pour toutes les routes.
+- **Vite Manual Chunks** : Isolation des dépendances (`vendor-three`, `vendor-charts`, `vendor-editor`) pour ne pas pénaliser le LCP public.
+- **LCP Optimization** : Placeholders HTML statiques dans `index.html` pour un affichage immédiat.
 
 ### Navigation & Routage (`HashRouter`)
 Le projet utilise `HashRouter` pour éviter les erreurs 404 sur Hostinger. 
-- **Anchor Scrolling** : Un correctif global a été appliqué dans `App.jsx` pour intercepter les clics vers les ancres (ex: `#contact`) et forcer un scroll fluide même lors de navigations inter-pages.
-- **CTA Sync** : Les boutons "Devis Gratuit" redirigent intelligemment vers la section contact, que l'utilisateur soit sur la Home ou une page profonde.
+- **Anchor Scrolling** : Un correctif global a été appliqué dans `App.jsx` pour intercepter les clics vers les ancres.
+- **CTA Sync** : Les boutons "Devis Gratuit" redirigent intelligemment vers la section contact.
 
 ### Gestion du Thème (Deterministic Locking)
 Le système de thème est géré par le hook `src/hooks/useTheme.js`. Il impose un thème fixe selon l'URL :
@@ -102,21 +107,14 @@ L'API est située dans `/public/api/`. Chaque fichier PHP gère une ressource sp
 1. **`devis.php`** : Traitement du formulaire principal.
     - Génère un `Tracking ID` type `ES-2404-001`.
     - Gère l'upload structuré des images.
-    - Enregistre en BDD et envoie un e-mail via PHPMailer.
-2. **`leads.php`** : Gestion des leads pour l'admin (GET/POST).
+    - Enregistre en BDD et envoie un e-mail via **SMTP Hostinger Authentifié**.
+2. **`leads.php`** : Gestion des leads pour l'admin (Accès protégé par session).
 3. **`articles_v3.php`** : CRUD pour le blog "Journal de l'Expert".
-    - **Optimisation de Liste** : Pour accélérer le chargement initial, les requêtes de liste (sans `id`) excluent désormais le champ lourd `content`.
-    - **Lecture Unique** : Le contenu HTML n'est renvoyé que lorsqu'un article spécifique est demandé via `?id=...`.
-4. **`projects.php`** : CRUD pour les "Réalisations Terrain".
-    - Supporte l'ajout de nouveaux champs (ex: SIRET, Téléphone) sans modification de schéma.
-    - Utilise `ON DUPLICATE KEY UPDATE` pour une persistance robuste.
-    - **Usage Légal & UI** : Sert de source unique de vérité. Les données sont consommées par le `SettingsContext` côté React pour dynamiser l'intégralité de l'interface (CTAs, Footer, Pages Légales).
-6. **`change_password.php`** : Mise à jour sécurisée du mot de passe admin.
-    - Hachage automatique en **Argon2id**.
-    - Validation de l'ancien mot de passe (hybride hash/clair).
-7. **`mass_migrate.php`** : Script utilitaire de migration groupée.
-    - Transforme tous les mots de passe en clair en hashs Argon2id en une seule passe.
-    - *Note : Doit être supprimé après usage.*
+    - **Tracking des Vues** : Incrémentation du compteur de lecture à l'ouverture d'un article.
+    - **Persistance SEO** : Gestion des champs `meta_title` et `meta_description`.
+4. **`projects.php`** : CRUD pour les "Réalisations Terrain" et Paramètres Entreprise.
+5. **`change_password.php`** : Mise à jour sécurisée en **Argon2id**.
+6. **`mass_migrate.php`** : Script utilitaire de migration de sécurité.
 
 ---
 

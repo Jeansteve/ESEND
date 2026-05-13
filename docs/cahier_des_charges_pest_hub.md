@@ -1,5 +1,5 @@
-# 📖 Master Cahier des Charges : Plateforme ESEND V4
-> **Version :** 4.0 (Avril 2026)  
+# 📖 Master Cahier des Charges : Plateforme ESEND V5
+> **Version :** 5.0 (Mai 2026) — *Industrial Blueprint Edition*  
 > **Statut :** Document de Référence de l'Ecosystème  
 > **Acteurs :** Steve (Owner), Antigravity (IA Architect)  
 > **Tech Doc :** [TECHNICAL_DOCUMENTATION.md](TECHNICAL_DOCUMENTATION.md)
@@ -13,7 +13,7 @@
 4. [Tunnel de Conversion (FormWizard)](#4-tunnel-de-conversion-formwizard)
 5. [Ecosystème Backend & API](#5-ecosystème-backend--api)
 6. [Administration & Mini-CRM](#6-administration--mini-crm)
-7. [SEO & Performance](#7-seo--performance)
+7. [SEO & Performance Élite](#7-seo--performance-élite)
 
 ---
 
@@ -32,10 +32,10 @@ L'interface utilise les codes du **Design UI Moderne** (Glassmorphism, animation
 
 - **Code Couleur Maître** : Rouge ESEND (`#dc2626`) sur fonds sombres/propres.
 - **Typographie** : Sans-serif grasse, majuscules pour les titres (impact maximal).
-- **Composant `Reveal`** : Utilisation systématique de Framer Motion pour des entrées progressives (staggered animations).
-- **Scores Dynamiques** : Utilisation du composant `AnimatedNumber` pour tous les scores de satisfaction (ex: 4.9/5), garantissant une synchronisation au scroll et une fluidité visuelle constante.
-- **Navigation Services** : Utilisation d'un sélecteur de catégories **Sticky** (collant) sur Desktop pour maintenir l'accès aux autres nuisibles sans remonter la page.
-- **Règle de Lisibilité** : Malgré le thème sombre général, les formulaires critiques (Wizard) conservent un fond blanc pur (`bg-white`) pour une clarté absolue.
+- **Composant `Reveal`** : Utilisation systématique de Framer Motion pour des entrées progressives.
+- **Scores Dynamiques** : Utilisation du composant `AnimatedNumber` synchronisé au scroll.
+- **Adaptive Header (V26)** : Intelligence de conversion qui remplace le téléphone par le bouton "DEVIS OFFERT" dès le scroll sur mobile pour maximiser le tunnel de conversion.
+- **Gooey Button** : Utilisation d'animations fluides SVG pour les CTAs principaux.
 
 ---
 
@@ -53,7 +53,7 @@ Le site est structuré en trois piliers verticaux :
 
 ### C. Hub Nettoyage de Précision
 - **Design** : Accents Indigo (`indigo`).
-- **Focus** : Vitrerie à l'eau pure, nettoyage haute performance.
+- **Focus** : Vitrerie à l'eau pure, nettoyage haute performance, effet **Liquid Glass (WebGL)**.
 
 ---
 
@@ -62,8 +62,8 @@ Le formulaire de devis est le cœur battant du site. Il est conçu pour être **
 
 ### Étapes du Tunnel :
 1. **Besoin** : Sélection du service et du nuisible concerné.
-2. **Détails** : "Placeholder" dynamique (ex: *"Dites-nous si vous voyez des traces noires..."* pour les cafards).
-3. **Multimédia** : Dépôt de 3 photos maximum, compressées en temps réel sur le navigateur pour ne pas saturer le serveur.
+2. **Détails** : "Placeholder" dynamique adapté au nuisible.
+3. **Multimédia** : Dépôt de 3 photos maximum, compressées en temps réel (WebP).
 4. **Localisation** : Code Postal et Ville avec validation.
 5. **Contact** : Validation stricte du téléphone (FR) et type de client (Particulier/Pro).
 
@@ -72,26 +72,14 @@ Le formulaire de devis est le cœur battant du site. Il est conçu pour être **
 ## 5. Ecosystème Backend & API
 ### Technologie
 - **Langage** : PHP 8+ (Hostinger).
-- **Emailing** : PHPMailer avec fonction `mail()` native optimisée.
+- **Emailing** : SMTP Hostinger Authentifié (SSL Port 465) pour une délivrabilité maximale.
 - **Base de Données** : MySQL (PDO).
 
 ### Logique de Suivi & Stockage (Solution Hybride Pro)
 Chaque formulaire génère un **Tracking ID** unique : `ES-AAMM-NNN`. Les médias associés suivent une stratégie de classement intelligent :
-- **Organisation Physique** : Stockage local structuré par métier sur le serveur : `/public/uploads/leads/[service]/[nuisible]/`.
-- **Référencement BDD** : La base de données stocke le chemin relatif complet, permettant une migration transparente vers un Cloud (CDN) à l'avenir.
-- **Sanitisation** : Les noms de dossiers sont automatiquement nettoyés (minuscules, sans accents, espaces remplacés par des tirets).
-
-```mermaid
-graph TD
-    A[Client remplit le Wizard] --> B{Service ?}
-    B -- Nuisibles --> C[Dossier /leads/nuisibles/nom-nuisible/]
-    B -- Désinfection --> D[Dossier /leads/desinfection/]
-    B -- Nettoyage --> E[Dossier /leads/nettoyage/]
-    C & D & E --> F[Génération ID unique & Sanitisation]
-    F --> G[Upload physique structuré]
-    G --> H[Archivage BDD + JSON des chemins relatifs]
-    H --> I[Envoi Mail avec photos rattachées]
-```
+- **Organisation Physique** : Stockage local structuré par métier sur le serveur.
+- **Référencement BDD** : La base de données stocke le chemin relatif complet.
+- **Sanitisation** : Les noms de dossiers sont automatiquement nettoyés.
 
 ---
 
@@ -101,41 +89,42 @@ L'administration permet un pilotage total sans connaissances techniques.
 ### modules Clés :
 - **Journal Expert** : Studio de création avec IA (Gemini) pour rédiger des articles optimisés.
 - **Réalisations** : Gestionnaire de projets terrain (avant/après).
-- **LeadManager (CRM)** : 
-  - **Statuts** : Nouveau, Contacté, Terminé, Annulé.
-  - **Automatisation Zéro-Saisie** : Un clic sur "Appeler" dans l'admin passe automatiquement le dossier en "Contacté".
+- **LeadManager (CRM)** : Gestion des statuts et automatisation des rappels.
+- **Analytics BI** : Visualisation des tendances (Macro/Micro) via Recharts.
 
 ---
 
-## 7. SEO & Performance
-- **Image Compression** : Utilisation de `webp` et redimensionnement auto.
-- **Metadata Dynamique** : Tags SEO injectés via `DynamicSEO.jsx`.
-- **Architecture de contenu** : Une page par nuisible + URL canonique.
+## 7. SEO & Performance Élite
+- **Vite Code Splitting** : Division du code en chunks (`vendor-three`, `vendor-charts`) pour un chargement initial ultra-rapide.
+- **Image Compression** : Automatisation du format **WebP** à 80% sur tout le site.
+- **Metadata Dynamique** : Tags SEO injectés via `SEO.jsx`.
+- **Lighthouse Performance** : Objectif de score > 95 sur tous les indicateurs.
+
+---
 
 ## 8. Sécurité & Protection des Données
 La plateforme ESEND applique des protocoles de sécurité de niveau industriel :
-- **Hachage des Mots de Passe** : Transition totale vers **Argon2id** (Standard 2026) pour tous les accès administratifs. Aucune donnée sensible n'est stockée en clair.
-- **Migration Sécurisée** : Utilisation d'un système de migration douce (Lazy Migration) garantissant la mise à jour des comptes sans interruption de service.
-- **Conformité RGPD** : Verrouillage de la collecte de données par consentement explicite et politique de transparence totale sur l'usage des informations.
+- **Hachage des Mots de Passe** : Utilisation exclusive d'**Argon2id**.
+- **Protection API** : Middleware de session PHP (`auth_check.php`) sur chaque route sensible.
+- **Conformité RGPD** : Verrouillage par consentement explicite et politique de transparence.
 
 ---
 
 ## 9. Standardisation & Déploiement Industriel
 Le projet est conçu comme un **BluePrint** reproductible.
-- **CI/CD** : Automatisation via GitHub Actions avec isolation des environnements (`main` pour la Prod, `test` pour la Recette).
-- **Configuration** : Séparation stricte de la logique et des accès (exclusion de `config.php` de Git).
+- **CI/CD** : Automatisation via GitHub Actions (PROD/TEST).
 - **Duplication** : Guide de duplication complet (`DUPLICATION_GUIDE.md`) permettant un setup client en < 1 heure.
 
 ---
 
 ## 10. Business Intelligence & IA Strategy
-Le Dashboard ESEND intègre un moteur de **Market Intelligence** pour transformer les données web en opportunités commerciales.
+Le Dashboard ESEND intègre un moteur de **Market Intelligence**.
 
 ### Composants Clés :
 - **Market Strategy Advisor** : Analyseur de tendances en temps réel (via Apify) focalisé sur le bassin de Menton et de la Riviera (06).
-- **Priorisation Hyper-Locale** : Les données de Menton sont traitées en priorité 1 pour les alertes sanitaires (nuisibles) et les opportunités SEO.
-- **Aide à la Décision IA** : Utilisation de modèles de langage (LLM) pour transformer les pics de recherche Google Trends en recommandations concrètes (ex: *"Hausse des fourmis à Menton : Préparez une campagne de prévention Facebook"*).
+- **Aide à la Décision IA** : Utilisation de modèles de langage (Gemini) pour transformer les pics de recherche Google Trends en recommandations concrètes.
 
 ---
 
 > **Note de l'IA Architect :** Ce document est le garant de la cohérence de l'écosystème ESEND. Toute modification structurelle doit y être consignée.
+ect :** Ce document est le garant de la cohérence de l'écosystème ESEND. Toute modification structurelle doit y être consignée.
