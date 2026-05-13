@@ -74,14 +74,18 @@ const formatDate = (str) => {
 // ─── Toast Component ─────────────────────────────────────────────────────────
 const Toast = ({ show, message = 'Article enregistré ✓' }) => (
   <div
-    className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 bg-emerald-600 text-white px-6 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-emerald-600/40 transition-all duration-500 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}
+    className={`fixed bottom-8 z-[9999] flex items-center gap-3 bg-emerald-600 text-white px-6 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-emerald-600/40 transition-all duration-500 ${show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8 pointer-events-none'}`}
+    style={{ 
+        left: 'calc(var(--sidebar-width, 0px) + (100% - var(--sidebar-width, 0px)) / 2)',
+        transform: 'translateX(-50%)' 
+    }}
   >
     <CheckCircle className="w-4 h-4" /> {message}
   </div>
 );
 
 // ─── ArticleModal ─────────────────────────────────────────────────────────────
-const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => {
+const ArticleModal = ({ article, onClose, onSave, onDelete, services = [], integratedMode = false }) => {
   const isNew = !article?.id;
   const fileInputRef = useRef(null);
 
@@ -112,6 +116,11 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
   const [toastMsg, setToastMsg] = useState('');
   const [lastSaved, setLastSaved] = useState(null);
 
+  const [visualPrompt, setVisualPrompt] = useState('');
+  const [showPromptEditor, setShowPromptEditor] = useState(false);
+  const [loadingPrompt, setLoadingPrompt] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   const handleOpenPromptEditor = async () => {
     setShowPromptEditor(true);
     setLoadingPrompt(true);
@@ -125,12 +134,6 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
       setLoadingPrompt(false);
     }
   };
-
-  // AI Visual Prompt States (TNERI Parity)
-  const [visualPrompt, setVisualPrompt] = useState('');
-  const [showPromptEditor, setShowPromptEditor] = useState(false);
-  const [loadingPrompt, setLoadingPrompt] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   // ── Quill modules ──
   const quillModules = useMemo(() => ({
@@ -349,527 +352,543 @@ const ArticleModal = ({ article, onClose, onSave, onDelete, services = [] }) => 
     </div>
   );
 
-  // ── Render ──
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--bg-overlay)] backdrop-blur-2xl animate-in fade-in duration-300 p-2 md:p-4">
-      <div className="glass-card w-full max-w-7xl h-[96vh] overflow-hidden flex flex-col p-0 border-[var(--border-subtle)] shadow-3xl">
+  // ── Modal Content Component ──
+  const ModalContent = (
+    <div className={`glass-card w-full ${integratedMode ? 'h-full border-none shadow-none bg-transparent' : 'max-w-7xl h-[96vh] border-[var(--border-subtle)] shadow-3xl'} overflow-hidden flex flex-col p-0`}>
 
-        {/* ─── Header ─── */}
-        <div className="px-5 py-4 border-b border-[var(--border-subtle)] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-[var(--bg-secondary)] shrink-0">
-          <div className="flex items-center gap-4 min-w-0">
-            <div className="min-w-0">
-              <h3 className="text-sm font-black uppercase tracking-tighter truncate max-w-[280px]">
-                {isNew
-                  ? 'Nouvel Article'
-                  : <><span className="text-red-600 italic">Édition</span> · {formData.title || 'Sans titre'}</>}
-              </h3>
-              <div className="flex items-center gap-3 mt-1 flex-wrap">
-                {article?.created_at && (
-                  <span className="flex items-center gap-1 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
-                    <Calendar className="w-2.5 h-2.5" /> Créé {formatDate(article.created_at)}
-                  </span>
-                )}
-                {lastSaved && (
-                  <span className="flex items-center gap-1 text-[9px] font-bold text-emerald-500 uppercase tracking-widest">
-                    <CheckCircle className="w-2.5 h-2.5" /> Enregistré à {lastSaved.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                )}
-              </div>
+      {/* ─── Header ─── */}
+      <div className="px-5 py-4 border-b border-[var(--border-subtle)] flex flex-col md:flex-row justify-between items-start md:items-center gap-3 bg-[var(--bg-secondary)] shrink-0">
+        <div className="flex items-center gap-4 min-w-0">
+          <div className="min-w-0">
+            <h3 className="text-sm font-black uppercase tracking-tighter truncate max-w-[280px]">
+              {isNew
+                ? 'Nouvel Article'
+                : <><span className="text-red-600 italic">Édition</span> · {formData.title || 'Sans titre'}</>}
+            </h3>
+            <div className="flex items-center gap-3 mt-1 flex-wrap">
+              {article?.created_at && (
+                <span className="flex items-center gap-1 text-[9px] font-bold text-[var(--text-dimmed)] uppercase tracking-widest">
+                  <Calendar className="w-2.5 h-2.5" /> Créé {formatDate(article.created_at)}
+                </span>
+              )}
+              {lastSaved && (
+                <span className="flex items-center gap-1 text-[9px] font-bold text-emerald-500 uppercase tracking-widest">
+                  <CheckCircle className="w-2.5 h-2.5" /> Enregistré à {lastSaved.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              )}
             </div>
-
-            {/* Tabs */}
-            <nav className="flex gap-1 bg-[var(--bg-input)] p-1 rounded-xl border border-[var(--border-subtle)] shrink-0">
-              {[
-                { id: 'editor', label: 'Éditeur', icon: FileText },
-                { id: 'media', label: 'Illustrations', icon: Camera },
-                { id: 'split', label: 'Split', icon: Columns },
-                { id: 'preview', label: 'Aperçu', icon: Eye },
-                { id: 'seo', label: 'SEO', icon: Search },
-              ].map(t => (
-                <button
-                  key={t.id}
-                  onClick={() => setActiveTab(t.id)}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${activeTab === t.id ? 'bg-[var(--text-main)] text-[var(--bg-primary)]' : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)]'}`}
-                >
-                  <t.icon className="w-3 h-3" /> 
-                  {t.label}
-                  {t.id === 'media' && formData.illustrations?.length > 0 && (
-                    <span className="flex h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse ml-0.5"></span>
-                  )}
-                </button>
-              ))}
-            </nav>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <div className={`hidden md:flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-3 py-2 rounded-lg border ${isPublished ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'}`}>
-              {isPublished ? <Globe className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-              {isPublished ? 'Publié' : 'Brouillon'}
-            </div>
-            <button
-              onClick={handleAiRefine}
-              disabled={isGenerating}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-red-600 to-indigo-600 text-white px-4 py-2.5 rounded-xl font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all disabled:opacity-50 shadow-lg"
-            >
-              {isGenerating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
-              IA Magie
-            </button>
-            <button onClick={onClose} className="p-2 hover:bg-[var(--bg-input)] rounded-full text-[var(--text-dimmed)] hover:text-red-600 transition-all border border-transparent hover:border-[var(--border-subtle)]">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* ─── Content Area ─── */}
-        <div className="flex-grow overflow-hidden flex">
-
-          {/* EDITOR PANE — visible on editor/split modes */}
-          {(activeTab === 'editor' || activeTab === 'split') && (
-            <div className={`flex flex-col overflow-y-auto ${activeTab === 'split' ? 'w-1/2 border-r border-[var(--border-subtle)]' : 'w-full'}`}>
-              <div className="p-6 space-y-6">
-
-                {/* Titre + Métriques */}
-                <div>
-                  <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Titre de l'article *</label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={e => update('title', e.target.value)}
-                    className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-xl font-black tracking-tight focus:border-red-600/50 outline-none transition-all placeholder:text-[var(--text-dimmed)]"
-                    placeholder="Saisissez un titre percutant..."
-                  />
-                  {/* Metrics bar */}
-                  <div className="flex items-center gap-3 mt-2">
-                    <div className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
-                      <Clock className="w-3 h-3" /> {metrics.time} MIN
-                    </div>
-                    <div className="px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
-                      <FileText className="w-3 h-3" /> {metrics.words} MOTS
-                    </div>
-                    <div className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${metrics.words > 800 ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : metrics.words > 300 ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500' : 'bg-red-500/10 border border-red-500/20 text-red-500'}`}>
-                      {metrics.words > 800 ? '✓ Premium' : metrics.words > 300 ? 'Qualité Standard' : 'Brouillon Court'}
-                    </div>
-                  </div>
-                  {/* Slug */}
-                  <div className="mt-2 flex items-center gap-2 text-[9px] text-[var(--text-dimmed)] font-medium">
-                    <span className="opacity-60">URL :</span>
-                    <span>esendnuisibles.fr/journal/</span>
-                    <input
-                      type="text"
-                      value={formData.slug}
-                      onChange={e => update('slug', e.target.value)}
-                      className="flex-1 bg-transparent border-b border-[var(--border-subtle)] outline-none text-[9px] font-mono text-[var(--text-main)] focus:border-red-600/50"
-                    />
-                  </div>
-                </div>
-
-                {/* Excerpt */}
-                <div>
-                  <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Résumé / Accroche *</label>
-                  <textarea
-                    value={formData.excerpt}
-                    onChange={e => update('excerpt', e.target.value)}
-                    rows={3}
-                    className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-[var(--text-main)] font-medium placeholder:text-[var(--text-dimmed)]"
-                    placeholder="Une introduction accrocheuse pour le listing et Google..."
-                  />
-                </div>
-
-                {/* Contenu WYSIWYG */}
-                <div>
-                  <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Contenu de l'article</label>
-                  <div className="rounded-xl border border-[var(--border-subtle)] bg-white">
-                    <ReactQuill
-                      theme="snow"
-                      value={formData.content_html}
-                      onChange={v => update('content_html', v)}
-                      modules={quillModules}
-                      style={{ minHeight: '320px', color: '#1e293b', background: 'white' }}
-                    />
-                  </div>
-                </div>
-
-                {/* Configuration sidebar (dans la colonne gauche sur mobile, affichée sous le contenu) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                  {/* Catégorie Nuisible */}
-                  <div>
-                    <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Catégorie Nuisible</label>
-                    <div className="relative">
-                      <select
-                        value={formData.nuisible_tag}
-                        onChange={e => update('nuisible_tag', e.target.value)}
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
-                      >
-                        {services.length > 0 
-                          ? services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)
-                          : NUISIBLE_TAGS.map(c => <option key={c.id} value={c.id}>{c.label}</option>)
-                        }
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Type d'article */}
-                  <div>
-                    <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Type d'article</label>
-                    <div className="relative">
-                      <select
-                        value={formData.category}
-                        onChange={e => update('category', e.target.value)}
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
-                      >
-                        {['Expertise', 'Protocole', 'Saisonnalité', 'Prévention', 'Actualité'].map(c => (
-                          <option key={c}>{c}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Pôle Service */}
-                  <div>
-                    <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Pôle Service</label>
-                    <div className="relative">
-                      <select
-                        value={formData.service_id}
-                        onChange={e => update('service_id', parseInt(e.target.value))}
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
-                      >
-                        <option value={1}>1 — Nuisibles</option>
-                        <option value={2}>2 — Désinfection</option>
-                        <option value={3}>3 — Nettoyage</option>
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Image Upload */}
-                  <div>
-                    <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Image de Couverture</label>
-                    {isUploading ? (
-                      <div className="aspect-video rounded-xl border border-[var(--border-subtle)] flex items-center justify-center gap-2 text-[10px] font-bold text-[var(--text-dimmed)] bg-[var(--bg-input)]">
-                        <Loader2 className="w-4 h-4 animate-spin" /> Compression...
-                      </div>
-                    ) : formData.cover_image ? (
-                      <div className="relative group rounded-xl overflow-hidden border border-[var(--border-subtle)]">
-                        <img src={formData.cover_image} alt="Cover" className="w-full aspect-video object-cover" />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-3">
-                          <button onClick={() => fileInputRef.current?.click()} className="p-2 bg-white/20 hover:bg-white/40 rounded-lg text-white transition-all backdrop-blur-md">
-                            <Edit3 className="w-4 h-4" />
-                          </button>
-                          <button onClick={() => update('cover_image', '')} className="p-2 bg-red-600/80 hover:bg-red-600 rounded-lg text-white transition-all">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => fileInputRef.current?.click()}
-                        className="aspect-video rounded-xl border-2 border-dashed border-[var(--border-subtle)] hover:border-red-600/40 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-[var(--bg-input)] text-[var(--text-dimmed)] px-4 text-center"
-                      >
-                        <Camera className="w-6 h-6" />
-                        <span className="text-[9px] font-black uppercase tracking-widest">Cliquer pour uploader</span>
-                        {formData.image_prompt && (
-                          <span className="text-[8px] font-medium text-indigo-400 mt-1 leading-tight">
-                            💡 IA suggère : {formData.image_prompt.slice(0, 80)}...
-                          </span>
-                        )}
-                      </div>
-                    )}
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      hidden
-                      accept="image/*"
-                      onChange={e => handleImageUpload(e.target.files[0])}
-                    />
-                    {/* AI Visual Prompt UI (TNERI Parity) */}
-                    <div className="mt-3">
-                      {!showPromptEditor ? (
-                        <button
-                          onClick={handleOpenPromptEditor}
-                          disabled={loadingPrompt}
-                          className="w-full py-2.5 rounded-xl border border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/10 text-indigo-400 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all"
-                        >
-                          {loadingPrompt ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-                          {loadingPrompt ? 'Analyse...' : 'Générer prompt image (IA)'}
-                        </button>
-                      ) : (
-                        <div className="p-3 bg-[var(--bg-input)] rounded-xl border border-indigo-500/30 animate-in slide-in-from-top-2 duration-300">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-indigo-400">Prompt Visuel IA</span>
-                            <button onClick={() => setShowPromptEditor(false)} className="text-[var(--text-dimmed)]"><X className="w-3 h-3" /></button>
-                          </div>
-                          <textarea
-                            value={visualPrompt}
-                            onChange={(e) => setVisualPrompt(e.target.value)}
-                            className="w-full bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-lg p-2 text-[10px] font-mono text-[var(--text-dimmed)] min-h-[100px] outline-none"
-                            spellCheck="false"
-                          />
-                          <div className="flex gap-2 mt-2">
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(visualPrompt);
-                                setCopied(true);
-                                setTimeout(() => setCopied(false), 2000);
-                              }}
-                              className={`flex-1 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${copied ? 'bg-emerald-500 text-white' : 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'}`}
-                            >
-                              {copied ? <CheckCircle className="w-3 h-3" /> : <Save className="w-3 h-3" />}
-                              {copied ? 'Copié !' : 'Copier'}
-                            </button>
-                            <button onClick={handleOpenPromptEditor} className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-dimmed)] hover:text-indigo-400 transition-all"><RefreshCw className={`w-3 h-3 ${loadingPrompt ? 'animate-spin' : ''}`} /></button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          )}
-
-          {/* PREVIEW PANE */}
-          {activeTab === 'split' && (
-            <div className="w-1/2 overflow-y-auto">
-              <PreviewContent />
-            </div>
-          )}
-
-          {activeTab === 'preview' && (
-            <div className="w-full overflow-y-auto relative">
-              <div className="sticky top-0 z-10 bg-amber-500/10 border-b border-amber-500/30 px-5 py-2 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Eye className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">Aperçu Plein Écran — Rendu fidèle au site</span>
-                </div>
-                <button
-                  onClick={() => setActiveTab('split')}
-                  className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-amber-400 hover:text-amber-300 transition-all"
-                >
-                  <Maximize2 className="w-3 h-3" /> Quitter
-                </button>
-              </div>
-              <PreviewContent />
-            </div>
-          )}
-
-          {/* SEO TAB */}
-          {activeTab === 'seo' && (
-            <div className="w-full overflow-y-auto p-8">
-              <div className="max-w-2xl mx-auto space-y-6">
-                <div className="glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
-                  <div className="flex items-center gap-3 mb-6 font-black uppercase tracking-widest text-[10px] border-b border-[var(--border-subtle)] pb-4">
-                    <Search className="w-4 h-4" /> Optimisation Moteurs de Recherche
-                  </div>
-
-                  {/* Google Preview */}
-                  <div className="bg-white rounded-xl p-5 mb-6 border border-slate-200">
-                    <div className="text-[11px] text-slate-500 mb-1">esendnuisibles.fr › journal-expert</div>
-                    <div className="text-blue-700 font-bold text-base mb-1 line-clamp-1">
-                      {formData.meta_title || formData.title || 'Meta Title manquant'}
-                    </div>
-                    <div className="text-slate-600 text-[12px] leading-relaxed line-clamp-2">
-                      {formData.meta_description || formData.excerpt || 'Meta description manquante...'}
-                    </div>
-                  </div>
-
-                  <div className="space-y-5">
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest">Meta Title — max 60 car.</label>
-                        <span className={`text-[9px] font-black ${(formData.meta_title || '').length > 60 ? 'text-red-500' : 'text-emerald-500'}`}>
-                          {(formData.meta_title || '').length}/60
-                        </span>
-                      </div>
-                      <input
-                        type="text"
-                        value={formData.meta_title}
-                        onChange={e => update('meta_title', e.target.value)}
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
-                        placeholder="Titre SEO — incluez Menton, Monaco ou Côte d'Azur"
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest">Meta Description — max 160 car.</label>
-                        <span className={`text-[9px] font-black ${(formData.meta_description || '').length > 160 ? 'text-red-500' : 'text-emerald-500'}`}>
-                          {(formData.meta_description || '').length}/160
-                        </span>
-                      </div>
-                      <textarea
-                        value={formData.meta_description}
-                        onChange={e => update('meta_description', e.target.value)}
-                        rows={4}
-                        className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-[var(--text-main)]"
-                        placeholder="Description optimisée — incluez Menton/Monaco..."
-                      />
-                    </div>
-
-                    <div className="bg-[var(--bg-input)] p-4 rounded-2xl border border-[var(--border-subtle)] flex gap-3 items-start">
-                      <Info className="w-4 h-4 text-[var(--text-dimmed)] shrink-0 mt-0.5" />
-                      <p className="text-[11px] text-[var(--text-dimmed)] leading-relaxed font-medium">
-                        <strong>Conseil Riviera :</strong> Incluez "Menton", "Monaco" ou "Côte d'Azur" dans vos méta-données pour favoriser le référencement local. Le bouton <strong>IA Magie</strong> pré-remplit ces champs automatiquement.
-                      </p>
-                    </div>
-
-                    {/* Slug édition depuis SEO */}
-                    <div>
-                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">URL Canonique (Slug)</label>
-                      <div className="flex items-center gap-2 bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3">
-                        <span className="text-[10px] text-[var(--text-dimmed)] shrink-0">esendnuisibles.fr/journal/</span>
-                        <input
-                          type="text"
-                          value={formData.slug}
-                          onChange={e => update('slug', e.target.value)}
-                          className="flex-1 bg-transparent outline-none text-xs font-mono text-[var(--text-main)]"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ILLUSTRATIONS TAB */}
-          {activeTab === 'media' && (
-            <div className="w-full overflow-y-auto p-8">
-              <div className="max-w-4xl mx-auto">
-                <div className="flex items-center justify-between mb-8">
-                  <div>
-                    <h2 className="text-2xl font-black tracking-tighter uppercase mb-2 flex items-center gap-3">
-                      <Camera className="w-6 h-6 text-indigo-500" />
-                      Studio d'Illustration IA
-                    </h2>
-                    <p className="text-[var(--text-dimmed)] text-xs font-medium">
-                      L'IA a suggéré ces visuels pour enrichir votre article et améliorer l'engagement.
-                    </p>
-                  </div>
-                  {formData.illustrations?.length > 0 && (
-                    <div className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400 text-[10px] font-black uppercase tracking-widest">
-                      {formData.illustrations.length} Suggestions dispos
-                    </div>
-                  )}
-                </div>
-
-                {formData.illustrations?.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-6">
-                    {formData.illustrations.map((ill, idx) => (
-                      <div key={idx} className="glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)] overflow-hidden group border-l-4 border-l-indigo-500">
-                        <div className="flex flex-col md:flex-row">
-                          <div className="p-6 flex-1 border-r border-[var(--border-subtle)]">
-                            <div className="flex items-center gap-2 mb-4">
-                              <span className="w-6 h-6 rounded-full bg-[var(--text-main)] text-[var(--bg-primary)] flex items-center justify-center text-[10px] font-black">
-                                {idx + 1}
-                              </span>
-                              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">Prompt suggéré</span>
-                            </div>
-                            <div className="bg-[var(--bg-input)] rounded-xl p-4 border border-[var(--border-subtle)] mb-4">
-                              <p className="text-xs font-mono text-[var(--text-main)] leading-relaxed">
-                                {ill.prompt}
-                              </p>
-                            </div>
-                            <button
-                              onClick={() => {
-                                navigator.clipboard.writeText(ill.prompt);
-                                toast('Prompt copié !');
-                              }}
-                              className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-400 hover:text-indigo-300 transition-all"
-                            >
-                              <Save className="w-3 h-3" /> Copier pour Midjourney / Fal.ai
-                            </button>
-                          </div>
-                          <div className="p-6 w-full md:w-64 bg-[var(--bg-input)]/30 flex flex-col justify-center">
-                            <div className="flex items-center gap-2 mb-3 text-emerald-400">
-                              <Globe className="w-3.5 h-3.5" />
-                              <span className="text-[10px] font-black uppercase tracking-widest">Emplacement</span>
-                            </div>
-                            <p className="text-[11px] font-bold text-[var(--text-main)] mb-6 italic leading-snug">
-                              "{ill.location_hint}"
-                            </p>
-                            <div className="mt-auto pt-4 border-t border-[var(--border-subtle)]/50">
-                              <p className="text-[8px] uppercase tracking-widest font-black text-[var(--text-dimmed)]">Statut</p>
-                              <p className="text-[9px] font-bold text-amber-500 flex items-center gap-1.5 mt-1">
-                                <Clock className="w-2.5 h-2.5" /> En attente d'image
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center justify-center py-20 bg-[var(--bg-input)]/20 rounded-3xl border-2 border-dashed border-[var(--border-subtle)] text-center px-6">
-                    <div className="w-16 h-16 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center mb-6 border border-[var(--border-subtle)]">
-                      <Sparkles className="w-8 h-8 text-[var(--text-dimmed)] opacity-20" />
-                    </div>
-                    <h3 className="text-lg font-black uppercase tracking-tighter mb-2">Aucune suggestion pour le moment</h3>
-                    <p className="text-[var(--text-dimmed)] text-xs max-w-sm mb-8 leading-relaxed">
-                      Cliquez sur le bouton <span className="text-red-500 font-bold">IA Magie</span> pour générer un article complet avec ses recommandations visuelles.
-                    </p>
-                  </div>
-                )}
-
-                <div className="mt-12 p-6 bg-indigo-600/5 border border-indigo-500/20 rounded-2xl flex gap-4 items-start">
-                  <Info className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="text-[11px] font-black uppercase tracking-widest text-indigo-400 mb-1">Comment utiliser ces suggestions ?</h4>
-                    <p className="text-[11px] text-[var(--text-dimmed)] leading-relaxed font-medium">
-                      Copiez le prompt et utilisez un générateur d'images (comme Midjourney, Fal.ai ou DALL-E). Une fois votre image générée, uploadez-la dans la section <strong>Éditeur</strong> ou insérez-la directement dans le corps de l'article à l'endroit conseillé via la barre d'outils de l'éditeur riche.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ─── Footer Actions ─── */}
-        <div className="px-6 py-4 border-t border-[var(--border-subtle)] flex justify-between items-center gap-4 bg-[var(--bg-secondary)] shrink-0">
-          <div>
-            {!isNew && (
+          {/* Tabs */}
+          <nav className="flex gap-1 bg-[var(--bg-input)] p-1 rounded-xl border border-[var(--border-subtle)] shrink-0">
+            {[
+              { id: 'editor', label: 'Éditeur', icon: FileText },
+              { id: 'media', label: 'Illustrations', icon: Camera },
+              { id: 'split', label: 'Split', icon: Columns },
+              { id: 'preview', label: 'Aperçu', icon: Eye },
+              { id: 'seo', label: 'SEO', icon: Search },
+            ].map(t => (
               <button
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="flex items-center gap-2 px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-red-500/60 hover:text-red-500 hover:bg-red-600/10 border border-red-600/10 hover:border-red-600/30 transition-all disabled:opacity-50"
+                key={t.id}
+                onClick={() => setActiveTab(t.id)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${activeTab === t.id ? 'bg-[var(--text-main)] text-[var(--bg-primary)]' : 'text-[var(--text-dimmed)] hover:text-[var(--text-main)]'}`}
               >
-                {isDeleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-                Supprimer l'article
+                <t.icon className="w-3 h-3" /> 
+                {t.label}
+                {t.id === 'media' && formData.illustrations?.length > 0 && (
+                  <span className="flex h-1.5 w-1.5 rounded-full bg-indigo-500 animate-pulse ml-0.5"></span>
+                )}
               </button>
-            )}
-          </div>
+            ))}
+          </nav>
+        </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onClose}
-              className="px-5 py-3 rounded-xl border border-[var(--border-subtle)] text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] hover:text-[var(--text-main)] hover:bg-[var(--bg-input)] transition-all"
-            >
-              Fermer
-            </button>
-            <button
-              onClick={() => handleSave(0)}
-              disabled={isSaving}
-              className="flex items-center gap-2 px-5 py-3 rounded-xl border border-amber-500/40 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
-            >
-              {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <EyeOff className="w-3.5 h-3.5" />}
-              Brouillon
-            </button>
-            <button
-              onClick={() => handleSave(1)}
-              disabled={isSaving}
-              className="flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-xl shadow-emerald-600/20 active:scale-95 disabled:opacity-50"
-            >
-              {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
-              Publier
-            </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <div className={`hidden md:flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest px-3 py-2 rounded-lg border ${isPublished ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'}`}>
+            {isPublished ? <Globe className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+            {isPublished ? 'Publié' : 'Brouillon'}
           </div>
+          <button
+            onClick={handleAiRefine}
+            disabled={isGenerating}
+            className="flex items-center gap-1.5 bg-gradient-to-r from-red-600 to-indigo-600 text-white px-4 py-2.5 rounded-xl font-black uppercase tracking-widest text-[9px] hover:scale-105 transition-all disabled:opacity-50 shadow-lg"
+          >
+            {isGenerating ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+            IA Magie
+          </button>
+          <button onClick={onClose} className="p-2 hover:bg-[var(--bg-input)] rounded-full text-[var(--text-dimmed)] hover:text-red-600 transition-all border border-transparent hover:border-[var(--border-subtle)]">
+            <X className="w-5 h-5" />
+          </button>
         </div>
       </div>
 
+      {/* ─── Content Area ─── */}
+      <div className="flex-grow overflow-hidden flex">
+
+        {/* EDITOR PANE — visible on editor/split modes */}
+        {(activeTab === 'editor' || activeTab === 'split') && (
+          <div className={`flex flex-col overflow-y-auto ${activeTab === 'split' ? 'w-1/2 border-r border-[var(--border-subtle)]' : 'w-full'}`}>
+            <div className="p-6 space-y-6">
+
+              {/* Titre + Métriques */}
+              <div>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Titre de l'article *</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={e => update('title', e.target.value)}
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-5 py-4 text-xl font-black tracking-tight focus:border-red-600/50 outline-none transition-all placeholder:text-[var(--text-dimmed)]"
+                  placeholder="Saisissez un titre percutant..."
+                />
+                {/* Metrics bar */}
+                <div className="flex items-center gap-3 mt-2">
+                  <div className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+                    <Clock className="w-3 h-3" /> {metrics.time} MIN
+                  </div>
+                  <div className="px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+                    <FileText className="w-3 h-3" /> {metrics.words} MOTS
+                  </div>
+                  <div className={`px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-all ${metrics.words > 800 ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : metrics.words > 300 ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500' : 'bg-red-500/10 border border-red-500/20 text-red-500'}`}>
+                    {metrics.words > 800 ? '✓ Premium' : metrics.words > 300 ? 'Qualité Standard' : 'Brouillon Court'}
+                  </div>
+                </div>
+                {/* Slug */}
+                <div className="mt-2 flex items-center gap-2 text-[9px] text-[var(--text-dimmed)] font-medium">
+                  <span className="opacity-60">URL :</span>
+                  <span>esendnuisibles.fr/journal/</span>
+                  <input
+                    type="text"
+                    value={formData.slug}
+                    onChange={e => update('slug', e.target.value)}
+                    className="flex-1 bg-transparent border-b border-[var(--border-subtle)] outline-none text-[9px] font-mono text-[var(--text-main)] focus:border-red-600/50"
+                  />
+                </div>
+              </div>
+
+              {/* Excerpt */}
+              <div>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Résumé / Accroche *</label>
+                <textarea
+                  value={formData.excerpt}
+                  onChange={e => update('excerpt', e.target.value)}
+                  rows={3}
+                  className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-[var(--text-main)] font-medium placeholder:text-[var(--text-dimmed)]"
+                  placeholder="Une introduction accrocheuse pour le listing et Google..."
+                />
+              </div>
+
+              {/* Contenu WYSIWYG */}
+              <div>
+                <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Contenu de l'article</label>
+                <div className="rounded-xl border border-[var(--border-subtle)] bg-white">
+                  <ReactQuill
+                    theme="snow"
+                    value={formData.content_html}
+                    onChange={v => update('content_html', v)}
+                    modules={quillModules}
+                    style={{ minHeight: '320px', color: '#1e293b', background: 'white' }}
+                  />
+                </div>
+              </div>
+
+              {/* Configuration sidebar (dans la colonne gauche sur mobile, affichée sous le contenu) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                {/* Catégorie Nuisible */}
+                <div>
+                  <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Catégorie Nuisible</label>
+                  <div className="relative">
+                    <select
+                      value={formData.nuisible_tag}
+                      onChange={e => update('nuisible_tag', e.target.value)}
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
+                    >
+                      {services.length > 0 
+                        ? services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)
+                        : NUISIBLE_TAGS.map(c => <option key={c.id} value={c.id}>{c.label}</option>)
+                      }
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Type d'article */}
+                <div>
+                  <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Type d'article</label>
+                  <div className="relative">
+                    <select
+                      value={formData.category}
+                      onChange={e => update('category', e.target.value)}
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
+                    >
+                      {['Expertise', 'Protocole', 'Saisonnalité', 'Prévention', 'Actualité'].map(c => (
+                        <option key={c}>{c}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Pôle Service */}
+                <div>
+                  <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Pôle Service</label>
+                  <div className="relative">
+                    <select
+                      value={formData.service_id}
+                      onChange={e => update('service_id', parseInt(e.target.value))}
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-xs font-bold appearance-none outline-none focus:border-red-600/50"
+                    >
+                      <option value={1}>1 — Nuisibles</option>
+                      <option value={2}>2 — Désinfection</option>
+                      <option value={3}>3 — Nettoyage</option>
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] pointer-events-none" />
+                  </div>
+                </div>
+
+                {/* Image Upload */}
+                <div>
+                  <label className="block text-[9px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">Image de Couverture</label>
+                  {isUploading ? (
+                    <div className="aspect-video rounded-xl border border-[var(--border-subtle)] flex items-center justify-center gap-2 text-[10px] font-bold text-[var(--text-dimmed)] bg-[var(--bg-input)]">
+                      <Loader2 className="w-4 h-4 animate-spin" /> Compression...
+                    </div>
+                  ) : formData.cover_image ? (
+                    <div className="relative group rounded-xl overflow-hidden border border-[var(--border-subtle)]">
+                      <img src={formData.cover_image} alt="Cover" className="w-full aspect-video object-cover" />
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-3">
+                        <button onClick={() => fileInputRef.current?.click()} className="p-2 bg-white/20 hover:bg-white/40 rounded-lg text-white transition-all backdrop-blur-md">
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => update('cover_image', '')} className="p-2 bg-red-600/80 hover:bg-red-600 rounded-lg text-white transition-all">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => fileInputRef.current?.click()}
+                      className="aspect-video rounded-xl border-2 border-dashed border-[var(--border-subtle)] hover:border-red-600/40 flex flex-col items-center justify-center gap-2 cursor-pointer transition-all hover:bg-[var(--bg-input)] text-[var(--text-dimmed)] px-4 text-center"
+                    >
+                      <Camera className="w-6 h-6" />
+                      <span className="text-[9px] font-black uppercase tracking-widest">Cliquer pour uploader</span>
+                      {formData.image_prompt && (
+                        <span className="text-[8px] font-medium text-indigo-400 mt-1 leading-tight">
+                          💡 IA suggère : {formData.image_prompt.slice(0, 80)}...
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    onChange={e => handleImageUpload(e.target.files[0])}
+                  />
+                  {/* AI Visual Prompt UI (TNERI Parity) */}
+                  <div className="mt-3">
+                    {!showPromptEditor ? (
+                      <button
+                        onClick={handleOpenPromptEditor}
+                        disabled={loadingPrompt}
+                        className="w-full py-2.5 rounded-xl border border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/10 text-indigo-400 text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all"
+                      >
+                        {loadingPrompt ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
+                        {loadingPrompt ? 'Analyse...' : 'Générer prompt image (IA)'}
+                      </button>
+                    ) : (
+                      <div className="p-3 bg-[var(--bg-input)] rounded-xl border border-indigo-500/30 animate-in slide-in-from-top-2 duration-300">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-[8px] font-black uppercase tracking-[0.2em] text-indigo-400">Prompt Visuel IA</span>
+                          <button onClick={() => setShowPromptEditor(false)} className="text-[var(--text-dimmed)]"><X className="w-3 h-3" /></button>
+                        </div>
+                        <textarea
+                          value={visualPrompt}
+                          onChange={(e) => setVisualPrompt(e.target.value)}
+                          className="w-full bg-[var(--bg-primary)] border border-[var(--border-subtle)] rounded-lg p-2 text-[10px] font-mono text-[var(--text-dimmed)] min-h-[100px] outline-none"
+                          spellCheck="false"
+                        />
+                        <div className="flex gap-2 mt-2">
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(visualPrompt);
+                              setCopied(true);
+                              setTimeout(() => setCopied(false), 2000);
+                            }}
+                            className={`flex-1 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 ${copied ? 'bg-emerald-500 text-white' : 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'}`}
+                          >
+                            {copied ? <CheckCircle className="w-3 h-3" /> : <Save className="w-3 h-3" />}
+                            {copied ? 'Copié !' : 'Copier'}
+                          </button>
+                          <button onClick={handleOpenPromptEditor} className="p-1.5 rounded-lg border border-[var(--border-subtle)] text-[var(--text-dimmed)] hover:text-indigo-400 transition-all"><RefreshCw className={`w-3 h-3 ${loadingPrompt ? 'animate-spin' : ''}`} /></button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* PREVIEW PANE */}
+        {activeTab === 'split' && (
+          <div className="w-1/2 overflow-y-auto">
+            <PreviewContent />
+          </div>
+        )}
+
+        {activeTab === 'preview' && (
+          <div className="w-full overflow-y-auto relative">
+            <div className="sticky top-0 z-10 bg-amber-500/10 border-b border-amber-500/30 px-5 py-2 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Eye className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-amber-400">Aperçu Plein Écran — Rendu fidèle au site</span>
+              </div>
+              <button
+                onClick={() => setActiveTab('split')}
+                className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-amber-400 hover:text-amber-300 transition-all"
+              >
+                <Maximize2 className="w-3 h-3" /> Quitter
+              </button>
+            </div>
+            <PreviewContent />
+          </div>
+        )}
+
+        {/* SEO TAB */}
+        {activeTab === 'seo' && (
+          <div className="w-full overflow-y-auto p-8">
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
+                <div className="flex items-center gap-3 mb-6 font-black uppercase tracking-widest text-[10px] border-b border-[var(--border-subtle)] pb-4">
+                  <Search className="w-4 h-4" /> Optimisation Moteurs de Recherche
+                </div>
+
+                {/* Google Preview */}
+                <div className="bg-white rounded-xl p-5 mb-6 border border-slate-200">
+                  <div className="text-[11px] text-slate-500 mb-1">esendnuisibles.fr › journal-expert</div>
+                  <div className="text-blue-700 font-bold text-base mb-1 line-clamp-1">
+                    {formData.meta_title || formData.title || 'Meta Title manquant'}
+                  </div>
+                  <div className="text-slate-600 text-[12px] leading-relaxed line-clamp-2">
+                    {formData.meta_description || formData.excerpt || 'Meta description manquante...'}
+                  </div>
+                </div>
+
+                <div className="space-y-5">
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest">Meta Title — max 60 car.</label>
+                      <span className={`text-[9px] font-black ${(formData.meta_title || '').length > 60 ? 'text-red-500' : 'text-emerald-500'}`}>
+                        {(formData.meta_title || '').length}/60
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      value={formData.meta_title}
+                      onChange={e => update('meta_title', e.target.value)}
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all"
+                      placeholder="Titre SEO — incluez Menton, Monaco ou Côte d'Azur"
+                    />
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] tracking-widest">Meta Description — max 160 car.</label>
+                      <span className={`text-[9px] font-black ${(formData.meta_description || '').length > 160 ? 'text-red-500' : 'text-emerald-500'}`}>
+                        {(formData.meta_description || '').length}/160
+                      </span>
+                    </div>
+                    <textarea
+                      value={formData.meta_description}
+                      onChange={e => update('meta_description', e.target.value)}
+                      rows={4}
+                      className="w-full bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-sm focus:border-red-600/50 outline-none transition-all resize-none text-[var(--text-main)]"
+                      placeholder="Description optimisée — incluez Menton/Monaco..."
+                    />
+                  </div>
+
+                  <div className="bg-[var(--bg-input)] p-4 rounded-2xl border border-[var(--border-subtle)] flex gap-3 items-start">
+                    <Info className="w-4 h-4 text-[var(--text-dimmed)] shrink-0 mt-0.5" />
+                    <p className="text-[11px] text-[var(--text-dimmed)] leading-relaxed font-medium">
+                      <strong>Conseil Riviera :</strong> Incluez "Menton", "Monaco" ou "Côte d'Azur" dans vos méta-données pour favoriser le référencement local. Le bouton <strong>IA Magie</strong> pré-remplit ces champs automatiquement.
+                    </p>
+                  </div>
+
+                  {/* Slug édition depuis SEO */}
+                  <div>
+                    <label className="block text-[10px] font-black uppercase text-[var(--text-dimmed)] mb-2 tracking-widest">URL Canonique (Slug)</label>
+                    <div className="flex items-center gap-2 bg-[var(--bg-input)] border border-[var(--border-subtle)] rounded-xl px-4 py-3">
+                      <span className="text-[10px] text-[var(--text-dimmed)] shrink-0">esendnuisibles.fr/journal/</span>
+                      <input
+                        type="text"
+                        value={formData.slug}
+                        onChange={e => update('slug', e.target.value)}
+                        className="flex-1 bg-transparent outline-none text-xs font-mono text-[var(--text-main)]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ILLUSTRATIONS TAB */}
+        {activeTab === 'media' && (
+          <div className="w-full overflow-y-auto p-8">
+            <div className="max-w-4xl mx-auto">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-2xl font-black tracking-tighter uppercase mb-2 flex items-center gap-3">
+                    <Camera className="w-6 h-6 text-indigo-500" />
+                    Studio d'Illustration IA
+                  </h2>
+                  <p className="text-[var(--text-dimmed)] text-xs font-medium">
+                    L'IA a suggéré ces visuels pour enrichir votre article et améliorer l'engagement.
+                  </p>
+                </div>
+                {formData.illustrations?.length > 0 && (
+                  <div className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400 text-[10px] font-black uppercase tracking-widest">
+                    {formData.illustrations.length} Suggestions dispos
+                  </div>
+                )}
+              </div>
+
+              {formData.illustrations?.length > 0 ? (
+                <div className="grid grid-cols-1 gap-6">
+                  {formData.illustrations.map((ill, idx) => (
+                    <div key={idx} className="glass-card border-[var(--border-subtle)] bg-[var(--bg-secondary)] overflow-hidden group border-l-4 border-l-indigo-500">
+                      <div className="flex flex-col md:flex-row">
+                        <div className="p-6 flex-1 border-r border-[var(--border-subtle)]">
+                          <div className="flex items-center gap-2 mb-4">
+                            <span className="w-6 h-6 rounded-full bg-[var(--text-main)] text-[var(--bg-primary)] flex items-center justify-center text-[10px] font-black">
+                              {idx + 1}
+                            </span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-dimmed)]">Prompt suggéré</span>
+                          </div>
+                          <div className="bg-[var(--bg-input)] rounded-xl p-4 border border-[var(--border-subtle)] mb-4">
+                            <p className="text-xs font-mono text-[var(--text-main)] leading-relaxed">
+                              {ill.prompt}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(ill.prompt);
+                              toast('Prompt copié !');
+                            }}
+                            className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-indigo-400 hover:text-indigo-300 transition-all"
+                          >
+                            <Save className="w-3 h-3" /> Copier pour Midjourney / Fal.ai
+                          </button>
+                        </div>
+                        <div className="p-6 w-full md:w-64 bg-[var(--bg-input)]/30 flex flex-col justify-center">
+                          <div className="flex items-center gap-2 mb-3 text-emerald-400">
+                            <Globe className="w-3.5 h-3.5" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Emplacement</span>
+                          </div>
+                          <p className="text-[11px] font-bold text-[var(--text-main)] mb-6 italic leading-snug">
+                            "{ill.location_hint}"
+                          </p>
+                          <div className="mt-auto pt-4 border-t border-l-indigo-500/50">
+                            <p className="text-[8px] uppercase tracking-widest font-black text-[var(--text-dimmed)]">Statut</p>
+                            <p className="text-[9px] font-bold text-amber-500 flex items-center gap-1.5 mt-1">
+                              <Clock className="w-2.5 h-2.5" /> En attente d'image
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 bg-[var(--bg-input)]/20 rounded-3xl border-2 border-dashed border-[var(--border-subtle)] text-center px-6">
+                  <div className="w-16 h-16 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center mb-6 border border-[var(--border-subtle)]">
+                    <Sparkles className="w-8 h-8 text-[var(--text-dimmed)] opacity-20" />
+                  </div>
+                  <h3 className="text-lg font-black uppercase tracking-tighter mb-2">Aucune suggestion pour le moment</h3>
+                  <p className="text-[var(--text-dimmed)] text-xs max-w-sm mb-8 leading-relaxed">
+                    Cliquez sur le bouton <span className="text-red-500 font-bold">IA Magie</span> pour générer un article complet avec ses recommandations visuelles.
+                  </p>
+                </div>
+              )}
+
+              <div className="mt-12 p-6 bg-indigo-600/5 border border-indigo-500/20 rounded-2xl flex gap-4 items-start">
+                <Info className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-[11px] font-black uppercase tracking-widest text-indigo-400 mb-1">Comment utiliser ces suggestions ?</h4>
+                  <p className="text-[11px] text-[var(--text-dimmed)] leading-relaxed font-medium">
+                    Copiez le prompt et utilisez un générateur d'images (comme Midjourney, Fal.ai ou DALL-E). Une fois votre image générée, uploadez-la dans la section <strong>Éditeur</strong> ou insérez-la directement dans le corps de l'article à l'endroit conseillé via la barre d'outils de l'éditeur riche.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ─── Footer Actions ─── */}
+      <div className="px-6 py-4 border-t border-[var(--border-subtle)] flex justify-between items-center gap-4 bg-[var(--bg-secondary)] shrink-0">
+        <div>
+          {!isNew && (
+            <button
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="flex items-center gap-2 px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-red-500/60 hover:text-red-500 hover:bg-red-600/10 border border-red-600/10 hover:border-red-600/30 transition-all disabled:opacity-50"
+            >
+              {isDeleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
+              Supprimer l'article
+            </button>
+          )}
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onClose}
+            className="px-5 py-3 rounded-xl border border-[var(--border-subtle)] text-[10px] font-black uppercase tracking-widest text-[var(--text-dimmed)] hover:text-[var(--text-main)] hover:bg-[var(--bg-input)] transition-all"
+          >
+            Fermer
+          </button>
+          <button
+            onClick={() => handleSave(0)}
+            disabled={isSaving}
+            className="flex items-center gap-2 px-5 py-3 rounded-xl border border-amber-500/40 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-50"
+          >
+            {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <EyeOff className="w-3.5 h-3.5" />}
+            Brouillon
+          </button>
+          <button
+            onClick={() => handleSave(1)}
+            disabled={isSaving}
+            className="flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-xl shadow-emerald-600/20 active:scale-95 disabled:opacity-50"
+          >
+            {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Globe className="w-4 h-4" />}
+            Publier
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ── Render Logic ──
+  if (integratedMode) {
+    return (
+      <div className="article-editor-integrated animate-in fade-in duration-500">
+        {ModalContent}
+        <Toast show={showToast} message={toastMsg} />
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="fixed top-0 right-0 bottom-0 z-[100] flex items-center justify-center bg-[var(--bg-overlay)] backdrop-blur-2xl animate-in fade-in duration-300 p-2 md:p-4"
+      style={{ left: 'var(--sidebar-width, 0px)' }}
+    >
+      {ModalContent}
       {/* Toast */}
       <Toast show={showToast} message={toastMsg} />
     </div>

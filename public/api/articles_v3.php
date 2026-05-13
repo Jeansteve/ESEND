@@ -2,7 +2,7 @@
 /**
  * API Articles v3 - ESEND Admin Upgrade (Bypass Deploy Issues)
  * @specialist developpeur-back-end-ops
- * FIXED SCHEMA: removed meta_title, meta_description which do not exist in the table.
+ * FIXED SCHEMA: added meta_title, meta_description support.
  */
 
 header('Content-Type: application/json');
@@ -108,15 +108,16 @@ switch ($method) {
             $uuid = $data['uuid'] ?? 'art-' . uniqid();
             $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
 
-            // REAL SCHEMA: id, uuid, title, excerpt, content, image, category, publish_date, created_at, updated_at, nuisible_tag, is_published, service_id
             $stmt = $pdo->prepare("INSERT INTO esend_articles 
-                (uuid, title, excerpt, content, image, category, nuisible_tag, service_id, is_published, publish_date)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                (uuid, title, excerpt, content, meta_title, meta_description, image, category, nuisible_tag, service_id, is_published, publish_date)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $uuid,
                 $data['title'] ?? '',
                 $data['excerpt'] ?? '',
                 $data['content_html'] ?? $data['content'] ?? '',
+                $data['meta_title'] ?? $data['seo_title'] ?? '',
+                $data['meta_description'] ?? $data['seo_description'] ?? '',
                 $data['image'] ?? '',
                 $data['category'] ?? 'Expertise',
                 $data['nuisible_tag'] ?? 'actualites',
@@ -147,13 +148,15 @@ switch ($method) {
 
             if ($uuid) {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
-                    title = ?, excerpt = ?, content = ?, image = ?, category = ?,
+                    title = ?, excerpt = ?, content = ?, meta_title = ?, meta_description = ?, image = ?, category = ?,
                     nuisible_tag = ?, service_id = ?, is_published = ?, updated_at = NOW()
                     WHERE uuid = ?");
                 $stmt->execute([
                     $data['title'] ?? '',
                     $data['excerpt'] ?? '',
                     $data['content_html'] ?? $data['content'] ?? '',
+                    $data['meta_title'] ?? $data['seo_title'] ?? '',
+                    $data['meta_description'] ?? $data['seo_description'] ?? '',
                     $data['image'] ?? '',
                     $data['category'] ?? 'Expertise',
                     $data['nuisible_tag'] ?? 'actualites',
@@ -163,13 +166,15 @@ switch ($method) {
                 ]);
             } else {
                 $stmt = $pdo->prepare("UPDATE esend_articles SET
-                    title = ?, excerpt = ?, content = ?, image = ?, category = ?,
+                    title = ?, excerpt = ?, content = ?, meta_title = ?, meta_description = ?, image = ?, category = ?,
                     nuisible_tag = ?, service_id = ?, is_published = ?, updated_at = NOW()
                     WHERE id = ?");
                 $stmt->execute([
                     $data['title'] ?? '',
                     $data['excerpt'] ?? '',
                     $data['content_html'] ?? $data['content'] ?? '',
+                    $data['meta_title'] ?? $data['seo_title'] ?? '',
+                    $data['meta_description'] ?? $data['seo_description'] ?? '',
                     $data['image'] ?? '',
                     $data['category'] ?? 'Expertise',
                     $data['nuisible_tag'] ?? 'actualites',

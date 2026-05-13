@@ -748,6 +748,8 @@ const Dashboard = () => {
 
             {activeTab === 'blog' && (
               <BlogManager
+                articles={articles}
+                onRefresh={loadData}
                 onOpenStudio={(mode) => setShowStudio(mode || true)}
                 onEditArticle={(art) => setEditingArticle(art)}
                 onNewArticle={(defaults) => { setEditingArticle(defaults || {}); }}

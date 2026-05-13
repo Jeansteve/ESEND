@@ -7,7 +7,7 @@
 .article-editor-integrated {
     position: fixed;
     top: 0;
-    left: 280px;
+    left: var(--sidebar-width, 280px);
     right: 0;
     bottom: 0;
     background: var(--bg-primary, #ffffff);
@@ -163,19 +163,10 @@
    Wait, `ArticleModal` is inside `BlogManager` which is inside `Dashboard`.
    So if `Dashboard` has `.collapsed-mode`, we can target:
 */
-.sidebar-collapsed .article-editor-integrated,
-.sidebar-collapsed .creation-studio-integrated {
-    left: 80px;
-}
+/* Positioning is now handled by var(--sidebar-width) */
 
 @media (max-width: 1024px) {
-
-    .creation-studio-integrated,
-    .article-editor-integrated {
-        left: 80px;
-    }
-
-    /* Respect shrunken sidebar */
+    /* Respect shrunken sidebar is now handled via var(--sidebar-width) */
 }
 
 /* SEO Advanced Panel */

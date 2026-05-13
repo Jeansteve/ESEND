@@ -33,17 +33,25 @@ const formatDate = (str) => {
   } catch { return str; }
 };
 
-const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery }) => {
-  const [articles, setArticles] = useState([]);
+const BlogManager = ({ articles: articlesProp, onRefresh, onOpenStudio, onEditArticle, onNewArticle, searchQuery }) => {
+  const [articles, setArticles] = useState(articlesProp || []);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState('all');
   const [showModeSelector, setShowModeSelector] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [publishingId, setPublishingId] = useState(null);
 
-  useEffect(() => { loadArticles(); }, []);
+  useEffect(() => {
+    if (articlesProp) {
+      setArticles(articlesProp);
+      setLoading(false);
+    } else {
+      loadArticles();
+    }
+  }, [articlesProp]);
 
   const loadArticles = async () => {
+    if (onRefresh) return onRefresh(); // Use parent refresh if available
     setLoading(true);
     try {
       const data = await api.getArticles();
@@ -299,7 +307,7 @@ const BlogManager = ({ onOpenStudio, onEditArticle, onNewArticle, searchQuery })
             {activeCategory !== 'all' ? `Aucun article dans "${CATEGORIES.find(c => c.id === activeCategory)?.label}"` : 'Aucun dossier trouvé'}
           </p>
           <button
-            onClick={() => setShowModeSelector(true)}
+            onClick={() => onOpenStudio()}
             className="mt-6 flex items-center gap-2 mx-auto bg-gradient-to-r from-red-600 to-indigo-600 text-white px-5 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all"
           >
             <Sparkles className="w-3.5 h-3.5" /> Créer le premier article

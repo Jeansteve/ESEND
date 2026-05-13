@@ -84,7 +84,10 @@ const ARTICLE_TEMPLATE = `<h2>Introduction : Pourquoi ce sujet est crucial ?</h2
 
 const ModeSelector = ({ onSelectMode, onClose }) => {
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl animate-in fade-in duration-300">
+    <div 
+      className="fixed top-0 right-0 bottom-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-2xl animate-in fade-in duration-300"
+      style={{ left: 'var(--sidebar-width, 0px)' }}
+    >
       <div className="glass-card w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col p-0 border-[var(--border-subtle)] shadow-3xl">
         
         {/* Header */}

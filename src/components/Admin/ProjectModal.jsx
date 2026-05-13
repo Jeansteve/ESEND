@@ -293,7 +293,10 @@ const ProjectModal = ({ project, onClose, onSave, onDelete }) => {
   );
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[var(--bg-overlay)] backdrop-blur-3xl animate-in fade-in duration-300 p-2 md:p-4">
+    <div 
+      className="fixed top-0 right-0 bottom-0 z-[100] flex items-center justify-center bg-[var(--bg-overlay)] backdrop-blur-3xl animate-in fade-in duration-300 p-2 md:p-4"
+      style={{ left: 'var(--sidebar-width, 0px)' }}
+    >
       <div className="glass-card w-full max-w-7xl h-[98vh] overflow-hidden flex flex-col p-0 border-[var(--border-subtle)] shadow-3xl bg-[var(--bg-primary)]">
         
         {/* --- Header --- */}
