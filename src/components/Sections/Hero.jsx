@@ -92,7 +92,7 @@ const Hero = () => {
                   href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all whitespace-nowrap"
+                  className="bg-white/10 backdrop-blur-md text-white px-5 py-3 rounded-2xl font-bold uppercase tracking-widest text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all whitespace-nowrap"
                   aria-label={`Appeler ESEND au ${settings.company_phone}`}
                 >
                   <Phone className="w-4 h-4 text-red-500" />
@@ -137,8 +137,8 @@ const Hero = () => {
           </div>
 
           {/* MOBILE ONLY CTA BLOCK */}
-          <div className="lg:hidden w-full flex flex-col items-center gap-4 mt-8 mb-4 relative z-30">
-            <div className="flex flex-col w-full gap-3">
+          <div className="lg:hidden w-full flex flex-col items-center gap-4 mt-8 mb-4 relative z-30 px-4">
+            <div className="flex flex-col w-full max-w-[320px] gap-3">
               <GooeyButton 
                 onClick={scrollToDevis}
                 className="w-full"
