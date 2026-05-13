@@ -100,4 +100,19 @@ L'objectif était d'atteindre des performances d'affichage de niveau "Elite" (LC
 - **Gestion Énergétique** : Utilisation d'un `IntersectionObserver` pour couper le moteur de rendu dès que le composant sort du viewport, préservant ainsi les ressources système.
 
 ---
-*Documentation mise à jour le 13 Mai 2026 par Antigravity.*
+
+## 🚀 11. Standardisation v2.6.0 & Blueprint Industriel (Mai 2026)
+Finalisation du polissage UI/UX et stabilisation du pipeline de déploiement pour un passage en production immédiat.
+
+### 1. Polissage Mobile Master (Universal Centering)
+- **Harmonisation Services** : Alignement central systématique des titres, badges et descriptions sur mobile (`text-center md:text-left`) pour un rendu premium.
+- **Fiche Biologique** : Centrage de l'image sticker et des textes descriptifs. Refonte de la "Note de l'Expert" (layout responsif et typographie affinée).
+- **CTA de Fin de Page** : Miniaturisation des boutons et forçage de la typographie expert sur une seule ligne pour éviter les cassures visuelles.
+
+### 2. Stabilisation & Résilience du Build
+- **Correction des Collisions** : Résolution des erreurs de nommage de composants (`FlaskConical`) et des corruptions de balisage React.
+- **Validation CI/CD** : Rétablissement du pipeline GitHub Actions après sécurisation de l'arborescence DOM.
+- **Governance v2.6.0** : Implémentation du Semantic Versioning et des Git Tags pour une traçabilité industrielle des releases.
+
+---
+*Documentation mise à jour le 14 Mai 2026 par Antigravity.*
