@@ -43,7 +43,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         {/* Main Hero Background - Optimized for Mobile Viewport */}
         <img 
-          src="/images/hero-menton-v2.png" 
+          src="/images/hero-menton-v2.webp" 
           alt="ESEND Context" 
           className="w-full h-full object-cover opacity-40 lg:opacity-80 object-[70%_center] lg:object-center"
         />

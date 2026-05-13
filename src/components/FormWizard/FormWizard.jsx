@@ -394,7 +394,7 @@ const FormWizard = () => {
       {/* Arrière-plan Menton avec Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/images/menton-contact.jpg" 
+          src="/images/menton-contact.webp" 
           alt="Menton" 
           className="w-full h-full object-cover"
           style={{ filter: 'brightness(0.6)' }}

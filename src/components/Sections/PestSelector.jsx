@@ -8,7 +8,7 @@ const pests = [
     id: 'rongeur',
     name: 'Traitement des Nuisibles',
     species: 'Rats, Souris, Punaises & Insectes',
-    image: '/images/frelon-t5.png',
+    image: '/images/frelon-t5.webp',
     isFloating: true,
     icon: <AlertTriangle className="w-5 h-5 text-red-600" />,
     shadowColor: 'rgba(220, 38, 38, 0.6)', // Rouge
@@ -21,7 +21,7 @@ const pests = [
     id: 'desinfection',
     name: 'Désinfection',
     species: 'Protocoles Sanitaires',
-    image: '/images/desinfection-t.png',
+    image: '/images/desinfection-t.webp',
     isFloating: true,
     icon: <Activity className="w-5 h-5 text-red-600" />,
     shadowColor: 'rgba(2, 132, 199, 0.6)', // Bleu Profond
@@ -34,7 +34,7 @@ const pests = [
     id: 'nettoyage',
     name: 'Nettoyage & Vitres',
     species: 'Entretien de Prestige',
-    image: '/images/nettoyage-t.png',
+    image: '/images/nettoyage-t.webp',
     isFloating: true,
     icon: <Sparkles className="w-5 h-5 text-red-600" />,
     shadowColor: 'rgba(13, 148, 136, 0.6)', // Cyan

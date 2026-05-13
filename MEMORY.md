@@ -211,4 +211,12 @@
   1. Accéder à la **Google Search Console**.
   2. Onglet **Indexation > Sitemaps**.
   3. Soumettre manuellement l'URL : `https://esendnuisibles.fr/sitemap.xml`.
-- **Règle d'Or (SEO) :** Toute mise à jour structurelle du site (nouvelles pages services, refonte SEO) DOIT être suivie d'une soumission manuelle du sitemap pour forcer la re-découverte immédiate par Google.
+
+### [PSA-2026-05-13-B] : Automatisation WebP & Performance
+- **Optimisation Images** : Migration de l'intégralité des assets de `public/images` vers le format WebP via un script automatisé (`sharp`).
+- **Résultats critiques** : 
+    - `menton-contact.jpg` (9.8MB) -> `menton-contact.webp` (3.5MB).
+    - `hero-menton-v2.png` (2.5MB) -> `hero-menton-v2.webp` (0.15MB) - Gain de 93%.
+- **Admin Automation** : L'interface d'administration (`ArticleModal` et `ProjectModal`) est désormais configurée pour convertir automatiquement toute image téléversée en WebP (client-side) avant l'envoi au serveur. Cela garantit une performance constante sans effort pour l'utilisateur.
+- **Nettoyage** : Suppression des anciens fichiers PNG/JPG pour alléger le dépôt Git.
+- **Règle d'Or (Performance)** : Ne jamais utiliser de format JPG/PNG pour les assets statiques lourds. Toujours privilégier le WebP avec une qualité de 80% pour un équilibre parfait entre poids et fidélité visuelle.

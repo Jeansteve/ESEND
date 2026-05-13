@@ -258,6 +258,22 @@ Un `useEffect` surveille la prop `searchQuery`. Si celle-ci n'est pas vide, l'é
 
 ---
 
-## 💡 12. Notes pour les évolutions futures
-- **Migration Cloud** : La structure `images` en JSON est prête pour accueillir des URLs Cloudinary/S3.
-- **Auto-Réponse** : Envisager l'intégration d'un webhook pour notifier les clients après un dépôt de devis.
+
+---
+
+## ⚡ 13. Optimisation de la Performance & Formats d'Images
+
+Pour garantir un score Lighthouse optimal et une fluidité maximale sur mobile, ESEND impose l'utilisation exclusive du format **WebP** pour tous les assets visuels.
+
+### 13.1 Conversion Automatisée (Backend & Scripts)
+- **Migration Initiale** : Les assets statiques d'origine (PNG/JPG) ont été migrés vers le format WebP via un script Node utilisant la librairie `sharp` (qualité 80%).
+- **Gain de Performance** : Cette transition a permis de réduire le poids des images critiques de plus de **90%** (ex: Hero Image de 2.5MB à 150KB).
+
+### 13.2 Automatisation Admin (Client-Side)
+L'interface d'administration (`ArticleModal` et `ProjectModal`) intègre désormais un workflow d'optimisation transparent pour l'utilisateur :
+1. **Compression Locale** : Utilisation de `browser-image-compression` dès la sélection du fichier.
+2. **Forçage WebP** : Toute image (indépendamment du format source) est convertie en `image/webp` côté client.
+3. **Normalisation des Extensions** : Le nom du fichier est automatiquement renommé en `.webp` avant l'upload.
+
+### 13.3 Règle de Développement
+Il est **strictement interdit** d'importer de nouveaux assets en format JPG ou PNG dans le répertoire `public/images/`. Tout nouvel asset doit être converti au format WebP avant intégration pour maintenir l'intégrité de la performance du site.

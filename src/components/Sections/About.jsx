@@ -17,7 +17,7 @@ const About = () => {
           >
             <div className="aspect-square bg-slate-900 rounded-[3.5rem] overflow-hidden relative group">
               <img 
-                src="/images/duo-experts-esend.png" 
+                src="/images/duo-experts-esend.webp" 
                 className="w-full h-full object-cover transition-all duration-1000"
                 alt="Votre duo d'experts à Menton"
                 loading="lazy"

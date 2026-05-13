@@ -1,7 +1,7 @@
 export const pests = {
   'punaises-de-lit': {
     title: 'Punaises de lit',
-    image: '/images/punaise-sticker.png',
+    image: '/images/punaise-sticker.webp',
     description: 'Biologie & Comportement',
     expertFact: "Propagation ultra-rapide : un seul vêtement contaminé suffit à infester tout votre foyer en quelques semaines.",
     presentation: "La punaise de lit (Cimex lectularius) est un parasite nocturne qui colonise les zones de repos pour se nourrir exclusivement de sang humain. Très résistante, elle peut survivre plusieurs mois sans nourriture dans un état de dormance. \n\nIndétectable le jour, elle se cache dans les fentes de murs ou la structure du lit. Son cycle de reproduction est foudroyant : une femelle pond en moyenne 5 à 10 œufs par jour, soit près de 500 dans sa vie, ce qui rend la détection précoce indispensable avant une invasion totale.",
@@ -31,7 +31,7 @@ export const pests = {
   },
   'rats': {
     title: 'Rats & Souris',
-    image: '/images/rat-sticker.png',
+    image: '/images/rat-sticker.webp',
     description: 'Rongeurs & Espaces Urbains',
     expertFact: "Infiltration agile : un rat peut s'introduire chez vous par un trou de la taille d'une pièce de 2€.",
     presentation: "Les rongeurs commensaux sont des opportunistes dotés d'une intelligence sociale et d'une adaptabilité élevée. Ils s'installent là où ils trouvent chaleur, abri et nourriture. \n\nCapables de ronger des matériaux durs comme le plomb ou le plastique épais, ils utilisent leurs moustaches (vibrisses) pour explorer les environnements sombres. Leur cycle de reproduction est massif : une seule rate peut engendrer jusqu'à 60 descendants par an en conditions favorables.",
@@ -61,7 +61,7 @@ export const pests = {
   },
   'frelons': {
     title: 'Guêpes & Frelons',
-    image: '/images/frelon-t5.png',
+    image: '/images/frelon-t5.webp',
     description: 'Hyménoptères & Nids',
     expertFact: "Danger vital : un nid peut abriter plus de 1500 individus. Ne tentez JAMAIS de le détruire seul.",
     presentation: "Les guêpes et frelons sont des insectes sociaux dont la colonie s'organise autour d'une reine unique dès le printemps. Leur habitat, conçu à base de cellulose mâchée, peut être construit n'importe où : sous une toiture, dans un conduit ou dans le sol. \n\nCes prédateurs jouent un rôle dans la régulation de certains insectes, mais deviennent agressifs s'ils perçoivent une menace près de leur nid. Ils utilisent leurs antennes pour communiquer par phéromones, ce qui leur permet de synchroniser une attaque massive en cas de vibration détectée.",
@@ -91,7 +91,7 @@ export const pests = {
   },
   'cafards': {
     title: 'Cafards & Blattes',
-    image: '/images/cafard-sticker.png',
+    image: '/images/cafard-sticker.webp',
     description: 'Entomologie Urbaine',
     expertFact: "Vecteurs de maladies : ils contaminent vos surfaces et aliments, favorisant allergies et asthme.",
     presentation: "La blatte est l'un des insectes les plus anciens et résistants sur Terre. Capable de survivre plusieurs semaines sans eau et plus d'un mois sans nourriture, elle fuit la lumière et colonise les zones sombres et humides (éviers, moteurs de frigo). \n\nElles laissent derrière elles des phéromones d'agrégation qui attirent d'autres individus. Porteurs de bactéries dans leurs intestins, ils souillent les environnements sains et peuvent déclencher des allergies respiratoires via leurs déjections et mues.",
@@ -121,7 +121,7 @@ export const pests = {
   },
   'fourmis': {
     title: 'Fourmis',
-    image: '/images/fourmi-sticker.png',
+    image: '/images/fourmi-sticker.webp',
     description: 'Vie Sociale & Colonies',
     expertFact: "L'illusion du calme : éliminer les ouvrières isolées ne sert à rien tant que la reine n'est pas neutralisée.",
     presentation: "Les fourmis sont des maîtres de l'organisation. Elles utilisent des pistes chimiques invisibles pour guider la colonie vers les ressources alimentaires détectées par les 'fourmis éclaireuses'. \n\nInstallées dans les fondations ou sous les dallages, elles sont capables de transporter des charges pesant plusieurs fois leur poids. La survie de la colonie dépend exclusivement de la reine, protégée en profondeur. Tant que cette dernière est vivante, la fourmilière continuera de se régénérer indépendamment des individus tués à l'extérieur.",
@@ -151,7 +151,7 @@ export const pests = {
   },
   'puces': {
     title: 'Puces',
-    image: '/images/cafard-sticker.png', // Placeholder insect
+    image: '/images/cafard-sticker.webp', // Placeholder insect
     description: 'Parasites & Animaux',
     expertFact: "Vitesse d'infestation : une seule puce peut pondre jusqu'à 50 œufs par jour, envahissant textiles et parquets en un temps record.",
     presentation: "Les puces sont des parasites externes qui se nourrissent du sang des mammifères. Souvent introduites par les animaux domestiques, elles colonisent rapidement les moquettes, les tapis et les lits. \n\nLeur cycle de vie est complexe : les larves se cachent dans les fibres et les parquets, échappant aux traitements de surface classiques. Elles peuvent rester en dormance pendant plusieurs mois avant d'éclore simultanément lors d'une vibration ou d'une présence humaine, créant une invasion soudaine.",

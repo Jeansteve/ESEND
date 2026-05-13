@@ -10,7 +10,7 @@ const Footer = () => {
         <div>
           <div className="flex items-center justify-center md:justify-start gap-3 mb-8">
             <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/10 bg-white flex items-center justify-center p-1">
-              <img src="/images/logo-esend.jpg" alt="Logo ESEND" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all" />
+              <img src="/images/logo-esend.webp" alt="Logo ESEND" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all" />
             </div>
             <div className="flex flex-col">
               <div className="text-3xl font-black tracking-tighter italic leading-none">ESEND</div>
