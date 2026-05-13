@@ -335,17 +335,33 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 +- **Refonte Atmosphérique** : Abandon du bloc interactif localisé au profit d'un calque transparent global (`fixed inset-0`) simulant des gouttelettes d'eau dérivant sur l'ensemble de la page de Nettoyage.
 +- **Physique des Fluides Optimisée** :
 +    - **Vitesse Zen** : Réduction drastique de la vélocité des bulles pour un effet apaisant.
-+    - **Plafonnement de Taille** : Limitation du rayon maximal des bulles à `0.08` pour éviter l'encombrement visuel.
-+    - **Interaction Globale** : Détection des clics sur toute la fenêtre (`window listeners`) pour générer de l'eau n'importe où, sans bloquer les interactions avec le site (`pointer-events-none`).
-+- **Performance WebGL** :
-+    - **Vendor Chunking** : Isolation de Three.js dans un bundle séparé pour ne pas alourdir le chargement initial du site.
-+    - **Économie de Batterie** : Suspension automatique du rendu GPU via `IntersectionObserver` lorsque l'utilisateur n'est pas sur la section concernée.
-+- **Design "Crystal Clear"** : Rendu des bulles avec effets de réfraction, Fresnel et spécularité prémultipliés pour une intégration parfaite sur les fonds sombres.
-+
+
+## ✅ V20 : Expérience "Liquid Glass" Immersive (Mai 2026)
+**Fichiers :** `LiquidGlass.jsx`, `CleaningPage.jsx`, `vite.config.js`
+
+- **Refonte Atmosphérique** : Abandon du bloc interactif localisé au profit d'un calque transparent global (`fixed inset-0`) simulant des gouttelettes d'eau dérivant sur l'ensemble de la page de Nettoyage.
+- **Physique des Fluides Optimisée** :
+    - **Vitesse Zen** : Réduction drastique de la vélocité des bulles pour un effet apaisant.
+    - **Plafonnement de Taille** : Limitation du rayon maximal des bulles à `0.08` pour éviter l'encombrement visuel.
+    - **Interaction Globale** : Détection des clics sur toute la fenêtre (`window listeners`) pour générer de l'eau n'importe où, sans bloquer les interactions avec le site (`pointer-events-none`).
+- **Performance WebGL** :
+    - **Vendor Chunking** : Isolation de Three.js dans un bundle séparé pour ne pas alourdir le chargement initial du site.
+    - **Économie de Batterie** : Suspension automatique du rendu GPU via `IntersectionObserver` lorsque l'utilisateur n'est pas sur la section concernée.
+- **Design "Crystal Clear"** : Rendu des bulles avec effets de réfraction, Fresnel et spécularité prémultipliés pour une intégration parfaite sur les fonds sombres.
+
+## ✅ V21 : Maîtrise Éditoriale & Persistance SEO (Mai 2026)
+**Fichiers :** `articles_v3.php`, `Dashboard.jsx`, `BlogManager.jsx`, `upgrade_articles_seo.sql`
+
+- **Persistance SEO Critique** : 
+    - Intégration officielle des champs `meta_title` et `meta_description` dans la base de données.
+    - Mise à jour de l'API pour garantir que les optimisations de référencement saisies par l'admin sont conservées durablement.
+- **Synchronisation UI "Zero-Latency"** :
+    - Refonte de la communication entre le Dashboard et le Gestionnaire de Blog.
+    - Les modifications d'articles (changement d'image de couverture, titre, etc.) sont désormais répercutées **instantanément** sur la vignette de la liste sans rafraîchissement de la page.
+- **Migration de Données** : Création d'un script de mise à jour sécurisé pour harmoniser les anciennes installations avec le nouveau standard SEO.
+
 
 ## 🚀 Prochaines Étapes
 1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
 3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
-
-

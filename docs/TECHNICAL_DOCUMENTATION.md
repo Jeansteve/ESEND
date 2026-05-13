@@ -136,12 +136,18 @@ Pour faciliter le marketing et l'archivage, les dossiers sont créés dynamiquem
 
 ## 📊 5. Schéma de Données (MySQL)
 
+### Table `esend_articles`
+- `uuid` : Identifiant unique (UUID v4).
+- `title` : Titre de l'article.
+- `excerpt` : Résumé court (utilisé pour les cartes et la meta description par défaut).
+- `content` : Contenu HTML complet de l'article.
+- `meta_title` : Titre optimisé pour le référencement (SEO).
+- `meta_description` : Description optimisée pour les moteurs de recherche.
+- `image` : URL de l'image de couverture.
+- `is_published` : Booléen (0/1).
+- `publish_date` : Date d'affichage.
+
 ### Table `esend_leads`
-- `tracking_id` : ID unique métier.
-- `service` : Libellé du métier sélectionné.
-- `nuisible` : Type de nuisible (si applicable).
-- `images` : Texte (Stocke un tableau JSON des chemins d'images).
-- `status` : `nouveau` | `contacté` | `terminé` | `annulé`.
 
 ---
 
@@ -270,6 +276,9 @@ Les listes de données (Leads et Réalisations) utilisent un pattern de filtrage
 
 **Optimisation UX (Auto-Reset)** : 
 Un `useEffect` surveille la prop `searchQuery`. Si celle-ci n'est pas vide, l'état du pôle métier est automatiquement réinitialisé à sa valeur par défaut ("Tous" / "all"). Cela évite le bug d'expérience utilisateur où une recherche ne donne aucun résultat car un filtre de catégorie restrictif est resté actif à l'insu de l'utilisateur.
+
+**Synchronisation d'État (Zero-Latency)** :
+Le `BlogManager` utilise désormais un pattern d'état contrôlé par le parent (`Dashboard.jsx`). Un `useEffect` interne synchronise l'affichage local dès que la liste globale des articles change. Cela garantit que les modifications de vignettes (images) ou de titres sont visibles immédiatement sans rechargement.
 
 ---
 
