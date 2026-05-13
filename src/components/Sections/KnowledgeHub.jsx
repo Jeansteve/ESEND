@@ -119,7 +119,7 @@ const KnowledgeHub = () => {
                   <div className="p-8 flex flex-col flex-grow text-left">
                     <div className="flex items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
                       <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
-                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {article.readTime}</span>
+                      <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {article.readTime} min</span>
                     </div>
 
                     <h3 className="text-2xl font-black leading-tight mb-4 group-hover:text-red-500 transition-colors">

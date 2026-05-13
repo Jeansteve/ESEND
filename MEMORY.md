@@ -6,6 +6,12 @@
 - Toute MEP (Mise En Production) doit être précédée d'une demande d'autorisation claire.
 - Le flux obligatoire est : **Développement Local > Poussée sur `test` > Validation Utilisateur > Ordre de MEP > Poussée sur `main`**.
 
+### 💡 RÈGLE D'OR N°2 (EXPÉRIENCE UTILISATEUR)
+**SE METTRE SYSTÉMATIQUEMENT À LA PLACE DE L'UTILISATEUR**.
+- Anticiper les questions d'un lecteur lambda (ex: ne jamais afficher un chiffre seul sans son unité : "1 min" au lieu de "1").
+- Un développement de qualité est un développement qui n'oblige pas l'utilisateur à deviner le sens d'une information.
+- Toujours vérifier la clarté et l'utilité réelle de chaque élément d'interface avant de valider.
+
 ### 🛡️ PROTOCOLE ANTI-RÉGRESSION UNIVERSEL (ESEND-QA V2)
 *À appliquer avant toute validation de changement (Code, CSS, API ou Config).*
 

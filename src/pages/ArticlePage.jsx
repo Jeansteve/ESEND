@@ -189,7 +189,7 @@ const ArticlePage = () => {
             {article.readTime && (
               <span className="flex items-center gap-2">
                 <Clock className="w-3.5 h-3.5 text-red-500" />
-                {article.readTime}
+                {article.readTime} min
               </span>
             )}
           </motion.div>
