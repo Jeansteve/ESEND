@@ -285,7 +285,7 @@ const LiquidGlass = ({
             a.y = (a.y * a.area + b.y * b.area) / na;
             a.vx = (a.vx * a.area + b.vx * b.area) / na;
             a.vy = (a.vy * a.area + b.vy * b.area) / na;
-            a.r = Math.min(Math.sqrt(na / Math.PI), 0.15); // Cap max radius
+            a.r = Math.min(Math.sqrt(na / Math.PI), 0.08); // Cap max radius to make them smaller
             a.area = Math.PI * a.r * a.r; // Recalculate area based on capped radius
             b.alive = false;
           }
