@@ -39,6 +39,16 @@ Le projet utilise des micro-interactions avancées pour renforcer l'aspect exper
     - **Performance** : Utilise `useMotionValue` et `useTransform` de Framer Motion pour éviter les re-rendus React inutiles pendant l'incrémentation.
 - **Stabilité Layout** : Utilisation de `whitespace-nowrap` et `flex items-baseline` pour garantir l'alignement du score sur une seule ligne sur tous les supports (Mobile/Tablette/Desktop).
 
+### 🌊 2.2 Expérience Immersive : Liquid Glass (WebGL/Three.js)
+Le Hub Nettoyage intègre une simulation de fluide interactive (`src/components/UI/LiquidGlass.jsx`) :
+- **Technologie** : Basé sur Three.js et un shader personnalisé de métaballes (Metaballs).
+- **Rendu Cristal** : Utilise des calculs de réfraction, de réflexion de Fresnel et de spécularité pour simuler des bulles d'eau cristallines.
+- **Interaction Globale** : Contrairement aux implémentations classiques, les écouteurs d'événements (`pointerdown`, `pointermove`) sont attachés à `window`. Le calque possède `pointer-events-none` pour ne pas bloquer le site, mais l'interaction est relayée au shader pour générer de l'eau dynamiquement.
+- **Optimisation Ressources** :
+    - **Lazy Loading** : Isolé dans le chunk `vendor-three` via `vite.config.js`.
+    - **Auto-Pause** : Utilisation d'un `IntersectionObserver` pour arrêter la boucle `requestAnimationFrame` dès que le composant n'est plus visible.
+    - **Physique Contenue** : Limitation de la taille maximale des bulles (`0.08`) et de la vélocité pour préserver la lisibilité du texte.
+
 ### Navigation & Routage (`HashRouter`)
 Le projet utilise `HashRouter` pour éviter les erreurs 404 sur Hostinger. 
 - **Anchor Scrolling** : Un correctif global a été appliqué dans `App.jsx` pour intercepter les clics vers les ancres (ex: `#contact`) et forcer un scroll fluide même lors de navigations inter-pages.

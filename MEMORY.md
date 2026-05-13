@@ -269,3 +269,9 @@
   - Utilisation d'un **IntersectionObserver** dans `LiquidGlass.jsx` pour mettre l'animation en pause (`cancelAnimationFrame`) dès que le composant n'est plus visible.
   - Réduction de la densité de métaballes sur mobile (MAX_DROPLETS = 15 au lieu de 30) pour préserver les performances GPU.
 - **Règle d'Intégrité** : Le contenu textuel réfracté doit être dessiné sur un canvas interne (`drawBackground`) pour garantir que la réfraction s'adapte dynamiquement à la taille de l'écran et aux changements de props.
+
+### [PSA-2026-05-13-G] : Arbitrage Liquid Glass & Lisibilité (Vitre Embuée)
+- **Le Problème** : Tentative d'implémentation d'un effet "Vitre Embuée" (Option 1) via un flou de fond (`backdrop-filter: blur`).
+- **Résultat de l'Audit** : Bien que visuellement thématique, le flou rendait les textes critiques du site illisibles et dégradait l'expérience utilisateur globale.
+- **Décision Critique** : Suppression définitive du flou de fond. Conservation de la couche Liquid Glass en mode **"Crystal Clear"** (100% transparent).
+- **Standard d'Interaction** : Toute animation de premier plan (`z-index` élevé) doit rester subtile. L'ajout du clic global (`window listener`) permet l'interactivité sans sacrifier la clarté du contenu.

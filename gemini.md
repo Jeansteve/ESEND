@@ -91,7 +91,11 @@ L'objectif était d'atteindre des performances d'affichage de niveau "Elite" (LC
 - **Optimisation Rendu** : Suppression des bordures et ombres portées interférant avec le filtre SVG pour garantir un rendu cristallin sans artefacts.
 
 ### 3. Expérience Visuelle Premium (Liquid Glass)
-- **Liquid Glass - Nettoyage** : Intégration d'un moteur Three.js sur la page de service Nettoyage pour simuler des réfractions d'eau et de savon en temps réel (Interaction tactile + Réfraction typographique).
+- **Liquid Glass - Nettoyage** : Intégration d'un moteur Three.js sur la page de service Nettoyage pour simuler des bulles d'eau cristallines en temps réel.
+- **Effet Atmosphérique Subtil** : L'animation a été refondue pour agir comme un calque transparent global (`fixed inset-0`) au lieu d'un bloc localisé, offrant une immersion totale sans gêner la lecture.
+- **Interaction Tactile Avancée** : Réimplémentation de la génération de bulles au clic/drag sur l'intégralité de l'écran via des écouteurs d'événements globaux (`window`).
+- **Plafonnement des Performances & Design** : Limitation de la taille maximale des bulles (`0.08`) et réduction de leur vitesse pour un rendu zen et professionnel.
+- **Arbitrage Foggy Glass (Option 1)** : Test d'un filtre de flou d'arrière-plan (`backdrop-filter`) pour simuler une vitre embuée, écarté au profit de la lisibilité totale du texte.
 - **Architecture de Chunking** : Isolation de Three.js dans le chunk `vendor-three` (492KB) pour garantir que le moteur n'est téléchargé que lors de la navigation vers la page concernée.
 - **Gestion Énergétique** : Utilisation d'un `IntersectionObserver` pour couper le moteur de rendu dès que le composant sort du viewport, préservant ainsi les ressources système.
 

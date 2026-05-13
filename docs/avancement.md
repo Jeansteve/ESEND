@@ -328,6 +328,20 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Réduction des paddings internes (`p-6` au lieu de `p-10`) pour libérer de l'espace de saisie.
     - Normalisation des zones de contact (boutons Retour/Suivant repositionnés pour le pouce).
 - **Zéro Débordement (`overflow-x`)** : Sécurisation globale du conteneur `#root` pour empêcher tout glissement horizontal parasite lors du défilement.
++
++## ✅ V20 : Expérience "Liquid Glass" Immersive (Mai 2026)
++**Fichiers :** `LiquidGlass.jsx`, `CleaningPage.jsx`, `vite.config.js`
++
++- **Refonte Atmosphérique** : Abandon du bloc interactif localisé au profit d'un calque transparent global (`fixed inset-0`) simulant des gouttelettes d'eau dérivant sur l'ensemble de la page de Nettoyage.
++- **Physique des Fluides Optimisée** :
++    - **Vitesse Zen** : Réduction drastique de la vélocité des bulles pour un effet apaisant.
++    - **Plafonnement de Taille** : Limitation du rayon maximal des bulles à `0.08` pour éviter l'encombrement visuel.
++    - **Interaction Globale** : Détection des clics sur toute la fenêtre (`window listeners`) pour générer de l'eau n'importe où, sans bloquer les interactions avec le site (`pointer-events-none`).
++- **Performance WebGL** :
++    - **Vendor Chunking** : Isolation de Three.js dans un bundle séparé pour ne pas alourdir le chargement initial du site.
++    - **Économie de Batterie** : Suspension automatique du rendu GPU via `IntersectionObserver` lorsque l'utilisateur n'est pas sur la section concernée.
++- **Design "Crystal Clear"** : Rendu des bulles avec effets de réfraction, Fresnel et spécularité prémultipliés pour une intégration parfaite sur les fonds sombres.
++
 
 ## 🚀 Prochaines Étapes
 1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
