@@ -64,5 +64,12 @@ L'optimisation pour les moteurs de recherche et la sécurité ont été portées
     - Blocage strict de l'accès aux fichiers sensibles (`.env`, `.git`, `composer.*`).
     - Headers de protection contre le XSS, le reniflage de MIME (`nosniff`) et les attaques de clickjacking.
 
+## 🖼 8. Automatisation WebP & Performance (Mai 2026)
+Migration vers un standard de performance "Ultra-Fast" :
+- **Conversion Statique** : Toutes les images de `public/images` ont été migrées vers le format `.webp` avec suppression automatique des originaux JPG/PNG.
+- **Script CLI** : Ajout de `npm run optimize-images` pour automatiser la conversion des futurs assets.
+- **Admin Automation** : Les modules `ArticleModal` et `ProjectModal` convertissent désormais systématiquement les images côté client en WebP avant l'upload.
+- **FormWizard** : Les photos transmises par les clients via le formulaire de devis sont également converties en WebP, réduisant la consommation de bande passante et d'espace serveur.
+
 ---
 *Documentation mise à jour le 13 Mai 2026 par Antigravity.*

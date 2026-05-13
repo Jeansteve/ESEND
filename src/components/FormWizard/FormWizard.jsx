@@ -267,7 +267,8 @@ const FormWizard = () => {
       maxSizeMB: 0.5,
       maxWidthOrHeight: 1200,
       useWebWorker: true,
-      initialQuality: 0.8
+      initialQuality: 0.8,
+      fileType: 'image/webp'
     };
     
     try {
@@ -275,8 +276,7 @@ const FormWizard = () => {
       const compressedFiles = await Promise.all(compressedPromises);
       
       const newPhotos = compressedFiles.map((blob, idx) => {
-        const ext = blob.type.split('/')[1] === 'jpeg' ? 'jpg' : blob.type.split('/')[1];
-        return new File([blob], `photo_${Date.now()}_${idx}.${ext}`, { type: blob.type });
+        return new File([blob], `photo_${Date.now()}_${idx}.webp`, { type: 'image/webp' });
       });
       
       setPhotos(prev => [...prev, ...newPhotos]);
