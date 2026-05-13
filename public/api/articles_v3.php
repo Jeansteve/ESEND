@@ -22,16 +22,18 @@ switch ($method) {
         $nuisibleTag = $_GET['nuisible_tag'] ?? null;
         $id = $_GET['id'] ?? null;
 
-        // --- Chargement d'un article unique par ID (pour la page de lecture) ---
+        // --- Chargement d'un article unique par ID ou UUID (pour la page de lecture) ---
         if ($id) {
-            $stmt = $pdo->prepare("SELECT * FROM esend_articles WHERE id = ? LIMIT 1");
-            $stmt->execute([$id]);
+            $stmt = $pdo->prepare("SELECT * FROM esend_articles WHERE id = ? OR uuid = ? LIMIT 1");
+            $stmt->execute([$id, $id]);
             $article = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if ($article) {
-                // --- View Tracking : Incrémenter le compteur de vues ---
-                $pdo->prepare("UPDATE esend_articles SET views = views + 1 WHERE id = ?")->execute([$id]);
-                $article['views'] = ($article['views'] ?? 0) + 1; // Update local copy for response
+                // --- View Tracking : Incrémenter le compteur de vues (si la colonne existe) ---
+                try {
+                    $pdo->prepare("UPDATE esend_articles SET views = views + 1 WHERE id = ?")->execute([$article['id']]);
+                    $article['views'] = ($article['views'] ?? 0) + 1;
+                } catch (Exception $e) { /* Silencieusement ignorer si la colonne views manque */ }
 
                 // Protection : Empêcher la lecture d'un brouillon sans être admin
                 if (isset($article['is_published']) && $article['is_published'] == 0) {
@@ -81,7 +83,9 @@ switch ($method) {
         try {
             $checkTag = $pdo->query("SHOW COLUMNS FROM esend_articles LIKE 'nuisible_tag'");
             $hasNuisibleTag = ($checkTag->rowCount() > 0);
-        } catch (Exception $e) { $hasNuisibleTag = false; }
+            $checkReadTime = $pdo->query("SHOW COLUMNS FROM esend_articles LIKE 'read_time'");
+            $hasReadTime = ($checkReadTime->rowCount() > 0);
+        } catch (Exception $e) { $hasNuisibleTag = false; $hasReadTime = false; }
 
         if ($hasNuisibleTag && $nuisibleTag) {
             $conditions[] = "nuisible_tag = ?";
@@ -115,27 +119,19 @@ switch ($method) {
             $data = json_decode(file_get_contents('php://input'), true);
             if (!$data) { http_response_code(400); echo json_encode(['error' => 'Invalid JSON']); exit; }
 
-            $uuid = $data['uuid'] ?? 'art-' . uniqid();
-            $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
+            $cols = ["uuid", "title", "excerpt", "content", "meta_title", "meta_description", "image", "category", "nuisible_tag", "service_id", "is_published", "publish_date"];
+            $vals = [$uuid, $data['title'] ?? '', $data['excerpt'] ?? '', $data['content_html'] ?? $data['content'] ?? '', $data['meta_title'] ?? $data['seo_title'] ?? '', $data['meta_description'] ?? $data['seo_description'] ?? '', $data['image'] ?? '', $data['category'] ?? 'Expertise', $data['nuisible_tag'] ?? 'actualites', $data['service_id'] ?? 1, $isPublished, $data['date'] ?? date('d M Y')];
 
-            $stmt = $pdo->prepare("INSERT INTO esend_articles 
-                (uuid, title, excerpt, content, meta_title, meta_description, image, category, nuisible_tag, service_id, is_published, publish_date, read_time)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $uuid,
-                $data['title'] ?? '',
-                $data['excerpt'] ?? '',
-                $data['content_html'] ?? $data['content'] ?? '',
-                $data['meta_title'] ?? $data['seo_title'] ?? '',
-                $data['meta_description'] ?? $data['seo_description'] ?? '',
-                $data['image'] ?? '',
-                $data['category'] ?? 'Expertise',
-                $data['nuisible_tag'] ?? 'actualites',
-                $data['service_id'] ?? 1,
-                $isPublished,
-                $data['date'] ?? date('d M Y'),
-                $data['read_time'] ?? $data['readTime'] ?? 1
-            ]);
+            if ($hasReadTime) {
+                $cols[] = "read_time";
+                $vals[] = $data['read_time'] ?? $data['readTime'] ?? 1;
+            }
+
+            $placeholders = implode(',', array_fill(0, count($cols), '?'));
+            $sql = "INSERT INTO esend_articles (" . implode(',', $cols) . ") VALUES ($placeholders)";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($vals);
 
             $id = $pdo->lastInsertId();
             echo json_encode(['success' => true, 'id' => $id, 'uuid' => $uuid]);
@@ -157,45 +153,32 @@ switch ($method) {
 
             $isPublished = (isset($data['is_published']) && ($data['is_published'] === true || $data['is_published'] === 1)) ? 1 : 0;
 
-            if ($uuid) {
-                $stmt = $pdo->prepare("UPDATE esend_articles SET
-                    title = ?, excerpt = ?, content = ?, meta_title = ?, meta_description = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?, read_time = ?, updated_at = NOW()
-                    WHERE uuid = ?");
-                $stmt->execute([
-                    $data['title'] ?? '',
-                    $data['excerpt'] ?? '',
-                    $data['content_html'] ?? $data['content'] ?? '',
-                    $data['meta_title'] ?? $data['seo_title'] ?? '',
-                    $data['meta_description'] ?? $data['seo_description'] ?? '',
-                    $data['image'] ?? '',
-                    $data['category'] ?? 'Expertise',
-                    $data['nuisible_tag'] ?? 'actualites',
-                    $data['service_id'] ?? 1,
-                    $isPublished,
-                    $data['read_time'] ?? $data['readTime'] ?? 1,
-                    $uuid
-                ]);
-            } else {
-                $stmt = $pdo->prepare("UPDATE esend_articles SET
-                    title = ?, excerpt = ?, content = ?, meta_title = ?, meta_description = ?, image = ?, category = ?,
-                    nuisible_tag = ?, service_id = ?, is_published = ?, read_time = ?, updated_at = NOW()
-                    WHERE id = ?");
-                $stmt->execute([
-                    $data['title'] ?? '',
-                    $data['excerpt'] ?? '',
-                    $data['content_html'] ?? $data['content'] ?? '',
-                    $data['meta_title'] ?? $data['seo_title'] ?? '',
-                    $data['meta_description'] ?? $data['seo_description'] ?? '',
-                    $data['image'] ?? '',
-                    $data['category'] ?? 'Expertise',
-                    $data['nuisible_tag'] ?? 'actualites',
-                    $data['service_id'] ?? 1,
-                    $isPublished,
-                    $data['read_time'] ?? $data['readTime'] ?? 1,
-                    $id
-                ]);
+            $updateCols = [
+                "title = ?", "excerpt = ?", "content = ?", "meta_title = ?", "meta_description = ?", "image = ?", "category = ?",
+                "nuisible_tag = ?", "service_id = ?", "is_published = ?", "updated_at = NOW()"
+            ];
+            $params = [
+                $data['title'] ?? '', $data['excerpt'] ?? '', $data['content_html'] ?? $data['content'] ?? '',
+                $data['meta_title'] ?? $data['seo_title'] ?? '', $data['meta_description'] ?? $data['seo_description'] ?? '',
+                $data['image'] ?? '', $data['category'] ?? 'Expertise', $data['nuisible_tag'] ?? 'actualites',
+                $data['service_id'] ?? 1, $isPublished
+            ];
+
+            if ($hasReadTime) {
+                $updateCols[] = "read_time = ?";
+                $params[] = $data['read_time'] ?? $data['readTime'] ?? 1;
             }
+
+            if ($uuid) {
+                $sql = "UPDATE esend_articles SET " . implode(', ', $updateCols) . " WHERE uuid = ?";
+                $params[] = $uuid;
+            } else {
+                $sql = "UPDATE esend_articles SET " . implode(', ', $updateCols) . " WHERE id = ?";
+                $params[] = $id;
+            }
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
 
             echo json_encode(['success' => true]);
         } catch (Exception $e) {
