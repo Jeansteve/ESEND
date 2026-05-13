@@ -31,6 +31,11 @@ const PageLoader = () => (
 
 function App() {
   useTheme(); // Gère le thème global (Admin vs Public)
+
+  React.useEffect(() => {
+    // Signaler que React est prêt pour masquer le placeholder LCP (Toutes pages)
+    document.documentElement.classList.add('react-ready');
+  }, []);
   
   return (
     <SettingsProvider>

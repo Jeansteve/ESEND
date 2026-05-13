@@ -9,10 +9,9 @@ const DeferredSection = ({ children, id, className = "", estimatedHeight = "500p
   return (
     <div 
       id={id}
-      className={className}
+      className={`${className} deferred-render`}
       style={{ 
-        contentVisibility: 'auto', 
-        containIntrinsicSize: `0 ${estimatedHeight}` 
+        containIntrinsicSize: `auto ${estimatedHeight}` 
       }}
     >
       {children}
