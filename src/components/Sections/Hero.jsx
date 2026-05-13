@@ -3,6 +3,7 @@ import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 import { ArrowRight, Star, Phone } from 'lucide-react';
 import AnimatedNumber from '../UI/AnimatedNumber';
 import { useSettings } from '../../context/SettingsContext';
+import GooeyButton from '../UI/GooeyButton';
 
 
 const Hero = () => {
@@ -79,20 +80,13 @@ const Hero = () => {
           <div className="hidden lg:flex flex-col items-start mb-10 mt-10">
             <div className="flex flex-row items-center gap-12">
               <div className="flex items-center gap-4">
-                <motion.a 
-                  href="#devis"
+                <GooeyButton 
                   onClick={scrollToDevis}
-                  variants={ctaPulseVariants}
-                  initial="initial"
-                  animate="animate"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20 whitespace-nowrap"
-                  aria-label="Obtenir un devis gratuit pour l'éradication de nuisibles"
+                  ariaLabel="Obtenir un devis gratuit pour l'éradication de nuisibles"
                 >
                   <span>Obtenir mon devis offert</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
-                </motion.a>
+                </GooeyButton>
 
                 <motion.a
                   href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
@@ -145,18 +139,16 @@ const Hero = () => {
           {/* MOBILE ONLY CTA BLOCK */}
           <div className="lg:hidden w-full flex flex-col items-center gap-4 mt-8 mb-4 relative z-30">
             <div className="flex flex-col w-full gap-3">
-              <motion.a 
-                href="#devis"
+              <GooeyButton 
                 onClick={scrollToDevis}
-                variants={ctaPulseVariants}
-                initial="initial"
-                animate="animate"
-                whileTap={{ scale: 0.95 }}
-                className="w-full bg-red-600 text-white px-6 py-4 rounded-full font-black uppercase tracking-[0.12em] text-[10px] shadow-2xl border border-red-500/20 flex justify-between items-center cursor-pointer"
+                className="w-full"
+                ariaLabel="Obtenir un devis gratuit pour l'éradication de nuisibles"
               >
-                <span>Obtenir mon devis offert</span>
-                <ArrowRight className="w-4 h-4" />
-              </motion.a>
+                <div className="flex justify-between items-center w-full">
+                  <span>Obtenir mon devis offert</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </GooeyButton>
 
               <motion.a 
                 href={`tel:${settings.company_phone.replace(/\s/g, '')}`}
