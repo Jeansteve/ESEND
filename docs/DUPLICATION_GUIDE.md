@@ -1,4 +1,4 @@
-# 🏗️ Guide de Duplication Industrielle — Système ESEND v2.0
+# 🏗️ Guide de Duplication Industrielle — Système ESEND v2.6.1
 
 Ce guide est la "bible" pour cloner cette solution (Hub Services + Studio IA + Dashboard Admin) pour un nouveau client. Objectif : **Mise en service complète en moins de 60 minutes.**
 
@@ -48,7 +48,7 @@ Le système est pré-câblé pour l'expertise métier (Nuisibles/Nettoyage).
 ## 📱 4. Standards UI & UX (Failsafe)
 Lors de la personnalisation visuelle, respectez ces règles pour ne pas casser le système :
 - **Header Mobile (V26)** : La permutation entre le numéro de téléphone et le bouton Devis est gérée par le scroll et la route. Ne pas modifier la logique de `Header.jsx` sans tester le responsive.
-- **Centrage Mobile (v2.6)** : Toutes les sections de services (Titres, Badges, Illustrations) doivent respecter l'alignement `text-center md:text-left` pour garantir un rendu premium sur smartphone.
+- **Centrage Mobile (v2.6.1)** : Toutes les sections de services (Titres, Badges, Illustrations) doivent respecter l'alignement `text-center md:text-left` pour garantir un rendu premium sur smartphone.
 - **Glassmorphism** : Pour Hostinger, utilisez toujours les classes `.glass-panel` pour assurer la compatibilité Safari/iOS.
 - **Performance** : Toutes les nouvelles images doivent être en **WebP**.
 - **Validation Build** : Toujours lancer `npm run build` localement avant toute MEP pour valider l'intégrité de l'arborescence React et éviter les "White Screens" en production.

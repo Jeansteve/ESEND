@@ -390,7 +390,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Garantit que l'action prioritaire (conversion) est toujours à portée de doigt sans surcharger l'écran.
 - **Correction Typographique** : Forçage du texte sur une seule ligne (`whitespace-nowrap`) et réduction de la police à `9px` pour une harmonie parfaite sur tous les terminaux.
 
-## ✅ V26 : Standardisation "Capsule" UI (Mai 2026)
+## ✅ V26 : Standardisation "Capsule" UI (v2.6.1 — Mai 2026)
 **Fichiers :** `Header.jsx`, `DUPLICATION_GUIDE.md`
 
 - **Raffinements UI/UX (Polissage Mobile Master)** :
@@ -404,7 +404,7 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Correction des corruptions de balisage DOM sur les pages de services.
     - Validation du build de production (`npm run build`) à 100%.
 - **Gouvernance & Versioning** : 
-    - Adoption du Semantic Versioning (**v2.6.0**).
+    - Adoption du Semantic Versioning (**v2.6.1**).
     - Mise en place des **Git Tags** pour marquer les versions stables sur la branche `main`.
     - Audit complet du pack documentaire pour assurer la cohérence du Blueprint.
 - **État "Production Ready"** : Le système ESEND est désormais considéré comme un **Blueprint Industriel** robuste, sécurisé et prêt pour le déploiement multi-clients.

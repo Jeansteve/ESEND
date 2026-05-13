@@ -101,7 +101,7 @@ L'objectif était d'atteindre des performances d'affichage de niveau "Elite" (LC
 
 ---
 
-## 🚀 11. Standardisation v2.6.0 & Blueprint Industriel (Mai 2026)
+## 🚀 11. Standardisation v2.6.1 & Blueprint Industriel (Mai 2026)
 Finalisation du polissage UI/UX et stabilisation du pipeline de déploiement pour un passage en production immédiat.
 
 ### 1. Polissage Mobile Master (Universal Centering)
