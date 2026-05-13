@@ -465,7 +465,7 @@ const Dashboard = () => {
         ) : (
           <>
             {/* Header / Barre de Statut Opérationnel */}
-            <header className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-8 mb-12 lg:mb-16 w-full">
+            <header className="flex flex-col lg:!flex-row lg:!justify-between items-start lg:!items-center gap-8 mb-12 lg:mb-16 w-full">
               {/* GAUCHE : Titre et Sous-titre */}
               <div className="flex items-center gap-6">
                 <button
