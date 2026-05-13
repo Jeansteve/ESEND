@@ -465,7 +465,7 @@ const Dashboard = () => {
         ) : (
           <>
             {/* Header / Barre de Statut Opérationnel */}
-            <header className="flex flex-col xl:flex-row xl:justify-between xl:items-center gap-8 mb-12 xl:mb-20">
+            <header className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-8 mb-12 lg:mb-16 w-full">
               {/* GAUCHE : Titre et Sous-titre */}
               <div className="flex items-center gap-6">
                 <button
@@ -474,7 +474,7 @@ const Dashboard = () => {
                 >
                   <Menu className="w-5 h-5" />
                 </button>
-                <div className="text-left">
+                <div className="flex flex-col items-start text-left">
                   <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase mb-2 text-[var(--text-main)]">
                     Statut <span className="text-red-600 italic">Opérationnel</span>
                   </h2>
@@ -490,9 +490,9 @@ const Dashboard = () => {
               </div>
 
               {/* DROITE : Recherche et Actions */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full xl:w-auto">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
                 {activeTab !== 'settings' && (
-                  <div className="relative group w-full sm:w-auto">
+                  <div className="relative group w-full sm:w-80">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
                     <input
                       type="text"
@@ -500,7 +500,6 @@ const Dashboard = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="admin-search w-full bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
-                      style={{ width: '100%', minWidth: '300px' }}
                     />
                   </div>
                 )}
