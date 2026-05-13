@@ -21,7 +21,7 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
           onClick={onClick}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
-          className="gooey-button px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20 whitespace-nowrap shadow-2xl"
+          className="gooey-button px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer whitespace-nowrap"
           aria-label={ariaLabel}
         >
           {children}
