@@ -37,7 +37,14 @@ const DisinfectionPage = () => {
     "serviceType": "Hygiène & Désinfection",
     "provider": {
       "@type": "LocalBusiness",
-      "name": "ESEND Nuisibles"
+      "name": "ESEND Nuisibles",
+      "telephone": settings.company_phone || "+33600000000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": settings.company_city || "Menton",
+        "addressRegion": "Alpes-Maritimes",
+        "addressCountry": "FR"
+      }
     },
     "description": "Service de désinfection professionnelle pour locaux résidentiels et commerciaux. Éradication de germes, virus et bactéries.",
     "areaServed": "Alpes-Maritimes"

@@ -34,7 +34,14 @@ const CleaningPage = () => {
     "serviceType": "Nettoyage Industriel & Résidentiel",
     "provider": {
       "@type": "LocalBusiness",
-      "name": "ESEND Nuisibles"
+      "name": "ESEND Nuisibles",
+      "telephone": settings.company_phone || "+33600000000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": settings.company_city || "Menton",
+        "addressRegion": "Alpes-Maritimes",
+        "addressCountry": "FR"
+      }
     },
     "description": "Services de nettoyage spécialisé, entretien de vitres et remise en état de locaux à Menton, Monaco et Nice.",
     "areaServed": "Alpes-Maritimes"

@@ -223,10 +223,18 @@ L'API `articles_v3.php` suit une stratégie de "Lazy Data Transfer" :
 
 ---
 
-## 📈 9. Optimisation SEO & Conversion
+## 📈 9. Optimisation SEO & Maintenance
+
 ESEND intègre des mécanismes d'automatisation SEO avancés sur ses pages dynamiques :
 - **Prompt Hardening v2** : Les articles générés par IA sont bridés pour garantir une posture d'expert consultant, l'absence de fausses statistiques, une valeur pédagogique forte et l'insertion de liens de maillage interne vers les services.
 - **Illustration Logic** : L'IA suggère des prompts visuels complexes et leurs emplacements via un champ `illustrations` structuré (JSON).
+- **Gestion des Canoniques** : Le composant `SEO.jsx` gère dynamiquement les URLs canoniques pour éviter le "Duplicate Content".
+
+### 🛠️ Maintenance de l'Indexation
+Lors de l'ajout de nouvelles pages ou d'une refonte SEO, il est impératif de suivre ces étapes pour garantir une prise en compte rapide par Google :
+1. **Validation du Sitemap** : S'assurer que les nouvelles URLs sont présentes dans `public/sitemap.xml`.
+2. **Soumission Manuelle** : Accéder à la [Google Search Console](https://search.google.com/search-console) et soumettre l'URL complète du sitemap (`https://esendnuisibles.fr/sitemap.xml`) dans l'onglet **Sitemaps**.
+3. **Inspection d'URL** : Utiliser l'outil d'inspection pour tester une URL spécifique et demander une indexation prioritaire.
 
 ---
 

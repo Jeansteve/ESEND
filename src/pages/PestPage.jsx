@@ -105,9 +105,10 @@ const PestPage = () => {
     "provider": {
       "@type": "LocalBusiness",
       "name": "ESEND Menton",
+      "telephone": settings.company_phone || "+33600000000",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Menton",
+        "addressLocality": settings.company_city || "Menton",
         "postalCode": "06500",
         "addressCountry": "FR"
       }

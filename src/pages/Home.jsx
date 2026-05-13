@@ -12,6 +12,8 @@ import SectionSeparator from '../components/Layout/SectionSeparator'
 import SEO from '../components/UI/SEO'
 
 function Home() {
+  const { settings } = useSettings();
+
   useEffect(() => {
     // Gestion propre du scroll vers les ancres avec BrowserRouter
     const hash = window.location.hash;
@@ -36,7 +38,7 @@ function Home() {
     "image": "https://esendnuisibles.fr/images/logo-esend.jpg",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Menton",
+      "addressLocality": settings.company_city || "Menton",
       "addressRegion": "Alpes-Maritimes",
       "addressCountry": "FR"
     },
@@ -46,7 +48,7 @@ function Home() {
       "longitude": 7.4975
     },
     "url": "https://esendnuisibles.fr",
-    "telephone": "+33600000000",
+    "telephone": settings.company_phone || "+33600000000",
     "priceRange": "$$",
     "areaServed": ["Menton", "Monaco", "Roquebrune-Cap-Martin", "Nice", "Antibes", "Cannes"],
     "description": "Expert en éradication de nuisibles, dératisation, désinsectisation et désinfection sur la Côte d'Azur."

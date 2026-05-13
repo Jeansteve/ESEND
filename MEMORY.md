@@ -203,3 +203,12 @@
   3. **Validation Recette :** Vérifier le rendu sur l'environnement de test.
   4. **Mise en Production :** Le merge sur `main` ne se fait QU'APRÈS succès des étapes 1, 2 et 3.
 - **Règle d'Or (Gouvernance) :** La rapidité ne doit jamais primer sur la stabilité. Un build cassé en production est plus coûteux qu'un déploiement différé de 5 minutes.
+
+### [PSA-2026-05-13-A] : Accélération Indexation (Soumission Manuelle Sitemap)
+- **Le Contexte :** Après une correction technique majeure (ex: suppression de canoniques erronées), attendre le passage naturel de Googlebot peut prendre des semaines.
+- **La Solution :** Ne pas se fier uniquement à la déclaration dans `robots.txt`.
+- **Le Protocole :**
+  1. Accéder à la **Google Search Console**.
+  2. Onglet **Indexation > Sitemaps**.
+  3. Soumettre manuellement l'URL : `https://esendnuisibles.fr/sitemap.xml`.
+- **Règle d'Or (SEO) :** Toute mise à jour structurelle du site (nouvelles pages services, refonte SEO) DOIT être suivie d'une soumission manuelle du sitemap pour forcer la re-découverte immédiate par Google.
