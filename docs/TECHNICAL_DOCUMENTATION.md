@@ -34,8 +34,8 @@ Les routes principales sont définies dans `App.jsx` :
 - **Ancrage Robuste** : Gestion centralisée du défilement vers les ancres dans `Home.jsx` avec support des changements de hash dynamiques et des transitions inter-pages.
 
 ### Optimisation des Performances
-- **Rendu Différé** : Utilisation du composant `DeferredSection` avec `content-visibility: auto` pour les sections lourdes (PestSelector, Portfolio, KnowledgeHub).
-- **Exceptions d'Ancrage** : Le formulaire de devis (`FormWizard`) est exclu du rendu différé pour garantir un ancrage instantané et précis depuis le Header.
+- **Rendu Différé (Désactivé sur Home)** : Le composant `DeferredSection` (`content-visibility: auto`) a été retiré des sections de la page d'accueil pour garantir la stabilité des ancres. Son utilisation sur des sections intermédiaires provoquait des décalages de mise en page (Cumulative Layout Shift) empêchant un atterrissage précis sur le formulaire de devis.
+- **Ancrage Natif** : Utilisation de `scrollIntoView` et `scroll-margin-top` pour une navigation fluide et précise vers `#devis-title`.
 
 ### Animations Premium (Framer Motion)
 Le projet utilise des micro-interactions avancées pour renforcer l'aspect expert :
