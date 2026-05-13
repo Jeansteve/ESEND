@@ -162,10 +162,10 @@ const Header = () => {
                 <Link
                   to="/#devis-title"
                   onClick={(e) => handleNavClick(e, { type: 'anchor', href: '#devis-title' })}
-                  className="relative group overflow-hidden bg-red-600 text-white px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans"
+                  className="relative group overflow-hidden bg-red-600 text-white px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 sm:gap-2 shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-red-600/40 transition-all font-sans whitespace-nowrap"
                 >
                   <span>Devis Offert</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
             )}
