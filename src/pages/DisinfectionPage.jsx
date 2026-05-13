@@ -128,19 +128,19 @@ const DisinfectionPage = () => {
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         
         {/* Header Immersif */}
-        <div className="mb-16">
+        <div className="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-cyan-500 font-black uppercase tracking-[0.4em] text-[10px] mb-4 flex items-center gap-2"
           >
-            <div className="w-8 h-px bg-cyan-500" /> {data.code}
+            <div className="w-8 h-px bg-cyan-500 hidden md:block" /> {data.code}
           </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none italic"
+            className="text-4xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none italic"
           >
             {data.title.split('&')[0]} <br/> 
             <span className="text-cyan-500">& {data.title.split('&')[1]}</span>
@@ -150,7 +150,7 @@ const DisinfectionPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-slate-300 font-bold uppercase tracking-widest border-l-4 border-cyan-500 pl-6 py-2 bg-cyan-500/5 max-w-4xl"
+            className="text-lg md:text-xl text-slate-300 font-bold uppercase tracking-widest border-l-0 md:border-l-4 border-cyan-500 px-4 md:pl-6 py-2 bg-cyan-500/5 max-w-4xl rounded-2xl md:rounded-none"
           >
             {data.intro}
           </motion.p>
@@ -199,10 +199,10 @@ const DisinfectionPage = () => {
 
         {/* Protocoles d'Intervention */}
         <div className="mb-20">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 text-center md:text-left">
             <div>
                <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 italic">Nos Protocoles <span className="text-cyan-500">Tactiques</span></h2>
-               <p className="text-slate-400 font-medium max-w-2xl">Chaque espace demande une approche spécifique. Nous adaptons la finesse de notre nébulisation et la rémanence de nos produits à votre environnement.</p>
+               <p className="text-slate-400 font-medium max-w-2xl mx-auto md:mx-0">Chaque espace demande une approche spécifique. Nous adaptons la finesse de notre nébulisation et la rémanence de nos produits à votre environnement.</p>
             </div>
             <div className="h-px flex-grow bg-white/5 hidden md:block mx-8 mb-6" />
           </div>
@@ -218,12 +218,12 @@ const DisinfectionPage = () => {
                 className="group bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] hover:border-cyan-500/30 transition-all shadow-xl relative overflow-hidden"
               >
                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-cyan-500/5 blur-[50px] group-hover:bg-cyan-500/10 transition-all" />
-                <div className="bg-cyan-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border border-cyan-500/20 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                <div className="bg-cyan-500/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border border-cyan-500/20 group-hover:bg-cyan-500 group-hover:text-white transition-all mx-auto md:mx-0">
                   <protocol.icon className="w-7 h-7" />
                 </div>
-                <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter">{protocol.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-grow">{protocol.desc}</p>
-                <div className="space-y-3">
+                <h3 className="text-2xl font-black uppercase mb-4 tracking-tighter text-center md:text-left">{protocol.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-8 flex-grow text-center md:text-left">{protocol.desc}</p>
+                <div className="space-y-3 flex flex-col items-center md:items-start">
                   {protocol.features.map((feat, j) => (
                     <div key={j} className="flex items-center gap-3">
                        <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
@@ -242,7 +242,7 @@ const DisinfectionPage = () => {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
+                className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex flex-col md:flex-row items-center gap-4 text-center md:text-left"
             >
                 <flaskonical className="text-cyan-500 w-8 h-8 lg:w-10 lg:h-10" /> Mythes vs Réalité
             </motion.h2>
@@ -287,7 +287,7 @@ const DisinfectionPage = () => {
                initial={{ opacity: 0, x: -20 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
-               className="text-3xl lg:text-5xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4"
+               className="text-3xl lg:text-5xl font-black uppercase tracking-tighter mb-12 flex flex-col md:flex-row items-center gap-4 text-center md:text-left"
             >
                <Target className="text-cyan-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
             </motion.h2>
@@ -359,7 +359,7 @@ const DisinfectionPage = () => {
                    initial={{ opacity: 0, x: -20 }}
                    whileInView={{ opacity: 1, x: 0 }}
                    viewport={{ once: true }}
-                   className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex items-center gap-4"
+                   className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-10 flex flex-col md:flex-row items-center gap-4 text-center md:text-left"
                 >
                    <BookOpen className="text-cyan-600 w-8 h-8 lg:w-10 lg:h-10" /> Le Journal de l'Expert
                 </motion.h2>
@@ -400,7 +400,7 @@ const DisinfectionPage = () => {
                  initial={{ opacity: 0, x: -20 }}
                  whileInView={{ opacity: 1, x: 0 }}
                  viewport={{ once: true }}
-                 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
+                 className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex flex-col md:flex-row items-center gap-4 text-center md:text-left"
               >
                  <ShieldCheck className="text-cyan-600 w-8 h-8 lg:w-10 lg:h-10" /> FAQ Expertise Bio-Sécurité
               </motion.h2>
@@ -429,16 +429,16 @@ const DisinfectionPage = () => {
             </div>
 
             {/* CTA Final */}
-            <div className="text-center bg-slate-900 border border-cyan-600/20 p-12 rounded-[3rem] shadow-2xl relative overflow-hidden text-white">
+            <div className="text-center bg-slate-900 border border-cyan-600/20 py-12 px-6 md:p-20 rounded-[3rem] shadow-2xl relative overflow-hidden text-white">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/5 blur-[80px] -z-10" />
-                <h4 className="text-2xl font-black uppercase mb-6 tracking-tighter flex items-center justify-center gap-3">
+                <h4 className="text-xl md:text-2xl font-black uppercase mb-8 tracking-tighter flex flex-col md:flex-row items-center justify-center gap-3">
                   <ShieldCheck className="text-cyan-500" /> Sécurisez votre environnement dès aujourd'hui
                 </h4>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <Link to={{ pathname: "/", hash: "#devis" }} className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(6,182,212,0.3)]">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-8">
+                  <Link to={{ pathname: "/", hash: "#devis" }} className="w-full sm:w-auto bg-cyan-600 hover:bg-cyan-500 text-white font-black py-4 px-10 md:py-6 md:px-14 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(6,182,212,0.3)] text-sm md:text-lg">
                     Demander une désinfection experte
                   </Link>
-                  <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-5 px-12 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-3">
+                  <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-4 px-10 md:py-6 md:px-14 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-4 text-sm md:text-lg whitespace-nowrap">
                     <Phone className="w-5 h-5 text-cyan-500" />
                     {settings.company_phone}
                   </a>

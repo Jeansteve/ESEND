@@ -218,19 +218,19 @@ const PestPage = () => {
         <div className="flex-1 min-w-0">
 
         {/* Header Immersif */}
-        <div className="mb-12">
+        <div className="mb-12 text-center md:text-left flex flex-col items-center md:items-start">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-red-600 font-black uppercase tracking-[0.4em] text-[10px] mb-4 flex items-center gap-2"
           >
-            <div className="w-8 h-px bg-red-600" /> FICHE TECHNIQUE EXPERT
+            <div className="w-8 h-px bg-red-600 hidden md:block" /> FICHE TECHNIQUE EXPERT
           </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none text-white drop-shadow-2xl"
+            className="text-4xl md:text-8xl font-black tracking-tighter uppercase mb-6 leading-none text-white drop-shadow-2xl"
           >
             {pest.title}
           </motion.h1>
@@ -239,7 +239,7 @@ const PestPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-2xl text-slate-200 font-bold uppercase tracking-widest border-l-8 border-red-600 pl-8 py-3 bg-white/5 rounded-r-2xl inline-block pr-10"
+            className="text-lg md:text-2xl text-slate-200 font-bold uppercase tracking-widest border-l-0 md:border-l-8 border-red-600 px-4 md:pl-8 py-3 bg-white/5 md:bg-white/5 rounded-2xl md:rounded-r-2xl inline-block md:pr-10"
           >
             {pest.description}
           </motion.p>
@@ -254,11 +254,11 @@ const PestPage = () => {
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 blur-[150px] -z-10" />
           
-          <h3 className="text-sm font-black uppercase tracking-[0.4em] text-red-500/80 mb-10 flex items-center gap-3">
-             <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" /> FICHE BIOLOGIQUE DÉTAILLÉE
+          <h3 className="text-[10px] md:text-sm font-black uppercase tracking-[0.4em] text-red-500/80 mb-10 flex flex-col md:flex-row items-center md:items-start gap-3">
+             <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse hidden md:block" /> FICHE BIOLOGIQUE DÉTAILLÉE
           </h3>
           
-          <div className="relative text-slate-300 leading-snug font-medium text-lg md:text-2xl opacity-90 text-left">
+          <div className="relative text-slate-300 leading-snug font-medium text-lg md:text-2xl opacity-90 text-center md:text-left">
             {/* Image Sticker Flottante (Compacité Optimisée) */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
@@ -307,8 +307,8 @@ const PestPage = () => {
         </motion.div>
 
         {/* Widget Calculateur de Gravité */}
-        <div className="bg-white/[0.03] backdrop-blur-xl border border-white/5 p-8 sm:p-12 rounded-[3rem] mb-20 shadow-[0_30px_70px_rgba(0,0,0,0.6)]">
-          <h3 className="text-2xl font-black uppercase mb-8 flex items-center gap-3"><Calculator className="text-red-600" /> Évaluez la gravité</h3>
+        <div className="bg-white/[0.03] backdrop-blur-xl border border-white/5 p-8 sm:p-12 rounded-[3rem] mb-20 shadow-[0_30px_70px_rgba(0,0,0,0.6)] text-center md:text-left">
+          <h3 className="text-2xl font-black uppercase mb-8 flex flex-col md:flex-row items-center gap-3"><Calculator className="text-red-600" /> Évaluez la gravité</h3>
           
           <div className="relative h-1.5 bg-slate-800 rounded-full mb-10 overflow-hidden">
             <motion.div 
@@ -379,7 +379,7 @@ const PestPage = () => {
            initial={{ opacity: 0, y: 20 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true, margin: "-100px" }}
-           className="bg-red-600/10 border border-red-600/50 p-8 rounded-[2rem] mb-16 flex gap-6 items-start shadow-[0_0_40px_rgba(220,38,38,0.15)] relative overflow-hidden"
+           className="bg-red-600/10 border border-red-600/50 p-8 rounded-[2rem] mb-16 flex flex-col md:flex-row gap-6 items-center md:items-start shadow-[0_0_40px_rgba(220,38,38,0.15)] relative overflow-hidden text-center md:text-left"
         >
           <div className="absolute top-0 right-0 w-48 h-48 bg-red-600/20 blur-[50px] mix-blend-screen rounded-full pointer-events-none" />
           <motion.div
@@ -403,7 +403,7 @@ const PestPage = () => {
                    initial={{ opacity: 0, x: -20 }}
                    whileInView={{ opacity: 1, x: 0 }}
                    viewport={{ once: true }}
-                   className="text-3xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex items-center gap-4"
+                   className="text-2xl lg:text-4xl font-black uppercase tracking-tighter mb-8 flex flex-col md:flex-row items-center gap-4 text-center md:text-left"
                 >
                     <Shield className="text-red-600 w-8 h-8 lg:w-10 lg:h-10" /> Mythes vs Réalité
                 </motion.h2>
@@ -456,7 +456,7 @@ const PestPage = () => {
                  initial={{ opacity: 0, x: -20 }}
                  whileInView={{ opacity: 1, x: 0 }}
                  viewport={{ once: true }}
-                 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4 text-slate-900"
+                 className="text-3xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex flex-col md:flex-row items-center gap-4 text-slate-900 text-center md:text-left"
               >
                  <Target className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> Nos Interventions Récentes
               </motion.h2>
@@ -530,7 +530,7 @@ const PestPage = () => {
                  initial={{ opacity: 0, x: -20 }}
                  whileInView={{ opacity: 1, x: 0 }}
                  viewport={{ once: true }}
-                 className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4 text-slate-900"
+                 className="text-3xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex flex-col md:flex-row items-center gap-4 text-slate-900 text-center md:text-left"
               >
                  <BookOpen className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> Le Journal de l'Expert
               </motion.h2>
@@ -572,7 +572,7 @@ const PestPage = () => {
                initial={{ opacity: 0, x: -20 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
-               className="text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex items-center gap-4 text-slate-900"
+               className="text-3xl lg:text-6xl font-black uppercase tracking-tighter mb-12 flex flex-col md:flex-row items-center gap-4 text-slate-900 text-center md:text-left"
             >
                <Info className="text-red-600 w-10 h-10 lg:w-14 lg:h-14" /> FAQ Expertise
             </motion.h2>
