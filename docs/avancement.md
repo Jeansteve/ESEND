@@ -372,20 +372,36 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Règle d'Or UX** : Intégration de la philosophie "User-Centric" dans la gouvernance du projet.
 
 
+## ✅ V24 : Optimisation de la Conversion Mobile (Mai 2026)
+**Fichiers :** `MobileMenu.jsx`, `Header.jsx`, `GUIDE_CONFIGURATION_MAIL.md`
+
+- **Tunnel de Conversion "Thumb-Ready"** :
+    - Intégration d'un bouton **"Demander un devis"** prioritaire dans le menu mobile, juste au-dessus du téléphone.
+    - Accélération de l'accès au formulaire pour les utilisateurs tactiles.
+- **Documentation de Livraison Client** :
+    - Création du `GUIDE_CONFIGURATION_MAIL.md` : un support complet pour accompagner le client dans la configuration de sa boîte mail (Webmail, iPhone, Android, Gmail).
+    - Valorisation de l'identité professionnelle ESEND (@esendnuisibles.fr).
+
+## ✅ V25 : Raffinement du Header Mobile "Sticky" (Mai 2026)
+**Fichier :** `Header.jsx`
+
+- **Permutation Dynamique Smart-CTA** :
+    - Implémentation d'une logique de remplacement : sur mobile, le numéro de téléphone s'efface au profit du bouton **"Devis Offert"** dès que l'utilisateur commence à scroller.
+    - Garantit que l'action prioritaire (conversion) est toujours à portée de doigt sans surcharger l'écran.
+- **Correction Typographique** : Forçage du texte sur une seule ligne (`whitespace-nowrap`) et réduction de la police à `9px` pour une harmonie parfaite sur tous les terminaux.
+
+## ✅ V26 : Standardisation "Capsule" UI (Mai 2026)
+**Fichiers :** `Header.jsx`, `DUPLICATION_GUIDE.md`
+
+- **Harmonisation des Boutons** : Application du style "Capsule" ultra-compact au bouton de téléphone pour une symétrie parfaite avec le CTA Devis.
+- **Industrialisation du Système** :
+    - Mise à jour majeure du `DUPLICATION_GUIDE.md` (v2.0).
+    - Centralisation de toutes les étapes (Secrets, SQL, IA, SMTP) pour permettre la duplication du site en moins d'une heure.
+- **État "Production Ready"** : Le système ESEND est désormais considéré comme un **Blueprint Industriel** robuste, sécurisé et prêt pour le déploiement multi-clients.
+
+---
+
 ## 🚀 Prochaines Étapes
-1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
-2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
-3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
-
-## ✅ V23 : Excellence Ergonomique de l'Admin (Mai 2026)
-**Fichiers :** `Dashboard.jsx`, `AdminPanel.css`
-
-- **Refonte de l'En-tête "Statut Opérationnel"** :
-    - Alignement asymétrique professionnel : **Titre & Sous-titre à gauche**, **Actions à droite**.
-    - Forçage de la priorité via `!` (Tailwind Important) pour éliminer les conflits de style lors du build.
-    - Breakpoints optimisés (`lg:`) pour une expérience fluide sur tous les formats d'écrans (Tablettes & Laptops).
-- **Stabilisation du Bloc d'Actions** :
-    - Alignement horizontal strict (`flex-row`) de la recherche et du bouton de création.
-    - Suppression de l'effet d'expansion au focus sur la barre de recherche pour éviter le chevauchement ("Overlapping Fix").
-    - Protection des dimensions des boutons via `shrink-0`.
-- **Typographie & Respiration** : Augmentation des marges (`mb-12`) et de la taille des titres pour une meilleure hiérarchie visuelle.
+1. **Validation Client** : Remise du guide de configuration mail et test final en conditions réelles.
+2. **Double Authentification (2FA)** : Intégration de TOTP pour sécuriser l'accès au Dashboard.
+3. **Auto-réponse Client** : Automatisation de l'accusé de réception pour chaque demande de devis.

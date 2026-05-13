@@ -287,11 +287,17 @@
 - **Solution Technique** : Passage au défilement natif via `target.scrollIntoView({ behavior: 'smooth', block: 'start' })`.
 - **Compensation Header** : Utilisation de la propriété CSS `scroll-margin-top: 120px` sur les cibles d'ancrage. Le navigateur gère désormais nativement le "déverrouillage" du contenu différé et l'offset du header fixe, garantissant un atterrissage précis sur le titre "DEMANDER UNE INTERVENTION".
 
-### [PSA-2026-05-13-I] : Refonte Layout Admin (Priorité Gauche & Alignement Actions)
-- **Le Concept** : Optimiser l'efficacité visuelle de l'interface d'administration en ancrant les informations de statut à gauche et les actions (Recherche, Création) à droite.
-- **Défis Techniques & Solutions** :
-  1. **Conflit de Breakpoints** : L'utilisation de `xl:flex-row` maintenait l'affichage centré sur les écrans standards (13-15 pouces). Passage à `lg:!flex-row` (1024px) avec forçage de priorité via `!` (important) pour garantir le basculement.
-  2. **Ancrage Strict** : Utilisation de `items-start` et `text-left` pour empêcher le centrage automatique en mode colonne (mobile).
-  3. **Stabilité au Focus** : La barre de recherche augmentait sa largeur au focus (`300px -> 350px`), provoquant un chevauchement avec le bouton "Nouvel Article". Suppression de cette animation de largeur au profit d'un effet d'ombre (`box-shadow`) subtil.
-  4. **Incompressibilité** : Ajout de `shrink-0` sur les boutons d'action pour prévenir toute déformation ou superposition par les éléments voisins.
-- **Règle d'Or (Admin UI)** : L'interface d'administration doit être "prévisible". Les éléments de navigation et d'action doivent avoir des positions fixes et des dimensions stables pour favoriser la mémoire musculaire de l'utilisateur.
+### [PSA-2026-05-13-J] : Priorité à la Conversion Mobile (Header & Menu)
+- **Le Concept** : Sur un écran de 400px de large, chaque pixel compte. La priorité doit être donnée à l'action immédiate (Devis) au détriment de l'information statique (Téléphone).
+- **Logique de Permutation (V25/V26)** :
+  1. **Header Sticky** : Au-delà d'un scroll de 400px, le numéro de téléphone s'efface (`hidden`) pour laisser place au bouton **"Devis Offert"** (`flex`). Sur PC, les deux restent visibles.
+  2. **Menu Mobile** : Le bouton de devis (Rouge) est ancré au-dessus du téléphone dans le footer du menu pour être à portée de pouce.
+- **Règle d'Or (Mobile UX)** : La hiérarchie visuelle doit évoluer avec le scroll. Plus l'utilisateur s'enfonce dans le contenu, plus le CTA de conversion doit devenir l'élément central du header.
+
+### [PSA-2026-05-13-K] : Standardisation du Blueprint Industriel (Duplication)
+- **Le Concept** : La codebase d'ESEND n'est plus un site unique, c'est un moteur (Blueprint) duplicable.
+- **Composants du Pack de Duplication** :
+  1. **SQL Pack** : Inclure systématiquement `schema_prod.sql` ET les scripts `upgrade_*.sql` (Stats, SEO).
+  2. **Secrets Workflow** : Le déploiement ne doit reposer sur AUCUNE saisie manuelle FTP/DB (GitHub Secrets uniquement).
+  3. **Mock Mode v2.4** : Le système doit rester testable localement sans base de données via le fallback `localStorage`.
+- **Règle de Gouvernance** : Toute modification majeure sur ESEND doit être documentée dans le `DUPLICATION_GUIDE.md` pour garantir que les futurs clients bénéficieront automatiquement des dernières innovations.
