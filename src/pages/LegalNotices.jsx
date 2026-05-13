@@ -44,6 +44,24 @@ const LegalNotices = () => {
         title="Mentions Légales" 
         description="Informations légales concernant l'entreprise ESEND."
         robots="noindex, nofollow"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://esendnuisibles.fr/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Mentions Légales",
+              "item": "https://esendnuisibles.fr/mentions-legales"
+            }
+          ]
+        }}
       />
       <div className="max-w-4xl mx-auto">
         <motion.div 

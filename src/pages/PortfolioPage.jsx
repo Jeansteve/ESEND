@@ -36,6 +36,24 @@ const PortfolioPage = () => {
       <SEO 
         title="Interventions & Réalisations Terrain | Expertise 06"
         description="Découvrez les interventions d'ESEND à Menton, Monaco et Nice : dératisation, désinsectisation et nettoyage professionnel documentés."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://esendnuisibles.fr/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Réalisations",
+              "item": "https://esendnuisibles.fr/realisations"
+            }
+          ]
+        }}
       />
       <section className="pt-40 pb-20 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-b border-white/5">
         <div className="max-w-7xl mx-auto">

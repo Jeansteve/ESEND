@@ -51,28 +51,54 @@ const ServicePage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": service.title,
-    "description": service.description,
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "ESEND Nuisibles"
+  const serviceSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": service.title,
+      "description": service.description,
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "ESEND Nuisibles"
+      },
+      "areaServed": "Alpes-Maritimes",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": service.subtitle,
+        "itemListElement": service.features.map(f => ({
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": f.title
+          }
+        }))
+      }
     },
-    "areaServed": "Alpes-Maritimes",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": service.subtitle,
-      "itemListElement": service.features.map(f => ({
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": f.title
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://esendnuisibles.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Pôle Service",
+          "item": "https://esendnuisibles.fr/pole-service"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": service.title,
+          "item": `https://esendnuisibles.fr/services/${id}`
         }
-      }))
+      ]
     }
-  };
+  ];
 
   return (
     <div className="min-h-screen bg-[#020617] text-white selection:bg-red-600/30">

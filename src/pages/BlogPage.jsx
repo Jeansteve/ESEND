@@ -56,6 +56,24 @@ const BlogPage = () => {
       <SEO 
         title="Conseils & Expertise Nuisibles | Le Journal ESEND"
         description="Retrouvez les conseils de nos experts sur l'éradication des nuisibles, la désinfection et le nettoyage professionnel à Menton et Nice."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://esendnuisibles.fr/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Journal de l'Expert",
+              "item": "https://esendnuisibles.fr/journal"
+            }
+          ]
+        }}
       />
       <div className="max-w-7xl mx-auto">
 

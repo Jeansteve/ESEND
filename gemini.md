@@ -50,5 +50,19 @@ L'application est désormais alignée sur les obligations légales françaises (
     - **ÉTAPE 3** : Pousser sur `main` UNIQUEMENT après validation explicite du client.
     - *Règle d'or : Interdiction formelle de pousser sur main sans passage par la branche test.*
 
+## 🚀 7. SEO Sémantique & Blindage Sécurité (Mai 2026)
+L'optimisation pour les moteurs de recherche et la sécurité ont été portées à un niveau professionnel :
+- **JSON-LD Dynamique** : Implémentation massive de schémas `Schema.org`.
+    - `FAQPage` : Injecté sur toutes les pages de services (`PestPage`, `DisinfectionPage`, `CleaningPage`) pour un affichage enrichi dans Google.
+    - `BreadcrumbList` : Déploiement systématique sur l'ensemble du site pour clarifier la hiérarchie et améliorer le "Link Juice".
+    - `Article` : Optimisation du schéma pour le Journal de l'Expert.
+    - `LocalBusiness` : Centralisation sur la page d'accueil avec géolocalisation précise.
+- **Accessibilité & Image SEO** : Audit complet des balises `alt`. Optimisation des descriptions pour les images du Hero et de la section À Propos.
+- **Blindage .htaccess** : 
+    - Configuration d'une **Content Security Policy (CSP)** robuste pour prévenir les injections.
+    - Activation du **HSTS** (Strict-Transport-Security) avec `preload`.
+    - Blocage strict de l'accès aux fichiers sensibles (`.env`, `.git`, `composer.*`).
+    - Headers de protection contre le XSS, le reniflage de MIME (`nosniff`) et les attaques de clickjacking.
+
 ---
-*Documentation mise à jour le 06 Mai 2026 par Antigravity.*
+*Documentation mise à jour le 13 Mai 2026 par Antigravity.*

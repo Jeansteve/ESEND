@@ -98,24 +98,62 @@ const PestPage = () => {
   };
 
   // Données structurées SEO (JSON-LD)
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": pest.title,
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "ESEND Menton",
-      "telephone": settings.company_phone || "+33600000000",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": settings.company_city || "Menton",
-        "postalCode": "06500",
-        "addressCountry": "FR"
-      }
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": pest.title,
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "ESEND Menton",
+        "telephone": settings.company_phone || "+33600000000",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": settings.company_city || "Menton",
+          "postalCode": "06500",
+          "addressCountry": "FR"
+        }
+      },
+      "description": pest.description,
+      "areaServed": "Menton, Roquebrune-Cap-Martin, Beausoleil, Sospel"
     },
-    "description": pest.description,
-    "areaServed": "Menton, Roquebrune-Cap-Martin, Beausoleil, Sospel"
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": pest.faq.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://esendnuisibles.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services Nuisibles",
+          "item": "https://esendnuisibles.fr/services/nuisibles"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": pest.title,
+          "item": `https://esendnuisibles.fr/services/nuisibles?type=${type}`
+        }
+      ]
+    }
+  ];
 
   const iconMap = {
     'punaises-de-lit': <Snail className="w-5 h-5 md:w-6 md:h-6" />,

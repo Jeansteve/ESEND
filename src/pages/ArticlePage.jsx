@@ -94,18 +94,44 @@ const ArticlePage = () => {
     );
   }
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    'headline': article.title,
-    'description': article.excerpt || article.meta_description || '',
-    'image': article.image || '',
-    'datePublished': article.date || '',
-    'author': {
-      '@type': 'Organization',
-      'name': 'ESEND Nuisibles'
+  const articleSchema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      'headline': article.title,
+      'description': article.excerpt || article.meta_description || '',
+      'image': article.image || '',
+      'datePublished': article.date || '',
+      'author': {
+        '@type': 'Organization',
+        'name': 'ESEND Nuisibles'
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://esendnuisibles.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Journal de l'Expert",
+          "item": "https://esendnuisibles.fr/journal"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": article.title,
+          "item": `https://esendnuisibles.fr/journal/${article.slug || article.id}`
+        }
+      ]
     }
-  };
+  ];
 
   return (
     <div className="min-h-screen bg-white light pb-24 transition-colors duration-1000">

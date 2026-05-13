@@ -32,28 +32,42 @@ function Home() {
     }
   }, []);
 
-  const homeSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "ESEND Nuisibles",
-    "image": "https://esendnuisibles.fr/images/logo-esend.webp",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": settings.company_city || "Menton",
-      "addressRegion": "Alpes-Maritimes",
-      "addressCountry": "FR"
+  const homeSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "ESEND Nuisibles",
+      "image": "https://esendnuisibles.fr/images/logo-esend.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": settings.company_city || "Menton",
+        "addressRegion": "Alpes-Maritimes",
+        "addressCountry": "FR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 43.7745,
+        "longitude": 7.4975
+      },
+      "url": "https://esendnuisibles.fr",
+      "telephone": settings.company_phone || "+33600000000",
+      "priceRange": "$$",
+      "areaServed": ["Menton", "Monaco", "Roquebrune-Cap-Martin", "Nice", "Antibes", "Cannes"],
+      "description": "Expert en éradication de nuisibles, dératisation, désinsectisation et désinfection sur la Côte d'Azur."
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 43.7745,
-      "longitude": 7.4975
-    },
-    "url": "https://esendnuisibles.fr",
-    "telephone": settings.company_phone || "+33600000000",
-    "priceRange": "$$",
-    "areaServed": ["Menton", "Monaco", "Roquebrune-Cap-Martin", "Nice", "Antibes", "Cannes"],
-    "description": "Expert en éradication de nuisibles, dératisation, désinsectisation et désinfection sur la Côte d'Azur."
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://esendnuisibles.fr/"
+        }
+      ]
+    }
+  ];
 
   return (
     <div className="transition-colors duration-400">

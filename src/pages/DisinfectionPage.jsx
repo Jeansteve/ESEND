@@ -30,25 +30,57 @@ const DisinfectionPage = () => {
   const [isLoadingInterventions, setIsLoadingInterventions] = useState(true);
   const [realInterventions, setRealInterventions] = useState([]);
 
-  const disinfectionSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Désinfection Professionnelle",
-    "serviceType": "Hygiène & Désinfection",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "ESEND Nuisibles",
-      "telephone": settings.company_phone || "+33600000000",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": settings.company_city || "Menton",
-        "addressRegion": "Alpes-Maritimes",
-        "addressCountry": "FR"
-      }
+  const disinfectionSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Désinfection Professionnelle",
+      "serviceType": "Hygiène & Désinfection",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "ESEND Nuisibles",
+        "telephone": settings.company_phone || "+33600000000",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": settings.company_city || "Menton",
+          "addressRegion": "Alpes-Maritimes",
+          "addressCountry": "FR"
+        }
+      },
+      "description": "Service de désinfection professionnelle pour locaux résidentiels et commerciaux. Éradication de germes, virus et bactéries.",
+      "areaServed": "Alpes-Maritimes"
     },
-    "description": "Service de désinfection professionnelle pour locaux résidentiels et commerciaux. Éradication de germes, virus et bactéries.",
-    "areaServed": "Alpes-Maritimes"
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": data.faq.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://esendnuisibles.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Désinfection",
+          "item": "https://esendnuisibles.fr/services/desinfection"
+        }
+      ]
+    }
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);

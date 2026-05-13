@@ -27,25 +27,57 @@ const CleaningPage = () => {
   const [isLoadingInterventions, setIsLoadingInterventions] = useState(true);
   const [realInterventions, setRealInterventions] = useState([]);
 
-  const cleaningSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Nettoyage & Vitrerie Professionnelle",
-    "serviceType": "Nettoyage Industriel & Résidentiel",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "ESEND Nuisibles",
-      "telephone": settings.company_phone || "+33600000000",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": settings.company_city || "Menton",
-        "addressRegion": "Alpes-Maritimes",
-        "addressCountry": "FR"
-      }
+  const cleaningSchema = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Nettoyage & Vitrerie Professionnelle",
+      "serviceType": "Nettoyage Industriel & Résidentiel",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "ESEND Nuisibles",
+        "telephone": settings.company_phone || "+33600000000",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": settings.company_city || "Menton",
+          "addressRegion": "Alpes-Maritimes",
+          "addressCountry": "FR"
+        }
+      },
+      "description": "Services de nettoyage spécialisé, entretien de vitres et remise en état de locaux à Menton, Monaco et Nice.",
+      "areaServed": "Alpes-Maritimes"
     },
-    "description": "Services de nettoyage spécialisé, entretien de vitres et remise en état de locaux à Menton, Monaco et Nice.",
-    "areaServed": "Alpes-Maritimes"
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": data.faq.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a
+        }
+      }))
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://esendnuisibles.fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Nettoyage",
+          "item": "https://esendnuisibles.fr/services/nettoyage"
+        }
+      ]
+    }
+  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);

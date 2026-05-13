@@ -38,16 +38,35 @@
 # Empêcher le listage des dossiers
 Options -Indexes
 
+# Bloquer l'accès aux fichiers sensibles
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+<FilesMatch "^(wp-config\.php|config\.php|\.env|\.git|composer\.)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
 # En-têtes de sécurité
 <IfModule mod_headers.c>
   Header set X-XSS-Protection "1; mode=block"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set X-Content-Type-Options "nosniff"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-  # HSTS - Force HTTPS (HIGH-03)
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  # Content Security Policy (HIGH-03)
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://esendnuisibles.fr https://site-test.esendnuisibles.fr; frame-ancestors 'none';"
-  # Permissions Policy (HIGH-03)
+  Header set X-Permitted-Cross-Domain-Policies "none"
+  
+  # HSTS - Force HTTPS (365 jours)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  
+  # Content Security Policy - Version Robuste
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://esendnuisibles.fr https://site-test.esendnuisibles.fr https://www.google-analytics.com; frame-ancestors 'self';"
+  
+  # Permissions Policy
   Header set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=()"
+  
+  # Cross-Origin Policies
+  Header set Cross-Origin-Embedder-Policy "unsafe-none"
+  Header set Cross-Origin-Opener-Policy "same-origin"
+  Header set Cross-Origin-Resource-Policy "same-origin"
 </IfModule>

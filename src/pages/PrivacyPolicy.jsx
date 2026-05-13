@@ -40,6 +40,24 @@ const PrivacyPolicy = () => {
         title="Politique de Confidentialité" 
         description="Protection et gestion de vos données personnelles (RGPD) par ESEND."
         robots="noindex, nofollow"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://esendnuisibles.fr/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Politique de Confidentialité",
+              "item": "https://esendnuisibles.fr/politique-confidentialite"
+            }
+          ]
+        }}
       />
       <div className="max-w-4xl mx-auto">
         <motion.div 

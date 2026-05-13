@@ -19,7 +19,7 @@ const About = () => {
               <img 
                 src="/images/duo-experts-esend.webp" 
                 className="w-full h-full object-cover transition-all duration-1000"
-                alt="Votre duo d'experts à Menton"
+                alt="L'équipe ESEND : Experts en dératisation et désinfection à Menton"
                 loading="lazy"
                 decoding="async"
               />
