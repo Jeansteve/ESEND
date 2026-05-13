@@ -10,21 +10,21 @@ const Footer = () => {
         <div>
           <div className="flex items-center justify-center md:justify-start gap-3 mb-8">
             <div className="w-12 h-12 rounded-lg overflow-hidden border border-white/10 bg-white flex items-center justify-center p-1">
-              <img src="/images/logo-esend.webp" alt="Logo ESEND" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all" />
+              <img src="/images/logo-esend.webp" alt="Logo ESEND" className="w-full h-full object-contain grayscale hover:grayscale-0 transition-all" width="48" height="48" />
             </div>
             <div className="flex flex-col">
               <div className="text-3xl font-black tracking-tighter italic leading-none">ESEND</div>
               <div className="text-[9px] font-bold uppercase tracking-wider text-esend-red mt-1">Passer de nuisibles à paisible</div>
             </div>
           </div>
-          <p className="text-slate-400 leading-relaxed max-w-xs mx-auto md:mx-0 font-medium text-sm">
+          <p className="text-[var(--text-dimmed)] leading-relaxed max-w-xs mx-auto md:mx-0 font-medium text-sm">
             Votre duo expert en hygiène, nettoyage et débarrassage. Intervention rapide à Menton et sur toute la Riviera.
           </p>
         </div>
         
         <div>
-          <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h4>
-          <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-slate-400">
+          <h2 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Services & Zones</h2>
+          <ul className="space-y-4 text-xs font-black uppercase tracking-widest text-[var(--text-dimmed)]">
             <li><Link to="/services/nuisibles" className="hover:text-red-600 transition-colors">Dératisation & Nuisibles</Link></li>
             <li><Link to="/services/desinfection" className="hover:text-red-500 transition-colors">Désinfection Bio-Sécurité</Link></li>
             <li><Link to="/services/nettoyage" className="hover:text-red-500 transition-colors">Nettoyage & Vitrerie</Link></li>
@@ -33,7 +33,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <h4 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Contact Direct</h4>
+          <h2 className="font-black uppercase tracking-widest text-[10px] mb-8 text-esend-red">Contact Direct</h2>
           <div className="space-y-6">
             <div>
               <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="text-2xl font-black tracking-tight italic hover:text-esend-red transition-colors block">

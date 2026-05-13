@@ -395,9 +395,13 @@ const FormWizard = () => {
       <div className="absolute inset-0 z-0">
         <img 
           src="/images/menton-contact.webp" 
-          alt="Menton" 
+          alt="Vue de Menton" 
           className="w-full h-full object-cover"
           style={{ filter: 'brightness(0.6)' }}
+          loading="lazy"
+          decoding="async"
+          width="1200"
+          height="800"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-transparent to-slate-950/40" />
       </div>

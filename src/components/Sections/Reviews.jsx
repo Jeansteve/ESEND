@@ -139,7 +139,7 @@ const ReviewCard = ({ review, index }) => (
       </div>
 
       {/* Text */}
-      <p className="text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed italic relative z-10">
+      <p className="text-[var(--text-dimmed)] font-medium leading-relaxed italic relative z-10">
         "{review.text}"
       </p>
 

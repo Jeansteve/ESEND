@@ -126,7 +126,7 @@ const KnowledgeHub = () => {
                       {article.title}
                     </h3>
 
-                    <p className="text-slate-400 leading-relaxed mb-6 font-medium flex-grow text-sm">
+                    <p className="text-slate-600 leading-relaxed mb-6 font-medium flex-grow text-sm">
                       {article.excerpt}
                     </p>
 

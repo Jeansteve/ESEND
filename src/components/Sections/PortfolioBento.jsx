@@ -80,7 +80,7 @@ const PortfolioBento = () => {
                   <h3 className="text-xl font-black uppercase tracking-tighter leading-tight text-white mb-2 group-hover:text-red-600 transition-colors">
                     {item.title}
                   </h3>
-                  <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
+                  <div className="flex items-center gap-2 text-slate-300 text-xs font-medium italic group-hover:text-slate-200 transition-colors">
                      <CheckCircle2 className="w-3 h-3 text-red-600" /> {item.location}
                   </div>
                 </div>

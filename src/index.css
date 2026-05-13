@@ -12,7 +12,7 @@
   --bg-input: rgba(2, 6, 23, 0.8);
   --bg-overlay: rgba(2, 6, 23, 0.95);
   --text-main: #f8fafc; /* Slate 50 */
-  --text-dimmed: #94a3b8; /* Slate 400 */
+  --text-dimmed: #cbd5e1; /* Slate 300 (was 400 for better contrast) */
   --border-subtle: rgba(255, 255, 255, 0.05);
   --border-strong: rgba(255, 255, 255, 0.1);
   --accent-red: #dc2626;

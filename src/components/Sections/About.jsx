@@ -16,12 +16,14 @@ const About = () => {
             className="bg-[var(--bg-secondary)] rounded-[4rem] p-4 border border-[var(--border-subtle)]"
           >
             <div className="aspect-square bg-slate-900 rounded-[3.5rem] overflow-hidden relative group">
-              <img 
+                <img 
                 src="/images/duo-experts-esend.webp" 
                 className="w-full h-full object-cover transition-all duration-1000"
                 alt="L'équipe ESEND : Experts en dératisation et désinfection à Menton"
                 loading="lazy"
                 decoding="async"
+                width="600"
+                height="600"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
             </div>
@@ -67,7 +69,7 @@ const About = () => {
                 <div className="w-12 h-12 bg-[var(--bg-secondary)] rounded-2xl flex items-center justify-center text-[var(--text-main)] border border-[var(--border-subtle)]">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
-                <h4 className="font-black text-sm uppercase tracking-tighter text-[var(--text-main)]">Qualité & Discrétion</h4>
+                <h3 className="font-black text-sm uppercase tracking-tighter text-[var(--text-main)]">Qualité & Discrétion</h3>
                 <p className="text-xs text-[var(--text-dimmed)] font-medium leading-relaxed">
                   Chaque intervention est traitée avec la plus grande rigueur, garantissant un résultat irréprochable en toute confidentialité.
                 </p>
@@ -77,7 +79,7 @@ const About = () => {
                 <div className="w-12 h-12 bg-[var(--bg-secondary)] rounded-2xl flex items-center justify-center text-[var(--text-main)] border border-[var(--border-subtle)]">
                   <Heart className="w-6 h-6" />
                 </div>
-                <h4 className="font-black text-sm uppercase tracking-tighter text-[var(--text-main)]">Confiance & Réactivité</h4>
+                <h3 className="font-black text-sm uppercase tracking-tighter text-[var(--text-main)]">Confiance & Réactivité</h3>
                 <p className="text-xs text-[var(--text-dimmed)] font-medium leading-relaxed">
                   Interlocuteurs uniques, nous vous assurons une écoute directe et une réponse rapide adaptée à vos besoins réels.
                 </p>

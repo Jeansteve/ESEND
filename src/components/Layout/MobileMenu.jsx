@@ -40,12 +40,13 @@ const MobileMenu = ({ isOpen, onClose }) => {
             {/* Header du Menu */}
             <div className="p-6 flex items-center justify-between border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <img src="/images/logo-esend.webp" alt="ESEND" className="w-10 h-10 object-contain rounded-lg" />
+                <img src="/images/logo-esend.webp" alt="ESEND" className="w-10 h-10 object-contain rounded-lg" width="40" height="40" />
                 <span className="font-black italic text-xl tracking-tighter text-slate-900 uppercase">ESEND</span>
               </div>
               <button 
                 onClick={onClose}
                 className="p-2 bg-slate-100 rounded-full text-slate-600 active:scale-90 transition-transform"
+                aria-label="Fermer le menu"
               >
                 <X className="w-6 h-6" />
               </button>
