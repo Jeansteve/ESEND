@@ -464,20 +464,21 @@ const Dashboard = () => {
           </div>
         ) : (
           <>
-            {/* Header */}
-            <header className="flex flex-col lg:flex-row lg:justify-between items-start lg:items-center gap-6 mb-8 lg:mb-16">
-              <div className="flex items-center gap-4 w-full lg:w-auto">
+            {/* Header / Barre de Statut Opérationnel */}
+            <header className="flex flex-col xl:flex-row xl:justify-between xl:items-center gap-8 mb-12 xl:mb-20">
+              {/* GAUCHE : Titre et Sous-titre */}
+              <div className="flex items-center gap-6">
                 <button
                   className="lg:hidden p-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-main)] shadow-lg active:scale-95 hover:border-red-600/50 transition-all shrink-0"
                   onClick={() => setIsMobileMenuOpen(true)}
                 >
                   <Menu className="w-5 h-5" />
                 </button>
-                <div>
-                  <h2 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase mb-1 sm:mb-2 text-[var(--text-main)]">
+                <div className="text-left">
+                  <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase mb-2 text-[var(--text-main)]">
                     Statut <span className="text-red-600 italic">Opérationnel</span>
                   </h2>
-                  <p className="hidden sm:block text-[var(--text-dimmed)] font-medium text-[10px] sm:text-xs italic tracking-widest uppercase border-l border-red-600 pl-3 sm:pl-4">
+                  <p className="hidden md:block text-[var(--text-dimmed)] font-black text-[10px] tracking-[0.2em] uppercase border-l-2 border-red-600 pl-4">
                     {activeTab === 'dashboard' && "Vue d'ensemble du site ESEND"}
                     {activeTab === 'analytics' && "Statistiques temporelles et volumes d'activité"}
                     {activeTab === 'blog' && "Gestion des dossiers tactiques et expertise"}
@@ -488,8 +489,8 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full lg:w-auto">
-
+              {/* DROITE : Recherche et Actions */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full xl:w-auto">
                 {activeTab !== 'settings' && (
                   <div className="relative group w-full sm:w-auto">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dimmed)] group-focus-within:text-red-600 transition-colors" />
@@ -499,6 +500,7 @@ const Dashboard = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="admin-search w-full bg-[var(--bg-input)] border-[var(--border-subtle)] text-[var(--text-main)] placeholder:text-[var(--text-dimmed)]"
+                      style={{ width: '100%', minWidth: '300px' }}
                     />
                   </div>
                 )}
@@ -506,7 +508,7 @@ const Dashboard = () => {
                 {activeTab === 'blog' && (
                   <button
                     onClick={() => setShowStudio(true)}
-                    className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
+                    className="flex items-center justify-center gap-3 bg-red-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/20 active:scale-95 whitespace-nowrap"
                   >
                     <Plus className="w-4 h-4" /> Nouvel Article
                   </button>
@@ -515,7 +517,7 @@ const Dashboard = () => {
                 {activeTab === 'portfolio' && (
                   <button
                     onClick={() => { setEditingProject(null); setShowProjectModal(true); }}
-                    className="flex items-center justify-center gap-3 bg-red-600 text-white px-6 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95 whitespace-nowrap"
+                    className="flex items-center justify-center gap-3 bg-red-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/20 active:scale-95 whitespace-nowrap"
                   >
                     <Plus className="w-4 h-4" /> Nouvelle Réa
                   </button>
