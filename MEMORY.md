@@ -300,4 +300,10 @@
   1. **SQL Pack** : Inclure systématiquement `schema_prod.sql` ET les scripts `upgrade_*.sql` (Stats, SEO).
   2. **Secrets Workflow** : Le déploiement ne doit reposer sur AUCUNE saisie manuelle FTP/DB (GitHub Secrets uniquement).
   3. **Mock Mode v2.4** : Le système doit rester testable localement sans base de données via le fallback `localStorage`.
-- **Règle de Gouvernance** : Toute modification majeure sur ESEND doit être documentée dans le `DUPLICATION_GUIDE.md` pour garantir que les futurs clients bénéficieront automatiquement des dernières innovations.
+### [PSA-2026-05-13-L] : Gouvernance : Versioning & Tags (v2.6.0)
+- **Le Concept** : Adoption du Semantic Versioning (`Major.Minor.Patch`) pour assurer la traçabilité du code sur les différents déploiements clients.
+- **Protocole de Release** :
+  1. Mise à jour du champ `"version"` dans `package.json`.
+  2. Création d'un **Git Tag** annoté sur la branche `main` (ex: `git tag -a v2.6.0 -m "..."`).
+  3. Poussée des tags vers le dépôt distant (`git push origin --tags`).
+- **Bénéfice** : Permet de geler des versions stables (Snapshots) et facilite la maintenance d'un parc multi-sites.
