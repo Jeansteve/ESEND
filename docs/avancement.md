@@ -393,11 +393,16 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 ## ✅ V26 : Standardisation "Capsule" UI (Mai 2026)
 **Fichiers :** `Header.jsx`, `DUPLICATION_GUIDE.md`
 
-- **Raffinements UI/UX (Polissage Mobile)** :
+- **Raffinements UI/UX (Polissage Mobile Master)** :
     - **Centrage des Valeurs** : Alignement central des sections "Qualité" et "Confiance" sur mobile pour une meilleure harmonie visuelle.
     - **Section Separator** : Réactivation des lignes latérales sur mobile avec une échelle réduite (Mini-PC style).
     - **Service CTA** : Affinage du bloc "Prêt à sécuriser" (Titres et boutons moins massifs, typographie expert miniaturisée).
     - **Knowledge Hub** : Repositionnement du bouton "Explorer" en fin de grille sur mobile pour respecter le flux de lecture vertical.
+    - **Fiche Biologique (PestPage)** : Centrage de l'illustration et des textes descriptifs sur mobile. Refonte de la "Note de l'Expert" (layout en colonne, typographie affinée) pour une lecture sans friction.
+- **Stabilisation Industrielle** :
+    - Résolution des erreurs de syntaxe React et des collisions de composants (`FlaskConical`).
+    - Correction des corruptions de balisage DOM sur les pages de services.
+    - Validation du build de production (`npm run build`) à 100%.
 - **Gouvernance & Versioning** : 
     - Adoption du Semantic Versioning (**v2.6.0**).
     - Mise en place des **Git Tags** pour marquer les versions stables sur la branche `main`.
