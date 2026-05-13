@@ -105,11 +105,11 @@ const Hero = () => {
                 <div className="flex flex-col items-center">
                   <div className="flex items-baseline whitespace-nowrap text-3xl font-black tracking-tighter text-white leading-none">
                     <AnimatedNumber value={4.9} triggerOnMount={true} />
-                    <span className="text-[0.6em] opacity-50 ml-0.5">/5</span>
+                    <span className="text-[0.6em] opacity-50 ml-0.5 relative -translate-y-[1px]">/5</span>
                   </div>
                   <div className="flex gap-0.5 mt-1.5">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-red-600 text-red-600" />
+                      <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                 </div>
@@ -174,11 +174,11 @@ const Hero = () => {
               <div className="flex flex-col items-center">
                 <div className="flex items-baseline whitespace-nowrap text-[clamp(1.25rem,3vh,1.5rem)] font-black tracking-tighter text-white leading-none">
                   <AnimatedNumber value={4.9} triggerOnMount={true} />
-                  <span className="text-[0.6em] opacity-50 ml-0.5">/5</span>
+                  <span className="text-[0.6em] opacity-50 ml-0.5 relative -translate-y-[0.5px]">/5</span>
                 </div>
                 <div className="flex gap-0.5 mt-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-2.5 h-2.5 fill-red-600 text-red-600" />
+                    <Star key={i} className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
                   ))}
                 </div>
               </div>
