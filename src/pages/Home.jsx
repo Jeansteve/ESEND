@@ -10,6 +10,7 @@ import TrustBanner from '../components/Sections/TrustBanner'
 import SectionSeparator from '../components/Layout/SectionSeparator'
 
 import SEO from '../components/UI/SEO'
+import { useSettings } from '../context/SettingsContext'
 
 function Home() {
   const { settings } = useSettings();
