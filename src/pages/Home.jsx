@@ -10,6 +10,7 @@ import TrustBanner from '../components/Sections/TrustBanner'
 import SectionSeparator from '../components/Layout/SectionSeparator'
 
 import SEO from '../components/UI/SEO'
+import DeferredSection from '../components/UI/DeferredSection'
 import { useSettings } from '../context/SettingsContext'
 
 function Home() {
@@ -77,14 +78,34 @@ function Home() {
         schema={homeSchema}
       />
       <Hero />
-      <PestSelector />
-      <PortfolioBento />
-      <About />
+      
+      <DeferredSection estimatedHeight="600px">
+        <PestSelector />
+      </DeferredSection>
+      
+      <DeferredSection estimatedHeight="800px">
+        <PortfolioBento />
+      </DeferredSection>
+      
+      <DeferredSection estimatedHeight="500px">
+        <About />
+      </DeferredSection>
+      
       <SectionSeparator text="Témoignages Clients" />
-      <Reviews />
-      <KnowledgeHub />
+      
+      <DeferredSection estimatedHeight="400px">
+        <Reviews />
+      </DeferredSection>
+      
+      <DeferredSection estimatedHeight="600px">
+        <KnowledgeHub />
+      </DeferredSection>
+      
       <TrustBanner />
-      <FormWizard />
+      
+      <DeferredSection id="devis" estimatedHeight="800px">
+        <FormWizard />
+      </DeferredSection>
     </div>
   )
 }

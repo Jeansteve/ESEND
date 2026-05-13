@@ -88,6 +88,7 @@ const Hero = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   className="bg-red-600 text-white px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer border border-red-500/20 whitespace-nowrap"
+                  aria-label="Obtenir un devis gratuit pour l'éradication de nuisibles"
                 >
                   <span>Obtenir mon devis offert</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" />
@@ -98,6 +99,7 @@ const Hero = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
                   className="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-3 cursor-pointer border border-white/10 hover:bg-white/20 transition-all whitespace-nowrap"
+                  aria-label={`Appeler ESEND au ${settings.company_phone}`}
                 >
                   <Phone className="w-4 h-4 text-red-500" />
                   <span>{settings.company_phone}</span>

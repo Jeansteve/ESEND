@@ -49,10 +49,19 @@
         --text-main: #f8fafc;
         --text-dimmed: #cbd5e1;
         --accent-red: #dc2626;
+        --vh: 1vh;
       }
-      body { background-color: var(--bg-primary); margin: 0; font-family: 'Inter', sans-serif; }
+      html, body {
+        background-color: var(--bg-primary);
+        color: var(--text-main);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
       #root-placeholder {
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -64,6 +73,7 @@
         background-size: cover;
         background-position: center;
         position: relative;
+        contain: paint;
       }
       #root-placeholder::after {
         content: "";
@@ -93,6 +103,15 @@
         font-weight: 500;
       }
     </style>
+    <script>
+      // Viewport height fix for mobile
+      const setVH = () => {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      };
+      setVH();
+      window.addEventListener('resize', setVH);
+    </script>
   </head>
   <body>
     <div id="root">
