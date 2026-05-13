@@ -57,7 +57,7 @@ const LiquidGlass = ({
     const spawn = (x, y, r, vx = 0, vy = 0) => {
       if (dropsRef.current.length >= MAX_DROPLETS) return;
       const angle = Math.random() * Math.PI * 2;
-      const spd = 0.001 + Math.random() * 0.002; // Faster for wandering
+      const spd = 0.0002 + Math.random() * 0.0005; // Much slower base speed
       dropsRef.current.push({
         x, y, r,
         area: Math.PI * r * r,
@@ -65,7 +65,7 @@ const LiquidGlass = ({
         vy: vy || Math.sin(angle) * spd,
         alive: true,
         wanderAngle: Math.random() * Math.PI * 2,
-        wanderSpeed: 0.1 + Math.random() * 0.2,
+        wanderSpeed: 0.02 + Math.random() * 0.05, // Slower direction change
         softPrevX: x, softPrevY: y,
         softOffX: 0, softOffY: 0,
         softVelX: 0, softVelY: 0
@@ -171,12 +171,12 @@ const LiquidGlass = ({
     scene.add(mesh);
 
     // --- Physics Logic ---
-    const DAMP = 0.998; // Less damping so they wander more
+    const DAMP = 0.99; // More damping so they don't accelerate too much
     const TENSION_RANGE = 0.15;
     const TENSION_F = 0.0005;
     const MERGE_RATIO = 0.65;
     const BOUNCE = 0.8; // Bouncier on walls
-    const WANDER_F = 0.0001;
+    const WANDER_F = 0.00002; // Much smaller wander force
     // Remove center pull so they spread out over the whole screen
 
     const fixedUpdate = () => {
@@ -242,8 +242,8 @@ const LiquidGlass = ({
             a.y = (a.y * a.area + b.y * b.area) / na;
             a.vx = (a.vx * a.area + b.vx * b.area) / na;
             a.vy = (a.vy * a.area + b.vy * b.area) / na;
-            a.r = Math.sqrt(na / Math.PI);
-            a.area = na;
+            a.r = Math.min(Math.sqrt(na / Math.PI), 0.15); // Cap max radius
+            a.area = Math.PI * a.r * a.r; // Recalculate area based on capped radius
             b.alive = false;
           }
         }

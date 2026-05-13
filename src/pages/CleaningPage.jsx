@@ -123,7 +123,7 @@ const CleaningPage = () => {
         schema={cleaningSchema}
         preloadImage={data.heroImage}
       />
-      <LiquidGlass className="fixed inset-0 z-0 pointer-events-none mix-blend-screen opacity-50" />
+      <LiquidGlass className="fixed inset-0 z-50 pointer-events-none mix-blend-screen opacity-60" />
       <div className="max-w-7xl mx-auto px-4 lg:px-6 relative z-10">
         
         {/* Header Immersif */}
