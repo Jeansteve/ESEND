@@ -74,3 +74,8 @@ Pour développer en local sans base de données :
 
 ---
 **Mainteneur :** Pôle IA ESEND — *Dernière MAJ : 13 Mai 2026*
+
+### 🏷️ 6. Gestion des Versions & Tags
+Une fois le site déployé pour le nouveau client :
+1. **Initialiser le Tag** : Créez un tag `v1.0.0` sur son propre dépôt pour marquer l'état initial.
+2. **Suivi des Mises à jour** : Lorsque vous importez des nouveautés depuis le Blueprint ESEND Maître, incrémentez la version (ex: `v1.1.0`) pour savoir quelles fonctionnalités ont été livrées.

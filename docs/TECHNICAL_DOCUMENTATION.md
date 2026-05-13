@@ -221,6 +221,15 @@ Le projet utilise **GitHub Actions** pour un déploiement automatisé et sécuri
 
 ---
 
+## 🛰️ 8. Cycle de Vie & Versioning
+
+ESEND utilise le **Semantic Versioning (SemVer)** pour garantir la stabilité du Blueprint :
+- **Tags Git** : Chaque release stable sur `main` est marquée par un tag (ex: `v2.6.0`).
+- **package.json** : La version y est synchronisée pour servir de référence aux outils de build.
+- **Historique** : Les changements sont consignés dans `docs/avancement.md`.
+
+---
+
 ## ⚡ 8. Optimisations de Performance
 
 Le projet intègre des mécanismes avancés pour garantir un chargement instantané :

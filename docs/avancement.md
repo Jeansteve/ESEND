@@ -397,6 +397,10 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Industrialisation du Système** :
     - Mise à jour majeure du `DUPLICATION_GUIDE.md` (v2.0).
     - Centralisation de toutes les étapes (Secrets, SQL, IA, SMTP) pour permettre la duplication du site en moins d'une heure.
+- **Gouvernance & Versioning** : 
+    - Adoption du Semantic Versioning (**v2.6.0**).
+    - Mise en place des **Git Tags** pour marquer les versions stables sur la branche `main`.
+    - Audit complet du pack documentaire pour assurer la cohérence du Blueprint.
 - **État "Production Ready"** : Le système ESEND est désormais considéré comme un **Blueprint Industriel** robuste, sécurisé et prêt pour le déploiement multi-clients.
 
 ---
