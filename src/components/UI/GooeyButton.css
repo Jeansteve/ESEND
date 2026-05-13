@@ -10,8 +10,6 @@
   border: none;
   position: relative;
   filter: url('#gooey');
-  /* Removed padding/font-size here as it's handled by Tailwind in JSX, 
-     but kept the essential structural properties from SASS */
 }
 
 .gooey-button:focus {
@@ -35,24 +33,38 @@
   z-index: -1;
 }
 
-/* 10 bubbles generated precisely mimicking SASS @for loop */
-/* left: (random(90) + 10)+px */
-/* animation: move-#{$bubble} #{3 + $bubble*0.02}s infinite */
-/* animation-delay: #{$bubble*0.2}s */
-.gooey-bubble:nth-child(1) { left: 12%; width: 25px; height: 25px; animation: move-1 3.02s infinite; animation-delay: 0.2s; }
-.gooey-bubble:nth-child(2) { left: 45%; width: 25px; height: 25px; animation: move-2 3.04s infinite; animation-delay: 0.4s; }
-.gooey-bubble:nth-child(3) { left: 78%; width: 25px; height: 25px; animation: move-3 3.06s infinite; animation-delay: 0.6s; }
-.gooey-bubble:nth-child(4) { left: 23%; width: 25px; height: 25px; animation: move-4 3.08s infinite; animation-delay: 0.8s; }
-.gooey-bubble:nth-child(5) { left: 89%; width: 25px; height: 25px; animation: move-5 3.10s infinite; animation-delay: 1.0s; }
-.gooey-bubble:nth-child(6) { left: 34%; width: 25px; height: 25px; animation: move-6 3.12s infinite; animation-delay: 1.2s; }
-.gooey-bubble:nth-child(7) { left: 67%; width: 25px; height: 25px; animation: move-7 3.14s infinite; animation-delay: 1.4s; }
-.gooey-bubble:nth-child(8) { left: 15%; width: 25px; height: 25px; animation: move-8 3.16s infinite; animation-delay: 1.6s; }
-.gooey-bubble:nth-child(9) { left: 56%; width: 25px; height: 25px; animation: move-9 3.18s infinite; animation-delay: 1.8s; }
-.gooey-bubble:nth-child(10) { left: 92%; width: 25px; height: 25px; animation: move-10 3.20s infinite; animation-delay: 2.0s; }
+/* 30 bubbles to ensure high density on a wide button */
+.gooey-bubble:nth-child(1) { left: 8%; width: 25px; height: 25px; animation: move-1 3.02s infinite; animation-delay: 0.2s; }
+.gooey-bubble:nth-child(2) { left: 15%; width: 25px; height: 25px; animation: move-2 3.04s infinite; animation-delay: 0.4s; }
+.gooey-bubble:nth-child(3) { left: 22%; width: 25px; height: 25px; animation: move-3 3.06s infinite; animation-delay: 0.6s; }
+.gooey-bubble:nth-child(4) { left: 29%; width: 25px; height: 25px; animation: move-4 3.08s infinite; animation-delay: 0.8s; }
+.gooey-bubble:nth-child(5) { left: 36%; width: 25px; height: 25px; animation: move-5 3.10s infinite; animation-delay: 1.0s; }
+.gooey-bubble:nth-child(6) { left: 43%; width: 25px; height: 25px; animation: move-6 3.12s infinite; animation-delay: 1.2s; }
+.gooey-bubble:nth-child(7) { left: 50%; width: 25px; height: 25px; animation: move-7 3.14s infinite; animation-delay: 1.4s; }
+.gooey-bubble:nth-child(8) { left: 57%; width: 25px; height: 25px; animation: move-8 3.16s infinite; animation-delay: 1.6s; }
+.gooey-bubble:nth-child(9) { left: 64%; width: 25px; height: 25px; animation: move-9 3.18s infinite; animation-delay: 1.8s; }
+.gooey-bubble:nth-child(10) { left: 71%; width: 25px; height: 25px; animation: move-10 3.20s infinite; animation-delay: 2.0s; }
+.gooey-bubble:nth-child(11) { left: 78%; width: 25px; height: 25px; animation: move-11 3.22s infinite; animation-delay: 2.2s; }
+.gooey-bubble:nth-child(12) { left: 85%; width: 25px; height: 25px; animation: move-12 3.24s infinite; animation-delay: 2.4s; }
+.gooey-bubble:nth-child(13) { left: 92%; width: 25px; height: 25px; animation: move-13 3.26s infinite; animation-delay: 2.6s; }
+.gooey-bubble:nth-child(14) { left: 11%; width: 25px; height: 25px; animation: move-14 3.28s infinite; animation-delay: 2.8s; }
+.gooey-bubble:nth-child(15) { left: 18%; width: 25px; height: 25px; animation: move-15 3.30s infinite; animation-delay: 3.0s; }
+.gooey-bubble:nth-child(16) { left: 25%; width: 25px; height: 25px; animation: move-16 3.32s infinite; animation-delay: 3.2s; }
+.gooey-bubble:nth-child(17) { left: 32%; width: 25px; height: 25px; animation: move-17 3.34s infinite; animation-delay: 3.4s; }
+.gooey-bubble:nth-child(18) { left: 39%; width: 25px; height: 25px; animation: move-18 3.36s infinite; animation-delay: 3.6s; }
+.gooey-bubble:nth-child(19) { left: 46%; width: 25px; height: 25px; animation: move-19 3.38s infinite; animation-delay: 3.8s; }
+.gooey-bubble:nth-child(20) { left: 53%; width: 25px; height: 25px; animation: move-20 3.40s infinite; animation-delay: 4.0s; }
+.gooey-bubble:nth-child(21) { left: 60%; width: 25px; height: 25px; animation: move-21 3.42s infinite; animation-delay: 4.2s; }
+.gooey-bubble:nth-child(22) { left: 67%; width: 25px; height: 25px; animation: move-22 3.44s infinite; animation-delay: 4.4s; }
+.gooey-bubble:nth-child(23) { left: 74%; width: 25px; height: 25px; animation: move-23 3.46s infinite; animation-delay: 4.6s; }
+.gooey-bubble:nth-child(24) { left: 81%; width: 25px; height: 25px; animation: move-24 3.48s infinite; animation-delay: 4.8s; }
+.gooey-bubble:nth-child(25) { left: 88%; width: 25px; height: 25px; animation: move-25 3.50s infinite; animation-delay: 5.0s; }
+.gooey-bubble:nth-child(26) { left: 14%; width: 25px; height: 25px; animation: move-26 3.52s infinite; animation-delay: 5.2s; }
+.gooey-bubble:nth-child(27) { left: 35%; width: 25px; height: 25px; animation: move-27 3.54s infinite; animation-delay: 5.4s; }
+.gooey-bubble:nth-child(28) { left: 56%; width: 25px; height: 25px; animation: move-28 3.56s infinite; animation-delay: 5.6s; }
+.gooey-bubble:nth-child(29) { left: 77%; width: 25px; height: 25px; animation: move-29 3.58s infinite; animation-delay: 5.8s; }
+.gooey-bubble:nth-child(30) { left: 90%; width: 25px; height: 25px; animation: move-30 3.60s infinite; animation-delay: 6.0s; }
 
-/* Exact keyframes from the SASS model */
-/* 99% { transform: translate(0, -(random(80) + 50)+px) } */
-/* 100% { transform: translate(0, 0); opacity: 0; } */
 @keyframes move-1 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -114px); } 100% { transform: translate(0, 0); opacity: 0; } }
 @keyframes move-2 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -82px); } 100% { transform: translate(0, 0); opacity: 0; } }
 @keyframes move-3 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -127px); } 100% { transform: translate(0, 0); opacity: 0; } }
@@ -63,3 +75,23 @@
 @keyframes move-8 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -88px); } 100% { transform: translate(0, 0); opacity: 0; } }
 @keyframes move-9 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -102px); } 100% { transform: translate(0, 0); opacity: 0; } }
 @keyframes move-10 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -75px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-11 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -110px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-12 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -92px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-13 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -120px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-14 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -85px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-15 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -105px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-16 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -70px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-17 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -115px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-18 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -80px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-19 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -125px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-20 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -90px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-21 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -112px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-22 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -84px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-23 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -122px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-24 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -96px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-25 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -106px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-26 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -72px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-27 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -118px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-28 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -86px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-29 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -128px); } 100% { transform: translate(0, 0); opacity: 0; } }
+@keyframes move-30 { 0% { transform: translate(0, 0); } 99% { transform: translate(0, -98px); } 100% { transform: translate(0, 0); opacity: 0; } }

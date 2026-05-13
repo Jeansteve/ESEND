@@ -27,7 +27,7 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
           {children}
           
           <span className="gooey-bubbles">
-            {[...Array(10)].map((_, i) => (
+            {[...Array(30)].map((_, i) => (
               <span key={i} className="gooey-bubble"></span>
             ))}
           </span>
