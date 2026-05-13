@@ -71,5 +71,11 @@ Migration vers un standard de performance "Ultra-Fast" :
 - **Admin Automation** : Les modules `ArticleModal` et `ProjectModal` convertissent désormais systématiquement les images côté client en WebP avant l'upload.
 - **FormWizard** : Les photos transmises par les clients via le formulaire de devis sont également converties en WebP, réduisant la consommation de bande passante et d'espace serveur.
 
+## ⚡ 9. Sprint Performance : LCP & FCP Boost (Mai 2026)
+Optimisation ciblée pour atteindre les scores "Verts" sur Lighthouse :
+- **LCP Optimization** : Préchargement (preload) de l'image de fond du Hero avec `fetchpriority="high"` et `loading="eager"`.
+- **FCP Optimization** : Vérification du `font-display: swap` sur les polices Google et ajout de preconnects.
+- **Critical Path** : Priorisation des ressources critiques dans le `index.html` pour un affichage quasi instantané.
+
 ---
 *Documentation mise à jour le 13 Mai 2026 par Antigravity.*
