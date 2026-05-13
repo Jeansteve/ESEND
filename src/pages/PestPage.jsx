@@ -254,7 +254,7 @@ const PestPage = () => {
         >
           <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/5 blur-[150px] -z-10" />
           
-          <h3 className="text-[10px] md:text-sm font-black uppercase tracking-[0.4em] text-red-500/80 mb-10 flex flex-col md:flex-row items-center md:items-start gap-3">
+          <h3 className="text-[10px] md:text-sm font-black uppercase tracking-[0.4em] text-red-500/80 mb-10 flex items-center justify-center md:justify-start gap-3">
              <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse hidden md:block" /> FICHE BIOLOGIQUE DÉTAILLÉE
           </h3>
           
@@ -263,19 +263,19 @@ const PestPage = () => {
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="float-left ml-4 lg:ml-6 mr-8 lg:mr-10 mb-6 w-full md:w-[280px] lg:w-[320px] relative z-10"
+              className="md:float-left md:ml-4 lg:ml-6 md:mr-8 lg:mr-10 mb-8 md:mb-6 w-full md:w-[280px] lg:w-[320px] relative z-10 flex justify-center"
             >
               <img 
                 src={pest.image} 
                 alt={pest.title} 
-                className="w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]" 
+                className="w-48 md:w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]" 
                 fetchpriority="high"
                 decoding="async"
               />
             </motion.div>
 
             {/* Texte parfaitement aligné à gauche */}
-            <div className="whitespace-pre-line text-left">
+            <div className="whitespace-pre-line text-center md:text-left">
               {pest.presentation}
             </div>
 
@@ -284,14 +284,14 @@ const PestPage = () => {
                initial={{ opacity: 0, y: 10 }}
                animate={{ opacity: 1, y: 0 }}
                transition={{ delay: 0.4 }}
-               className="mt-12 bg-amber-500/5 border border-amber-500/20 p-6 rounded-3xl flex items-center gap-6 shadow-xl"
+               className="mt-12 bg-amber-500/5 border border-amber-500/20 p-6 md:p-8 rounded-[2rem] flex flex-col md:flex-row items-center md:items-center gap-6 shadow-xl"
             >
-              <div className="bg-amber-500/20 p-3 rounded-xl shrink-0">
-                 <Lightbulb className="w-8 h-8 text-amber-500" />
+              <div className="bg-amber-500/20 p-3 md:p-4 rounded-2xl shrink-0">
+                 <Lightbulb className="w-6 h-6 md:w-10 md:h-10 text-amber-500" />
               </div>
-              <div>
-                <p className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em] mb-1">Note de l'Expert</p>
-                <p className="text-lg md:text-xl text-white font-black leading-tight italic uppercase tracking-tighter">
+              <div className="text-center md:text-left">
+                <p className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em] mb-2">Note de l'Expert</p>
+                <p className="text-sm md:text-xl text-white font-black leading-tight italic uppercase tracking-tighter">
                    "{pest.expertFact}"
                 </p>
               </div>
@@ -301,7 +301,7 @@ const PestPage = () => {
             <div className="clear-both" />
           </div>
 
-          <div className="mt-10 pt-6 border-t border-white/5 text-[9px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center">
+          <div className="mt-10 pt-6 border-t border-white/5 text-[9px] font-bold text-slate-500 uppercase tracking-[0.5em] flex items-center justify-center md:justify-start">
              <span className="flex items-center gap-2">RECONNAISSANCE & COMPORTEMENT ANIMAL</span>
           </div>
         </motion.div>
