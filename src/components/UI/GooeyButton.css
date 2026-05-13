@@ -1,6 +1,5 @@
 .gooey-button-container {
   position: relative;
-  filter: url('#gooey-filter');
 }
 
 .gooey-button {
@@ -10,6 +9,7 @@
   cursor: pointer;
   position: relative;
   z-index: 2;
+  filter: url('#gooey');
 }
 
 .gooey-bubbles {
