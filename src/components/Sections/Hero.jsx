@@ -100,14 +100,21 @@ const Hero = () => {
                 </motion.a>
               </div>
 
-              {/* Satisfaction Score - Now perfectly aligned with buttons */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-baseline whitespace-nowrap text-3xl font-black tracking-tighter text-[var(--text-main)]">
-                  <AnimatedNumber value={4.9} triggerOnMount={true} />
-                  <span className="text-lg text-[var(--text-dimmed)] ml-0.5">/5</span>
+              {/* Satisfaction Score - Upgraded to match premium mobile style */}
+              <div className="flex items-center gap-5 bg-white/5 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 shadow-2xl">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-baseline whitespace-nowrap text-3xl font-black tracking-tighter text-white leading-none">
+                    <AnimatedNumber value={4.9} triggerOnMount={true} />
+                    <span className="text-[0.6em] opacity-50 ml-0.5">/5</span>
+                  </div>
+                  <div className="flex gap-0.5 mt-1.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-red-600 text-red-600" />
+                    ))}
+                  </div>
                 </div>
-                <div className="h-8 w-px bg-[var(--border-subtle)]"></div>
-                <div className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-dimmed)] text-left">
+                <div className="w-px h-8 bg-white/10"></div>
+                <div className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-300 text-center leading-tight">
                   Note <br/>Satisfaction
                 </div>
               </div>
@@ -163,20 +170,20 @@ const Hero = () => {
                Estimation offerte sans engagement
             </span>
 
-            <div className="flex items-center gap-4 bg-white/5 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 mt-2">
+            <div className="flex items-center gap-5 bg-white/5 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/10 mt-2">
               <div className="flex flex-col items-center">
-                <div className="flex items-baseline whitespace-nowrap text-[clamp(1rem,2.5vh,1.25rem)] font-black tracking-tighter text-white leading-none">
+                <div className="flex items-baseline whitespace-nowrap text-[clamp(1.25rem,3vh,1.5rem)] font-black tracking-tighter text-white leading-none">
                   <AnimatedNumber value={4.9} triggerOnMount={true} />
-                  <span className="text-[0.7em] opacity-60 ml-0.5">/5</span>
+                  <span className="text-[0.6em] opacity-50 ml-0.5">/5</span>
                 </div>
-                <div className="flex gap-0.5 mt-0.5">
+                <div className="flex gap-0.5 mt-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-2 h-2 fill-red-600 text-red-600" />
+                    <Star key={i} className="w-2.5 h-2.5 fill-red-600 text-red-600" />
                   ))}
                 </div>
               </div>
-              <div className="w-px h-4 bg-white/10"></div>
-              <span className="text-[7px] font-bold uppercase tracking-widest text-slate-400 text-center leading-tight">
+              <div className="w-px h-8 bg-white/10"></div>
+              <span className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-300 text-center leading-tight">
                 Note <br/>Satisfaction
               </span>
             </div>
