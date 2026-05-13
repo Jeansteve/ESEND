@@ -60,7 +60,19 @@
         text-align: center;
         padding: 20px;
         box-sizing: border-box;
+        background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.4)), url('/images/hero-menton-v2.webp');
+        background-size: cover;
+        background-position: center;
+        position: relative;
       }
+      #root-placeholder::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, #020617, transparent);
+        pointer-events: none;
+      }
+      .lcp-content { position: relative; z-index: 10; }
       .lcp-title {
         font-family: 'Outfit', sans-serif;
         font-size: clamp(2.25rem, 10vw, 4.5rem);
@@ -86,13 +98,15 @@
     <div id="root">
       <!-- Pre-render Placeholder for LCP Optimization -->
       <div id="root-placeholder">
-        <h1 class="lcp-title">
-          VOTRE EXPERT <br/>
-          <span class="lcp-accent-blue">HYGIÈNE</span> & <span class="lcp-accent-red">NUISIBLES</span>
-        </h1>
-        <p class="lcp-desc">
-          Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
-        </p>
+        <div class="lcp-content">
+          <h1 class="lcp-title">
+            VOTRE EXPERT <br/>
+            <span class="lcp-accent-blue">HYGIÈNE</span> & <span class="lcp-accent-red">NUISIBLES</span>
+          </h1>
+          <p class="lcp-desc">
+            Traitement des Nuisibles, Désinfection et Nettoyage & Vitres. Notre duo d'experts intervient sur Menton et la Riviera pour un intérieur sain et rutilant.
+          </p>
+        </div>
       </div>
     </div>
     <script type="module" src="/src/main.jsx"></script>

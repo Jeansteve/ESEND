@@ -57,11 +57,11 @@ const Hero = () => {
 
       <div className="max-w-7xl mx-auto px-8 lg:px-12 w-full flex-grow flex flex-col lg:flex-row items-center justify-center lg:justify-between relative z-10 py-6 lg:py-0">
         
-        {/* Left Content - Adaptive Scaling */}
+        {/* Left Content - Adaptive Scaling: Removed initial opacity/y to avoid LCP delay during hydration */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="lg:w-[55%] flex flex-col justify-center text-center lg:text-left mt-10 lg:mt-32"
         >
           <h1 className="text-[clamp(2.25rem,10vw,4.5rem)] font-black tracking-tighter leading-[0.95] uppercase mb-6 text-[var(--text-main)]">
