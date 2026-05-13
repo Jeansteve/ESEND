@@ -8,11 +8,30 @@
   RewriteRule . /index.html [L]
 </IfModule>
 
-# Sécurité & Performance
+# --- PERFORMANCE: CACHING ---
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresDefault "access plus 1 month"
+  
+  # Page HTML : Pas de cache pour garantir les mises à jour
   ExpiresByType text/html "access plus 0 seconds"
+  
+  # Médias : Cache long (1 an)
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  
+  # Assets Statiques
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# --- PERFORMANCE: GZIP COMPRESSION ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
 </IfModule>
 
 # --- BLINDAGE SÉCURITÉ ---
