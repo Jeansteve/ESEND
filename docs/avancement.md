@@ -376,3 +376,16 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
 3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
+
+## ✅ V23 : Excellence Ergonomique de l'Admin (Mai 2026)
+**Fichiers :** `Dashboard.jsx`, `AdminPanel.css`
+
+- **Refonte de l'En-tête "Statut Opérationnel"** :
+    - Alignement asymétrique professionnel : **Titre & Sous-titre à gauche**, **Actions à droite**.
+    - Forçage de la priorité via `!` (Tailwind Important) pour éliminer les conflits de style lors du build.
+    - Breakpoints optimisés (`lg:`) pour une expérience fluide sur tous les formats d'écrans (Tablettes & Laptops).
+- **Stabilisation du Bloc d'Actions** :
+    - Alignement horizontal strict (`flex-row`) de la recherche et du bouton de création.
+    - Suppression de l'effet d'expansion au focus sur la barre de recherche pour éviter le chevauchement ("Overlapping Fix").
+    - Protection des dimensions des boutons via `shrink-0`.
+- **Typographie & Respiration** : Augmentation des marges (`mb-12`) et de la taille des titres pour une meilleure hiérarchie visuelle.

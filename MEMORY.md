@@ -286,3 +286,12 @@
 - **Le Problème** : Les calculs manuels de scroll (`getBoundingClientRect`) échouaient lors du ciblage des sections proches des `DeferredSections`. Les décalages de mise en page causés par `content-visibility: auto` faussaient la position finale.
 - **Solution Technique** : Passage au défilement natif via `target.scrollIntoView({ behavior: 'smooth', block: 'start' })`.
 - **Compensation Header** : Utilisation de la propriété CSS `scroll-margin-top: 120px` sur les cibles d'ancrage. Le navigateur gère désormais nativement le "déverrouillage" du contenu différé et l'offset du header fixe, garantissant un atterrissage précis sur le titre "DEMANDER UNE INTERVENTION".
+
+### [PSA-2026-05-13-I] : Refonte Layout Admin (Priorité Gauche & Alignement Actions)
+- **Le Concept** : Optimiser l'efficacité visuelle de l'interface d'administration en ancrant les informations de statut à gauche et les actions (Recherche, Création) à droite.
+- **Défis Techniques & Solutions** :
+  1. **Conflit de Breakpoints** : L'utilisation de `xl:flex-row` maintenait l'affichage centré sur les écrans standards (13-15 pouces). Passage à `lg:!flex-row` (1024px) avec forçage de priorité via `!` (important) pour garantir le basculement.
+  2. **Ancrage Strict** : Utilisation de `items-start` et `text-left` pour empêcher le centrage automatique en mode colonne (mobile).
+  3. **Stabilité au Focus** : La barre de recherche augmentait sa largeur au focus (`300px -> 350px`), provoquant un chevauchement avec le bouton "Nouvel Article". Suppression de cette animation de largeur au profit d'un effet d'ombre (`box-shadow`) subtil.
+  4. **Incompressibilité** : Ajout de `shrink-0` sur les boutons d'action pour prévenir toute déformation ou superposition par les éléments voisins.
+- **Règle d'Or (Admin UI)** : L'interface d'administration doit être "prévisible". Les éléments de navigation et d'action doivent avoir des positions fixes et des dimensions stables pour favoriser la mémoire musculaire de l'utilisateur.
