@@ -30,7 +30,12 @@ Les routes principales sont définies dans `App.jsx` :
 
 ### Architecture des Données & Contexte
 - **SettingsContext** : Fournisseur global (`src/context/SettingsContext.jsx`) qui centralise les coordonnées de l'entreprise (téléphone, email, SIRET). Il assure la cohérence des informations sur l'ensemble du site (Header, Footer, FormWizard, Pages Légales) sans duplication de code.
-- **Hooks Personnalisés** : Utilisation intensive de `useSettings()` pour dynamiser les CTAs et les mentions légales.
+- **Interactivité Liquide** : Utilisation d'un calque WebGL (`LiquidGlass`) pour un effet visuel premium sans impacter les performances.
+- **Ancrage Robuste** : Gestion centralisée du défilement vers les ancres dans `Home.jsx` avec support des changements de hash dynamiques et des transitions inter-pages.
+
+### Optimisation des Performances
+- **Rendu Différé** : Utilisation du composant `DeferredSection` avec `content-visibility: auto` pour les sections lourdes (PestSelector, Portfolio, KnowledgeHub).
+- **Exceptions d'Ancrage** : Le formulaire de devis (`FormWizard`) est exclu du rendu différé pour garantir un ancrage instantané et précis depuis le Header.
 
 ### Animations Premium (Framer Motion)
 Le projet utilise des micro-interactions avancées pour renforcer l'aspect expert :

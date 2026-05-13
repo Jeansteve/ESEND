@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Header from './components/Layout/Header'
 import Footer from './components/Layout/Footer'
 import Home from './pages/Home'
@@ -39,7 +39,7 @@ function App() {
   
   return (
     <SettingsProvider>
-      <BrowserRouter>
+      <HashRouter>
         <div className="min-h-screen text-[var(--text-main)] transition-colors duration-400">
           <Suspense fallback={<PageLoader />}>
             <Routes>
@@ -76,7 +76,7 @@ function App() {
             </Routes>
           </Suspense>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </SettingsProvider>
   )
 }

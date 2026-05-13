@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import Hero from '../components/Sections/Hero'
 import PestSelector from '../components/Sections/PestSelector'
 import PortfolioBento from '../components/Sections/PortfolioBento'
@@ -16,10 +17,12 @@ import { useSettings } from '../context/SettingsContext'
 function Home() {
   const { settings } = useSettings();
 
+  const location = useLocation();
+
   useEffect(() => {
-    // Gestion propre du scroll vers les ancres avec BrowserRouter
-    const handleHashScroll = () => {
-      const hash = window.location.hash;
+    // Gestion propre du scroll vers les ancres avec HashRouter/BrowserRouter
+    const handleScroll = () => {
+      const hash = location.hash;
       if (hash) {
         const targetId = hash.replace('#', '');
         // On attend un peu que le DOM soit prêt, surtout après une navigation inter-page
@@ -34,16 +37,12 @@ function Home() {
               behavior: 'smooth' 
             });
           }
-        }, 300); // 300ms est généralement suffisant et plus réactif que 500ms
+        }, 300);
       }
     };
 
-    handleHashScroll();
-    
-    // Écouter les changements de hash sans re-monter le composant
-    window.addEventListener('hashchange', handleHashScroll);
-    return () => window.removeEventListener('hashchange', handleHashScroll);
-  }, []);
+    handleScroll();
+  }, [location]);
 
   const homeSchema = [
     {
