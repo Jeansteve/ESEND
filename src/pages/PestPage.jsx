@@ -599,20 +599,20 @@ const PestPage = () => {
             </div>
           </DeferredSection>
 
-          <DeferredSection estimatedHeight="400px" className="text-center bg-slate-900 text-white p-12 md:p-20 rounded-[4rem] shadow-3xl relative overflow-hidden">
+          <DeferredSection estimatedHeight="400px" className="text-center bg-slate-900 text-white py-12 px-6 md:p-20 rounded-[3rem] md:rounded-[4rem] shadow-3xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] -z-10" />
-              <h4 className="text-4xl md:text-6xl font-black uppercase mb-10 tracking-tighter leading-none">Prêt à sécuriser<br/>votre foyer ?</h4>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-                <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-6 px-14 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)] text-lg">
+              <h4 className="text-3xl md:text-6xl font-black uppercase mb-10 tracking-tighter leading-[0.95]">Prêt à sécuriser<br/>votre foyer ?</h4>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-8">
+                <Link to={`/?devis=${pests[type].title.split(' ')[0]}#devis`} className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-black py-4 px-10 md:py-6 md:px-14 rounded-full uppercase tracking-[0.2em] transition-all hover:scale-105 active:scale-95 shadow-[0_20px_40px_rgba(220,38,38,0.3)] text-sm md:text-lg">
                   Demander mon devis offert
                 </Link>
-                <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-6 px-14 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-4 text-lg">
-                  <Phone className="w-6 h-6 text-red-500" />
+                <a href={`tel:${settings.company_phone.replace(/\s/g, '')}`} className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-white font-black py-4 px-10 md:py-6 md:px-14 rounded-full uppercase tracking-[0.2em] transition-all border border-white/10 flex items-center justify-center gap-4 text-sm md:text-lg whitespace-nowrap">
+                  <Phone className="w-5 h-5 text-red-500" />
                   {settings.company_phone}
                 </a>
               </div>
-              <p className="mt-10 text-slate-500 text-xs font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3">
-                <ShieldCheck className="w-5 h-5" /> Devis offert sans engagement sous 15 minutes
+              <p className="mt-8 text-slate-500 text-[9px] md:text-xs font-bold uppercase tracking-[0.3em] flex items-center justify-center gap-3">
+                <ShieldCheck className="w-4 h-4" /> Devis offert sans engagement sous 15 minutes
               </p>
           </DeferredSection>
         </div>
