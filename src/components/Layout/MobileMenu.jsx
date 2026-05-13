@@ -40,7 +40,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
             {/* Header du Menu */}
             <div className="p-6 flex items-center justify-between border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <img src="/images/logo-esend.jpg" alt="ESEND" className="w-10 h-10 object-contain rounded-lg" />
+                <img src="/images/logo-esend.webp" alt="ESEND" className="w-10 h-10 object-contain rounded-lg" />
                 <span className="font-black italic text-xl tracking-tighter text-slate-900 uppercase">ESEND</span>
               </div>
               <button 

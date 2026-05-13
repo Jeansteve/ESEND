@@ -45,7 +45,7 @@ const Login = () => {
         {/* Logo Section */}
         <div className="flex flex-col items-center mb-10">
           <div className="w-16 h-16 bg-white rounded-2xl p-2 mb-4 border border-white/10 shadow-2xl overflow-hidden">
-            <img src="/images/logo-esend.jpg" alt="ESEND" className="w-full h-full object-contain" />
+            <img src="/images/logo-esend.webp" alt="ESEND" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-3xl font-black italic tracking-tighter text-[var(--text-main)] uppercase">
             ESEND <span className="text-red-600">ADMIN</span>

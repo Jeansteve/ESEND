@@ -218,5 +218,8 @@
     - `menton-contact.jpg` (9.8MB) -> `menton-contact.webp` (3.5MB).
     - `hero-menton-v2.png` (2.5MB) -> `hero-menton-v2.webp` (0.15MB) - Gain de 93%.
 - **Admin Automation** : L'interface d'administration (`ArticleModal` et `ProjectModal`) est désormais configurée pour convertir automatiquement toute image téléversée en WebP (client-side) avant l'envoi au serveur. Cela garantit une performance constante sans effort pour l'utilisateur.
+- **Correctif Critique** : Résolution d'une `ReferenceError: useSettings is not defined` sur la page d'accueil causée par un import manquant lors de la refonte du schéma SEO.
 - **Nettoyage** : Suppression des anciens fichiers PNG/JPG pour alléger le dépôt Git.
-- **Règle d'Or (Performance)** : Ne jamais utiliser de format JPG/PNG pour les assets statiques lourds. Toujours privilégier le WebP avec une qualité de 80% pour un équilibre parfait entre poids et fidélité visuelle.
+- **Règle d'Or (Performance & Stabilité)** : 
+    1. Ne jamais utiliser de format JPG/PNG pour les assets statiques lourds. Toujours privilégier le WebP (qualité 80%).
+    2. **BUILD LOCAL OBLIGATOIRE** (`npm run build`) avant tout push pour intercepter les erreurs de compilation et de runtime (JSX/Context).

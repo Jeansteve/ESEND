@@ -36,7 +36,7 @@ function Home() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "ESEND Nuisibles",
-    "image": "https://esendnuisibles.fr/images/logo-esend.jpg",
+    "image": "https://esendnuisibles.fr/images/logo-esend.webp",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": settings.company_city || "Menton",
