@@ -393,10 +393,11 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 ## ✅ V26 : Standardisation "Capsule" UI (Mai 2026)
 **Fichiers :** `Header.jsx`, `DUPLICATION_GUIDE.md`
 
-- **Harmonisation des Boutons** : Application du style "Capsule" ultra-compact au bouton de téléphone pour une symétrie parfaite avec le CTA Devis.
-- **Industrialisation du Système** :
-    - Mise à jour majeure du `DUPLICATION_GUIDE.md` (v2.0).
-    - Centralisation de toutes les étapes (Secrets, SQL, IA, SMTP) pour permettre la duplication du site en moins d'une heure.
+- **Raffinements UI/UX (Polissage Mobile)** :
+    - **Centrage des Valeurs** : Alignement central des sections "Qualité" et "Confiance" sur mobile pour une meilleure harmonie visuelle.
+    - **Section Separator** : Réactivation des lignes latérales sur mobile avec une échelle réduite (Mini-PC style).
+    - **Service CTA** : Affinage du bloc "Prêt à sécuriser" (Titres et boutons moins massifs, typographie expert miniaturisée).
+    - **Knowledge Hub** : Repositionnement du bouton "Explorer" en fin de grille sur mobile pour respecter le flux de lecture vertical.
 - **Gouvernance & Versioning** : 
     - Adoption du Semantic Versioning (**v2.6.0**).
     - Mise en place des **Git Tags** pour marquer les versions stables sur la branche `main`.
