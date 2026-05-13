@@ -161,7 +161,8 @@ const LiquidGlass = ({
           float alpha = edge * 0.25 + spec * 0.7 + border * 0.6 + rim * 0.4;
           alpha = clamp(alpha, 0.0, 0.85);
 
-          gl_FragColor = vec4(col, alpha);
+          // Premultiply alpha for correct browser compositing
+          gl_FragColor = vec4(col * alpha, alpha);
         }
       `
     });
@@ -344,7 +345,7 @@ const LiquidGlass = ({
   return (
     <div 
       ref={containerRef} 
-      className={`relative w-full h-full overflow-hidden ${className}`}
+      className={className || "relative w-full h-full overflow-hidden"}
       style={{ touchAction: 'none' }}
     />
   );
