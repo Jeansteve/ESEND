@@ -16,23 +16,34 @@ async function walk(dir) {
       await walk(fullPath);
     } else {
       const ext = path.extname(file).toLowerCase();
-      if (['.jpg', '.jpeg', '.png'].includes(ext)) {
-        const outputName = file.replace(ext, '.webp');
-        const outputPath = path.join(dir, outputName);
+      if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
+        const isWebp = ext === '.webp';
+        const tempPath = fullPath + '.tmp';
+        const outputPath = isWebp ? fullPath : fullPath.replace(ext, '.webp');
         
-        process.stdout.write(`Converting ${fullPath}... `);
+        // Skip if it's already a webp and we've already processed it (avoid infinite loop)
+        // But for this run, we WANT to process existing webp to resize them.
+        
+        process.stdout.write(`Optimizing ${file}... `);
         
         try {
-          await sharp(fullPath)
-            .webp({ quality: 80 })
-            .toFile(outputPath);
+          const image = sharp(fullPath);
+          const metadata = await image.metadata();
+          
+          await image
+            .resize({ width: 2560, withoutEnlargement: true })
+            .webp({ quality: 75, effort: 6 })
+            .toFile(tempPath);
           
           const statsInput = fs.statSync(fullPath);
-          const statsOutput = fs.statSync(outputPath);
+          const statsOutput = fs.statSync(tempPath);
           
-          fs.unlinkSync(fullPath);
+          fs.renameSync(tempPath, outputPath);
+          if (!isWebp) fs.unlinkSync(fullPath);
+          
           console.log(`✓ ${(statsInput.size / 1024).toFixed(0)}KB -> ${(statsOutput.size / 1024).toFixed(0)}KB`);
         } catch (err) {
+          if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath);
           console.log(`✗ Error: ${err.message}`);
         }
       }
