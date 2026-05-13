@@ -359,9 +359,19 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Refonte de la communication entre le Dashboard et le Gestionnaire de Blog.
     - Les modifications d'articles (changement d'image de couverture, titre, etc.) sont désormais répercutées **instantanément** sur la vignette de la liste sans rafraîchissement de la page.
 - **Migration de Données** : Création d'un script de mise à jour sécurisé pour harmoniser les anciennes installations avec le nouveau standard SEO.
-
-
-## 🚀 Prochaines Étapes
++
++## ✅ V22 : Statistiques de Lecture & Correction Métadonnées (Mai 2026)
++**Fichiers :** `articles_v3.php`, `BlogManager.jsx`, `ArticleModal.jsx`, `upgrade_articles_stats.sql`
++
++- **Tracking des Vues** : Implémentation d'un compteur de lecture temps réel. Chaque ouverture d'article incrémente une colonne `views` en base de données.
++- **Affichage des Stats Admin** : Intégration d'un badge "Vues" (icône Eye) sur les cartes d'articles dans l'espace admin pour piloter la performance éditoriale.
++- **Correction des Vignettes Public** :
++    - Résolution du bug d'affichage de la date et du temps de lecture sur les vignettes du site.
++    - Aliasing automatique des colonnes `publish_date` et `read_time` vers les propriétés React attendues.
++- **Calcul Auto du temps de lecture** : Persistance du temps de lecture (en minutes) calculé dynamiquement par l'éditeur lors de la sauvegarde.
++
++
++## 🚀 Prochaines Étapes
 1. **Validation Google Search Console** : Vérifier l'indexation des nouvelles URLs SEO-friendly.
 2. **Double Authentification (2FA)** : Planifier l'ajout de TOTP pour l'accès admin.
 3. **Auto-réponse Client** : Développer le système d'accusé de réception par e-mail pour les clients.
