@@ -178,17 +178,17 @@ const ArticlePage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex items-center gap-6 text-xs font-bold text-slate-300 uppercase tracking-widest"
+            className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest"
           >
             {article.date && (
-              <span className="flex items-center gap-2">
-                <Calendar className="w-3.5 h-3.5 text-red-500" />
+              <span className="flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded-lg shadow-xl shadow-red-600/20">
+                <Calendar className="w-3 h-3" />
                 {article.date}
               </span>
             )}
             {article.readTime && (
-              <span className="flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5 text-red-500" />
+              <span className="flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded-lg shadow-xl shadow-red-600/20">
+                <Clock className="w-3 h-3" />
                 {article.readTime} min
               </span>
             )}
