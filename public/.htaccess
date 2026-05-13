@@ -1,6 +1,12 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+  
+  # Redirection spécifique pour l'admin vers le format Hash (HashRouter)
+  # Pour éviter les 404 sur les anciens liens directs
+  RewriteRule ^admin/(.*)$ /#/admin/$1 [R=301,L,NE]
+  RewriteRule ^admin$ /#/admin/ [R=301,L,NE]
+
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

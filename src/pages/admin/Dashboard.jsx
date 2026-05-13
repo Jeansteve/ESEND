@@ -191,6 +191,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [trendsData, setTrendsData] = useState(null);
   const [isLoadingTrends, setIsLoadingTrends] = useState(true);
+  const [errorState, setErrorState] = useState(null);
 
   // Modals state
   const [showStudio, setShowStudio] = useState(false);
@@ -231,23 +232,30 @@ const Dashboard = () => {
   const loadData = async () => {
     setLoading(true);
     setIsLoadingTrends(true);
-    const [arts, projs, sets, leadsData, trendsRes] = await Promise.all([
-      api.getArticles(),
-      api.getProjects(),
-      api.getSettings(),
-      api.getLeads(),
-      api.getMarketTrends().catch(() => null)
-    ]);
-    setArticles(arts);
-    setProjects(projs);
-    setSettings(sets);
-    setLocalSettings(sets);
-    setLeads(leadsData || []);
-    if (trendsRes && trendsRes.data) {
-      setTrendsData(trendsRes.data);
+    setErrorState(null);
+    try {
+      const [arts, projs, sets, leadsData, trendsRes] = await Promise.all([
+        api.getArticles().catch(err => { console.error("Articles error:", err); return []; }),
+        api.getProjects().catch(err => { console.error("Projects error:", err); return []; }),
+        api.getSettings().catch(err => { console.error("Settings error:", err); return {}; }),
+        api.getLeads().catch(err => { console.error("Leads error:", err); return []; }),
+        api.getMarketTrends().catch(() => null)
+      ]);
+      setArticles(Array.isArray(arts) ? arts : []);
+      setProjects(Array.isArray(projs) ? projs : []);
+      setSettings(sets || {});
+      setLocalSettings(sets || {});
+      setLeads(Array.isArray(leadsData) ? leadsData : []);
+      if (trendsRes && trendsRes.data) {
+        setTrendsData(trendsRes.data);
+      }
+    } catch (err) {
+      console.error("Dashboard loadData crash:", err);
+      setErrorState("Impossible de charger les données. Vérifiez la configuration de l'API.");
+    } finally {
+      setLoading(false);
+      setIsLoadingTrends(false);
     }
-    setLoading(false);
-    setIsLoadingTrends(false);
   };
 
   const handleUpdateSettings = async () => {
@@ -337,6 +345,30 @@ const Dashboard = () => {
   if (loading) return (
     <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center transition-colors duration-400">
       <div className="w-12 h-12 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+
+  if (errorState) return (
+    <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col items-center justify-center p-6 text-center">
+      <div className="w-20 h-20 bg-red-600/10 rounded-full flex items-center justify-center mb-6 border border-red-600/20">
+        <Bug className="w-10 h-10 text-red-600" />
+      </div>
+      <h2 className="text-3xl font-black uppercase tracking-tighter text-white mb-4">Erreur Critique</h2>
+      <p className="text-[var(--text-dimmed)] max-w-md mb-8 font-medium">
+        {errorState}
+      </p>
+      <button 
+        onClick={loadData}
+        className="bg-red-600 text-white px-8 py-4 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-red-700 transition-all shadow-xl shadow-red-600/10 active:scale-95"
+      >
+        Réessayer la connexion
+      </button>
+      <button 
+        onClick={handleLogout}
+        className="mt-4 text-[var(--text-dimmed)] hover:text-white text-[9px] font-black uppercase tracking-[0.3em] transition-colors"
+      >
+        Se déconnecter
+      </button>
     </div>
   );
 
