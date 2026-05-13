@@ -7,7 +7,7 @@ import { useEffect } from 'react';
  * @param {string} type - Type de page (website, article)
  * @param {object} schema - Données structurées optionnelles (JSON-LD)
  */
-const SEO = ({ title, description, type = 'website', schema, robots }) => {
+const SEO = ({ title, description, type = 'website', schema, robots, preloadImage }) => {
   useEffect(() => {
     // 1. Mise à jour du Titre
     const fullTitle = title ? `${title} | ESEND Nuisibles` : 'ESEND - Expert Éradication Nuisibles & Désinfection';
@@ -50,6 +50,19 @@ const SEO = ({ title, description, type = 'website', schema, robots }) => {
     }
     canonicalEl.setAttribute('href', canonicalUrl);
 
+    // 2d. Gestion du Preload d'image (Optimisation LCP)
+    if (preloadImage) {
+      let preloadLink = document.querySelector(`link[rel="preload"][href="${preloadImage}"]`);
+      if (!preloadLink) {
+        preloadLink = document.createElement('link');
+        preloadLink.rel = "preload";
+        preloadLink.as = "image";
+        preloadLink.href = preloadImage;
+        preloadLink.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(preloadLink);
+      }
+    }
+
     // 3. Gestion du Schéma JSON-LD
     let scriptTag = document.getElementById('json-ld-schema');
     if (schema) {
@@ -64,7 +77,7 @@ const SEO = ({ title, description, type = 'website', schema, robots }) => {
       scriptTag.remove();
     }
 
-  }, [title, description, type, schema, robots]);
+  }, [title, description, type, schema, robots, preloadImage]);
 
   return null; // Composant invisible
 };

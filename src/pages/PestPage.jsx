@@ -174,6 +174,7 @@ const PestPage = () => {
         title={`${pest.title} (06)`}
         description={pest.description}
         schema={jsonLd}
+        preloadImage={pest.image}
       />
       
       <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row gap-8 lg:gap-10 relative">
@@ -267,6 +268,8 @@ const PestPage = () => {
                 src={pest.image} 
                 alt={pest.title} 
                 className="w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)]" 
+                fetchpriority="high"
+                decoding="async"
               />
             </motion.div>
 

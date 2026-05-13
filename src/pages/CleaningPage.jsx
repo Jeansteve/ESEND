@@ -120,6 +120,7 @@ const CleaningPage = () => {
         title="Nettoyage & Vitrerie Professionnelle | Expertise 06"
         description="Services de nettoyage spécialisé à Menton, Monaco et Nice. Entretien de vitres, remise en état après travaux et nettoyage de bureaux."
         schema={cleaningSchema}
+        preloadImage={data.heroImage}
       />
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         
@@ -158,7 +159,13 @@ const CleaningPage = () => {
            animate={{ opacity: 1, scale: 1 }}
            className="relative h-[400px] md:h-[600px] rounded-[3rem] overflow-hidden mb-20 shadow-2xl border border-white/5"
         >
-          <img src={data.heroImage} alt="Nettoyage et Vitrerie Haute Précision" className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" />
+          <img 
+            src={data.heroImage} 
+            alt="Nettoyage et Vitrerie Haute Précision" 
+            className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" 
+            fetchpriority="high"
+            decoding="async"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
           
           <div className="absolute bottom-10 left-10 right-10 flex flex-wrap items-end justify-between gap-6">
