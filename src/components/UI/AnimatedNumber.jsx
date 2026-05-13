@@ -7,17 +7,14 @@ const AnimatedNumber = ({ value, delay = 0.5, triggerOnMount = false }) => {
   const [hasStarted, setHasStarted] = useState(false);
   const containerRef = useRef(null);
   
-  // LOG DE CERTIFICATION DE VERSION
-  useEffect(() => {
-    console.log(`🚀 [SCORE-SYSTEM] AnimatedNumber V3.1 Loaded - Target: ${value}, TriggerOnMount: ${triggerOnMount}`);
-  }, [value, triggerOnMount]);
+
 
   useEffect(() => {
     // 1. Intersection Observer natif - Toujours actif pour le déclenchement au scroll
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasStarted) {
-          console.log("🚀 [SCORE-SYSTEM] Element in view, starting animation...");
+
           setHasStarted(true);
         }
       },
@@ -33,7 +30,7 @@ const AnimatedNumber = ({ value, delay = 0.5, triggerOnMount = false }) => {
     if (triggerOnMount) {
       safety = setTimeout(() => {
         if (!hasStarted) {
-          console.log("🚀 [SCORE-SYSTEM] Safety timer triggered (Mount).");
+
           setHasStarted(true);
         }
       }, 1000);
@@ -68,7 +65,7 @@ const AnimatedNumber = ({ value, delay = 0.5, triggerOnMount = false }) => {
           if (progress === 1) {
             clearInterval(timer);
             setIsFinished(true);
-            console.log("🚀 [SCORE-SYSTEM] Animation complete at", nextValue);
+
           }
         }, 16); // ~60 FPS
         

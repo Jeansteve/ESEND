@@ -11,9 +11,7 @@ export const useTheme = () => {
     const getTargetTheme = () => {
         const path = window.location.pathname;
         const isAdmin = path.includes('/admin');
-        console.log("[useTheme] Path detected:", path, "| isAdmin:", isAdmin);
         const target = isAdmin ? 'light' : 'dark';
-        console.log("[useTheme] Target theme determined:", target);
         return target;
     };
 
@@ -23,7 +21,7 @@ export const useTheme = () => {
     useEffect(() => {
         const handleLocationChange = () => {
             const newTheme = getTargetTheme();
-            console.log("[useTheme] Location changed, new theme:", newTheme);
+
             setTheme(newTheme);
         };
 
@@ -52,8 +50,7 @@ export const useTheme = () => {
     }, [theme]);
 
     const toggleTheme = () => {
-        // Désactivé : Le thème est désormais imposé par section pour garantir l'identité visuelle
-        console.log("Le changement de thème manuel est désactivé.");
+        // Désactivé : Le thème est désormais imposé par section
     };
 
     return { theme, toggleTheme };

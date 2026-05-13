@@ -48,6 +48,9 @@ const Hero = () => {
           className="w-full h-full object-cover opacity-40 lg:opacity-80 object-[70%_center] lg:object-center"
           fetchpriority="high"
           loading="eager"
+          width="1920"
+          height="1080"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/20 to-slate-950 z-1 lg:bg-gradient-to-r lg:from-slate-950 lg:via-slate-950/40 lg:to-transparent" />
       </div>

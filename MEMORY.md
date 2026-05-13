@@ -223,3 +223,21 @@
 - **Règle d'Or (Performance & Stabilité)** : 
     1. Ne jamais utiliser de format JPG/PNG pour les assets statiques lourds. Toujours privilégier le WebP (qualité 80%).
     2. **BUILD LOCAL OBLIGATOIRE** (`npm run build`) avant tout push pour intercepter les erreurs de compilation et de runtime (JSX/Context).
+
+### [PSA-2026-05-13-C] : Code Splitting & Optimisation Bundle (Lighthouse Green)
+- **Le Problème** : Bundle JS monolithique de **1,367 KB** (393 KB gzip) contenant l'intégralité du code (Admin Dashboard, Recharts, react-quill, etc.) chargé pour un simple visiteur. Résultat : FCP Mobile = 4.2s, LCP = 5.1s.
+- **La Solution** :
+  1. **React.lazy() + Suspense** : Toutes les pages sauf `Home` sont désormais lazy-loaded. Les pages Admin (Dashboard 65KB, Login 5KB) ne sont chargées qu'en cas de navigation vers `/admin/*`.
+  2. **Vite ManualChunks** : Séparation explicite des dépendances en chunks indépendants : `vendor-react` (179KB), `vendor-motion` (128KB), `vendor-icons` (38KB), `vendor-charts` (345KB, admin only), `vendor-editor` (238KB, admin only).
+  3. **Font Loading Non-Bloquant** : Migration de `<link rel="stylesheet">` vers `<link rel="preload" as="style">` avec fallback `<noscript>`. Réduction des poids demandés (suppression des graisses 400/500 inutilisées dans Outfit).
+  4. **Image LCP** : Ajout de `width="1920" height="1080" decoding="async"` sur l'image Hero pour éliminer le Layout Shift (CLS).
+  5. **Console.log Cleanup** : Suppression de tous les `console.log` de debug des composants publics (`AnimatedNumber`, `useTheme`).
+- **Résultats du Build** :
+    - Bundle initial (Page d'accueil) : **1,367 KB → 157 KB** (gain de **-88%**)
+    - CSS initial : **162 KB → 110 KB** (gain de **-32%**)
+    - Admin CSS isolé dans son propre chunk (52 KB, non chargé sur le site public)
+- **Règle d'Or (Performance)** :
+    1. **INTERDICTION** d'importer statiquement un composant Admin dans `App.jsx`. Toujours utiliser `React.lazy()`.
+    2. Toute nouvelle page doit être ajoutée en `lazy()` dans `App.jsx`, sauf si elle fait partie de la landing page critique.
+    3. Toute nouvelle dépendance lourde (>50KB) doit être ajoutée dans `manualChunks` de `vite.config.js`.
+
