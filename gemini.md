@@ -131,4 +131,18 @@ Résolution définitive du bug d'affichage sur iPhone où l'effet liquide ("gooe
 - **Rayon Affiné** : Diminution de la taille des gouttes (r=9) pour affiner la pointe des flammes.
 
 ---
+## 🚀 13. Optimisation SEO & Correction de Positionnement (v2.6.15 — Mai 2026)
+Nettoyage et fiabilisation des métadonnées pour aligner la présence Google avec la réalité métier d'ESEND.
+
+### 1. Fiabilisation des Promesses
+- **Suppression du délai fixe** : Retrait de la mention "Devis offert sous 2h" (jugée trop contraignante) au profit de **"Devis gratuit et rapide"**.
+- **Correction Multiservices** : Réintégration systématique du pôle **Nettoyage** dans toutes les descriptions SEO et données structurées.
+- **Véracité des données** : Suppression de la mention erronée "7j/7".
+
+### 2. Recentrage Géographique (Hyper-Local)
+- **Focus Menton/Monaco** : Suppression de Nice, Antibes et Cannes des balises meta et du schéma `LocalBusiness`.
+- **Nouvelle Sémantique** : Utilisation de la locution **"Menton et ses environs (Monaco)"** pour maximiser la pertinence sur le secteur géographique prioritaire.
+- **Synchronisation JSON-LD** : Mise à jour de la propriété `areaServed` pour limiter le périmètre officiel aux zones de Menton, Monaco et Roquebrune-Cap-Martin.
+
+---
 *Documentation mise à jour le 15 Mai 2026 par Antigravity.*
