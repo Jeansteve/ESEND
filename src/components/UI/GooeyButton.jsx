@@ -6,32 +6,39 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
   return (
     <>
       {/* Hidden SVG Filter definition */}
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{ position: 'absolute', top: '-1000px', left: '-1000px' }}>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{ display: 'block', height: 0, width: 0, position: 'absolute' }}>
         <defs>
           <filter id="gooey">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
-            <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="highContrastGraphic" />
-            <feComposite in="SourceGraphic" in2="highContrastGraphic" operator="atop" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
           </filter>
         </defs>
       </svg>
 
       <div className={`gooey-button-container ${className}`}>
-        <motion.button
-          onClick={onClick}
+        <motion.div
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
-          className="gooey-button px-8 py-3.5 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] flex items-center gap-4 group cursor-pointer whitespace-nowrap"
-          aria-label={ariaLabel}
+          className="gooey-button-wrapper relative group cursor-pointer"
+          onClick={onClick}
         >
-          {children}
-          
-          <span className="gooey-bubbles">
-            {[...Array(30)].map((_, i) => (
-              <span key={i} className="gooey-bubble"></span>
-            ))}
-          </span>
-        </motion.button>
+          {/* Layer 1: The Gooey Background (Filtered) */}
+          <div className="gooey-background-layer" aria-hidden="true">
+            <div className="gooey-base-shape"></div>
+            <div className="gooey-bubbles">
+              {[...Array(30)].map((_, i) => (
+                <span key={i} className="gooey-bubble"></span>
+              ))}
+            </div>
+          </div>
+
+          {/* Layer 2: The Content (Clean & Sharp) */}
+          <div className="gooey-content-layer px-8 py-3.5 flex items-center justify-center gap-4 relative z-20">
+            <div className="gooey-text-wrapper font-black uppercase tracking-[0.15em] text-[11px] whitespace-nowrap">
+              {children}
+            </div>
+          </div>
+        </motion.div>
       </div>
     </>
   );

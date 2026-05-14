@@ -403,15 +403,16 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
     - Résolution des erreurs de syntaxe React et des collisions de composants (`FlaskConical`).
     - Correction des corruptions de balisage DOM sur les pages de services.
     - Validation du build de production (`npm run build`) à 100%.
-- **Gouvernance & Versioning** : 
-    - Adoption du Semantic Versioning (**v2.6.1**).
-    - Mise en place des **Git Tags** pour marquer les versions stables sur la branche `main`.
-    - Audit complet du pack documentaire pour assurer la cohérence du Blueprint.
-- **État "Production Ready"** : Le système ESEND est désormais considéré comme un **Blueprint Industriel** robuste, sécurisé et prêt pour le déploiement multi-clients.
+## ✅ V27 : Correctif Critique Safari/iOS (v2.6.2 — Mai 2026)
+**Fichiers :** `GooeyButton.jsx`, `GooeyButton.css`, `package.json`
+
+- **Résolution Bug "Invisible Text" (Safari)** : Refonte de l'architecture du composant `GooeyButton` pour isoler le filtre SVG du texte. Le texte est désormais rendu sur une couche indépendante, garantissant sa netteté sur iPhone.
+- **Fusion "Gooey" Stabilisée** : Correction du rendu des bulles sur iOS. L'usage de l'accélération matérielle (`translateZ(0)`) et le repositionnement du filtre au plus proche du DOM assurent une fusion fluide et organique des flammes.
+- **Versioning & Tagging** : Incrémentation en **v2.6.2** et création du Tag Git correspondant.
 
 ---
 
 ## 🚀 Prochaines Étapes
-1. **Validation Client** : Remise du guide de configuration mail et test final en conditions réelles.
+1. **Validation Client** : Vérification en conditions réelles sur différents terminaux iOS.
 2. **Double Authentification (2FA)** : Intégration de TOTP pour sécuriser l'accès au Dashboard.
 3. **Auto-réponse Client** : Automatisation de l'accusé de réception pour chaque demande de devis.

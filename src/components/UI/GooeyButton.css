@@ -4,33 +4,72 @@
   justify-content: center;
 }
 
-.gooey-button {
-  background-color: #dc2626; /* $prime */
-  color: white; /* $second in ESEND context */
-  border: none;
+.gooey-button-wrapper {
   position: relative;
-  filter: url('#gooey');
+  display: inline-block;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.gooey-button:focus {
-  outline: none;
-}
-
-.gooey-button .gooey-bubbles {
+.gooey-background-layer {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
+  filter: url('#gooey');
+  -webkit-filter: url('#gooey'); /* Safari support */
+  z-index: 10;
+  pointer-events: none;
+  /* Hardware acceleration for smooth merging on mobile */
+  transform: translateZ(0);
+  will-change: filter, transform;
 }
 
-.gooey-button .gooey-bubbles .gooey-bubble {
-  background-color: #dc2626; /* $prime */
+.gooey-base-shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #dc2626;
+  border-radius: 1rem; /* match your design */
+}
+
+.gooey-content-layer {
+  position: relative;
+  z-index: 20;
+  color: white !important;
+  pointer-events: none; /* Let the wrapper handle clicks */
+  width: 100%;
+  height: 100%;
+}
+
+.gooey-text-wrapper {
+  color: white !important;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gooey-bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gooey-bubble {
+  background-color: #dc2626;
   border-radius: 100%;
   position: absolute;
   top: 0;
   display: block;
   z-index: -1;
+  /* Hardware acceleration for mobile bubbles */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* 30 bubbles to ensure high density on a wide button */

@@ -116,4 +116,18 @@ Finalisation du polissage UI/UX et stabilisation du pipeline de déploiement pou
 - **Governance v2.6.0** : Implémentation du Semantic Versioning et des Git Tags pour une traçabilité industrielle des releases.
 
 ---
+
+## 🚀 12. Correctif Critique Safari/iOS — Gooey Button (v2.6.2 — Mai 2026)
+Résolution du bug d'affichage sur iPhone où le texte disparaissait et l'effet "gooey" restait sous forme de bulles isolées.
+
+### 1. Isolation du Filtre SVG
+- **Architecture en Couches** : Séparation stricte du fond filtré (bulles + forme de base) et du contenu textuel (net et lisible).
+- **Contournement Bug Safari** : Le texte est désormais hors du conteneur subissant le `feColorMatrix`, garantissant sa visibilité à 100%.
+- **Optimisation de Rendu** : Migration de l'élément SVG au plus proche du composant pour une meilleure interprétation par le moteur WebKit.
+
+### 2. Physique des Fluides & Performance
+- **Standardisation Gooey** : Ajustement des valeurs de flou (`stdDeviation="10"`) et de contraste pour une fusion organique parfaite.
+- **Accélération Matérielle** : Activation de `translateZ(0)` et `will-change` pour des animations fluides même sur les anciens iPhone.
+
+---
 *Documentation mise à jour le 14 Mai 2026 par Antigravity.*
