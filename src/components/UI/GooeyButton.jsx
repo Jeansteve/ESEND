@@ -43,7 +43,6 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
               <filter id={`gooey-svg-filter-${filterId}`} x="-50%" y="-200%" width="200%" height="500%" colorInterpolationFilters="sRGB">
                 <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
                 <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
-                <feComposite in="SourceGraphic" in2="goo" operator="atop" />
               </filter>
             </defs>
             <g filter={`url(#gooey-svg-filter-${filterId})`} fill="#dc2626">
@@ -56,11 +55,11 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
                   key={i} 
                   cx={b.cx} 
                   cy="12.5" 
-                  r="12.5" 
+                  r="9" 
                   className="svg-bubble" 
                   style={{
                     '--dy': `${b.dy}px`,
-                    animation: `svg-bubble-rise ${b.dur}s infinite ${b.delay}s`
+                    animation: `svg-bubble-rise ${b.dur}s infinite ${b.delay}s ease-in`
                   }}
                 />
               ))}

@@ -29,21 +29,17 @@
 
 /* Pure SVG Bubbles Animation */
 .svg-bubble {
-  will-change: transform, opacity;
+  will-change: transform;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 @keyframes svg-bubble-rise {
   0% { 
-    transform: translateY(0); 
-    opacity: 1; 
-  }
-  99% { 
-    transform: translateY(var(--dy)); 
-    opacity: 1; 
+    transform: translateY(0) scale(1); 
   }
   100% { 
-    transform: translateY(0); 
-    opacity: 0; 
+    transform: translateY(var(--dy)) scale(0); 
   }
 }
 
