@@ -1,4 +1,4 @@
-# 🏗️ Guide de Duplication Industrielle — Système ESEND v2.6.1
+# 🏗️ Guide de Duplication Industrielle — Système ESEND v2.6.15
 
 Ce guide est la "bible" pour cloner cette solution (Hub Services + Studio IA + Dashboard Admin) pour un nouveau client. Objectif : **Mise en service complète en moins de 60 minutes.**
 
@@ -76,7 +76,7 @@ Pour développer en local sans base de données :
 - **Logs** : Les erreurs d'envoi mail sont logguées dans `api/logs/` (dossier protégé).
 
 ---
-**Mainteneur :** Pôle IA ESEND — *Dernière MAJ : 14 Mai 2026*
+**Mainteneur :** Pôle IA ESEND — *Dernière MAJ : 15 Mai 2026 (v2.6.15)*
 
 ### 🏷️ 6. Gestion des Versions & Tags
 Une fois le site déployé pour le nouveau client :

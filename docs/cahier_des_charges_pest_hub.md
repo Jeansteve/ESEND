@@ -1,5 +1,5 @@
 # 📖 Master Cahier des Charges : Plateforme ESEND V5
-> **Version :** 5.0 (Mai 2026) — *Industrial Blueprint v2.6.0*  
+> **Version :** 5.0 (Mai 2026) — *Industrial Blueprint v2.6.15*  
 > **Statut :** Document de Référence de l'Ecosystème  
 > **Acteurs :** Steve (Owner), Antigravity (IA Architect)  
 > **Tech Doc :** [TECHNICAL_DOCUMENTATION.md](TECHNICAL_DOCUMENTATION.md)

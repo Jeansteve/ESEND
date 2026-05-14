@@ -410,9 +410,21 @@ Table `esend_leads` : archivage automatique de chaque demande avant l'envoi du m
 - **Fusion "Gooey" Stabilisée** : Correction du rendu des bulles sur iOS. L'usage de l'accélération matérielle (`translateZ(0)`) et le repositionnement du filtre au plus proche du DOM assurent une fusion fluide et organique des flammes.
 - **Versioning & Tagging** : Incrémentation en **v2.6.2** et création du Tag Git correspondant.
 
+## ✅ V28 : Optimisation SEO & Correction de Positionnement (v2.6.15 — Mai 2026)
+**Fichiers :** `Home.jsx`, `interventions.js`, `package.json`, `gemini.md`
+
+- **Fiabilisation des Promesses** : 
+    - Retrait définitif de la mention "Devis offert sous 2h" (trop contraignante) au profit de **"Devis gratuit et rapide"**.
+    - Suppression de la mention erronée "7j/7".
+- **Recentrage Géographique (Hyper-Local)** :
+    - Élimination de **Nice**, **Antibes** et **Cannes** de la stratégie SEO.
+    - Focus exclusif sur **Menton et ses environs (Monaco)** pour maximiser la pertinence sur le bassin prioritaire.
+    - Synchronisation du schéma `LocalBusiness` (propriété `areaServed`) avec ce nouveau périmètre.
+- **Expertise Multiservices** : Réactivation du pôle **Nettoyage** dans toutes les métadonnées pour refléter la polyvalence réelle d'ESEND.
+- **Standardisation v2.6.15** : Le projet est désormais stabilisé avec une communication cohérente et fidèle aux capacités opérationnelles de l'entreprise.
+
 ---
 
 ## 🚀 Prochaines Étapes
-1. **Validation Client** : Vérification en conditions réelles sur différents terminaux iOS.
+1. **Auto-réponse Client** : Automatisation de l'accusé de réception pour chaque demande de devis.
 2. **Double Authentification (2FA)** : Intégration de TOTP pour sécuriser l'accès au Dashboard.
-3. **Auto-réponse Client** : Automatisation de l'accusé de réception pour chaque demande de devis.
