@@ -50,8 +50,9 @@ Le projet utilise des shaders et des filtres SVG pour une esthétique premium :
     - **Technologie** : Shader personnalisé de réfraction/Fresnel. 
     - **Optimisation** : `IntersectionObserver` pour suspendre le rendu GPU hors-vue.
 - **Gooey Button (Hero)** : Un bouton à effet "liquide" organique (`src/components/UI/GooeyButton.jsx`).
-    - **Technique** : Filtre SVG (`feGaussianBlur` + `feColorMatrix`) appliqué à un flux de 30 particules.
-    - **UX** : Animation de fontaine continue pour un impact visuel maximal.
+    - **Technologie (v2.6.11)** : Architecture 100% SVG. Remplacement du DOM HTML par un générateur de `<circle>` et `<rect>` natifs. Le filtre SVG (`feGaussianBlur` + `feColorMatrix`) est appliqué en circuit fermé pour garantir la compatibilité Safari iOS.
+    - **Physique des Fluides** : Ajustement du flou (`stdDeviation="5"`) et du rayon des bulles (`r="9"`) pour des flammes fines et étirées. Retrait de `feComposite` pour éviter les artefacts vectoriels solides.
+    - **UX** : Animation de fontaine avec effet d'évaporation (`scale` de 1 vers 0 en sommet de course) et vélocité naturelle (`ease-in`).
 
 ### 🚀 2.3 Architecture de Performance "Elite"
 Pour atteindre les standards Lighthouse 2026 :

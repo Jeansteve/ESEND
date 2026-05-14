@@ -117,17 +117,18 @@ Finalisation du polissage UI/UX et stabilisation du pipeline de déploiement pou
 
 ---
 
-## 🚀 12. Correctif Critique Safari/iOS — Gooey Button (v2.6.2 — Mai 2026)
-Résolution du bug d'affichage sur iPhone où le texte disparaissait et l'effet "gooey" restait sous forme de bulles isolées.
+## 🚀 12. Correctif Critique Safari/iOS — Gooey Button (v2.6.11 — Mai 2026)
+Résolution définitive du bug d'affichage sur iPhone où l'effet liquide ("gooey") plantait et affichait des bulles indépendantes à cause d'une incompatibilité du moteur WebKit avec les filtres SVG appliqués au DOM HTML.
 
-### 1. Isolation du Filtre SVG
-- **Architecture en Couches** : Séparation stricte du fond filtré (bulles + forme de base) et du contenu textuel (net et lisible).
-- **Contournement Bug Safari** : Le texte est désormais hors du conteneur subissant le `feColorMatrix`, garantissant sa visibilité à 100%.
-- **Optimisation de Rendu** : Migration de l'élément SVG au plus proche du composant pour une meilleure interprétation par le moteur WebKit.
+### 1. Architecture 100% SVG (Zéro DOM HTML)
+- **Migration Radicale** : Remplacement des `span` HTML par un composant générant des `<circle>` et un `<rect>` natifs SVG. Le filtre n'est plus appliqué au bouton HTML mais vit entièrement dans un écosystème vectoriel isolé.
+- **Contournement Bug Safari** : En déplaçant la bave dans un composant d'arrière-plan pur SVG (z-index: 0) et le texte HTML par-dessus (z-index: 10), Safari gère parfaitement l'effet.
 
-### 2. Physique des Fluides & Performance
-- **Standardisation Gooey** : Ajustement des valeurs de flou (`stdDeviation="10"`) et de contraste pour une fusion organique parfaite.
-- **Accélération Matérielle** : Activation de `translateZ(0)` et `will-change` pour des animations fluides même sur les anciens iPhone.
+### 2. "Le Clone Parfait" — Physique des Fluides & Performance
+- **Standardisation de la Fusion** : Ajustement du flou à `stdDeviation="5"` pour recréer l'aspect effilé et tranchant des flammes, évitant l'effet "gros bloc".
+- **Suppression du Parasite Vectoriel** : Retrait volontaire de la balise `<feComposite operator="atop">` (qui recollait les ronds vectoriels nets par-dessus le fluide) pour obtenir une bave liquide pure de bout en bout.
+- **Évaporation Organique** : Mise en place d'une réduction progressive d'échelle en fin de course (`scale` de 1 vers 0 sur l'axe Y) pour imiter la tension de surface d'une goutte qui s'évapore, supprimant les disparitions brutales (clipping) en sommet de flamme.
+- **Rayon Affiné** : Diminution de la taille des gouttes (r=9) pour affiner la pointe des flammes.
 
 ---
-*Documentation mise à jour le 14 Mai 2026 par Antigravity.*
+*Documentation mise à jour le 15 Mai 2026 par Antigravity.*

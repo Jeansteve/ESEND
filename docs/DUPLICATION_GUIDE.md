@@ -49,6 +49,7 @@ Le système est pré-câblé pour l'expertise métier (Nuisibles/Nettoyage).
 Lors de la personnalisation visuelle, respectez ces règles pour ne pas casser le système :
 - **Header Mobile (V26)** : La permutation entre le numéro de téléphone et le bouton Devis est gérée par le scroll et la route. Ne pas modifier la logique de `Header.jsx` sans tester le responsive.
 - **Centrage Mobile (v2.6.1)** : Toutes les sections de services (Titres, Badges, Illustrations) doivent respecter l'alignement `text-center md:text-left` pour garantir un rendu premium sur smartphone.
+- **Bouton Liquide (Gooey v2.6.11)** : Le CTA du Hero utilise une architecture 100% SVG. **Ne jamais** le reconvertir en éléments HTML (`div`/`span`) animés en CSS, car le moteur WebKit d'iOS (Safari) ne supporte pas le mélange des contextes d'empilement avec les filtres liquides.
 - **Glassmorphism** : Pour Hostinger, utilisez toujours les classes `.glass-panel` pour assurer la compatibilité Safari/iOS.
 - **Performance** : Toutes les nouvelles images doivent être en **WebP**.
 - **Validation Build** : Toujours lancer `npm run build` localement avant toute MEP pour valider l'intégrité de l'arborescence React et éviter les "White Screens" en production.
