@@ -13,27 +13,27 @@
 
 .gooey-background-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  /* Expand the box to contain the full animation path */
+  top: -150px;
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
+  /* Add padding to compensate for the offsets, keeping the content area aligned with the button */
+  padding: 150px 40px 40px 40px;
   filter: url('#gooey');
-  -webkit-filter: url('#gooey'); /* Safari support */
+  -webkit-filter: url('#gooey');
   z-index: 10;
   pointer-events: none;
-  /* Hardware acceleration for smooth merging on mobile */
   transform: translateZ(0);
   will-change: filter, transform;
 }
 
 .gooey-base-shape {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: #dc2626;
-  border-radius: 1rem; /* match your design */
+  border-radius: 1rem;
 }
 
 .gooey-content-layer {
@@ -54,10 +54,10 @@
 
 .gooey-bubbles {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 150px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
 }
 
 .gooey-bubble {
