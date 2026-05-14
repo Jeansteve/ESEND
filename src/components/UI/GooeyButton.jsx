@@ -59,7 +59,7 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
                   className="svg-bubble" 
                   style={{
                     '--dy': `${b.dy}px`,
-                    animation: `svg-bubble-rise ${b.dur}s infinite ${b.delay}s linear`
+                    animation: `svg-bubble-rise ${b.dur}s infinite ${b.delay}s ease-in`
                   }}
                 />
               ))}
