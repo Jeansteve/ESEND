@@ -62,7 +62,7 @@ function Home() {
       "telephone": settings.company_phone || "+33600000000",
       "priceRange": "$$",
       "areaServed": ["Menton", "Monaco", "Roquebrune-Cap-Martin", "Nice", "Antibes", "Cannes"],
-      "description": "Expert multiservices à Menton, Monaco et Nice : dératisation, désinsectisation, désinfection et nettoyage professionnel. Devis gratuit et rapide."
+      "description": "Expert multiservices à Menton et ses environs (Monaco, Nice) : dératisation, désinsectisation, désinfection et nettoyage professionnel. Devis gratuit et rapide."
     },
     {
       "@context": "https://schema.org",
@@ -82,7 +82,7 @@ function Home() {
     <div className="transition-colors duration-400">
       <SEO 
         title="Expert Éradication Nuisibles & Désinfection (06)" 
-        description="ESEND : Expert multiservices en dératisation, désinsectisation, désinfection et nettoyage à Menton, Monaco et Nice. Recevez votre devis gratuit et rapide."
+        description="ESEND : Expert multiservices en dératisation, désinsectisation, désinfection et nettoyage à Menton et ses environs (Monaco, Nice). Devis gratuit et rapide."
         schema={homeSchema}
       />
       <Hero />
