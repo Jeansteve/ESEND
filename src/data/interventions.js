@@ -6,7 +6,7 @@ export const interventions = [
     category: 'rats',
     tag: 'Rats',
     img: 'https://images.unsplash.com/photo-1590650516195-0f306ae04313?q=80&w=2070',
-    description: "Intervention critique dans un établissement de restauration. Le Duo ESEND a identifié les points d'entrée structurels sous 2h.",
+    description: "Intervention critique dans un établissement de restauration. Le Duo ESEND a identifié les points d'entrée structurels et sécurisé les lieux rapidement.",
     method: "Postes sécurisés haute technologie (Expert ESEND)",
     result: "Éradication complète validée",
     date: "Mars 2026"
