@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import './GooeyButton.css';
 
 const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
+  // Compute absolute URL for the filter to bypass HashRouter conflicts on iOS Safari
+  const filterUrl = `url('${window.location.pathname}#global-gooey-filter')`;
+
   return (
     <>
       <div className={`gooey-button-container ${className}`}>
@@ -17,8 +20,8 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
             className="gooey-background-layer" 
             aria-hidden="true"
             style={{ 
-              filter: `url('#global-gooey-filter')`, 
-              WebkitFilter: `url('#global-gooey-filter')` 
+              filter: filterUrl, 
+              WebkitFilter: filterUrl 
             }}
           >
             <div className="gooey-base-shape"></div>
