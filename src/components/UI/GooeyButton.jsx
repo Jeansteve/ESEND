@@ -3,21 +3,8 @@ import { motion } from 'framer-motion';
 import './GooeyButton.css';
 
 const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
-  // Generate a unique ID for the SVG filter to avoid collisions when multiple buttons exist
-  const filterId = "gooey-" + React.useId().replace(/:/g, "");
-
   return (
     <>
-      {/* Hidden SVG Filter definition */}
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none', width: 0, height: 0 }}>
-        <defs>
-          <filter id={filterId} x="-50%" y="-200%" width="200%" height="500%" colorInterpolationFilters="sRGB">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
-            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
-          </filter>
-        </defs>
-      </svg>
-
       <div className={`gooey-button-container ${className}`}>
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -30,8 +17,8 @@ const GooeyButton = ({ children, onClick, className = "", ariaLabel = "" }) => {
             className="gooey-background-layer" 
             aria-hidden="true"
             style={{ 
-              filter: `url('#${filterId}')`, 
-              WebkitFilter: `url('#${filterId}')` 
+              filter: `url('#global-gooey-filter')`, 
+              WebkitFilter: `url('#global-gooey-filter')` 
             }}
           >
             <div className="gooey-base-shape"></div>
