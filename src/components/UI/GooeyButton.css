@@ -20,12 +20,8 @@
   bottom: -40px;
   /* Add padding to compensate for the offsets, keeping the content area aligned with the button */
   padding: 150px 40px 40px 40px;
-  filter: url('#gooey');
-  -webkit-filter: url('#gooey');
   z-index: 10;
   pointer-events: none;
-  transform: translateZ(0);
-  will-change: filter, transform;
 }
 
 .gooey-base-shape {
@@ -67,9 +63,6 @@
   top: 0;
   display: block;
   z-index: -1;
-  /* Hardware acceleration for mobile bubbles */
-  transform: translateZ(0);
-  will-change: transform;
 }
 
 /* 30 bubbles to ensure high density on a wide button */
